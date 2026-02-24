@@ -487,6 +487,14 @@ body {
 }
 .add-intel-btn:hover { background: var(--gold-bright); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,158,84,0.25); }
 
+.add-deal-btn {
+  background: var(--surface-2); color: var(--gold); border: 1px solid var(--border-gold);
+  border-radius: 4px; padding: 5px 12px; font-family: 'Syne', sans-serif;
+  font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.add-deal-btn:hover { background: var(--gold-dim); }
+
 .icon-btn {
   width: 32px; height: 32px; border-radius: 4px;
   background: var(--surface-2); border: 1px solid var(--border);
@@ -500,7 +508,7 @@ body {
   flex: 1; overflow-y: auto; padding: 18px 20px 20px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 310px;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto auto;
   gap: 12px; align-content: start;
 }
 
@@ -592,7 +600,7 @@ body {
 @keyframes typeDot { 0%,60%,100% { transform:translateY(0);opacity:0.3; } 30% { transform:translateY(-4px);opacity:1; } }
 
 /* ─── ALERTS (right column) ─── */
-.alerts-card { grid-column: 4/5; grid-row: 2/5; }
+.alerts-card { grid-column: 4/5; grid-row: 2/6; }
 .alerts-body { padding: 0 13px 14px; display: flex; flex-direction: column; gap: 7px; max-height: 660px; overflow-y: auto; }
 .alerts-body::-webkit-scrollbar { width: 2px; }
 .alerts-body::-webkit-scrollbar-thumb { background: var(--border); }
@@ -1436,7 +1444,7 @@ body {
 
     <!-- PIPELINE TABLE -->
     <div class="card pipeline-card" id="pipeline-card">
-      <div class="card-header"><div class="card-title">Active Deal Pipeline</div><div class="card-action">View All 14 Deals →</div></div>
+      <div class="card-header"><div class="card-title">Active Deal Pipeline</div><div style="display:flex;gap:12px;align-items:center;"><button class="add-deal-btn" id="add-deal-btn" onclick="openAddDealModal()">+ Add Deal</button><div class="card-action">View All 14 Deals →</div></div></div>
       <div class="pipeline-body">
         <table class="pipeline-table">
           <thead><tr><th>Tenant</th><th>Market</th><th>SF</th><th>Value</th><th>Stage</th><th>Probability</th><th>Close</th><th></th></tr></thead>
@@ -1811,7 +1819,7 @@ function addWatch(customTitle) {
   `;
   list.prepend(item);
 
-  // Scroll to and highlight the new watch
+  // Scroll to and highlight the new watch in the panel
   setTimeout(() => {
     item.scrollIntoView({ behavior: 'smooth', block: 'center' });
     item.style.boxShadow = '0 0 0 2px var(--gold), 0 0 20px rgba(196,158,84,0.3)';
@@ -1819,8 +1827,113 @@ function addWatch(customTitle) {
     setTimeout(() => { item.style.boxShadow = 'none'; }, 3000);
   }, 100);
 
+  // Also add a live agent feed item to show it on the dashboard
+  const stream = document.getElementById('agentStream');
+  if (stream) {
+    const el = document.createElement('div');
+    el.className = 'stream-item';
+    el.style.cursor = 'pointer';
+    el.innerHTML = `<div class="stream-icon icon-intel">🔍</div><div><div class="stream-text"><strong>New Watch Active:</strong> ${title.length > 50 ? title.substring(0, 50) + '...' : title}</div><div class="stream-meta"><span class="stream-tag tag-intel">Intelligence</span> just now · Agent Configured</div></div>`;
+    stream.prepend(el);
+    // Highlight the new feed item
+    el.style.background = 'var(--gold-dim)';
+    el.style.borderLeft = '3px solid var(--gold)';
+    el.style.transition = 'all 0.5s ease';
+    setTimeout(() => { el.style.background = ''; el.style.borderLeft = ''; }, 4000);
+    while (stream.children.length > 7) stream.removeChild(stream.lastChild);
+  }
+
+  // Close panel after short delay so user sees the feed update
+  setTimeout(() => { closeIntelPanel(); }, 800);
+
   // Toast
   const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+
+  // After panel closes, scroll to and highlight the feed item on the main dashboard
+  setTimeout(() => {
+    const feedItem = document.querySelector('#agentStream .stream-item');
+    if (feedItem) {
+      feedItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      feedItem.style.boxShadow = '0 0 0 2px var(--gold), 0 0 20px rgba(196,158,84,0.3)';
+      setTimeout(() => { feedItem.style.boxShadow = 'none'; }, 3000);
+    }
+  }, 1200);
+}
+
+// ─── ADD DEAL MODAL ───
+function openAddDealModal() {
+  const formStyle = `style="width:100%;padding:8px 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;outline:none;"`;
+  const labelStyle = `style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;display:block;"`;
+  const groupStyle = `style="margin-bottom:12px;"`;
+
+  showModal('New Deal', 'Add Deal to Pipeline',
+    `<div ${groupStyle}><label ${labelStyle}>Tenant Name</label><input id="deal-tenant" ${formStyle} placeholder="e.g. Acme Corp"></div>`
+    + `<div ${groupStyle}><label ${labelStyle}>Deal Type</label><input id="deal-type" ${formStyle} placeholder="e.g. New Requirement, Expansion, Relocation"></div>`
+    + `<div style="display:flex;gap:8px;margin-bottom:12px;">`
+    + `<div style="flex:1;"><label ${labelStyle}>Market</label><input id="deal-market" ${formStyle} placeholder="e.g. Santa Monica"></div>`
+    + `<div style="flex:1;"><label ${labelStyle}>Square Footage</label><input id="deal-sf" ${formStyle} placeholder="e.g. 15,000"></div></div>`
+    + `<div style="display:flex;gap:8px;margin-bottom:12px;">`
+    + `<div style="flex:1;"><label ${labelStyle}>Est. Value</label><input id="deal-value" ${formStyle} placeholder="e.g. $8M"></div>`
+    + `<div style="flex:1;"><label ${labelStyle}>Stage</label><select id="deal-stage" ${formStyle}><option>Prospect</option><option>Qualifying</option><option>Proposal</option><option>LOI Signed</option><option>Closing</option></select></div></div>`
+    + `<div style="display:flex;gap:8px;margin-bottom:12px;">`
+    + `<div style="flex:1;"><label ${labelStyle}>Key Contact</label><input id="deal-contact" ${formStyle} placeholder="e.g. Jane Smith, VP"></div>`
+    + `<div style="flex:1;"><label ${labelStyle}>Expected Close</label><input id="deal-close" ${formStyle} placeholder="e.g. Q3 2026"></div></div>`
+    + `<div ${groupStyle}><label ${labelStyle}>Notes</label><textarea id="deal-notes" ${formStyle} rows="2" placeholder="Key details, requirements, competitive situation..."></textarea></div>`
+    + `<button onclick="submitNewDeal()" style="width:100%;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Add to Pipeline →</button>`
+  );
+}
+
+function submitNewDeal() {
+  const tenant = document.getElementById('deal-tenant')?.value || 'New Deal';
+  const type = document.getElementById('deal-type')?.value || 'New Requirement';
+  const market = document.getElementById('deal-market')?.value || 'TBD';
+  const sf = document.getElementById('deal-sf')?.value || 'TBD';
+  const value = document.getElementById('deal-value')?.value || 'TBD';
+  const stage = document.getElementById('deal-stage')?.value || 'Prospect';
+  const contact = document.getElementById('deal-contact')?.value || 'TBD';
+  const close = document.getElementById('deal-close')?.value || 'TBD';
+
+  // Add row to pipeline table
+  const tbody = document.querySelector('.pipeline-table tbody');
+  if (tbody) {
+    const stageClass = stage === 'Prospect' ? 'stage-prospect' : stage === 'Qualifying' ? 'stage-qualify' : stage === 'Proposal' ? 'stage-proposal' : stage === 'LOI Signed' ? 'stage-loi' : 'stage-prospect';
+    const tr = document.createElement('tr');
+    tr.style.animation = 'streamIn 0.4s ease-out';
+    tr.style.cursor = 'pointer';
+    tr.innerHTML = `<td><div class="tenant-name">${tenant}</div><div class="tenant-sub">${type}</div></td><td><span class="market-tag">${market}</span></td><td><span class="size-val">${sf}</span></td><td><span class="value-cell">${value}</span></td><td><span class="stage-pill ${stageClass}">${stage}</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill blue" style="width:20%"></div></div><span class="prob-val">20%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">${close}</td><td><div class="action-dots"><span></span><span></span><span></span></div></td>`;
+    tbody.appendChild(tr);
+
+    // Make the new row clickable
+    tr.addEventListener('click', () => {
+      showModal('Deal Detail', tenant,
+        `<div style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">${type} · ${market}</div>`
+        + detailRow('Square Footage', sf, 'var(--cream)')
+        + detailRow('Estimated Value', value, 'var(--gold)')
+        + detailRow('Stage', stage, 'var(--cream)')
+        + detailRow('Expected Close', close, 'var(--text-mid)')
+        + detailRow('Key Contact', contact, 'var(--cream)')
+      );
+    });
+  }
+
+  closeModal();
+
+  // Scroll to pipeline and highlight
+  setTimeout(() => {
+    const pipeline = document.getElementById('pipeline-card');
+    if (pipeline) {
+      pipeline.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      pipeline.style.boxShadow = '0 0 0 2px var(--gold), 0 0 20px rgba(196,158,84,0.3)';
+      pipeline.style.transition = 'box-shadow 0.5s ease';
+      setTimeout(() => { pipeline.style.boxShadow = 'none'; }, 3000);
+    }
+  }, 200);
+
+  // Toast
+  const toast = document.getElementById('toast');
+  toast.innerHTML = `<div class="toast-icon">✅</div><div class="toast-text"><strong>${tenant}</strong> added to pipeline.</div>`;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3500);
 }
@@ -2048,18 +2161,76 @@ document.querySelectorAll('.alert-action-btn').forEach(btn => {
   });
 });
 
-// ─── ALERT ITEM CLICKS ───
-document.querySelectorAll('.alert-item').forEach(item => {
+// ─── ALERT ITEM CLICKS (with next-step workflows) ───
+const alertWorkflows = [
+  { // Snap vacating - High
+    title: 'Snap Vacating 42K SF — Santa Monica', steps: [
+      { label: 'Review Intel Report', status: 'done', desc: 'Agent identified vacancy + 3 matching tenants' },
+      { label: 'Draft Outreach to Matching Tenants', status: 'ready', desc: 'Send personalized pitches to TechCo, WestShore, Shopify' },
+      { label: 'Schedule Property Tour', status: 'upcoming', desc: 'Coordinate walkthroughs with interested tenants' },
+      { label: 'Submit Proposals', status: 'upcoming', desc: 'Prepare competitive proposals for shortlisted tenants' }
+    ]
+  },
+  { // LOI Mismatch - High
+    title: 'LOI Clause Mismatch — Apex Capital', steps: [
+      { label: 'LOI Agent Reviewed Document', status: 'done', desc: 'Flagged 2 non-standard clauses (Sec 4.2 & 7)' },
+      { label: 'Review Clause Comparison', status: 'ready', desc: 'Compare their terms against your gold standard' },
+      { label: 'Generate Redline', status: 'upcoming', desc: 'Auto-generate redline with your preferred language' },
+      { label: 'Send Counter to Apex Capital', status: 'upcoming', desc: 'Deliver revised LOI to David Park, COO' }
+    ]
+  },
+  { // TechCo - Medium
+    title: 'TechCo Inc. Expansion Signal', steps: [
+      { label: 'Lead Agent Identified Signal', status: 'done', desc: '40+ job postings, WeWork badge-in +62%' },
+      { label: 'Review Lead Profile', status: 'ready', desc: 'Confirm company details and space requirements' },
+      { label: 'Draft Personalized Outreach', status: 'upcoming', desc: 'Reach VP of Operations with tailored pitch' },
+      { label: 'Add to Pipeline', status: 'upcoming', desc: 'Create deal record and assign to tracking' }
+    ]
+  },
+  { // Interest Rate - Medium
+    title: 'Interest Rate Watch Triggered', steps: [
+      { label: 'Macro Agent Detected Fed Signal', status: 'done', desc: 'Fed pause → cap rate compression projected' },
+      { label: 'Review Impact Analysis', status: 'ready', desc: 'See projected cap rate changes by sector' },
+      { label: 'Adjust Deal Timelines', status: 'upcoming', desc: 'Consider accelerating Burbank deal' },
+      { label: 'Update Client Advisory', status: 'upcoming', desc: 'Brief clients on rate environment shift' }
+    ]
+  },
+  { // Playa Vista - Low
+    title: 'Playa Vista Occupancy Up', steps: [
+      { label: 'Intel Agent Reported', status: 'done', desc: 'Badge-in 74% vs 61% DTLA — preference shift' },
+      { label: 'Review Submarket Data', status: 'ready', desc: 'Deep-dive into Playa Vista metrics' }
+    ]
+  },
+  { // CBRE closed - Low
+    title: 'CBRE Deal Closed — Water Garden', steps: [
+      { label: 'Intel Agent Reported', status: 'done', desc: '18,500 SF closed. 3 remaining comparables in SM.' },
+      { label: 'Update Comp Set', status: 'ready', desc: 'Refresh comparable listings for Santa Monica' }
+    ]
+  }
+];
+
+document.querySelectorAll('.alert-item').forEach((item, i) => {
   item.style.cursor = 'pointer';
   item.addEventListener('click', () => {
+    const wf = alertWorkflows[i];
     const title = item.querySelector('.alert-title')?.textContent || 'Alert';
     const body = item.querySelector('.alert-body')?.textContent || '';
     const agent = item.querySelector('.alert-agent')?.textContent || '';
     const time = item.querySelector('.alert-time')?.textContent || '';
+    let stepsHtml = '';
+    if (wf) {
+      stepsHtml = `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin:16px 0 10px;">NEXT STEPS</div>`;
+      wf.steps.forEach((s, si) => {
+        const colors = { done: { bg: 'var(--green-dim)', border: 'rgba(74,155,111,0.2)', icon: '✓', iconColor: 'var(--green)' }, ready: { bg: 'var(--gold-dim)', border: 'var(--border-gold)', icon: '→', iconColor: 'var(--gold)' }, upcoming: { bg: 'var(--surface-2)', border: 'var(--border)', icon: (si+1).toString(), iconColor: 'var(--text-dim)' } };
+        const c = colors[s.status];
+        stepsHtml += `<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:${c.bg};border:1px solid ${c.border};border-radius:6px;margin-bottom:6px;${s.status === 'ready' ? 'cursor:pointer;' : ''}"><div style="width:22px;height:22px;border-radius:50%;background:${s.status === 'done' ? 'var(--green)' : s.status === 'ready' ? 'var(--gold)' : 'var(--surface-3)'};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${s.status === 'upcoming' ? 'var(--text-dim)' : '#0A0C0E'};flex-shrink:0;">${c.icon}</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);${s.status === 'done' ? 'text-decoration:line-through;opacity:0.6;' : ''}">${s.label}</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">${s.desc}</div></div></div>`;
+      });
+    }
     showModal('Alert Detail', title,
-      `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">${body}</div>`
+      `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:12px;">${body}</div>`
       + detailRow('Source Agent', agent, 'var(--gold)')
       + detailRow('Time', time, 'var(--text-mid)')
+      + stepsHtml
     );
   });
 });
@@ -2092,16 +2263,103 @@ document.querySelectorAll('.pipeline-table tbody tr').forEach((row, i) => {
   });
 });
 
-// ─── AGENT FEED ITEM CLICKS ───
-document.querySelectorAll('.stream-item').forEach(item => {
+// ─── AGENT FEED ITEM CLICKS (rich contextual views) ───
+const agentFeedDetails = [
+  { // Snap vacating
+    badge: 'Intel Agent', title: 'Snap Inc. Vacating 42K SF — Santa Monica',
+    body: () => `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Snap Inc. is vacating 42,000 SF of Class A creative office at 2101 Colorado Ave, Santa Monica. Lease expires Q2 2026. Intel Agent has identified 3 TAMI tenants actively searching in this submarket.</div>`
+      + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">INTEL REPORT</div>`
+      + detailRow('Property', '2101 Colorado Ave, Santa Monica', 'var(--cream)')
+      + detailRow('Size', '42,000 SF · Class A Creative', 'var(--cream)')
+      + detailRow('Current Tenant', 'Snap Inc.', 'var(--cream)')
+      + detailRow('Lease Expiry', 'Q2 2026', 'var(--amber)')
+      + detailRow('Asking Rent', '$72/SF NNN (est.)', 'var(--gold)')
+      + detailRow('First-Mover Window', '~6 weeks', 'var(--red)')
+      + `</div>`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">MATCHING TENANTS IN SUBMARKET</div>`
+      + `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">`
+      + `<div style="padding:8px 10px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:4px;font-size:11px;color:var(--cream);">TechCo Inc. — 20K SF need, Playa Vista/SM preferred</div>`
+      + `<div style="padding:8px 10px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:4px;font-size:11px;color:var(--cream);">WestShore Media — 14.2K SF expansion, SM top choice</div>`
+      + `<div style="padding:8px 10px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:4px;font-size:11px;color:var(--cream);">Shopify (sublease exit) — 18K SF, exploring SM</div>`
+      + `</div>`
+      + `<div style="display:flex;gap:8px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Draft Outreach to All 3 →</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Property Details</button></div>`
+  },
+  { // TechCo lead
+    badge: 'Lead Agent', title: 'New Lead — TechCo Inc. Expansion Signal',
+    body: () => `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Lead Agent detected high-intent expansion signals from TechCo Inc., a Series C SaaS company currently in flex space at WeWork Playa Vista.</div>`
+      + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">LEAD PROFILE</div>`
+      + detailRow('Company', 'TechCo Inc. · Series C · SaaS', 'var(--cream)')
+      + detailRow('Employees', '200–500 (growing)', 'var(--cream)')
+      + detailRow('Signal: Job Postings', '40+ LA roles in 30 days', 'var(--green)')
+      + detailRow('Signal: Badge-In', '+62% MoM at current WeWork', 'var(--green)')
+      + detailRow('Est. Space Need', '15,000–25,000 SF', 'var(--cream)')
+      + detailRow('Preferred Markets', 'Playa Vista, Culver City', 'var(--cream)')
+      + detailRow('Timeline', 'Q3 2026 (estimated)', 'var(--text-mid)')
+      + `</div>`
+      + `<div style="display:flex;gap:8px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Draft Outreach →</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Add to Pipeline →</button></div>`
+  },
+  { // LOI clause
+    badge: 'LOI Agent', title: 'Document Review — Apex Capital LOI',
+    body: () => `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">LOI Agent has completed automated review of the Apex Capital draft LOI and flagged 2 non-standard clauses against your gold template.</div>`
+      + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">DOCUMENT: APEX_CAPITAL_LOI_V3.PDF</div>`
+      + `<div style="padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);line-height:1.6;margin-bottom:12px;max-height:100px;overflow-y:auto;">`
+      + `<span style="color:var(--red);text-decoration:line-through;">Section 4.2: Tenant may terminate if anchor tenant vacates >50% of premises.</span><br>`
+      + `<span style="color:var(--green);">Section 4.2: No co-tenancy termination rights. Rent abatement only if >60% vacant for 12+ months.</span>`
+      + `</div>`
+      + detailRow('Clauses Reviewed', '24', 'var(--cream)')
+      + detailRow('Flagged Issues', '2 non-standard', 'var(--red)')
+      + detailRow('Risk Level', 'Medium — co-tenancy + assignment', 'var(--amber)')
+      + `</div>`
+      + `<div style="display:flex;gap:8px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate Redline →</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Full Document</button></div>`
+  },
+  { // Zoning variance
+    badge: 'Permit Agent', title: 'Zoning Alert — 1150 S Olive St',
+    body: () => `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Permit Agent detected a new zoning variance filing for 1150 S Olive St, DTLA — mixed-use conversion from office to residential/commercial.</div>`
+      + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">PERMIT FILING</div>`
+      + detailRow('Address', '1150 S Olive St, Los Angeles 90015', 'var(--cream)')
+      + detailRow('Filing Type', 'Zoning Variance — Mixed-Use Conversion', 'var(--cream)')
+      + detailRow('Current Use', 'Class B Office · 180,000 SF', 'var(--cream)')
+      + detailRow('Proposed', 'Residential/Commercial Mixed-Use', 'var(--amber)')
+      + detailRow('Filed', 'Feb 23, 2026', 'var(--text-mid)')
+      + detailRow('Impact', 'Removes 180K SF office inventory from DTLA', 'var(--red)')
+      + `</div>`
+      + `<div style="padding:10px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);margin-bottom:12px;">This conversion will tighten DTLA office supply. Monitor for rent impact on remaining Class A inventory.</div>`
+      + `<div style="display:flex;gap:8px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Full Filing</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Track This Property</button></div>`
+  },
+  { // Outreach in progress
+    badge: 'Outreach Agent', title: 'Drafting Pitch — Netflix HQ Expansion',
+    body: () => `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Outreach Agent is generating a personalized pitch for Sarah Chen, VP Real Estate at Netflix, regarding the Culver City HQ expansion (~60K SF).</div>`
+      + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;">DRAFT IN PROGRESS</div><div style="font-size:10px;color:var(--green);">● Generating...</div></div>`
+      + `<div style="padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;">`
+      + `<strong style="color:var(--cream);">To:</strong> Sarah Chen, VP Real Estate<br>`
+      + `<strong style="color:var(--cream);">Re:</strong> Culver City Creative Office — 60K SF<br><br>`
+      + `Hi Sarah,<br><br>`
+      + `Following up on Netflix's Culver City expansion plans — we've identified 3 properties within your criteria that offer the production-adjacent creative space your team needs...<br><br>`
+      + `<span style="color:var(--text-dim);">[Agent completing personalization based on deal history and tenant preferences...]</span>`
+      + `</div></div>`
+      + `<div style="display:flex;gap:8px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Review When Ready</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Edit Parameters</button></div>`
+  }
+];
+
+document.querySelectorAll('.stream-item').forEach((item, i) => {
   item.style.cursor = 'pointer';
   item.addEventListener('click', () => {
-    const text = item.querySelector('.stream-text')?.innerHTML || '';
-    const meta = item.querySelector('.stream-meta')?.textContent || '';
-    showModal('Agent Activity', 'Activity Detail',
-      `<div style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px;">${text}</div>`
-      + `<div style="font-size:11px;color:var(--text-dim);">${meta}</div>`
-    );
+    const d = agentFeedDetails[i];
+    if (d) {
+      showModal(d.badge, d.title, d.body());
+    } else {
+      const text = item.querySelector('.stream-text')?.innerHTML || '';
+      const meta = item.querySelector('.stream-meta')?.textContent || '';
+      showModal('Agent Activity', 'Activity Detail',
+        `<div style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px;">${text}</div>`
+        + `<div style="font-size:11px;color:var(--text-dim);">${meta}</div>`
+      );
+    }
   });
 });
 
