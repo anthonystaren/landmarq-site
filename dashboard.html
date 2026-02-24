@@ -1534,27 +1534,39 @@ setInterval(() => {
 <script src="/js/supabase-config.js"></script>
 <script>
 (async function dashboardAuth() {
-  // Gate: require login
-  const session = await LandMarqAuth.requireAuth();
-  if (!session) return; // redirect happening
+  try {
+    // Check if Supabase loaded
+    if (typeof LandMarqAuth === 'undefined') {
+      console.error('LandMarq: Auth library not loaded');
+      window.location.href = '/login?returnTo=/dashboard';
+      return;
+    }
 
-  // Populate user info in sidebar
-  const user = session.user;
-  const email = user.email || '';
-  const meta = user.user_metadata || {};
-  const displayName = meta.full_name || meta.name || email.split('@')[0];
-  const initials = displayName.charAt(0).toUpperCase();
+    // Gate: require login
+    const session = await LandMarqAuth.requireAuth();
+    if (!session) return; // redirect happening
 
-  const avatarEl = document.querySelector('#nav-profile .user-avatar');
-  const nameEl = document.querySelector('#nav-profile .user-name');
-  const titleEl = document.querySelector('#nav-profile .user-title');
+    // Populate user info in sidebar
+    const user = session.user;
+    const email = user.email || '';
+    const meta = user.user_metadata || {};
+    const displayName = meta.full_name || meta.name || email.split('@')[0];
+    const initials = displayName.charAt(0).toUpperCase();
 
-  if (avatarEl) avatarEl.textContent = initials;
-  if (nameEl) nameEl.textContent = displayName;
-  if (titleEl) titleEl.textContent = email;
+    const avatarEl = document.querySelector('#nav-profile .user-avatar');
+    const nameEl = document.querySelector('#nav-profile .user-name');
+    const titleEl = document.querySelector('#nav-profile .user-title');
 
-  // Show the page (it starts hidden via auth-loading)
-  document.body.classList.add('auth-ready');
+    if (avatarEl) avatarEl.textContent = initials;
+    if (nameEl) nameEl.textContent = displayName;
+    if (titleEl) titleEl.textContent = email;
+
+    // Show the page
+    document.body.classList.add('auth-ready');
+  } catch (err) {
+    console.error('LandMarq auth error:', err);
+    window.location.href = '/login?returnTo=/dashboard';
+  }
 })();
 </script>
 
