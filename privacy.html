@@ -248,13 +248,39 @@ body::after {
 .section-center { text-align: center; }
 .section-center .section-sub { margin: 0 auto; }
 
+/* ── HAMBURGER MENU ── */
+.nav-hamburger {
+  display: none; flex-direction: column; background: none; border: none;
+  cursor: pointer; gap: 5px; padding: 8px; z-index: 101;
+}
+.nav-hamburger span { width: 24px; height: 2px; background: var(--cream); border-radius: 1px; transition: all 0.3s ease; }
+.nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(11px); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; }
+.nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-11px); }
+
 @media (max-width: 900px) {
   .nav { padding: 0 20px; }
-  .nav-links { display: none; }
+  .nav-links {
+    display: flex; flex-direction: column; position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    background: rgba(10,12,14,0.98); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    gap: 0; padding: 24px 20px;
+    transform: translateX(-100%); transition: transform 0.3s ease; z-index: 99;
+  }
+  .nav-links.active { transform: translateX(0); }
+  .nav-links li { width: 100%; }
+  .nav-links a { display: block; padding: 12px 8px; font-size: 14px; }
+  .nav-hamburger { display: flex; }
   .section { padding: 60px 24px; }
   .section-sm { padding: 40px 24px; }
   .footer { padding: 48px 24px 24px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
 
 </style>
@@ -303,7 +329,21 @@ nav.nav { display:flex!important; align-items:center!important; justify-content:
     <li><a href="about.html">About</a></li>
     <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
   </ul>
+  <button class="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const hamburger = document.querySelector('.nav-hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() { hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
+    navLinks.querySelectorAll('a').forEach(link => { link.addEventListener('click', function() { hamburger.classList.remove('active'); navLinks.classList.remove('active'); }); });
+  }
+});
+</script>
 
 <div class="page">
   <div class="legal-page">

@@ -814,14 +814,313 @@ body {
 ::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 2px; }
-</style>
-<style>
-nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
-.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
-.nav-links li { list-style:none!important; }
+
+/* ── HAMBURGER MENU ── */
+.sidebar-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 4px;
+  padding: 8px;
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 102;
+}
+
+.sidebar-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--cream);
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(9px);
+}
+
+.sidebar-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.sidebar-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-9px);
+}
+
+/* ── RESPONSIVE DASHBOARD ── */
+@media (max-width: 1200px) {
+  .content {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .heatmap-card,
+  .sparkline-row,
+  .pipeline-card {
+    grid-column: 1 / -1;
+  }
+
+  .sparkline-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .agents-card {
+    grid-column: auto;
+  }
+
+  .alerts-card {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .alerts-body {
+    max-height: 300px;
+  }
+
+  #intel-panel {
+    width: 360px;
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 220px;
+    z-index: 99;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle {
+    display: flex;
+  }
+
+  .main {
+    flex: 1;
+    width: 100%;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heatmap-card,
+  .sparkline-row,
+  .pipeline-card,
+  .agents-card,
+  .alerts-card {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .sparkline-row {
+    grid-template-columns: 1fr;
+  }
+
+  .alerts-body {
+    max-height: 300px;
+  }
+
+  .cat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #intel-panel {
+    width: 100%;
+  }
+
+  .pipeline-body {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pipeline-table {
+    min-width: 700px;
+  }
+
+  .onboarding-modal {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .ob-features {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-agent-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .topbar-title {
+    font-size: 16px;
+  }
+
+  .topbar-right {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  html, body {
+    height: auto;
+    overflow: auto;
+  }
+
+  body {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .main {
+    overflow: visible;
+    height: auto;
+  }
+
+  .content {
+    overflow: visible;
+    height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar-toggle {
+    top: 12px;
+    left: 12px;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    padding: 12px 16px 16px;
+    gap: 10px;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .kpi-label {
+    font-size: 6px;
+  }
+
+  .kpi-value {
+    font-size: 24px;
+  }
+
+  .card {
+    border-radius: 4px;
+  }
+
+  .card-header {
+    padding: 10px 12px 0;
+  }
+
+  .card-title {
+    font-size: 8px;
+  }
+
+  .topbar {
+    padding: 10px 12px;
+    height: auto;
+  }
+
+  .topbar-title {
+    font-size: 14px;
+  }
+
+  .topbar-date {
+    font-size: 8px;
+  }
+
+  .topbar-right {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .add-intel-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ob-modal {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ob-body {
+    padding: 20px 16px;
+  }
+
+  .ob-header {
+    padding: 20px 16px 0;
+  }
+
+  .ob-footer {
+    padding: 16px;
+  }
+
+  .ob-progress {
+    margin: 16px 16px 0;
+  }
+
+  .panel-header {
+    padding: 16px 16px 14px;
+  }
+
+  .panel-body {
+    padding: 16px;
+  }
+}
 </style>
 </head>
 <body>
+
+<!-- Sidebar Toggle Button -->
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- ══ ONBOARDING OVERLAY ══ -->
 <div id="onboarding-overlay">
@@ -1512,6 +1811,14 @@ function addWatch(customTitle) {
   `;
   list.prepend(item);
 
+  // Scroll to and highlight the new watch
+  setTimeout(() => {
+    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    item.style.boxShadow = '0 0 0 2px var(--gold), 0 0 20px rgba(196,158,84,0.3)';
+    item.style.transition = 'box-shadow 0.3s ease';
+    setTimeout(() => { item.style.boxShadow = 'none'; }, 3000);
+  }, 100);
+
   // Toast
   const toast = document.getElementById('toast');
   toast.classList.add('show');
@@ -1547,6 +1854,375 @@ setInterval(() => {
   streamContainer.prepend(el);
   while (streamContainer.children.length > 7) streamContainer.removeChild(streamContainer.lastChild);
 }, 11000);
+
+// ─── DETAIL MODAL SYSTEM ───
+const modalOverlay = document.createElement('div');
+modalOverlay.id = 'detail-modal';
+modalOverlay.style.cssText = 'position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;background:rgba(10,12,14,0.85);backdrop-filter:blur(6px);';
+modalOverlay.innerHTML = `
+  <div id="modal-card" style="background:var(--surface);border:1px solid var(--border-gold);border-radius:12px;width:600px;max-width:90vw;max-height:85vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,0.6);animation:modalIn 0.3s ease-out;">
+    <div id="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border);">
+      <div>
+        <div id="modal-badge" style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;"></div>
+        <div id="modal-title" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream);"></div>
+      </div>
+      <div onclick="closeModal()" style="cursor:pointer;font-size:18px;color:var(--text-dim);padding:4px 8px;">&times;</div>
+    </div>
+    <div id="modal-body" style="padding:24px;"></div>
+  </div>
+`;
+document.body.appendChild(modalOverlay);
+modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+
+function showModal(badge, title, bodyHTML) {
+  document.getElementById('modal-badge').textContent = badge;
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHTML;
+  modalOverlay.style.display = 'flex';
+}
+function closeModal() { modalOverlay.style.display = 'none'; }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+// Helper for detail rows
+function detailRow(label, value, color) {
+  return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+    <span style="font-size:12px;color:var(--text-mid);">${label}</span>
+    <span style="font-size:12px;font-weight:600;color:${color || 'var(--cream)'};">${value}</span>
+  </div>`;
+}
+
+// ─── KPI CARD CLICKS ───
+const kpiData = [
+  { badge: 'Pipeline', title: 'Total Pipeline Value — $218M', body: () =>
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">Pipeline value increased 12.4% vs. last quarter, driven by Netflix HQ expansion and 3 new TAMI requirements entering qualifying stage.</div>`
+    + detailRow('Netflix Inc. — Culver City', '$42M', 'var(--gold)')
+    + detailRow('Apex Capital — Century City', '$19M', 'var(--gold)')
+    + detailRow('TechCo Inc. — Playa Vista', '$11M', 'var(--cream)')
+    + detailRow('WestShore Media — Santa Monica', '$8.5M', 'var(--cream)')
+    + detailRow('Meridian Health — Burbank', '$4.2M', 'var(--cream)')
+    + detailRow('Other deals (9)', '$133.3M', 'var(--text-mid)')
+    + `<div style="margin-top:16px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;font-size:12px;color:var(--green);">▲ Weighted pipeline up $24M from Q4 2025. 4 deals expected to close by May.</div>`
+  },
+  { badge: 'Deals', title: 'Active Deals — 14', body: () =>
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">3 new deals entered pipeline this month. 2 deals advanced stages (Qualifying → Proposal).</div>`
+    + detailRow('Prospect', '3 deals', 'var(--text-mid)')
+    + detailRow('Qualifying', '4 deals', 'var(--blue)')
+    + detailRow('Proposal', '4 deals', 'var(--amber)')
+    + detailRow('LOI Signed', '2 deals', 'var(--gold)')
+    + detailRow('Closing', '1 deal', 'var(--green)')
+    + `<div style="margin-top:16px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">Next milestone: Apex Capital closing expected Mar '26. Netflix proposal due Apr 1.</div>`
+  },
+  { badge: 'Vacancy', title: 'Avg. LA Office Vacancy — 14.2%', body: () =>
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">LA metro vacancy trending down 0.8% over 90 days. TAMI sector absorption driving tightening in Westside submarkets.</div>`
+    + detailRow('Santa Monica', '9.8%', 'var(--green)')
+    + detailRow('Playa Vista', '8.1%', 'var(--green)')
+    + detailRow('Culver City', '11.2%', 'var(--cream)')
+    + detailRow('Century City', '12.6%', 'var(--amber)')
+    + detailRow('DTLA', '18.4%', 'var(--red)')
+    + detailRow('Wilshire Corridor', '16.1%', 'var(--red)')
+    + `<div style="margin-top:16px;padding:12px;background:var(--blue-dim);border:1px solid rgba(74,127,165,0.2);border-radius:6px;font-size:12px;color:var(--blue);">▼ Westside vacancy at lowest since 2022. Expect upward rent pressure in Q2.</div>`
+  },
+  { badge: 'Leads', title: 'Agent-Sourced Leads — 31 (30d)', body: () =>
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">8 new leads this month, up from 23 last month. Lead Agent accuracy: 78% qualification rate.</div>`
+    + detailRow('TAMI Sector', '14 leads', 'var(--gold)')
+    + detailRow('Healthcare', '6 leads', 'var(--green)')
+    + detailRow('Financial Services', '5 leads', 'var(--blue)')
+    + detailRow('Professional Services', '4 leads', 'var(--cream)')
+    + detailRow('Other', '2 leads', 'var(--text-mid)')
+    + `<div style="margin-top:16px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;font-size:12px;color:var(--green);">Top signal: TechCo Inc. — 40+ LA job postings, WeWork badge-in up 62%. High intent.</div>`
+  },
+  { badge: 'Market', title: 'Avg. NNN PSF — $62 (SF Metro)', body: () =>
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">NNN asking rents up $1.20/SF MoM across LA metro. Class A driving the increase.</div>`
+    + detailRow('Class A — Westside', '$78/SF', 'var(--gold)')
+    + detailRow('Class A — DTLA', '$54/SF', 'var(--cream)')
+    + detailRow('Class B — Westside', '$52/SF', 'var(--cream)')
+    + detailRow('Class B — Valley', '$38/SF', 'var(--text-mid)')
+    + `<div style="margin-top:16px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">Trend: Westside Class A rents up 6.2% YoY. Expect acceleration with declining vacancy.</div>`
+  },
+  { badge: 'Alerts', title: 'Unread Alerts — 7', body: () =>
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">3 high priority alerts require immediate attention. 2 medium alerts pending review.</div>`
+    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;margin-bottom:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">⚡ Snap vacating 42K SF — Santa Monica</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">First-mover window: ~6 weeks</div></div>`
+    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;margin-bottom:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">📋 LOI Clause Mismatch — Apex Capital</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">Non-standard co-tenancy clause flagged</div></div>`
+    + `<div style="padding:10px 12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:4px;margin-bottom:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">🎯 TechCo Expansion Signal</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">40+ LA job postings detected</div></div>`
+  }
+];
+
+document.querySelectorAll('.kpi-card').forEach((card, i) => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    const d = kpiData[i];
+    if (d) showModal(d.badge, d.title, d.body());
+  });
+});
+
+// ─── HEATMAP CELL CLICKS ───
+const heatmapDetail = {
+  'DTLA': { vacancy: '18.4%', trend: '▲ 1.2%', available: '2.4M SF', avgRent: '$54/SF', topTenants: 'Wells Fargo, Deloitte, CBRE', outlook: 'High vacancy persists. Sublease space still entering market. Watch for conversions.' },
+  'Culver City': { vacancy: '11.2%', trend: '▼ 0.6%', available: '890K SF', avgRent: '$62/SF', topTenants: 'Amazon Studios, Apple TV+, Sony', outlook: 'Tightening. Media & entertainment driving absorption. Limited new supply.' },
+  'Santa Monica': { vacancy: '9.8%', trend: '▼ 1.1%', available: '620K SF', avgRent: '$72/SF', topTenants: 'Snap Inc., Hulu, Kite Pharma', outlook: 'Snap departure creates opportunity. 3 TAMI tenants actively searching this submarket.' },
+  'Playa Vista': { vacancy: '8.1%', trend: '▼ 0.9%', available: '410K SF', avgRent: '$68/SF', topTenants: 'Google, Facebook, IMAX', outlook: 'Tightest Westside submarket. Badge-in data shows 74% occupancy vs 61% DTLA avg.' },
+  'El Segundo': { vacancy: '6.7%', trend: '▼ 0.4%', available: '340K SF', avgRent: '$48/SF', topTenants: 'Northrop Grumman, Raytheon, Beyond Meat', outlook: 'Aerospace/defense anchor tenants. Very tight. New development planned 2027.' },
+  'Century City': { vacancy: '12.6%', trend: '▼ 0.3%', available: '780K SF', avgRent: '$82/SF', topTenants: 'CAA, Greenberg Traurig, Ares Management', outlook: 'Premium rents. Financial/legal sector dominant. Apex Capital deal could tighten further.' },
+  'West Hollywood': { vacancy: '7.3%', trend: '▼ 0.5%', available: '280K SF', avgRent: '$58/SF', topTenants: 'WME, Spotify, Various boutique', outlook: 'Creative office strong. Limited inventory. Rents rising.' },
+  'Wilshire Corridor': { vacancy: '16.1%', trend: '▲ 0.4%', available: '1.8M SF', avgRent: '$46/SF', topTenants: 'Various mid-size firms', outlook: 'Older inventory struggling. Flight to quality ongoing. Watch for repositioning opportunities.' },
+  'Burbank': { vacancy: '10.4%', trend: '▼ 0.7%', available: '520K SF', avgRent: '$52/SF', topTenants: 'Warner Bros, Disney, Netflix (post)', outlook: 'Entertainment hub stable. Healthcare sector growing. Meridian Health actively looking.' },
+  'Manhattan Bch': { vacancy: '5.9%', trend: '▼ 0.2%', available: '180K SF', avgRent: '$56/SF', topTenants: 'Skechers, Manhattan Beach Studios', outlook: 'Extremely tight. Almost no available Class A. Premium location driving wait lists.' },
+  'SF Financial': { vacancy: '26.3%', trend: '▲ 2.1%', available: '12.4M SF', avgRent: '$68/SF', topTenants: 'Salesforce, Wells Fargo, JPMorgan', outlook: 'Highest vacancy in 18 months. Sublease glut. Major correction potential.' },
+  'SF SOMA': { vacancy: '22.1%', trend: '▲ 1.4%', available: '6.8M SF', avgRent: '$62/SF', topTenants: 'Airbnb, Pinterest, Stripe', outlook: 'Tech downsizing continues. Some AI startups backfilling but not enough to offset.' },
+  'SF Mission': { vacancy: '14.8%', trend: '▼ 0.3%', available: '2.1M SF', avgRent: '$54/SF', topTenants: 'Various tech startups', outlook: 'Stabilizing. Smaller suites in demand. Creative/flex space doing better than traditional.' },
+  'Bellevue WA': { vacancy: '9.2%', trend: '▼ 1.0%', available: '1.2M SF', avgRent: '$58/SF', topTenants: 'Meta, T-Mobile, Paccar', outlook: 'Strong recovery. Tech expansion resuming. Spring Lane development 80% pre-leased.' },
+  'Seattle SLU': { vacancy: '11.0%', trend: '▼ 0.6%', available: '2.8M SF', avgRent: '$52/SF', topTenants: 'Amazon, Google, Facebook', outlook: 'Amazon RTO driving absorption. New supply delivering but demand keeping pace.' }
+};
+
+document.querySelectorAll('.heatmap-cell').forEach(cell => {
+  cell.style.cursor = 'pointer';
+  cell.addEventListener('click', () => {
+    const market = cell.querySelector('.heat-market').textContent;
+    const d = heatmapDetail[market];
+    if (!d) return;
+    showModal('Submarket Detail', market,
+      detailRow('Vacancy Rate', d.vacancy, parseFloat(d.vacancy) > 15 ? 'var(--red)' : parseFloat(d.vacancy) > 10 ? 'var(--amber)' : 'var(--green)')
+      + detailRow('90-Day Trend', d.trend, d.trend.includes('▲') ? 'var(--red)' : 'var(--green)')
+      + detailRow('Available SF', d.available, 'var(--cream)')
+      + detailRow('Avg. Asking Rent', d.avgRent, 'var(--gold)')
+      + detailRow('Key Tenants', d.topTenants, 'var(--cream)')
+      + `<div style="margin-top:16px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.5;"><strong style="color:var(--cream);">Outlook:</strong> ${d.outlook}</div>`
+    );
+  });
+});
+
+// ─── ALERT ACTION BUTTON CLICKS ───
+document.querySelectorAll('.alert-action-btn').forEach(btn => {
+  btn.style.cursor = 'pointer';
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const text = btn.textContent.trim();
+    if (text.includes('Draft Outreach')) {
+      showModal('Outreach Agent', 'Draft Outreach — Snap Inc. Space',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Your Outreach Agent is drafting a personalized pitch targeting TAMI tenants for the 42K SF vacancy at 2101 Colorado Ave, Santa Monica.</div>`
+        + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);line-height:1.7;">`
+        + `<div style="color:var(--gold);margin-bottom:8px;">DRAFT · Generating...</div>`
+        + `Subject: Premium 42K SF — 2101 Colorado Ave, Santa Monica<br><br>`
+        + `Hi [Contact],<br><br>`
+        + `A unique opportunity just opened at 2101 Colorado Ave in Santa Monica — 42,000 SF of Class A creative office with ocean proximity, previously occupied by Snap Inc.<br><br>`
+        + `Given [Company]'s growth trajectory and West LA focus, this could be an ideal fit. The space features open floor plans, private outdoor terraces, and fiber connectivity.<br><br>`
+        + `Would you have 15 minutes this week to discuss?<br><br>`
+        + `Best,<br>[Your Name]`
+        + `</div>`
+        + `<div style="display:flex;gap:8px;margin-top:16px;"><button style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Send to 3 Leads →</button><button style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Edit Draft</button></div>`
+      );
+    } else if (text.includes('Review Comparison')) {
+      showModal('LOI Agent', 'Clause Comparison — Apex Capital',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">LOI Agent flagged 2 non-standard clauses in the Apex Capital draft vs. your gold standard template.</div>`
+        + `<div style="background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:8px;padding:14px;margin-bottom:10px;">`
+        + `<div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:6px;">⚠ Section 4.2 — Co-Tenancy Clause</div>`
+        + `<div style="font-size:11px;color:var(--text);line-height:1.5;"><strong style="color:var(--red);">Their version:</strong> Tenant may terminate if anchor tenant vacates >50% of premises.<br><strong style="color:var(--green);">Your standard:</strong> No co-tenancy termination rights. Rent abatement only if >60% vacant for 12+ months.</div></div>`
+        + `<div style="background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:8px;padding:14px;margin-bottom:10px;">`
+        + `<div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:6px;">⚠ Section 7 — Assignment Rights</div>`
+        + `<div style="font-size:11px;color:var(--text);line-height:1.5;"><strong style="color:var(--amber);">Their version:</strong> Unrestricted assignment to affiliates without landlord consent.<br><strong style="color:var(--green);">Your standard:</strong> Landlord consent required for all assignments; affiliates require 30-day notice.</div></div>`
+        + `<div style="display:flex;gap:8px;margin-top:16px;"><button style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate Redline →</button><button style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Full LOI</button></div>`
+      );
+    } else if (text.includes('Lead Profile')) {
+      showModal('Lead Agent', 'Lead Profile — TechCo Inc.',
+        `<div style="display:flex;gap:16px;margin-bottom:16px;"><div style="width:48px;height:48px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🎯</div><div><div style="font-size:16px;font-weight:600;color:var(--cream);">TechCo Inc.</div><div style="font-size:12px;color:var(--text-mid);">Series C · SaaS · 200-500 employees</div></div></div>`
+        + detailRow('Signal Strength', '● Very High', 'var(--green)')
+        + detailRow('LA Job Postings (30d)', '40+', 'var(--gold)')
+        + detailRow('WeWork Badge-In Δ', '+62% MoM', 'var(--green)')
+        + detailRow('Est. Space Need', '15,000 – 25,000 SF', 'var(--cream)')
+        + detailRow('Preferred Submarkets', 'Playa Vista, Culver City', 'var(--cream)')
+        + detailRow('Timeline', 'Q3 2026 (estimated)', 'var(--text-mid)')
+        + `<div style="margin-top:16px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.5;"><strong style="color:var(--cream);">Agent Notes:</strong> High-growth SaaS company currently in flex space at WeWork Playa Vista. Rapid headcount growth suggests they'll outgrow current location within 6 months. Key decision-maker: VP of Operations.</div>`
+        + `<div style="display:flex;gap:8px;margin-top:16px;"><button style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Draft Outreach →</button><button style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Add to Pipeline</button></div>`
+      );
+    } else if (text.includes('Impact Report')) {
+      showModal('Macro Agent', 'Interest Rate Impact Analysis',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Fed signaled a pause. Model projects cap rate compression across West Coast CRE over the next 90 days.</div>`
+        + detailRow('Fed Funds Rate', '4.25% (hold)', 'var(--cream)')
+        + detailRow('10Y Treasury', '3.82% (▼ 12bps)', 'var(--green)')
+        + detailRow('Office Cap Rate Δ', '-15bps projected', 'var(--green)')
+        + detailRow('Industrial Cap Rate Δ', '-25bps projected', 'var(--green)')
+        + detailRow('Retail Cap Rate Δ', '-8bps projected', 'var(--text-mid)')
+        + `<div style="margin-top:16px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;font-size:12px;color:var(--green);line-height:1.5;">Implication: Asset values could increase 2-4% in industrial over 90 days. Consider accelerating Burbank deal timeline.</div>`
+      );
+    }
+  });
+});
+
+// ─── ALERT ITEM CLICKS ───
+document.querySelectorAll('.alert-item').forEach(item => {
+  item.style.cursor = 'pointer';
+  item.addEventListener('click', () => {
+    const title = item.querySelector('.alert-title')?.textContent || 'Alert';
+    const body = item.querySelector('.alert-body')?.textContent || '';
+    const agent = item.querySelector('.alert-agent')?.textContent || '';
+    const time = item.querySelector('.alert-time')?.textContent || '';
+    showModal('Alert Detail', title,
+      `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">${body}</div>`
+      + detailRow('Source Agent', agent, 'var(--gold)')
+      + detailRow('Time', time, 'var(--text-mid)')
+    );
+  });
+});
+
+// ─── PIPELINE ROW CLICKS ───
+const dealDetails = [
+  { name: 'Netflix Inc.', sub: 'HQ Expansion', market: 'Culver City', sf: '~60,000 SF', value: '$42M', stage: 'Proposal', prob: '72%', close: 'Apr 2026', contact: 'Sarah Chen, VP Real Estate', notes: 'Seeking creative office with production-adjacent space. Touring 3 buildings. Prefer ground-floor with outdoor areas. Budget: $65-72/SF NNN.' },
+  { name: 'Apex Capital Group', sub: 'Relocation', market: 'Century City', sf: '28,500 SF', value: '$19M', stage: 'LOI Signed', prob: '88%', close: 'Mar 2026', contact: 'David Park, COO', notes: 'LOI signed with 2 flagged clauses pending resolution. High-floor preference. Willing to pay premium for views. Current lease expires June 2026.' },
+  { name: 'TechCo Inc.', sub: 'New Requirement', market: 'Playa Vista', sf: '~20,000 SF', value: '$11M', stage: 'Qualifying', prob: '38%', close: 'Q3 2026', contact: 'VP Operations (TBD)', notes: 'Agent-sourced lead. Currently at WeWork. 40+ job postings suggest rapid growth. Need to confirm budget and timeline. Badge-in data shows high engagement.' },
+  { name: 'WestShore Media', sub: 'Expansion', market: 'Santa Monica', sf: '14,200 SF', value: '$8.5M', stage: 'Proposal', prob: '61%', close: 'May 2026', contact: 'Lisa Tran, Head of Operations', notes: 'Expanding content production team. Need flexible layout with edit bays. Competing with Culver City options. Price-sensitive.' },
+  { name: 'Meridian Health Partners', sub: 'New Requirement', market: 'Burbank', sf: '9,000 SF', value: '$4.2M', stage: 'Prospect', prob: '24%', close: 'Q4 2026', contact: 'Michael Torres, CFO', notes: 'Healthcare clinic + admin combo space. Specific zoning requirements. Early stage — still evaluating Burbank vs Glendale.' }
+];
+
+document.querySelectorAll('.pipeline-table tbody tr').forEach((row, i) => {
+  row.style.cursor = 'pointer';
+  row.addEventListener('click', () => {
+    const d = dealDetails[i];
+    if (!d) return;
+    showModal('Deal Detail', d.name,
+      `<div style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">${d.sub} · ${d.market}</div>`
+      + detailRow('Square Footage', d.sf, 'var(--cream)')
+      + detailRow('Estimated Value', d.value, 'var(--gold)')
+      + detailRow('Stage', d.stage, 'var(--cream)')
+      + detailRow('Win Probability', d.prob, parseInt(d.prob) > 70 ? 'var(--green)' : parseInt(d.prob) > 50 ? 'var(--amber)' : 'var(--red)')
+      + detailRow('Expected Close', d.close, 'var(--text-mid)')
+      + detailRow('Key Contact', d.contact, 'var(--cream)')
+      + `<div style="margin-top:16px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.5;"><strong style="color:var(--cream);">Notes:</strong> ${d.notes}</div>`
+      + `<div style="display:flex;gap:8px;margin-top:16px;"><button style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Draft Follow-Up →</button><button style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Update Stage</button></div>`
+    );
+  });
+});
+
+// ─── AGENT FEED ITEM CLICKS ───
+document.querySelectorAll('.stream-item').forEach(item => {
+  item.style.cursor = 'pointer';
+  item.addEventListener('click', () => {
+    const text = item.querySelector('.stream-text')?.innerHTML || '';
+    const meta = item.querySelector('.stream-meta')?.textContent || '';
+    showModal('Agent Activity', 'Activity Detail',
+      `<div style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px;">${text}</div>`
+      + `<div style="font-size:11px;color:var(--text-dim);">${meta}</div>`
+    );
+  });
+});
+
+// ─── CARD ACTION LINK CLICKS ───
+document.querySelectorAll('.card-action').forEach(action => {
+  action.style.cursor = 'pointer';
+  action.addEventListener('click', () => {
+    const text = action.textContent.trim();
+    if (text.includes('Full Map')) {
+      showModal('Heatmap', 'West Coast Submarket Pulse — Full View',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;">Click any submarket cell on the heatmap to see full detail including vacancy rates, trends, available SF, and agent outlook.</div>`
+      );
+    } else if (text.includes('View All') && action.closest('#agent-card')) {
+      showModal('Agent Feed', 'Full Agent Activity Log',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;">Complete activity log across all 6 agents. Filtered by your active markets and intelligence watches.</div>`
+      );
+    } else if (text.includes('Mark All Read')) {
+      document.querySelectorAll('.alert-item').forEach(a => a.style.opacity = '0.5');
+      action.textContent = 'All Read ✓';
+      action.style.color = 'var(--green)';
+    } else if (text.includes('View All 14')) {
+      showModal('Deal Pipeline', 'All Active Deals — 14',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;">Full pipeline view with sorting, filtering, and stage management. Click any deal in the table below for details.</div>`
+      );
+    }
+  });
+});
+
+// ─── NOTIFICATION BELL + SETTINGS GEAR ───
+document.querySelectorAll('.icon-btn').forEach((btn, i) => {
+  btn.style.cursor = 'pointer';
+  btn.addEventListener('click', () => {
+    if (i === 0) { // Bell
+      showModal('Notifications', '7 Unread Notifications',
+        `<div style="display:flex;flex-direction:column;gap:8px;">`
+        + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">⚡ Snap vacating 42K SF</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">2 min ago · Intel Agent</div></div>`
+        + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">📋 LOI Clause Mismatch</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">31 min ago · LOI Agent</div></div>`
+        + `<div style="padding:10px 12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">🎯 TechCo Expansion Signal</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">14 min ago · Lead Agent</div></div>`
+        + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">📈 Interest Rate Watch</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">1h ago · Macro Agent</div></div>`
+        + `</div>`
+      );
+    } else { // Settings
+      showModal('Settings', 'Dashboard Preferences',
+        detailRow('Morning Brief Time', '6:00 AM PST', 'var(--cream)')
+        + detailRow('Delivery Channels', 'Dashboard + Email', 'var(--cream)')
+        + detailRow('Active Agents', '6 of 6', 'var(--green)')
+        + detailRow('Monitored Submarkets', '15', 'var(--cream)')
+        + detailRow('Alert Threshold', 'Medium + High', 'var(--cream)')
+        + detailRow('Plan', 'Pro · 3 seats', 'var(--gold)')
+        + `<div style="margin-top:16px;"><button style="width:100%;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Edit Preferences →</button></div>`
+      );
+    }
+  });
+});
+
+// ─── SPARKLINE BAR CLICKS ───
+document.querySelectorAll('.spark-bar').forEach(bar => {
+  bar.style.cursor = 'pointer';
+  bar.addEventListener('click', () => {
+    const card = bar.closest('.spark-card');
+    const title = card?.querySelector('.card-title')?.textContent || 'Chart Detail';
+    const big = card?.querySelector('.spark-big')?.textContent || '';
+    const delta = card?.querySelector('.spark-delta')?.textContent || '';
+    showModal('Chart', title,
+      `<div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--cream);margin-bottom:4px;">${big}</div>`
+      + `<div style="font-size:13px;color:${delta.includes('▲') ? 'var(--green)' : 'var(--red)'};margin-bottom:16px;">${delta}</div>`
+      + `<div style="font-size:13px;color:var(--text);line-height:1.6;">Detailed trend analysis and period-over-period comparison would appear here. Click any bar in the sparkline to drill into that specific time period.</div>`
+    );
+  });
+});
+
+// ─── ACTION DOTS (⋯) ON PIPELINE ───
+document.querySelectorAll('.action-dots').forEach((dots, i) => {
+  dots.style.cursor = 'pointer';
+  dots.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const d = dealDetails[i];
+    if (!d) return;
+    showModal('Deal Actions', d.name,
+      `<div style="display:flex;flex-direction:column;gap:8px;">`
+      + `<button onclick="closeModal()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--cream);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">📝 Edit Deal Details</button>`
+      + `<button onclick="closeModal()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--cream);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">📊 Update Stage</button>`
+      + `<button onclick="closeModal()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--cream);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">✉️ Draft Follow-Up</button>`
+      + `<button onclick="closeModal()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--cream);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">📋 Export to CRM</button>`
+      + `<button onclick="closeModal()" style="padding:12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;color:var(--red);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">🗑 Archive Deal</button>`
+      + `</div>`
+    );
+  });
+});
+
+// ─── SIDEBAR TOGGLE FOR MOBILE ───
+(function() {
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+
+  if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      sidebarToggle.classList.toggle('active');
+      sidebar.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking on a nav item
+    sidebar.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        sidebarToggle.classList.remove('active');
+        sidebar.classList.remove('active');
+      });
+    });
+
+    // Close sidebar when clicking outside (only on mobile)
+    document.addEventListener('click', function(event) {
+      if (window.innerWidth <= 900) {
+        if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+          sidebarToggle.classList.remove('active');
+          sidebar.classList.remove('active');
+        }
+      }
+    });
+  }
+})();
 </script>
 
 <!-- ─── AUTH GATE ─── -->
