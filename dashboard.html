@@ -505,7 +505,7 @@ body {
 
 /* ─── CONTENT ─── */
 .content {
-  flex: 1; overflow-y: auto; padding: 18px 20px 20px;
+  flex: 1; overflow-y: auto; overflow-x: hidden; padding: 18px 20px 40px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 310px;
   grid-template-rows: auto auto auto auto auto;
@@ -600,7 +600,7 @@ body {
 @keyframes typeDot { 0%,60%,100% { transform:translateY(0);opacity:0.3; } 30% { transform:translateY(-4px);opacity:1; } }
 
 /* ─── ALERTS (right column) ─── */
-.alerts-card { grid-column: 4/5; grid-row: 2/6; }
+.alerts-card { grid-column: 4/5; grid-row: 2/6; align-self: start; }
 .alerts-body { padding: 0 13px 14px; display: flex; flex-direction: column; gap: 7px; max-height: 660px; overflow-y: auto; }
 .alerts-body::-webkit-scrollbar { width: 2px; }
 .alerts-body::-webkit-scrollbar-thumb { background: var(--border); }
@@ -2369,20 +2369,94 @@ document.querySelectorAll('.card-action').forEach(action => {
   action.addEventListener('click', () => {
     const text = action.textContent.trim();
     if (text.includes('Full Map')) {
+      const mapRow = (market, vacancy, trend, trendColor, rent, status) =>
+        `<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">`
+        + `<div style="flex:2;font-size:12px;color:var(--cream);">${market}</div>`
+        + `<div style="width:55px;font-family:'JetBrains Mono',monospace;font-size:11px;color:${parseFloat(vacancy) > 15 ? 'var(--red)' : parseFloat(vacancy) > 10 ? 'var(--amber)' : 'var(--green)'};">${vacancy}</div>`
+        + `<div style="width:55px;font-family:'JetBrains Mono',monospace;font-size:10px;color:${trendColor};">${trend}</div>`
+        + `<div style="width:50px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);">${rent}</div>`
+        + `<div style="width:70px;font-size:10px;color:var(--text-mid);">${status}</div></div>`;
       showModal('Heatmap', 'West Coast Submarket Pulse — Full View',
-        `<div style="font-size:13px;color:var(--text);line-height:1.6;">Click any submarket cell on the heatmap to see full detail including vacancy rates, trends, available SF, and agent outlook.</div>`
+        `<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-gold);margin-bottom:4px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.08em;">`
+        + `<div style="flex:2;">SUBMARKET</div><div style="width:55px;">VACANCY</div><div style="width:55px;">90D Δ</div><div style="width:50px;">$/SF</div><div style="width:70px;">STATUS</div></div>`
+        + mapRow('Manhattan Beach', '5.9%', '▼ 0.2%', 'var(--green)', '$56', 'Very Tight')
+        + mapRow('El Segundo', '6.7%', '▼ 0.4%', 'var(--green)', '$48', 'Tight')
+        + mapRow('West Hollywood', '7.3%', '▼ 0.5%', 'var(--green)', '$58', 'Tight')
+        + mapRow('Playa Vista', '8.1%', '▼ 0.9%', 'var(--green)', '$68', 'Tightening')
+        + mapRow('Bellevue WA', '9.2%', '▼ 1.0%', 'var(--green)', '$58', 'Recovering')
+        + mapRow('Santa Monica', '9.8%', '▼ 1.1%', 'var(--green)', '$72', 'Tightening')
+        + mapRow('Burbank', '10.4%', '▼ 0.7%', 'var(--green)', '$52', 'Stable')
+        + mapRow('Seattle SLU', '11.0%', '▼ 0.6%', 'var(--green)', '$52', 'Recovering')
+        + mapRow('Culver City', '11.2%', '▼ 0.6%', 'var(--green)', '$62', 'Tightening')
+        + mapRow('Century City', '12.6%', '▼ 0.3%', 'var(--green)', '$82', 'Premium')
+        + mapRow('SF Mission', '14.8%', '▼ 0.3%', 'var(--green)', '$54', 'Stabilizing')
+        + mapRow('Wilshire Corridor', '16.1%', '▲ 0.4%', 'var(--red)', '$46', 'Soft')
+        + mapRow('DTLA', '18.4%', '▲ 1.2%', 'var(--red)', '$54', 'Elevated')
+        + mapRow('SF SOMA', '22.1%', '▲ 1.4%', 'var(--red)', '$62', 'Distressed')
+        + mapRow('SF Financial', '26.3%', '▲ 2.1%', 'var(--red)', '$68', 'Distressed')
       );
     } else if (text.includes('View All') && action.closest('#agent-card')) {
-      showModal('Agent Feed', 'Full Agent Activity Log',
-        `<div style="font-size:13px;color:var(--text);line-height:1.6;">Complete activity log across all 6 agents. Filtered by your active markets and intelligence watches.</div>`
+      const logItem = (icon, cls, text, tag, tagCls, time, agent) =>
+        `<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;">`
+        + `<div style="width:28px;height:28px;border-radius:6px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">${icon}</div>`
+        + `<div style="flex:1;min-width:0;"><div style="font-size:12px;color:var(--text);line-height:1.5;">${text}</div>`
+        + `<div style="display:flex;gap:8px;align-items:center;margin-top:3px;"><span style="font-size:9px;padding:2px 6px;border-radius:2px;background:var(--surface-3);color:var(--cream);font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">${tag}</span><span style="font-size:10px;color:var(--text-dim);">${time} · ${agent}</span></div></div></div>`;
+      showModal('Agent Feed', 'Full Agent Activity Log — Today',
+        `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:12px;">6 AGENTS · 15 SUBMARKETS · LAST 24 HOURS</div>`
+        + logItem('⚡', '', '<strong>Snap Inc.</strong> vacating 42K SF at 2101 Colorado Ave SM — 3 tenants circling.', 'High Priority', '', '2 min ago', 'Intel Agent')
+        + logItem('🎯', '', '<strong>TechCo Inc.</strong> (Series C) posted 40+ LA jobs. Office expansion signal.', 'New Lead', '', '14 min ago', 'Lead Agent')
+        + logItem('📋', '', '<strong>LOI Agent</strong> flagged non-standard exclusivity clause — Apex Capital draft.', 'Document', '', '31 min ago', 'LOI Agent')
+        + logItem('🔍', '', 'Zoning variance filed for <strong>1150 S Olive St</strong> — mixed-use conversion.', 'Zoning', '', '1 hr ago', 'Permit Agent')
+        + logItem('✉️', '', '<strong>Outreach Agent</strong> drafting personalized pitch for Netflix HQ expansion.', 'In Progress', '', '1 hr ago', 'Outreach Agent')
+        + logItem('📈', '', '<strong>Fed signals pause.</strong> Cap rate compression model updated — industrial -25bps.', 'Rate Watch', '', '1.5 hr ago', 'Macro Agent')
+        + logItem('🌐', '', 'SF Financial District vacancy updated to <strong>26.3%</strong> — highest in 18 months.', 'Market', '', '2 hr ago', 'Intel Agent')
+        + logItem('🎯', '', '<strong>Shopify</strong> subletting 18K SF in Santa Monica — window opening.', 'New Lead', '', '2.5 hr ago', 'Lead Agent')
+        + logItem('📋', '', '<strong>LOI Agent</strong> completed Apex Capital clause comparison. 2 items flagged.', 'Document', '', '3 hr ago', 'LOI Agent')
+        + logItem('🔍', '', 'Building permit approved for <strong>550 S Flower St</strong> — Class A renovation.', 'Permit', '', '4 hr ago', 'Permit Agent')
+        + logItem('🌐', '', 'Playa Vista badge-in data: <strong>74% occupancy</strong> vs 61% DTLA avg.', 'Intel', '', '4 hr ago', 'Intel Agent')
+        + logItem('✉️', '', '<strong>Outreach Agent</strong> sent WestShore Media pitch — 3 property options.', 'Sent', '', '5 hr ago', 'Outreach Agent')
+        + logItem('📈', '', '10Y Treasury down 12bps to <strong>3.82%</strong>. Monitoring cap rate impact.', 'Rate Watch', '', '6 hr ago', 'Macro Agent')
+        + logItem('🎯', '', '<strong>Meridian Health Partners</strong> exploring Burbank for 9K SF clinic space.', 'New Lead', '', '8 hr ago', 'Lead Agent')
+        + logItem('🌐', '', 'CBRE closed 18,500 SF at Water Garden. 3 remaining comparables in SM.', 'Market', '', '10 hr ago', 'Intel Agent')
       );
     } else if (text.includes('Mark All Read')) {
       document.querySelectorAll('.alert-item').forEach(a => a.style.opacity = '0.5');
       action.textContent = 'All Read ✓';
       action.style.color = 'var(--green)';
     } else if (text.includes('View All 14')) {
+      const dealRow = (name, sub, market, sf, value, stage, stageCls, prob, probColor, close) =>
+        `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;">`
+        + `<div style="flex:2;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--cream);">${name}</div><div style="font-size:10px;color:var(--text-dim);">${sub}</div></div>`
+        + `<div style="flex:1;"><span style="font-size:10px;padding:2px 6px;border-radius:2px;background:var(--surface-3);color:var(--cream);font-family:'JetBrains Mono',monospace;">${market}</span></div>`
+        + `<div style="width:50px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-mid);">${sf}</div>`
+        + `<div style="width:45px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);font-weight:600;">${value}</div>`
+        + `<div style="width:70px;"><span style="font-size:9px;padding:2px 6px;border-radius:2px;background:var(--surface-3);color:var(--cream);font-family:'JetBrains Mono',monospace;">${stage}</span></div>`
+        + `<div style="width:35px;font-family:'JetBrains Mono',monospace;font-size:10px;color:${probColor};">${prob}</div>`
+        + `<div style="width:50px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);">${close}</div></div>`;
       showModal('Deal Pipeline', 'All Active Deals — 14',
-        `<div style="font-size:13px;color:var(--text);line-height:1.6;">Full pipeline view with sorting, filtering, and stage management. Click any deal in the table below for details.</div>`
+        `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:4px;">TOTAL PIPELINE VALUE: $218M</div>`
+        + `<div style="display:flex;gap:12px;margin-bottom:14px;">`
+        + `<span style="font-size:10px;color:var(--text-dim);">Prospect: 3</span>`
+        + `<span style="font-size:10px;color:var(--blue);">Qualifying: 4</span>`
+        + `<span style="font-size:10px;color:var(--amber);">Proposal: 4</span>`
+        + `<span style="font-size:10px;color:var(--gold);">LOI: 2</span>`
+        + `<span style="font-size:10px;color:var(--green);">Closing: 1</span></div>`
+        + `<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-gold);margin-bottom:4px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.08em;">`
+        + `<div style="flex:2;">TENANT</div><div style="flex:1;">MARKET</div><div style="width:50px;">SF</div><div style="width:45px;">VALUE</div><div style="width:70px;">STAGE</div><div style="width:35px;">PROB</div><div style="width:50px;">CLOSE</div></div>`
+        + dealRow('Netflix Inc.', 'HQ Expansion · TAMI', 'Culver City', '~60K', '$42M', 'Proposal', '', '72%', 'var(--green)', "Apr '26")
+        + dealRow('Apex Capital Group', 'Relocation · Financial', 'Century City', '28.5K', '$19M', 'LOI Signed', '', '88%', 'var(--green)', "Mar '26")
+        + dealRow('TechCo Inc.', 'New Requirement · SaaS', 'Playa Vista', '~20K', '$11M', 'Qualifying', '', '38%', 'var(--amber)', "Q3 '26")
+        + dealRow('WestShore Media', 'Expansion · Media', 'Santa Monica', '14.2K', '$8.5M', 'Proposal', '', '61%', 'var(--cream)', "May '26")
+        + dealRow('Meridian Health', 'New Req. · Healthcare', 'Burbank', '9K', '$4.2M', 'Prospect', '', '24%', 'var(--red)', "Q4 '26")
+        + dealRow('Pacific Ventures', 'Relocation · VC', 'Santa Monica', '12K', '$7.8M', 'Proposal', '', '55%', 'var(--cream)', "Jun '26")
+        + dealRow('Horizon Biotech', 'Expansion · Life Sci', 'El Segundo', '22K', '$14M', 'Qualifying', '', '42%', 'var(--amber)', "Q3 '26")
+        + dealRow('Catalyst Media', 'New Req. · Media', 'Culver City', '8.5K', '$5.1M', 'Qualifying', '', '35%', 'var(--amber)', "Q4 '26")
+        + dealRow('Summit Legal Group', 'Expansion · Legal', 'Century City', '18K', '$16M', 'LOI Signed', '', '82%', 'var(--green)', "Apr '26")
+        + dealRow('CloudNine Software', 'New Req. · SaaS', 'Playa Vista', '11K', '$6.8M', 'Prospect', '', '18%', 'var(--red)', "2027")
+        + dealRow('Verde Architects', 'Relocation · Design', 'W. Hollywood', '5.5K', '$3.2M', 'Proposal', '', '58%', 'var(--cream)', "May '26")
+        + dealRow('Arclight Partners', 'Expansion · Finance', 'DTLA', '35K', '$18M', 'Qualifying', '', '45%', 'var(--amber)', "Q3 '26")
+        + dealRow('Zenith Healthcare', 'New Req. · Healthcare', 'Burbank', '7K', '$3.4M', 'Prospect', '', '22%', 'var(--red)', "Q4 '26")
+        + dealRow('Pinnacle Studios', 'Expansion · Entertain.', 'Burbank', '45K', '$30M', 'Closing', '', '94%', 'var(--green)', "Mar '26")
       );
     }
   });
