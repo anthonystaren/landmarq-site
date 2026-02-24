@@ -867,76 +867,172 @@ nav.nav { display:flex!important; align-items:center!important; justify-content:
         <div class="dp-dots"><div class="dp-dot"></div><div class="dp-dot"></div><div class="dp-dot"></div></div>
         <div class="dp-url">landmarq.ai/dashboard — Morning Brief · 6:04 AM</div>
       </div>
-      <div style="display:flex;">
-        <!-- Mini sidebar -->
-        <div style="width:48px;background:#0D1015;border-right:1px solid var(--border);padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0;">
-          <div style="font-size:10px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;line-height:1;">L<span style="color:var(--cream);">M</span></div>
-          <div style="width:24px;height:24px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gold);">T</div>
-          <div style="width:20px;height:1px;background:var(--border);"></div>
-          <div style="font-size:8px;color:var(--text-dim);">◉</div>
-          <div style="font-size:8px;color:var(--gold);">◷</div>
-          <div style="font-size:8px;color:var(--text-dim);">≡</div>
-          <div style="font-size:8px;color:var(--text-dim);">⚙</div>
+      <div style="display:flex;min-height:420px;">
+        <!-- Sidebar -->
+        <div style="width:130px;background:#0D1015;border-right:1px solid var(--border);padding:12px 10px;display:flex;flex-direction:column;flex-shrink:0;">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+            <span style="font-size:11px;font-weight:700;color:var(--cream);font-family:'Cormorant Garamond',serif;">Land</span><span style="font-size:11px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;">Marq</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-dim);margin-bottom:10px;letter-spacing:0.05em;">Executive Intelligence · ai</div>
+          <!-- User card -->
+          <div style="display:flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:6px;margin-bottom:12px;">
+            <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#B08A3E);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#0A0C0E;">T</div>
+            <div><div style="font-size:7px;font-weight:600;color:var(--cream);line-height:1.2;">Tony A.</div><div style="font-size:5.5px;color:var(--text-dim);">Chair · CRE Brokerage</div></div>
+          </div>
+          <!-- Nav -->
+          <div style="font-family:'JetBrains Mono',monospace;font-size:5px;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Workspace</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:3px;margin-bottom:3px;font-size:7px;color:var(--gold);">◉ Morning Brief</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:7px;color:var(--text-dim);">◷ Agent Fleet</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:7px;color:var(--text-dim);">≡ Deal Pipeline</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:7px;color:var(--text-dim);">⊕ Market Intel</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:7px;color:var(--text-dim);">⊕ Tenant Leads</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:5px;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase;margin:8px 0 6px;">Markets</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:7px;color:var(--text-dim);">≡ West Coast</div>
+          <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;font-size:7px;color:var(--text-dim);">◷ Submarket Tracker</div>
+          <div style="flex:1;"></div>
+          <div style="display:flex;align-items:center;gap:4px;padding-top:8px;border-top:1px solid var(--border);">
+            <div style="width:5px;height:5px;background:var(--green);border-radius:50%;animation:livePulse 2s ease-in-out infinite;"></div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:5.5px;color:var(--text-dim);">6 agents active</span>
+          </div>
         </div>
-        <!-- Main content area -->
-        <div style="flex:1;padding:12px;overflow:hidden;">
+        <!-- Main content -->
+        <div style="flex:1;padding:10px;overflow:hidden;background:var(--bg);">
           <!-- Topbar -->
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;color:var(--cream);">Morning Brief</div>
-            <div style="display:flex;gap:6px;align-items:center;">
-              <div style="font-family:'JetBrains Mono',monospace;font-size:6px;color:var(--text-dim);">Mon, Feb 24 · 6:04 AM</div>
-              <div style="background:var(--gold);color:#0A0C0E;font-size:6px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'Syne',sans-serif;">+ Add Intelligence</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border);">
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;color:var(--cream);">Morning Brief</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:5.5px;color:var(--text-dim);">Monday, Feb 24, 2026 · 6:04 AM PST</div>
+            </div>
+            <div style="display:flex;gap:5px;align-items:center;">
+              <div style="display:flex;align-items:center;gap:3px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;padding:2px 6px;"><div style="width:4px;height:4px;background:var(--gold);border-radius:50;animation:livePulse 2s ease-in-out infinite;"></div><span style="font-family:'JetBrains Mono',monospace;font-size:5.5px;color:var(--text-dim);">Agents Running</span></div>
+              <div style="background:var(--gold);color:#0A0C0E;font-size:6px;font-weight:700;padding:3px 7px;border-radius:3px;font-family:'Syne',sans-serif;">+ Add Intelligence</div>
             </div>
           </div>
           <!-- KPI Row -->
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px;">
-            <div class="dp-kpi"><div class="dp-kpi-label">Pipeline</div><div class="dp-kpi-val gold" style="font-size:16px;">$218M</div><div class="dp-kpi-delta">▲ 12.4%</div></div>
-            <div class="dp-kpi"><div class="dp-kpi-label">Deals</div><div class="dp-kpi-val" style="font-size:16px;">14</div><div class="dp-kpi-delta">▲ 3</div></div>
-            <div class="dp-kpi"><div class="dp-kpi-label">LA Vacancy</div><div class="dp-kpi-val" style="font-size:16px;">14.2%</div><div class="dp-kpi-delta red">▼ 0.8%</div></div>
-            <div class="dp-kpi"><div class="dp-kpi-label">Leads (30d)</div><div class="dp-kpi-val" style="font-size:16px;">31</div><div class="dp-kpi-delta">▲ 8</div></div>
-            <div class="dp-kpi"><div class="dp-kpi-label">NNN PSF</div><div class="dp-kpi-val" style="font-size:16px;">$62</div><div class="dp-kpi-delta">▲ $1.20</div></div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:8px;">
+            <div class="dp-kpi" style="padding:7px 8px;"><div class="dp-kpi-label">Pipeline Value</div><div class="dp-kpi-val gold" style="font-size:14px;">$218M</div><div class="dp-kpi-delta">▲ 12.4%</div></div>
+            <div class="dp-kpi" style="padding:7px 8px;"><div class="dp-kpi-label">Active Deals</div><div class="dp-kpi-val" style="font-size:14px;">14</div><div class="dp-kpi-delta">▲ 3</div></div>
+            <div class="dp-kpi" style="padding:7px 8px;"><div class="dp-kpi-label">LA Vacancy</div><div class="dp-kpi-val" style="font-size:14px;">14.2%</div><div class="dp-kpi-delta red">▼ 0.8%</div></div>
+            <div class="dp-kpi" style="padding:7px 8px;"><div class="dp-kpi-label">Leads (30d)</div><div class="dp-kpi-val" style="font-size:14px;">31</div><div class="dp-kpi-delta">▲ 8</div></div>
+            <div class="dp-kpi" style="padding:7px 8px;"><div class="dp-kpi-label">NNN PSF · SF</div><div class="dp-kpi-val" style="font-size:14px;">$62</div><div class="dp-kpi-delta">▲ $1.20</div></div>
+            <div class="dp-kpi" style="padding:7px 8px;"><div class="dp-kpi-label">Unread Alerts</div><div class="dp-kpi-val" style="font-size:14px;">7</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--amber);margin-top:2px;">⬤ 3 high</div></div>
           </div>
-          <!-- Two-column: Heatmap + Agent Feed -->
-          <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:8px;margin-bottom:10px;">
+          <!-- Three-column: Heatmap + Agent Feed + Alerts -->
+          <div style="display:grid;grid-template-columns:1.3fr 1fr 0.9fr;gap:6px;margin-bottom:8px;">
             <!-- Heatmap -->
-            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:8px;">
-              <div class="dp-kpi-label" style="margin-bottom:6px;">Submarket Heatmap</div>
-              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px;">
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.5);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.3);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.5);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.5);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.4);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.6);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.6);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.4);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.3);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.6);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.5);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.4);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.7);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.3);"></div>
-                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.5);"></div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div class="dp-kpi-label" style="margin:0;">Submarket Heatmap — Vacancy %</div>
               </div>
-              <div style="display:flex;justify-content:space-between;margin-top:4px;">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-dim);">Low vacancy</span>
-                <span style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-dim);">High vacancy</span>
+              <!-- Header row -->
+              <div style="display:grid;grid-template-columns:40px repeat(4,1fr);gap:2px;margin-bottom:2px;">
+                <div></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:4.5px;color:var(--text-dim);text-align:center;">Office</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:4.5px;color:var(--text-dim);text-align:center;">Retail</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:4.5px;color:var(--text-dim);text-align:center;">Industrial</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:4.5px;color:var(--text-dim);text-align:center;">Flex</div>
+              </div>
+              <!-- Santa Monica -->
+              <div style="display:grid;grid-template-columns:40px repeat(4,1fr);gap:2px;margin-bottom:2px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-mid);line-height:16px;">Santa Monica</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">8.2%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">4.1%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.6);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">6.7%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(212,136,58,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">12.0%</div>
+              </div>
+              <!-- Culver City -->
+              <div style="display:grid;grid-template-columns:40px repeat(4,1fr);gap:2px;margin-bottom:2px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-mid);line-height:16px;">Culver City</div>
+                <div style="height:16px;border-radius:2px;background:rgba(212,136,58,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">14.5%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.4);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">5.8%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">7.3%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(192,83,58,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">18.1%</div>
+              </div>
+              <!-- Playa Vista -->
+              <div style="display:grid;grid-template-columns:40px repeat(4,1fr);gap:2px;margin-bottom:2px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-mid);line-height:16px;">Playa Vista</div>
+                <div style="height:16px;border-radius:2px;background:rgba(192,83,58,0.6);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">22.4%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">3.2%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(212,136,58,0.4);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">11.0%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(192,83,58,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">19.6%</div>
+              </div>
+              <!-- Century City -->
+              <div style="display:grid;grid-template-columns:40px repeat(4,1fr);gap:2px;margin-bottom:2px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-mid);line-height:16px;">Century City</div>
+                <div style="height:16px;border-radius:2px;background:rgba(212,136,58,0.6);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">16.8%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">6.4%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.4);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">5.9%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.6);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">7.2%</div>
+              </div>
+              <!-- DTLA -->
+              <div style="display:grid;grid-template-columns:40px repeat(4,1fr);gap:2px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-mid);line-height:16px;">DTLA</div>
+                <div style="height:16px;border-radius:2px;background:rgba(192,83,58,0.7);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">26.3%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(212,136,58,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">12.7%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(74,155,111,0.5);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">8.4%</div>
+                <div style="height:16px;border-radius:2px;background:rgba(212,136,58,0.6);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:5px;color:rgba(255,255,255,0.7);">15.3%</div>
               </div>
             </div>
             <!-- Agent Feed -->
-            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:8px;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:8px;">
               <div class="dp-kpi-label" style="margin-bottom:6px;">Live Agent Feed</div>
               <div class="dp-feed">
-                <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(196,158,84,0.15);border:1px solid rgba(196,158,84,0.3);width:14px;height:14px;font-size:6px;">🎯</div><div class="dp-feed-text" style="font-size:8px;"><strong style="font-size:8px;">Lead Agent</strong> — TechCo expansion signal. 40+ LA jobs.</div></div>
-                <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,155,111,0.15);border:1px solid rgba(74,155,111,0.3);width:14px;height:14px;font-size:6px;">📋</div><div class="dp-feed-text" style="font-size:8px;"><strong style="font-size:8px;">LOI Agent</strong> — Non-standard clause flagged. Review.</div></div>
-                <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,127,165,0.15);border:1px solid rgba(74,127,165,0.3);width:14px;height:14px;font-size:6px;">📡</div><div class="dp-feed-text" style="font-size:8px;"><strong style="font-size:8px;">Zoning</strong> — Variance at 1150 S Olive. Mixed-use.</div></div>
+                <div class="dp-feed-item" style="padding:5px 0;"><div class="dp-feed-icon" style="background:rgba(196,158,84,0.15);border:1px solid rgba(196,158,84,0.3);width:14px;height:14px;font-size:6px;">🌐</div><div class="dp-feed-text" style="font-size:7px;"><strong style="font-size:7px;">Market Agent</strong> updated SF Financial District vacancy to 26.3%</div></div>
+                <div class="dp-feed-item" style="padding:5px 0;"><div class="dp-feed-icon" style="background:rgba(74,155,111,0.15);border:1px solid rgba(74,155,111,0.3);width:14px;height:14px;font-size:6px;">🎯</div><div class="dp-feed-text" style="font-size:7px;"><strong style="font-size:7px;">Lead Agent</strong> identified Shopify subletting 18K SF in Santa Monica</div></div>
+                <div class="dp-feed-item" style="padding:5px 0;"><div class="dp-feed-icon" style="background:rgba(74,127,165,0.15);border:1px solid rgba(74,127,165,0.3);width:14px;height:14px;font-size:6px;">📋</div><div class="dp-feed-text" style="font-size:7px;"><strong style="font-size:7px;">LOI Agent</strong> completed Apex Capital clause comparison</div></div>
+                <div class="dp-feed-item" style="padding:5px 0;"><div class="dp-feed-icon" style="background:rgba(212,136,58,0.15);border:1px solid rgba(212,136,58,0.3);width:14px;height:14px;font-size:6px;">📡</div><div class="dp-feed-text" style="font-size:7px;"><strong style="font-size:7px;">Zoning</strong> — Variance filed at 1150 S Olive St</div></div>
+                <div class="dp-feed-item" style="padding:5px 0;border:none;"><div class="dp-feed-icon" style="background:rgba(196,158,84,0.15);border:1px solid rgba(196,158,84,0.3);width:14px;height:14px;font-size:6px;">✉️</div><div class="dp-feed-text" style="font-size:7px;"><strong style="font-size:7px;">Outreach</strong> drafted pitch for Apex Capital expansion</div></div>
+              </div>
+            </div>
+            <!-- Priority Alerts -->
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div class="dp-kpi-label" style="margin-bottom:6px;">Priority Alerts</div>
+              <div class="dp-alert" style="margin-bottom:5px;padding:7px 8px;">
+                <div class="dp-alert-title" style="font-size:7px;">⚡ Snap Inc. vacating 42K SF</div>
+                <div class="dp-alert-sub" style="font-size:6px;">Santa Monica · Q2 expiry</div>
+              </div>
+              <div style="background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:4px;padding:7px 8px;margin-bottom:5px;">
+                <div style="font-size:7px;font-weight:600;color:var(--cream);margin-bottom:1px;">📊 Vacancy spike: Playa Vista</div>
+                <div style="font-size:6px;color:var(--text-dim);">Office +3.2% in 30 days</div>
+              </div>
+              <div style="background:var(--blue-dim);border:1px solid rgba(74,127,165,0.2);border-left:3px solid var(--blue);border-radius:4px;padding:7px 8px;">
+                <div style="font-size:7px;font-weight:600;color:var(--cream);margin-bottom:1px;">🎯 3 new tenant leads</div>
+                <div style="font-size:6px;color:var(--text-dim);">TAMI sector · West LA</div>
               </div>
             </div>
           </div>
-          <!-- Alert bar -->
-          <div class="dp-alert" style="margin-bottom:0;">
-            <div class="dp-alert-title" style="font-size:9px;">⚡ Snap Inc. vacating 42K SF — Santa Monica</div>
-            <div class="dp-alert-sub" style="font-size:7.5px;">Lease expires Q2. 3 TAMI tenants searching. First-mover window: ~6 weeks.</div>
+          <!-- Bottom row: Mini charts + Deal pipeline -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+            <!-- Chart 1 -->
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div class="dp-kpi-label" style="margin-bottom:4px;">Deal Value Trend</div>
+              <svg viewBox="0 0 100 30" style="width:100%;height:28px;">
+                <polyline points="0,25 15,22 30,18 45,20 60,14 75,10 90,8 100,5" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="0,25 15,22 30,18 45,20 60,14 75,10 90,8 100,5" fill="url(#goldGrad)" stroke="none" opacity="0.15"/>
+                <defs><linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C49E54"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+              </svg>
+            </div>
+            <!-- Chart 2 -->
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div class="dp-kpi-label" style="margin-bottom:4px;">Agent-Sourced Leads</div>
+              <div style="display:flex;align-items:flex-end;gap:3px;height:28px;">
+                <div style="flex:1;background:rgba(196,158,84,0.2);border-radius:1px;height:40%;"></div>
+                <div style="flex:1;background:rgba(196,158,84,0.3);border-radius:1px;height:55%;"></div>
+                <div style="flex:1;background:rgba(196,158,84,0.3);border-radius:1px;height:45%;"></div>
+                <div style="flex:1;background:rgba(196,158,84,0.4);border-radius:1px;height:65%;"></div>
+                <div style="flex:1;background:rgba(196,158,84,0.5);border-radius:1px;height:70%;"></div>
+                <div style="flex:1;background:rgba(196,158,84,0.6);border-radius:1px;height:85%;"></div>
+                <div style="flex:1;background:var(--gold);border-radius:1px;height:100%;"></div>
+              </div>
+            </div>
+            <!-- Chart 3 -->
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div class="dp-kpi-label" style="margin-bottom:4px;">Vacancy Rate</div>
+              <svg viewBox="0 0 100 30" style="width:100%;height:28px;">
+                <polyline points="0,8 15,10 30,12 45,14 60,16 75,18 90,20 100,22" fill="none" stroke="#C0533A" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="0,15 15,14 30,13 45,12 60,13 75,11 90,10 100,9" fill="none" stroke="#4A9B6F" stroke-width="1" stroke-linecap="round" stroke-dasharray="2,2"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
