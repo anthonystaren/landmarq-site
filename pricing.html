@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — LandMarq</title>
+<style>
+/* Fonts loaded via <link> in each page head — fallbacks below */
+
+:root {
+  --bg: #0A0C0E;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E242C;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.3);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --gold-pale: rgba(196,158,84,0.06);
+  --cream: #F0EAD6;
+  --text: #C8C0AD;
+  --text-dim: #5C564E;
+  --text-mid: #8A8070;
+  --green: #4A9B6F;
+  --green-dim: rgba(74,155,111,0.15);
+  --red: #C0533A;
+  --red-dim: rgba(192,83,58,0.15);
+  --blue: #4A7FA5;
+  --blue-dim: rgba(74,127,165,0.15);
+  --amber: #D4883A;
+  --radius: 6px;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', 'DM Sans', 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; padding: 0 48px;
+  justify-content: space-between;
+  background: rgba(10,12,14,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-logo .lm-marq { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none; align-items: center;
+}
+
+.nav-links a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid); text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--bg) !important;
+  padding: 9px 22px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-bright) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(196,158,84,0.25) !important; }
+
+/* ── FOOTER ── */
+.footer {
+  background: #070809;
+  border-top: 1px solid var(--border);
+  padding: 64px 72px 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {}
+.footer-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 24px; font-weight: 600; color: var(--cream);
+  margin-bottom: 12px;
+  display: block;
+  text-decoration: none;
+}
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 260px; }
+
+.footer-col-title {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--cream); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em;
+}
+
+.footer-badge {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 6px;
+}
+.footer-badge::before {
+  content: '';
+  width: 6px; height: 6px; background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74,155,111,0.5);
+}
+
+/* ── SHARED COMPONENTS ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600; line-height: 1.1;
+  color: var(--cream); letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+.section-sub {
+  font-size: 16px; color: var(--text-mid);
+  line-height: 1.7; font-weight: 400;
+  max-width: 540px;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--bg);
+  padding: 14px 32px; border-radius: 4px;
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,158,84,0.25); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--cream);
+  padding: 13px 32px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-mid); font-size: 13px; font-weight: 500;
+  text-decoration: none; border-bottom: 1px solid transparent;
+  transition: all 0.2s; padding-bottom: 1px;
+}
+.btn-ghost:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── ANIMATE IN ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── PAGE WRAPPER ── */
+.page { padding-top: var(--nav-h); min-height: 100vh; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border-gold); }
+
+/* ── SECTION SPACING ── */
+.section { padding: 100px 72px; }
+.section-sm { padding: 60px 72px; }
+.section-center { text-align: center; }
+.section-center .section-sub { margin: 0 auto; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+</style>
+<style>
+.pricing-hero { padding: 120px 72px 72px; text-align: center; }
+.pricing-toggle { display: inline-flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 4px; gap: 4px; margin-bottom: 56px; }
+.toggle-btn { padding: 8px 22px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; color: var(--text-dim); border: none; background: none; transition: all 0.2s; }
+.toggle-btn.active { background: var(--gold); color: var(--bg); font-weight: 600; }
+.save-badge { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,155,111,0.3); border-radius: 20px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 8px; }
+
+.pricing-cards { display: grid; grid-template-columns: 1fr 1.08fr 1fr; gap: 20px; max-width: 980px; margin: 0 auto 80px; }
+.pc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 40px 32px; position: relative; transition: all 0.2s; }
+.pc:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
+.pc.featured { background: var(--surface-2); border-color: var(--gold); box-shadow: 0 0 0 1px rgba(196,158,84,0.15), 0 24px 60px rgba(0,0,0,0.2); }
+.pc-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--bg); font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; padding: 4px 16px; border-radius: 20px; text-transform: uppercase; font-weight: 700; white-space: nowrap; }
+.pc-tier { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.pc-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--cream); margin-bottom: 20px; }
+.pc-price { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; color: var(--cream); line-height: 1; }
+.pc-price sup { font-size: 24px; vertical-align: super; }
+.pc-period { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--text-dim); margin-top: 6px; margin-bottom: 28px; text-transform: uppercase; }
+.pc-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+.pc-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.pc-feature { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text); line-height: 1.45; }
+.pc-feature-check { color: var(--green); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+.pc-feature-x { color: var(--text-dim); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+.pc-feature.dim { color: var(--text-dim); }
+.pc-btn { display: block; width: 100%; text-align: center; padding: 13px; border-radius: 5px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
+.pc-btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--cream); }
+.pc-btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.pc-btn-gold { background: var(--gold); color: var(--bg); }
+.pc-btn-gold:hover { background: var(--gold-bright); box-shadow: 0 6px 20px rgba(196,158,84,0.3); }
+
+.compare-section { padding: 60px 72px; }
+.compare-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--cream); margin-bottom: 36px; }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--border); }
+.compare-table th:not(:first-child) { text-align: center; }
+.compare-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text); }
+.compare-table td:not(:first-child) { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.compare-table tr:hover td { background: rgba(255,255,255,0.015); }
+.compare-table .section-row td { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-pale); padding: 8px 16px; }
+.check-y { color: var(--green); font-size: 14px; }
+.check-n { color: var(--text-dim); font-size: 14px; }
+.check-val { color: var(--cream); }
+.featured-col { background: var(--gold-pale); border-left: 1px solid var(--border-gold); border-right: 1px solid var(--border-gold); }
+
+.faq-section { padding: 80px 72px; background: var(--surface); }
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+.faq-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 24px 26px; transition: border-color 0.2s; }
+.faq-item:hover { border-color: var(--border-gold); }
+.faq-q { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--cream); margin-bottom: 10px; line-height: 1.3; }
+.faq-a { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+
+.enterprise-cta { padding: 80px 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.enterprise-right { background: var(--surface); border: 1px solid var(--border-gold); border-radius: 10px; padding: 36px 32px; }
+.enterprise-field { margin-bottom: 16px; }
+.enterprise-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; display: block; }
+.enterprise-input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 10px 14px; color: var(--cream); font-family: 'Syne', sans-serif; font-size: 13px; outline: none; transition: border-color 0.2s; }
+.enterprise-input:focus { border-color: var(--gold); }
+.enterprise-input::placeholder { color: var(--text-dim); }
+
+@media (max-width: 900px) {
+  .pricing-hero { padding: 100px 24px 48px; }
+  .pricing-cards { grid-template-columns: 1fr; max-width: 420px; }
+  .compare-section, .faq-section, .enterprise-cta { padding: 60px 24px; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .enterprise-cta { grid-template-columns: 1fr; }
+}
+</style>
+<style>
+nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
+.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
+.nav-links li { list-style:none!important; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
+  <ul class="nav-links">
+    <li><a href="agents.html">Agents</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#cases">Use Cases</a></li>
+    <li><a href="pricing.html" class="active">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <section class="pricing-hero">
+    <div class="eyebrow" style="justify-content:center;">Simple Pricing</div>
+    <h1 class="section-title">Invest in intelligence,<br>not headcount.</h1>
+    <p class="section-sub" style="margin:0 auto 32px;">All plans include a 14-day free trial. No credit card required. Cancel anytime.</p>
+    <div class="pricing-toggle">
+      <button class="toggle-btn active" onclick="setBilling('monthly',this)">Monthly</button>
+      <button class="toggle-btn" onclick="setBilling('annual',this)">Annual <span class="save-badge">Save 20%</span></button>
+    </div>
+
+    <div class="pricing-cards">
+      <div class="pc reveal">
+        <div class="pc-tier">Broker</div>
+        <div class="pc-name">Solo</div>
+        <div class="pc-price"><sup>$</sup><span class="price-monthly">199</span><span class="price-annual" style="display:none">159</span></div>
+        <div class="pc-period">per month · billed <span class="billing-label">monthly</span></div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> 3 AI Agents of your choice</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> 2 focus submarkets</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Daily morning brief</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Email + Slack delivery</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Basic lead scoring</li>
+          <li class="pc-feature dim"><span class="pc-feature-x">–</span> CRM integrations</li>
+          <li class="pc-feature dim"><span class="pc-feature-x">–</span> Team dashboard</li>
+          <li class="pc-feature dim"><span class="pc-feature-x">–</span> Custom document templates</li>
+        </ul>
+        <a href="dashboard.html" class="pc-btn pc-btn-outline">Start Free Trial</a>
+      </div>
+
+      <div class="pc featured reveal reveal-delay-1">
+        <div class="pc-badge">Most Popular</div>
+        <div class="pc-tier">Team</div>
+        <div class="pc-name">Pro</div>
+        <div class="pc-price"><sup>$</sup><span class="price-monthly">449</span><span class="price-annual" style="display:none">359</span></div>
+        <div class="pc-period">per seat · min 3 seats · billed <span class="billing-label">monthly</span></div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> All 6 AI Agents</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Unlimited submarkets</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Hourly intelligence updates</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> CRM integrations (SF, HubSpot)</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Shared team dashboard</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Custom document templates</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> LOI review + NDA drafting</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Priority support</li>
+        </ul>
+        <a href="dashboard.html" class="pc-btn pc-btn-gold">Start Free Trial</a>
+      </div>
+
+      <div class="pc reveal reveal-delay-2">
+        <div class="pc-tier">Firm</div>
+        <div class="pc-name">Enterprise</div>
+        <div class="pc-price" style="font-size:38px;line-height:1.2;padding-top:8px;">Custom</div>
+        <div class="pc-period">Tailored to your firm's needs</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Everything in Pro</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> White-label option</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Custom API integrations</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Dedicated success manager</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> Custom agent development</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> SLA guarantees</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> On-site onboarding</li>
+          <li class="pc-feature"><span class="pc-feature-check">✓</span> SSO & advanced security</li>
+        </ul>
+        <a href="#enterprise" class="pc-btn pc-btn-outline">Schedule Demo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="compare-section">
+    <div class="compare-title">Full Feature Comparison</div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:40%">Feature</th>
+          <th style="width:20%">Solo</th>
+          <th class="featured-col" style="width:20%">Pro</th>
+          <th style="width:20%">Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-row"><td colspan="4">AI Agents</td></tr>
+        <tr><td>Market Intelligence Agent</td><td><span class="check-y">✓</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Tenant Lead Engine</td><td><span class="check-y">✓</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>LOI Review Agent</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Outreach Personalization Agent</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Portfolio Strategist</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Zoning & Permit Monitor</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr class="section-row"><td colspan="4">Coverage</td></tr>
+        <tr><td>Focus submarkets</td><td><span class="check-val">2</span></td><td class="featured-col"><span class="check-val">Unlimited</span></td><td><span class="check-val">Unlimited</span></td></tr>
+        <tr><td>Intelligence update frequency</td><td><span class="check-val">Daily</span></td><td class="featured-col"><span class="check-val">Hourly</span></td><td><span class="check-val">Realtime</span></td></tr>
+        <tr><td>Natural language intelligence requests</td><td><span class="check-val">5/mo</span></td><td class="featured-col"><span class="check-val">Unlimited</span></td><td><span class="check-val">Unlimited</span></td></tr>
+        <tr class="section-row"><td colspan="4">Delivery & Integrations</td></tr>
+        <tr><td>Morning brief (email)</td><td><span class="check-y">✓</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Slack integration</td><td><span class="check-y">✓</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Salesforce / HubSpot CRM</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Custom API access</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-n">–</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr class="section-row"><td colspan="4">Team & Admin</td></tr>
+        <tr><td>Shared team dashboard</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Custom document templates</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-y">✓</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>White-label</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-n">–</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>SSO / SAML</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-n">–</span></td><td><span class="check-y">✓</span></td></tr>
+        <tr><td>Dedicated success manager</td><td><span class="check-n">–</span></td><td class="featured-col"><span class="check-n">–</span></td><td><span class="check-y">✓</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="section-title">Common questions.</h2>
+    <div class="faq-grid">
+      <div class="faq-item reveal"><div class="faq-q">How quickly can I get started?</div><div class="faq-a">Most users are fully configured and live within 10 minutes. The onboarding flow walks you through selecting your markets, activating agents, and setting your first intelligence watches.</div></div>
+      <div class="faq-item reveal reveal-delay-1"><div class="faq-q">Does LandMarq integrate with our existing tools?</div><div class="faq-a">Pro and Enterprise plans include native integrations with Salesforce, HubSpot, Slack, and email. Enterprise clients can connect to proprietary systems via our API.</div></div>
+      <div class="faq-item reveal reveal-delay-2"><div class="faq-q">What data sources do the agents use?</div><div class="faq-a">Agents pull from CoStar, Kastle Systems, public permit portals, corporate filing databases, job posting APIs, news feeds, and macro economic data sources. Enterprise clients can connect proprietary data.</div></div>
+      <div class="faq-item reveal reveal-delay-3"><div class="faq-q">Is my firm's data kept confidential?</div><div class="faq-a">Yes. Your data is never used to train our models or shared with other clients. All data is encrypted at rest and in transit. Enterprise plans include dedicated infrastructure options.</div></div>
+      <div class="faq-item reveal"><div class="faq-q">Can we build a white-label version for our firm?</div><div class="faq-a">Enterprise plans include full white-label capability — your brand, your domain, your client experience. Contact us to discuss custom development of firm-specific agents.</div></div>
+      <div class="faq-item reveal reveal-delay-1"><div class="faq-q">What happens after the 14-day trial?</div><div class="faq-a">You'll be prompted to select a plan. Your settings, watches, and intelligence history are preserved. If you don't upgrade, access is paused — your data is retained for 30 days.</div></div>
+    </div>
+  </section>
+
+  <!-- ENTERPRISE CTA -->
+  <section class="enterprise-cta" id="enterprise">
+    <div>
+      <div class="eyebrow">Enterprise</div>
+      <h2 class="section-title">Built for the<br>largest <em>firms.</em></h2>
+      <p class="section-sub">We work with brokerage leadership teams to design a deployment that fits your firm's workflow, data environment, and brand standards. Custom pricing, custom agents, white-label options.</p>
+      <br>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--text);">✓ <span>Dedicated implementation manager</span></div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--text);">✓ <span>Custom agent development for your workflows</span></div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--text);">✓ <span>On-site onboarding for your team</span></div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--text);">✓ <span>White-label under your firm's brand</span></div>
+      </div>
+    </div>
+    <div class="enterprise-right">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream);margin-bottom:6px;">Schedule a Demo</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;">We'll respond within one business day</div>
+      <div class="enterprise-field"><label class="enterprise-label">Your Name</label><input class="enterprise-input" type="text" placeholder="Mark Sullivan" /></div>
+      <div class="enterprise-field"><label class="enterprise-label">Firm</label><input class="enterprise-input" type="text" placeholder="Savills North America" /></div>
+      <div class="enterprise-field"><label class="enterprise-label">Work Email</label><input class="enterprise-input" type="email" placeholder="mark@savills.com" /></div>
+      <div class="enterprise-field"><label class="enterprise-label">Team Size</label><input class="enterprise-input" type="text" placeholder="e.g. 50 brokers across 4 offices" /></div>
+      <button class="btn-primary" style="width:100%;justify-content:center;margin-top:4px;" onclick="submitDemo()">Request Enterprise Demo →</button>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives.</p></div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function setBilling(type, btn) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const monthly = type === 'monthly';
+  document.querySelectorAll('.price-monthly').forEach(el => el.style.display = monthly ? 'inline' : 'none');
+  document.querySelectorAll('.price-annual').forEach(el => el.style.display = monthly ? 'none' : 'inline');
+  document.querySelectorAll('.billing-label').forEach(el => el.textContent = monthly ? 'monthly' : 'annually');
+}
+
+function submitDemo() {
+  const btn = event.target;
+  btn.textContent = '✓ Request received — we\'ll be in touch';
+  btn.style.background = 'var(--green)';
+}
+</script>
+</body>
+</html>

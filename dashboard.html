@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LandMarq — Executive Intelligence Dashboard</title>
+<style>
+:root {
+  --bg: #0B0D0F;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E232B;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.25);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --cream: #F0EAD6;
+  --text: #D4CCBA;
+  --text-dim: #6B6558;
+  --text-mid: #9B9080;
+  --green: #4A9B6F;
+  --green-dim: rgba(74,155,111,0.15);
+  --red: #C0533A;
+  --red-dim: rgba(192,83,58,0.15);
+  --blue: #4A7FA5;
+  --blue-dim: rgba(74,127,165,0.15);
+  --amber: #D4883A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+/* Auth gate: hide everything until verified */
+body:not(.auth-ready) > *:not(script) { opacity: 0; }
+body.auth-ready > * { transition: opacity 0.3s ease; opacity: 1; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── ONBOARDING OVERLAY ─── */
+#onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11,13,15,0.92);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.4s;
+}
+
+#onboarding-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.onboarding-modal {
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  width: 620px;
+  max-width: 95vw;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(196,158,84,0.1);
+  animation: modalIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ob-header {
+  padding: 28px 32px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.ob-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.04em;
+}
+
+.ob-logo span { color: var(--gold); }
+
+.ob-step-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.ob-progress {
+  height: 2px;
+  background: var(--surface-3);
+  margin: 20px 32px 0;
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.ob-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+  border-radius: 1px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.ob-body {
+  padding: 28px 32px;
+  min-height: 260px;
+}
+
+.ob-step { display: none; }
+.ob-step.active { display: block; animation: stepIn 0.3s ease-out; }
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.ob-step-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.ob-step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.ob-step-title em { font-style: italic; color: var(--gold); }
+
+.ob-step-desc {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.ob-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ob-feature {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  transition: border-color 0.2s;
+}
+
+.ob-feature:hover { border-color: var(--border-gold); }
+
+.ob-feature-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+.ob-feature-text { font-size: 12px; color: var(--text); line-height: 1.4; }
+.ob-feature-text strong { color: var(--cream); display: block; margin-bottom: 2px; font-size: 12px; }
+
+/* Onboarding interactive steps */
+.ob-input-group { margin-bottom: 12px; }
+.ob-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.ob-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 10px 14px;
+  color: var(--cream);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ob-input:focus { border-color: var(--gold); }
+
+.ob-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ob-chip {
+  padding: 7px 14px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-dim);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.ob-chip:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+.ob-chip.selected { background: var(--gold-dim); color: var(--gold); border-color: var(--border-gold); }
+
+.ob-agent-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ob-agent-toggle {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.15s;
+}
+
+.ob-agent-toggle.on { border-color: var(--border-gold); background: var(--gold-dim); }
+
+.ob-agent-toggle .toggle-icon { font-size: 16px; }
+
+.ob-agent-toggle .toggle-info {}
+.ob-agent-toggle .toggle-name { font-size: 11px; color: var(--cream); font-weight: 600; }
+.ob-agent-toggle .toggle-desc { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
+
+.ob-agent-toggle .toggle-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.ob-agent-toggle.on .toggle-dot { background: var(--green); border-color: var(--green); box-shadow: 0 0 6px rgba(74,155,111,0.5); }
+
+.ob-footer {
+  padding: 20px 32px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+}
+
+.ob-btn-skip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.15s;
+  background: none;
+  border: none;
+}
+
+.ob-btn-skip:hover { color: var(--text); }
+
+.ob-btn-next {
+  background: var(--gold);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 28px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.ob-btn-next:hover { background: var(--gold-bright); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(196,158,84,0.25); }
+
+/* Spotlight highlight for tour steps */
+.spotlight-ring {
+  position: fixed;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: 0 0 0 4000px rgba(11,13,15,0.7), 0 0 30px rgba(196,158,84,0.3);
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  z-index: 990;
+  pointer-events: none;
+  display: none;
+}
+
+.spotlight-ring.visible { display: block; }
+
+.spotlight-tooltip {
+  position: fixed;
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 16px 20px;
+  width: 280px;
+  z-index: 995;
+  display: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: tooltipIn 0.3s ease-out;
+}
+
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spotlight-tooltip.visible { display: block; }
+
+.tooltip-step { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+.tooltip-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--cream); margin-bottom: 6px; }
+.tooltip-desc { font-size: 12px; color: var(--text-mid); line-height: 1.55; }
+.tooltip-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.tooltip-nav-btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-gold);
+  background: var(--gold-dim); color: var(--gold); transition: all 0.15s;
+}
+.tooltip-nav-btn:hover { background: rgba(196,158,84,0.25); }
+.tooltip-close { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-dim); cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; }
+.tooltip-close:hover { color: var(--text); }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  padding: 22px 22px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.logo-wordmark .lm-land { color: var(--cream); }
+.logo-wordmark .lm-marq { color: var(--gold); }
+
+.logo-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.user-card {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #8B6A2E);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; font-weight: 600; color: var(--bg); flex-shrink: 0;
+}
+
+.user-name { font-size: 12px; font-weight: 600; color: var(--cream); line-height: 1.2; }
+.user-title { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 2px; }
+
+.nav-section { padding: 14px 0 6px; }
+.nav-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); padding: 0 22px 8px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 22px; cursor: pointer; transition: all 0.15s;
+  border-left: 2px solid transparent; font-size: 12px; font-weight: 500; color: var(--text-dim);
+}
+
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+.nav-icon { width: 15px; text-align: center; font-size: 11px; }
+
+.nav-badge {
+  margin-left: auto; background: var(--red); color: white;
+  font-family: 'JetBrains Mono', monospace; font-size: 8px;
+  padding: 2px 6px; border-radius: 10px;
+}
+.nav-badge.green { background: var(--green); }
+.nav-badge.gold { background: var(--gold); color: var(--bg); }
+
+.sidebar-footer {
+  margin-top: auto; padding: 14px 22px; border-top: 1px solid var(--border);
+}
+
+.pulse-dot {
+  width: 7px; height: 7px; background: var(--green); border-radius: 50%;
+  animation: pulseDot 2.5s ease-in-out infinite; flex-shrink: 0;
+}
+@keyframes pulseDot {
+  0%,100% { box-shadow: 0 0 0 0 rgba(74,155,111,0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(74,155,111,0); }
+}
+
+.status-indicator { display: flex; align-items: center; gap: 8px; }
+.status-text { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.08em; }
+
+/* ─── MAIN ─── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+.topbar {
+  height: 54px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+  flex-shrink: 0; background: var(--surface);
+}
+
+.topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; }
+.topbar-date { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+.topbar-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--gold-dim); border: 1px solid var(--border-gold);
+  border-radius: 3px; padding: 5px 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--gold);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* ── ADD INTELLIGENCE BUTTON ── */
+.add-intel-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--gold); color: var(--bg);
+  border: none; border-radius: 4px; padding: 7px 16px;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.add-intel-btn:hover { background: var(--gold-bright); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,158,84,0.25); }
+
+.icon-btn {
+  width: 32px; height: 32px; border-radius: 4px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 13px; color: var(--text-dim); transition: all 0.15s;
+}
+.icon-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+/* ─── CONTENT ─── */
+.content {
+  flex: 1; overflow-y: auto; padding: 18px 20px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 310px;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 12px; align-content: start;
+}
+
+.content::-webkit-scrollbar { width: 3px; }
+.content::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 2px; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden; transition: border-color 0.2s;
+}
+.card:hover { border-color: rgba(255,255,255,0.11); }
+
+.card-header {
+  padding: 13px 16px 0;
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+
+.card-title {
+  font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim);
+  display: flex; align-items: center; gap: 7px;
+}
+.card-title::before { content: ''; width: 3px; height: 3px; background: var(--gold); border-radius: 50%; }
+
+.card-action { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; color: var(--text-dim); cursor: pointer; transition: color 0.15s; text-transform: uppercase; }
+.card-action:hover { color: var(--gold); }
+
+/* ─── KPI ROW ─── */
+.kpi-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; }
+
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 14px 16px; position: relative; overflow: hidden; cursor: default; transition: all 0.2s;
+}
+
+.kpi-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+}
+.kpi-card:hover::after { transform: scaleX(1); }
+.kpi-card:hover { border-color: var(--border-gold); }
+
+.kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+.kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--cream); line-height: 1; letter-spacing: -0.01em; }
+.kpi-value.gold { color: var(--gold); }
+.kpi-delta { display: flex; align-items: center; gap: 4px; margin-top: 5px; font-family: 'JetBrains Mono', monospace; font-size: 8.5px; }
+.delta-up { color: var(--green); }
+.delta-down { color: var(--red); }
+.delta-neutral { color: var(--text-dim); }
+.kpi-sub { font-size: 9px; color: var(--text-dim); margin-left: 3px; }
+
+/* ─── HEATMAP ─── */
+.heatmap-card { grid-column: 1 / 3; }
+.heatmap-body { padding: 0 16px 14px; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; }
+.heatmap-cell { border-radius: 4px; padding: 9px 7px; cursor: pointer; transition: all 0.2s; }
+.heatmap-cell:hover { filter: brightness(1.25); transform: scale(1.05); z-index: 1; position: relative; }
+.heat-market { font-size: 8.5px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 2px; line-height: 1.2; }
+.heat-val { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.7); }
+
+/* ─── AGENT FEED ─── */
+.agents-card { grid-column: 3 / 4; }
+.agent-stream { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 1px; max-height: 230px; overflow-y: auto; }
+.agent-stream::-webkit-scrollbar { width: 2px; }
+.agent-stream::-webkit-scrollbar-thumb { background: var(--border); }
+
+.stream-item { display: flex; gap: 9px; padding: 8px 0; border-bottom: 1px solid var(--border); animation: streamIn 0.4s ease-out; }
+@keyframes streamIn { from { opacity:0; transform:translateX(-8px); } to { opacity:1; transform:translateX(0); } }
+
+.stream-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; margin-top: 1px; }
+.icon-intel { background: var(--blue-dim); border: 1px solid rgba(74,127,165,0.3); }
+.icon-lead { background: var(--gold-dim); border: 1px solid var(--border-gold); }
+.icon-doc { background: var(--green-dim); border: 1px solid rgba(74,155,111,0.3); }
+.icon-alert { background: var(--red-dim); border: 1px solid rgba(192,83,58,0.3); }
+
+.stream-text { font-size: 11px; color: var(--text); line-height: 1.4; font-weight: 400; }
+.stream-text strong { color: var(--cream); font-weight: 600; }
+.stream-meta { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; color: var(--text-dim); margin-top: 2px; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
+.stream-tag { padding: 1px 5px; border-radius: 2px; font-size: 7px; letter-spacing: 0.08em; text-transform: uppercase; }
+.tag-intel { background: var(--blue-dim); color: var(--blue); }
+.tag-lead { background: var(--gold-dim); color: var(--gold); }
+.tag-doc { background: var(--green-dim); color: var(--green); }
+.tag-alert { background: var(--red-dim); color: var(--red); }
+
+.typing-dot { display: inline-block; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; animation: typeDot 1.4s ease-in-out infinite; margin: 0 1px; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typeDot { 0%,60%,100% { transform:translateY(0);opacity:0.3; } 30% { transform:translateY(-4px);opacity:1; } }
+
+/* ─── ALERTS (right column) ─── */
+.alerts-card { grid-column: 4/5; grid-row: 2/5; }
+.alerts-body { padding: 0 13px 14px; display: flex; flex-direction: column; gap: 7px; max-height: 660px; overflow-y: auto; }
+.alerts-body::-webkit-scrollbar { width: 2px; }
+.alerts-body::-webkit-scrollbar-thumb { background: var(--border); }
+
+.alert-item { border-radius: 5px; padding: 11px 12px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+.alert-item:hover { filter: brightness(1.1); }
+.alert-high { background: var(--red-dim); border-color: rgba(192,83,58,0.2); border-left: 3px solid var(--red); }
+.alert-med { background: rgba(212,136,58,0.08); border-color: rgba(212,136,58,0.2); border-left: 3px solid var(--amber); }
+.alert-low { background: var(--blue-dim); border-color: rgba(74,127,165,0.2); border-left: 3px solid var(--blue); }
+
+.alert-priority { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+.alert-high .alert-priority { color: var(--red); }
+.alert-med .alert-priority { color: var(--amber); }
+.alert-low .alert-priority { color: var(--blue); }
+.alert-title { font-size: 11px; font-weight: 600; color: var(--cream); line-height: 1.3; margin-bottom: 3px; }
+.alert-body { font-size: 9.5px; color: var(--text-dim); line-height: 1.5; }
+.alert-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+.alert-agent { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--text-dim); }
+.alert-time { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--text-dim); }
+.alert-action-btn {
+  display: block; width: 100%; text-align: center; margin-top: 5px; padding: 5px;
+  border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 8px;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  border: 1px solid rgba(196,158,84,0.3); color: var(--gold); background: var(--gold-dim);
+  transition: all 0.15s;
+}
+.alert-action-btn:hover { background: rgba(196,158,84,0.22); }
+
+/* ─── SPARKLINES ─── */
+.sparkline-row { grid-column: 1/4; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.spark-body { padding: 0 16px 14px; }
+.spark-stat { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.spark-big { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--cream); line-height: 1; }
+.spark-delta { font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+.spark-main { display: flex; align-items: flex-end; gap: 2px; height: 46px; }
+.spark-bar { flex: 1; border-radius: 2px 2px 0 0; transition: all 0.3s; cursor: pointer; }
+.spark-bar:hover { filter: brightness(1.4); }
+.spark-bar.gold-bar { background: var(--gold-dim); border: 1px solid rgba(196,158,84,0.2); }
+.spark-bar.gold-bar.current { background: var(--gold); }
+.spark-bar.green-bar { background: var(--green-dim); border: 1px solid rgba(74,155,111,0.2); }
+.spark-bar.green-bar.current { background: var(--green); }
+.spark-bar.blue-bar { background: var(--blue-dim); border: 1px solid rgba(74,127,165,0.2); }
+.spark-bar.blue-bar.current { background: var(--blue); }
+.spark-labels { display: flex; justify-content: space-between; margin-top: 5px; }
+.spark-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--text-dim); }
+
+/* ─── PIPELINE ─── */
+.pipeline-card { grid-column: 1/4; }
+.pipeline-body { padding: 0 16px 14px; }
+.pipeline-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.pipeline-table th { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 0 8px 8px 0; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.pipeline-table td { padding: 10px 8px 10px 0; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+.pipeline-table tr:last-child td { border-bottom: none; }
+.pipeline-table tr:hover td { color: var(--cream); background: rgba(255,255,255,0.015); }
+.tenant-name { font-weight: 600; color: var(--cream); font-size: 11.5px; }
+.tenant-sub { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; color: var(--text-dim); margin-top: 2px; }
+.size-val { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
+.value-cell { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--cream); }
+.market-tag { font-family: 'JetBrains Mono', monospace; font-size: 8px; padding: 2px 7px; background: var(--surface-3); border-radius: 2px; color: var(--text-dim); white-space: nowrap; }
+.stage-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.stage-prospect { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(74,127,165,0.2); }
+.stage-qualify { background: rgba(212,136,58,0.1); color: var(--amber); border: 1px solid rgba(212,136,58,0.2); }
+.stage-proposal { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--border-gold); }
+.stage-loi { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,155,111,0.2); }
+.prob-bar-wrap { display: flex; align-items: center; gap: 7px; }
+.prob-bar-bg { flex: 1; height: 3px; background: var(--surface-3); border-radius: 2px; overflow: hidden; min-width: 40px; }
+.prob-bar-fill { height: 100%; border-radius: 2px; background: var(--gold); }
+.prob-bar-fill.green { background: var(--green); }
+.prob-bar-fill.blue { background: var(--blue); }
+.prob-bar-fill.amber { background: var(--amber); }
+.prob-val { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: var(--text-mid); white-space: nowrap; }
+.action-dots { display: flex; gap: 3px; cursor: pointer; padding: 4px; }
+.action-dots span { width: 3px; height: 3px; background: var(--text-dim); border-radius: 50%; }
+
+/* ─── ADD INTELLIGENCE PANEL ─── */
+#intel-panel {
+  position: fixed; right: 0; top: 0; bottom: 0; width: 440px;
+  background: var(--surface); border-left: 1px solid var(--border-gold);
+  z-index: 500; transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+  box-shadow: -20px 0 60px rgba(0,0,0,0.4);
+}
+
+#intel-panel.open { transform: translateX(0); }
+
+.panel-header {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.panel-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--cream); }
+.panel-sub { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; }
+.panel-close { width: 28px; height: 28px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; color: var(--text-dim); transition: all 0.15s; }
+.panel-close:hover { color: var(--cream); border-color: rgba(255,255,255,0.15); }
+
+.panel-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.panel-body::-webkit-scrollbar { width: 3px; }
+.panel-body::-webkit-scrollbar-thumb { background: var(--surface-3); }
+
+.panel-section { margin-bottom: 24px; }
+.panel-section-title { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.panel-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Category selector */
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cat-btn {
+  padding: 12px 14px; border-radius: 5px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface-2);
+  text-align: left; transition: all 0.15s; display: flex; align-items: center; gap: 10px;
+}
+.cat-btn:hover { border-color: rgba(255,255,255,0.15); }
+.cat-btn.active { border-color: var(--border-gold); background: var(--gold-dim); }
+.cat-btn-icon { font-size: 18px; flex-shrink: 0; }
+.cat-btn-info {}
+.cat-btn-name { font-size: 11px; font-weight: 600; color: var(--cream); }
+.cat-btn-desc { font-size: 9.5px; color: var(--text-dim); margin-top: 1px; }
+
+/* NLP input */
+.nlp-input-wrap { position: relative; }
+.nlp-input {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 12px 46px 12px 14px; color: var(--cream);
+  font-family: 'Syne', sans-serif; font-size: 13px; outline: none;
+  transition: border-color 0.2s; resize: none; height: 80px; line-height: 1.5;
+}
+.nlp-input:focus { border-color: var(--gold); }
+.nlp-input::placeholder { color: var(--text-dim); font-size: 12px; }
+.nlp-send-btn {
+  position: absolute; right: 10px; bottom: 10px; width: 28px; height: 28px;
+  background: var(--gold); border-radius: 3px; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; transition: all 0.15s; color: var(--bg);
+}
+.nlp-send-btn:hover { background: var(--gold-bright); }
+
+.nlp-suggestions { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+.nlp-suggestion {
+  padding: 8px 12px; border-radius: 4px; cursor: pointer;
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-size: 11.5px; color: var(--text-mid); transition: all 0.15s; line-height: 1.4;
+}
+.nlp-suggestion:hover { color: var(--cream); border-color: var(--border-gold); background: var(--gold-dim); }
+.nlp-suggestion::before { content: '"'; color: var(--gold); margin-right: 2px; }
+.nlp-suggestion::after { content: '"'; color: var(--gold); margin-left: 2px; }
+
+/* Active watches */
+.watch-list { display: flex; flex-direction: column; gap: 7px; }
+.watch-item {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 5px;
+  padding: 10px 13px; display: flex; align-items: flex-start; gap: 10px; transition: all 0.2s;
+}
+.watch-item:hover { border-color: rgba(255,255,255,0.12); }
+.watch-item-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+.watch-item-info { flex: 1; }
+.watch-item-title { font-size: 11.5px; font-weight: 600; color: var(--cream); margin-bottom: 2px; }
+.watch-item-meta { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-dim); letter-spacing: 0.04em; }
+.watch-item-freq {
+  font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.08em;
+  padding: 2px 7px; border-radius: 2px; background: var(--gold-dim); color: var(--gold);
+  border: 1px solid var(--border-gold); white-space: nowrap; margin-top: 4px; display: inline-block;
+}
+.watch-remove { width: 20px; height: 20px; border-radius: 3px; background: none; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; color: var(--text-dim); transition: all 0.15s; flex-shrink: 0; }
+.watch-remove:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+
+/* area/zip input */
+.panel-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.panel-input {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px;
+  padding: 9px 12px; color: var(--cream); font-family: 'Syne', sans-serif; font-size: 12px; outline: none; transition: border-color 0.2s;
+}
+.panel-input:focus { border-color: var(--gold); }
+.panel-input::placeholder { color: var(--text-dim); font-size: 11px; }
+.panel-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px; display: block; }
+
+.panel-add-btn {
+  width: 100%; padding: 11px; background: var(--gold); color: var(--bg);
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+  border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s; margin-top: 4px;
+}
+.panel-add-btn:hover { background: var(--gold-bright); }
+
+/* Frequency selector */
+.freq-row { display: flex; gap: 6px; }
+.freq-btn {
+  flex: 1; padding: 7px 5px; border-radius: 4px; cursor: pointer; text-align: center;
+  border: 1px solid var(--border); background: var(--surface-2);
+  font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-dim); transition: all 0.15s;
+}
+.freq-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+.freq-btn.active { border-color: var(--border-gold); background: var(--gold-dim); color: var(--gold); }
+
+/* Success toast */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 900;
+  background: var(--surface); border: 1px solid var(--green);
+  border-radius: 6px; padding: 13px 18px; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon { font-size: 16px; }
+.toast-text { font-size: 12px; color: var(--cream); }
+.toast-text strong { color: var(--green); }
+
+/* Animations */
+@keyframes fadeSlideUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+.card, .kpi-card { animation: fadeSlideUp 0.5s ease-out both; }
+.kpi-card:nth-child(1) { animation-delay: 0.05s; }
+.kpi-card:nth-child(2) { animation-delay: 0.10s; }
+.kpi-card:nth-child(3) { animation-delay: 0.15s; }
+.kpi-card:nth-child(4) { animation-delay: 0.20s; }
+.kpi-card:nth-child(5) { animation-delay: 0.25s; }
+.kpi-card:nth-child(6) { animation-delay: 0.30s; }
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 2px; }
+</style>
+<style>
+nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
+.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
+.nav-links li { list-style:none!important; }
+</style>
+</head>
+<body>
+
+<!-- ══ ONBOARDING OVERLAY ══ -->
+<div id="onboarding-overlay">
+  <div class="onboarding-modal" id="ob-modal">
+    <div class="ob-header">
+      <div>
+        <div class="ob-logo">Land<span>Marq</span></div>
+        <div class="ob-step-counter" id="ob-counter">Step 1 of 5</div>
+      </div>
+    </div>
+    <div class="ob-progress"><div class="ob-progress-fill" id="ob-progress" style="width:20%"></div></div>
+
+    <div class="ob-body">
+
+      <!-- STEP 1: Welcome -->
+      <div class="ob-step active" id="ob-step-1">
+        <span class="ob-step-icon">🏛️</span>
+        <div class="ob-step-title">Welcome to <em>LandMarq</em></div>
+        <div class="ob-step-desc">Your personal AI intelligence platform for commercial real estate. LandMarq deploys a fleet of specialized agents that monitor markets, surface leads, and flag opportunities — all delivered to a single executive dashboard, every morning.</div>
+        <div class="ob-features">
+          <div class="ob-feature"><div class="ob-feature-icon">🌐</div><div class="ob-feature-text"><strong>Market Intelligence</strong>Submarket vacancy, rents, permit filings, competitor moves.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">🎯</div><div class="ob-feature-text"><strong>Tenant Lead Engine</strong>LLC filings, job postings, lease expirations — found before the RFP.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">📋</div><div class="ob-feature-text"><strong>Document Review</strong>LOI clause flagging, NDA drafting, vs. your gold standard template.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">📡</div><div class="ob-feature-text"><strong>Zoning & Permits</strong>Real-time government portal monitoring across all your markets.</div></div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Profile Setup -->
+      <div class="ob-step" id="ob-step-2">
+        <span class="ob-step-icon">👤</span>
+        <div class="ob-step-title">Set up your <em>profile</em></div>
+        <div class="ob-step-desc">This helps LandMarq personalize your briefings and filter intelligence to what's relevant to your role and focus areas.</div>
+        <div class="ob-input-group">
+          <label class="ob-label">Your Name</label>
+          <input class="ob-input" id="ob-name" type="text" placeholder="e.g. Mark Sullivan" value="Mark Sullivan" />
+        </div>
+        <div class="ob-input-group">
+          <label class="ob-label">Firm</label>
+          <input class="ob-input" type="text" placeholder="e.g. Savills North America" value="Savills North America" />
+        </div>
+        <div class="ob-input-group">
+          <label class="ob-label">Your Role / Focus</label>
+          <div style="display:flex;gap:8px;">
+            <input class="ob-input" type="text" placeholder="Title" style="flex:1" value="Chair, N. American Brokerage" />
+            <input class="ob-input" type="text" placeholder="Specialty" style="flex:1" value="Tenant Representation" />
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Markets -->
+      <div class="ob-step" id="ob-step-3">
+        <span class="ob-step-icon">📍</span>
+        <div class="ob-step-title">Choose your <em>markets</em></div>
+        <div class="ob-step-desc">Select the submarkets you want LandMarq to monitor. You can add zip codes and area codes, or pick from major metros. You can always change these later.</div>
+        <div class="ob-chips-row" id="market-chips">
+          <div class="ob-chip selected" onclick="toggleChip(this)">Los Angeles</div>
+          <div class="ob-chip selected" onclick="toggleChip(this)">Santa Monica</div>
+          <div class="ob-chip selected" onclick="toggleChip(this)">Culver City</div>
+          <div class="ob-chip selected" onclick="toggleChip(this)">Century City</div>
+          <div class="ob-chip" onclick="toggleChip(this)">San Francisco</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Seattle</div>
+          <div class="ob-chip selected" onclick="toggleChip(this)">Playa Vista</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Burbank</div>
+          <div class="ob-chip" onclick="toggleChip(this)">El Segundo</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Manhattan Beach</div>
+          <div class="ob-chip" onclick="toggleChip(this)">West Hollywood</div>
+          <div class="ob-chip" onclick="toggleChip(this)">DTLA</div>
+        </div>
+        <div style="margin-top:14px;">
+          <label class="ob-label">Or add a specific ZIP / Area Code</label>
+          <div style="display:flex;gap:8px;">
+            <input class="ob-input" type="text" placeholder="e.g. 90401, 310, 90064..." style="flex:1;" />
+            <button onclick="" style="background:var(--gold);color:var(--bg);border:none;border-radius:4px;padding:0 16px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Agents -->
+      <div class="ob-step" id="ob-step-4">
+        <span class="ob-step-icon">⚙️</span>
+        <div class="ob-step-title">Activate your <em>agents</em></div>
+        <div class="ob-step-desc">Each agent runs continuously in the background. Toggle on the ones relevant to your day-to-day. You can adjust anytime.</div>
+        <div class="ob-agent-grid">
+          <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')">
+            <div class="toggle-icon">🌐</div>
+            <div class="toggle-info"><div class="toggle-name">Market Intel</div><div class="toggle-desc">Vacancy, rents, comps</div></div>
+            <div class="toggle-dot"></div>
+          </div>
+          <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')">
+            <div class="toggle-icon">🎯</div>
+            <div class="toggle-info"><div class="toggle-name">Lead Finder</div><div class="toggle-desc">Tenant expansion signals</div></div>
+            <div class="toggle-dot"></div>
+          </div>
+          <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')">
+            <div class="toggle-icon">📋</div>
+            <div class="toggle-info"><div class="toggle-name">LOI Review</div><div class="toggle-desc">Clause flagging</div></div>
+            <div class="toggle-dot"></div>
+          </div>
+          <div class="ob-agent-toggle" onclick="this.classList.toggle('on')">
+            <div class="toggle-icon">✉️</div>
+            <div class="toggle-info"><div class="toggle-name">Outreach</div><div class="toggle-desc">Personalized pitches</div></div>
+            <div class="toggle-dot"></div>
+          </div>
+          <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')">
+            <div class="toggle-icon">📡</div>
+            <div class="toggle-info"><div class="toggle-name">Zoning Monitor</div><div class="toggle-desc">Permits & variances</div></div>
+            <div class="toggle-dot"></div>
+          </div>
+          <div class="ob-agent-toggle" onclick="this.classList.toggle('on')">
+            <div class="toggle-icon">🏛️</div>
+            <div class="toggle-info"><div class="toggle-name">Portfolio Analyst</div><div class="toggle-desc">Hold vs. sell analysis</div></div>
+            <div class="toggle-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5: Ready -->
+      <div class="ob-step" id="ob-step-5">
+        <span class="ob-step-icon">✅</span>
+        <div class="ob-step-title">You're all set, <em id="welcome-name">Mark</em>.</div>
+        <div class="ob-step-desc">Your agents are now running across your selected markets. Your first morning brief will be ready within minutes. As you use the dashboard, click <strong style="color:var(--gold);">+ Add Intelligence</strong> anytime to configure new watches — just tell us in plain English what you want to track.</div>
+        <div class="ob-features">
+          <div class="ob-feature"><div class="ob-feature-icon">💬</div><div class="ob-feature-text"><strong>Natural Language</strong>"Show me CRE growth projections in 310 area for tech tenants" — just type it.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">🔔</div><div class="ob-feature-text"><strong>Custom Alerts</strong>Set thresholds for vacancy %, interest rate changes, specific submarkets.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">📊</div><div class="ob-feature-text"><strong>Daily Brief</strong>Curated to your markets and role. Delivered 6 AM sharp.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">🔍</div><div class="ob-feature-text"><strong>Guided Tour</strong>After this, we'll highlight each part of your dashboard.</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="skipOnboarding()">Skip Tour</button>
+      <button class="ob-btn-next" id="ob-next-btn" onclick="nextStep()">
+        <span id="ob-btn-label">Get Started</span> →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SPOTLIGHT RING -->
+<div class="spotlight-ring" id="spotlight-ring"></div>
+
+<!-- SPOTLIGHT TOOLTIP -->
+<div class="spotlight-tooltip" id="spotlight-tooltip">
+  <div class="tooltip-step" id="tt-step">Tour · 1 of 5</div>
+  <div class="tooltip-title" id="tt-title">Title</div>
+  <div class="tooltip-desc" id="tt-desc">Description</div>
+  <div class="tooltip-nav">
+    <div class="tooltip-close" onclick="endTour()">End Tour</div>
+    <button class="tooltip-nav-btn" id="tt-next-btn" onclick="nextTourStep()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR ══ -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-wordmark"><span class="lm-land">Land</span><span class="lm-marq">Marq</span></div>
+    <div class="logo-sub">Executive Intelligence · ai</div>
+  </div>
+
+  <div class="user-card" id="nav-profile">
+    <div class="user-avatar">M</div>
+    <div>
+      <div class="user-name">Mark Sullivan</div>
+      <div class="user-title">Chair · N. American Brokerage</div>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Workspace</div>
+    <div class="nav-item active" id="nav-brief">
+      <span class="nav-icon">◈</span> Morning Brief
+    </div>
+    <div class="nav-item" id="nav-agents">
+      <span class="nav-icon">⬡</span> Agent Fleet
+      <span class="nav-badge green">6</span>
+    </div>
+    <div class="nav-item" id="nav-pipeline">
+      <span class="nav-icon">◎</span> Deal Pipeline
+      <span class="nav-badge gold">14</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">△</span> Market Intel
+    </div>
+    <div class="nav-item" id="nav-leads">
+      <span class="nav-icon">◻</span> Tenant Leads
+      <span class="nav-badge">3</span>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Reports</div>
+    <div class="nav-item"><span class="nav-icon">≡</span> West Coast Markets</div>
+    <div class="nav-item"><span class="nav-icon">◷</span> Submarket Tracker</div>
+    <div class="nav-item"><span class="nav-icon">⊕</span> Portfolio Analysis</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Settings</div>
+    <div class="nav-item"><span class="nav-icon">⚙</span> Preferences</div>
+    <div class="nav-item"><span class="nav-icon">◷</span> Brief Schedule</div>
+    <div class="nav-item" onclick="LandMarqAuth.signOut()" style="cursor:pointer;color:var(--text-dim);">
+      <span class="nav-icon">↩</span> Sign Out
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="status-indicator"><div class="pulse-dot"></div><div class="status-text">6 agents active</div></div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+  <div class="topbar" id="topbar">
+    <div class="topbar-title">Morning Brief</div>
+    <div class="topbar-date">Monday, Feb 23, 2026 · 6:04 AM PST</div>
+    <div class="topbar-right">
+      <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
+      <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
+      <div class="icon-btn">🔔</div>
+      <div class="icon-btn">⚙</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- KPI ROW -->
+    <div class="kpi-row" id="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value gold">$218M</div><div class="kpi-delta delta-up">▲ 12.4% <span class="kpi-sub">vs last quarter</span></div></div>
+      <div class="kpi-card"><div class="kpi-label">Active Deals</div><div class="kpi-value">14</div><div class="kpi-delta delta-up">▲ 3 <span class="kpi-sub">this month</span></div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg. LA Office Vacancy</div><div class="kpi-value">14.2%</div><div class="kpi-delta delta-down">▼ 0.8% <span class="kpi-sub">90-day trend</span></div></div>
+      <div class="kpi-card"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value">31</div><div class="kpi-delta delta-up">▲ 8 <span class="kpi-sub">this month</span></div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg. NNN PSF · SF</div><div class="kpi-value">$62</div><div class="kpi-delta delta-up">▲ $1.20 <span class="kpi-sub">MoM</span></div></div>
+      <div class="kpi-card"><div class="kpi-label">Unread Alerts</div><div class="kpi-value">7</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">3 high priority</span></div></div>
+    </div>
+
+    <!-- HEATMAP -->
+    <div class="card heatmap-card" id="heatmap-card">
+      <div class="card-header"><div class="card-title">West Coast Submarket Pulse</div><div class="card-action">Full Map →</div></div>
+      <div class="heatmap-body">
+        <div class="heatmap-grid">
+          <div class="heatmap-cell" style="background:rgba(192,83,58,0.55)"><div class="heat-market">DTLA</div><div class="heat-val">18.4%</div></div>
+          <div class="heatmap-cell" style="background:rgba(196,158,84,0.45)"><div class="heat-market">Culver City</div><div class="heat-val">11.2%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,127,165,0.5)"><div class="heat-market">Santa Monica</div><div class="heat-val">9.8%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,127,165,0.35)"><div class="heat-market">Playa Vista</div><div class="heat-val">8.1%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,155,111,0.45)"><div class="heat-market">El Segundo</div><div class="heat-val">6.7%</div></div>
+          <div class="heatmap-cell" style="background:rgba(196,158,84,0.35)"><div class="heat-market">Century City</div><div class="heat-val">12.6%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,155,111,0.35)"><div class="heat-market">West Hollywood</div><div class="heat-val">7.3%</div></div>
+          <div class="heatmap-cell" style="background:rgba(192,83,58,0.4)"><div class="heat-market">Wilshire Corridor</div><div class="heat-val">16.1%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,127,165,0.42)"><div class="heat-market">Burbank</div><div class="heat-val">10.4%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,155,111,0.5)"><div class="heat-market">Manhattan Bch</div><div class="heat-val">5.9%</div></div>
+          <div class="heatmap-cell" style="background:rgba(192,83,58,0.65)"><div class="heat-market">SF Financial</div><div class="heat-val">26.3%</div></div>
+          <div class="heatmap-cell" style="background:rgba(192,83,58,0.45)"><div class="heat-market">SF SOMA</div><div class="heat-val">22.1%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,127,165,0.4)"><div class="heat-market">SF Mission</div><div class="heat-val">14.8%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,155,111,0.45)"><div class="heat-market">Bellevue WA</div><div class="heat-val">9.2%</div></div>
+          <div class="heatmap-cell" style="background:rgba(74,127,165,0.38)"><div class="heat-market">Seattle SLU</div><div class="heat-val">11.0%</div></div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;margin-top:9px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);letter-spacing:0.12em;">VACANCY:</div>
+          <div style="display:flex;gap:12px;">
+            <div style="display:flex;gap:5px;align-items:center;"><div style="width:20px;height:5px;border-radius:1px;background:rgba(74,155,111,0.5)"></div><span style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim)">&lt;10%</span></div>
+            <div style="display:flex;gap:5px;align-items:center;"><div style="width:20px;height:5px;border-radius:1px;background:rgba(74,127,165,0.5)"></div><span style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim)">10–15%</span></div>
+            <div style="display:flex;gap:5px;align-items:center;"><div style="width:20px;height:5px;border-radius:1px;background:rgba(196,158,84,0.5)"></div><span style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim)">15–20%</span></div>
+            <div style="display:flex;gap:5px;align-items:center;"><div style="width:20px;height:5px;border-radius:1px;background:rgba(192,83,58,0.6)"></div><span style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim)">&gt;20%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENT FEED -->
+    <div class="card agents-card" id="agent-card">
+      <div class="card-header"><div class="card-title">Live Agent Feed</div><div class="card-action">View All →</div></div>
+      <div class="agent-stream" id="agentStream">
+        <div class="stream-item"><div class="stream-icon icon-alert">⚡</div><div><div class="stream-text"><strong>Snap Inc.</strong> vacating 42K SF at 2101 Colorado Ave SM — 3 tenants circling.</div><div class="stream-meta"><span class="stream-tag tag-alert">High Priority</span> 2 min ago · Intel Agent</div></div></div>
+        <div class="stream-item"><div class="stream-icon icon-lead">🎯</div><div><div class="stream-text"><strong>TechCo Inc.</strong> (Series C) posted 40+ LA jobs. Office expansion signal.</div><div class="stream-meta"><span class="stream-tag tag-lead">New Lead</span> 14 min ago · Lead Agent</div></div></div>
+        <div class="stream-item"><div class="stream-icon icon-doc">📋</div><div><div class="stream-text"><strong>LOI Agent</strong> flagged non-standard exclusivity clause — Apex Capital draft.</div><div class="stream-meta"><span class="stream-tag tag-doc">Document</span> 31 min ago · LOI Agent</div></div></div>
+        <div class="stream-item"><div class="stream-icon icon-intel">🔍</div><div><div class="stream-text">Zoning variance filed for <strong>1150 S Olive St</strong> — mixed-use conversion.</div><div class="stream-meta"><span class="stream-tag tag-intel">Zoning</span> 1 hr ago · Permit Agent</div></div></div>
+        <div class="stream-item"><div class="stream-icon icon-lead">✉️</div><div><div class="stream-text"><strong>Outreach Agent</strong> drafting personalized pitch for Netflix HQ expansion&nbsp;<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div><div class="stream-meta"><span class="stream-tag tag-lead">In Progress</span> now · Outreach Agent</div></div></div>
+      </div>
+    </div>
+
+    <!-- ALERTS (right column spans rows) -->
+    <div class="card alerts-card" id="alerts-card">
+      <div class="card-header"><div class="card-title">Priority Alerts</div><div class="card-action">Mark All Read</div></div>
+      <div class="alerts-body">
+        <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">Snap vacating 42K SF — Santa Monica</div><div class="alert-body">Lease expires Q2. 3 TAMI tenants in same submarket searching. First-mover window: ~6 weeks.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2m ago</div></div><div class="alert-action-btn">Draft Outreach →</div></div>
+        <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">LOI Clause Mismatch — Apex Capital</div><div class="alert-body">Non-standard "co-tenancy" clause on Sections 4.2 & 7. Differs from Savills gold template.</div><div class="alert-footer"><div class="alert-agent">LOI Agent</div><div class="alert-time">31m ago</div></div><div class="alert-action-btn">Review Comparison →</div></div>
+        <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">TechCo Inc. Expansion Signal</div><div class="alert-body">40+ LA job postings. Badge-in at current WeWork up 62%. Likely seeking 15–25K SF.</div><div class="alert-footer"><div class="alert-agent">Lead Agent</div><div class="alert-time">14m ago</div></div><div class="alert-action-btn">View Lead Profile →</div></div>
+        <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">Interest Rate Watch Triggered</div><div class="alert-body">Fed signals pause. Model projects cap rate compression in industrial by 25bps over 90 days.</div><div class="alert-footer"><div class="alert-agent">Macro Agent</div><div class="alert-time">1h ago</div></div><div class="alert-action-btn">View Impact Report →</div></div>
+        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">Playa Vista Occupancy Up</div><div class="alert-body">Badge-in data: Playa Vista 74% vs. 61% DTLA avg. Tenant preference shifting toward submarket.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">4h ago</div></div></div>
+        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">CBRE Deal Closed — Water Garden</div><div class="alert-body">18,500 SF closed. 3 remaining comparable availabilities in SM. Market tightening.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2h ago</div></div></div>
+      </div>
+    </div>
+
+    <!-- SPARKLINES -->
+    <div class="sparkline-row">
+      <div class="card spark-card">
+        <div class="card-header"><div class="card-title">Deal Value · Q1 2026</div></div>
+        <div class="spark-body"><div class="spark-stat"><div class="spark-big">$218M</div><div class="spark-delta delta-up">▲ 12.4%</div></div><div class="spark-main"><div class="spark-bar gold-bar" style="height:45%"></div><div class="spark-bar gold-bar" style="height:60%"></div><div class="spark-bar gold-bar" style="height:50%"></div><div class="spark-bar gold-bar" style="height:70%"></div><div class="spark-bar gold-bar" style="height:55%"></div><div class="spark-bar gold-bar" style="height:80%"></div><div class="spark-bar gold-bar" style="height:65%"></div><div class="spark-bar gold-bar" style="height:88%"></div><div class="spark-bar gold-bar" style="height:72%"></div><div class="spark-bar gold-bar" style="height:90%"></div><div class="spark-bar gold-bar" style="height:84%"></div><div class="spark-bar gold-bar current" style="height:100%"></div></div><div class="spark-labels"><span class="spark-label">Feb '25</span><span class="spark-label">Aug '25</span><span class="spark-label">Feb '26</span></div></div>
+      </div>
+      <div class="card spark-card">
+        <div class="card-header"><div class="card-title">Agent-Sourced Leads · 12mo</div></div>
+        <div class="spark-body"><div class="spark-stat"><div class="spark-big">31</div><div class="spark-delta delta-up">▲ 8 this month</div></div><div class="spark-main"><div class="spark-bar green-bar" style="height:30%"></div><div class="spark-bar green-bar" style="height:40%"></div><div class="spark-bar green-bar" style="height:35%"></div><div class="spark-bar green-bar" style="height:55%"></div><div class="spark-bar green-bar" style="height:48%"></div><div class="spark-bar green-bar" style="height:62%"></div><div class="spark-bar green-bar" style="height:70%"></div><div class="spark-bar green-bar" style="height:60%"></div><div class="spark-bar green-bar" style="height:78%"></div><div class="spark-bar green-bar" style="height:85%"></div><div class="spark-bar green-bar" style="height:90%"></div><div class="spark-bar green-bar current" style="height:100%"></div></div><div class="spark-labels"><span class="spark-label">Feb '25</span><span class="spark-label">Aug '25</span><span class="spark-label">Feb '26</span></div></div>
+      </div>
+      <div class="card spark-card">
+        <div class="card-header"><div class="card-title">Vacancy Rate · LA Metro</div></div>
+        <div class="spark-body"><div class="spark-stat"><div class="spark-big">14.2%</div><div class="spark-delta delta-down">▼ 0.8% (90d)</div></div><div class="spark-main"><div class="spark-bar blue-bar" style="height:100%"></div><div class="spark-bar blue-bar" style="height:96%"></div><div class="spark-bar blue-bar" style="height:92%"></div><div class="spark-bar blue-bar" style="height:98%"></div><div class="spark-bar blue-bar" style="height:88%"></div><div class="spark-bar blue-bar" style="height:85%"></div><div class="spark-bar blue-bar" style="height:82%"></div><div class="spark-bar blue-bar" style="height:78%"></div><div class="spark-bar blue-bar" style="height:80%"></div><div class="spark-bar blue-bar" style="height:74%"></div><div class="spark-bar blue-bar" style="height:70%"></div><div class="spark-bar blue-bar current" style="height:66%"></div></div><div class="spark-labels"><span class="spark-label">Feb '25</span><span class="spark-label">Aug '25</span><span class="spark-label">Feb '26</span></div></div>
+      </div>
+    </div>
+
+    <!-- PIPELINE TABLE -->
+    <div class="card pipeline-card" id="pipeline-card">
+      <div class="card-header"><div class="card-title">Active Deal Pipeline</div><div class="card-action">View All 14 Deals →</div></div>
+      <div class="pipeline-body">
+        <table class="pipeline-table">
+          <thead><tr><th>Tenant</th><th>Market</th><th>SF</th><th>Value</th><th>Stage</th><th>Probability</th><th>Close</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><div class="tenant-name">Netflix Inc.</div><div class="tenant-sub">HQ Expansion · TAMI</div></td><td><span class="market-tag">Culver City</span></td><td><span class="size-val">~60K</span></td><td><span class="value-cell">$42M</span></td><td><span class="stage-pill stage-proposal">Proposal</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill green" style="width:72%"></div></div><span class="prob-val">72%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Apr '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
+            <tr><td><div class="tenant-name">Apex Capital Group</div><div class="tenant-sub">Relocation · Financial</div></td><td><span class="market-tag">Century City</span></td><td><span class="size-val">28,500</span></td><td><span class="value-cell">$19M</span></td><td><span class="stage-pill stage-loi">LOI Signed</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill green" style="width:88%"></div></div><span class="prob-val">88%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Mar '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
+            <tr><td><div class="tenant-name">TechCo Inc.</div><div class="tenant-sub">New Requirement · SaaS</div></td><td><span class="market-tag">Playa Vista</span></td><td><span class="size-val">~20K</span></td><td><span class="value-cell">$11M</span></td><td><span class="stage-pill stage-qualify">Qualifying</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill amber" style="width:38%"></div></div><span class="prob-val">38%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q3 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
+            <tr><td><div class="tenant-name">WestShore Media</div><div class="tenant-sub">Expansion · Media</div></td><td><span class="market-tag">Santa Monica</span></td><td><span class="size-val">14,200</span></td><td><span class="value-cell">$8.5M</span></td><td><span class="stage-pill stage-proposal">Proposal</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:61%"></div></div><span class="prob-val">61%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">May '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
+            <tr><td><div class="tenant-name">Meridian Health Partners</div><div class="tenant-sub">New Requirement · Healthcare</div></td><td><span class="market-tag">Burbank</span></td><td><span class="size-val">9,000</span></td><td><span class="value-cell">$4.2M</span></td><td><span class="stage-pill stage-prospect">Prospect</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill blue" style="width:24%"></div></div><span class="prob-val">24%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q4 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ══ ADD INTELLIGENCE PANEL ══ -->
+<div id="intel-panel">
+  <div class="panel-header">
+    <div>
+      <div class="panel-title">Add Intelligence</div>
+      <div class="panel-sub">Tell us what you want to watch</div>
+    </div>
+    <div class="panel-close" onclick="closeIntelPanel()">✕</div>
+  </div>
+
+  <div class="panel-body">
+
+    <!-- Natural Language Input -->
+    <div class="panel-section">
+      <div class="panel-section-title">Tell us what you want</div>
+      <div class="nlp-input-wrap">
+        <textarea class="nlp-input" id="nlp-input" placeholder="e.g. Show me CRE growth projections in the 310 area for tech tenants over the next 12 months..."></textarea>
+        <button class="nlp-send-btn" onclick="submitNLP()">→</button>
+      </div>
+      <div class="nlp-suggestions">
+        <div class="nlp-suggestion" onclick="fillNLP(this)">I want updates on commercial real estate in area code 310</div>
+        <div class="nlp-suggestion" onclick="fillNLP(this)">Show me how interest rate changes will impact CRE industries differently</div>
+        <div class="nlp-suggestion" onclick="fillNLP(this)">Track CRE growth projections in LA for healthcare and tech tenants</div>
+        <div class="nlp-suggestion" onclick="fillNLP(this)">Alert me when any office vacancy in Santa Monica drops below 8%</div>
+      </div>
+    </div>
+
+    <!-- Category Selector -->
+    <div class="panel-section">
+      <div class="panel-section-title">Or choose a category</div>
+      <div class="cat-grid">
+        <div class="cat-btn active" onclick="selectCat(this)">
+          <div class="cat-btn-icon">📍</div>
+          <div class="cat-btn-info"><div class="cat-btn-name">By Area / ZIP</div><div class="cat-btn-desc">Track a specific geography</div></div>
+        </div>
+        <div class="cat-btn" onclick="selectCat(this)">
+          <div class="cat-btn-icon">🏭</div>
+          <div class="cat-btn-info"><div class="cat-btn-name">By Industry</div><div class="cat-btn-desc">Tech, healthcare, finance...</div></div>
+        </div>
+        <div class="cat-btn" onclick="selectCat(this)">
+          <div class="cat-btn-icon">📈</div>
+          <div class="cat-btn-info"><div class="cat-btn-name">Macro Signal</div><div class="cat-btn-desc">Rates, inflation, cap rates</div></div>
+        </div>
+        <div class="cat-btn" onclick="selectCat(this)">
+          <div class="cat-btn-icon">🏢</div>
+          <div class="cat-btn-info"><div class="cat-btn-name">Property Type</div><div class="cat-btn-desc">Office, industrial, retail...</div></div>
+        </div>
+        <div class="cat-btn" onclick="selectCat(this)">
+          <div class="cat-btn-icon">🎯</div>
+          <div class="cat-btn-info"><div class="cat-btn-name">Tenant Watch</div><div class="cat-btn-desc">Track specific companies</div></div>
+        </div>
+        <div class="cat-btn" onclick="selectCat(this)">
+          <div class="cat-btn-icon">⚖️</div>
+          <div class="cat-btn-info"><div class="cat-btn-name">Regulatory</div><div class="cat-btn-desc">Zoning, permits, variances</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configuration fields -->
+    <div class="panel-section">
+      <div class="panel-section-title">Configure</div>
+      <div class="panel-row">
+        <div>
+          <label class="panel-label">Area / ZIP / Metro</label>
+          <input class="panel-input" type="text" placeholder="e.g. 90401, 310, Los Angeles" />
+        </div>
+        <div>
+          <label class="panel-label">Industry Focus</label>
+          <input class="panel-input" type="text" placeholder="e.g. Tech, Healthcare, All" />
+        </div>
+      </div>
+      <div class="panel-row">
+        <div>
+          <label class="panel-label">Property Type</label>
+          <input class="panel-input" type="text" placeholder="e.g. Office, Industrial, All" />
+        </div>
+        <div>
+          <label class="panel-label">Alert Threshold</label>
+          <input class="panel-input" type="text" placeholder="e.g. Vacancy &lt;8%, Rate +25bps" />
+        </div>
+      </div>
+      <div>
+        <label class="panel-label" style="margin-bottom:8px;">Update Frequency</label>
+        <div class="freq-row">
+          <div class="freq-btn" onclick="selectFreq(this)">Realtime</div>
+          <div class="freq-btn active" onclick="selectFreq(this)">Daily</div>
+          <div class="freq-btn" onclick="selectFreq(this)">Weekly</div>
+          <div class="freq-btn" onclick="selectFreq(this)">Monthly</div>
+        </div>
+      </div>
+      <button class="panel-add-btn" onclick="addWatch()">Add to My Intelligence →</button>
+    </div>
+
+    <!-- Active Watches -->
+    <div class="panel-section">
+      <div class="panel-section-title">Active Watches</div>
+      <div class="watch-list" id="watch-list">
+        <div class="watch-item">
+          <div class="watch-item-icon">📍</div>
+          <div class="watch-item-info">
+            <div class="watch-item-title">West Coast Office Markets</div>
+            <div class="watch-item-meta">Vacancy rate · All industries · 15 submarkets</div>
+            <div class="watch-item-freq">Daily · 6:00 AM</div>
+          </div>
+          <div class="watch-remove">✕</div>
+        </div>
+        <div class="watch-item">
+          <div class="watch-item-icon">📈</div>
+          <div class="watch-item-info">
+            <div class="watch-item-title">Interest Rate → Cap Rate Impact</div>
+            <div class="watch-item-meta">Fed signals · Office, Industrial, Retail · All markets</div>
+            <div class="watch-item-freq">Realtime alerts</div>
+          </div>
+          <div class="watch-remove">✕</div>
+        </div>
+        <div class="watch-item">
+          <div class="watch-item-icon">🎯</div>
+          <div class="watch-item-info">
+            <div class="watch-item-title">TAMI Tenant Expansion · LA Metro</div>
+            <div class="watch-item-meta">Tech, Advertising, Media, Info · 310 / 424 area codes</div>
+            <div class="watch-item-freq">Daily</div>
+          </div>
+          <div class="watch-remove">✕</div>
+        </div>
+        <div class="watch-item">
+          <div class="watch-item-icon">📡</div>
+          <div class="watch-item-info">
+            <div class="watch-item-title">Zoning Variances · Santa Monica + Culver City</div>
+            <div class="watch-item-meta">Permit filings · All property types · ZIP 90401, 90232</div>
+            <div class="watch-item-freq">Realtime alerts</div>
+          </div>
+          <div class="watch-remove">✕</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">✅</div>
+  <div class="toast-text"><strong>Intelligence watch added.</strong> Your agent will begin monitoring now.</div>
+</div>
+
+<style>
+@keyframes pulseGold {
+  0%,100% { box-shadow: 0 0 0 0 rgba(196,158,84,0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(196,158,84,0); }
+}
+</style>
+
+<script>
+// ─── ONBOARDING ───
+let currentStep = 1;
+const totalSteps = 5;
+
+const stepLabels = ['Get Started', 'Next →', 'Next →', 'Next →', 'Launch Dashboard →'];
+
+function nextStep() {
+  if (currentStep < totalSteps) {
+    document.getElementById(`ob-step-${currentStep}`).classList.remove('active');
+    currentStep++;
+    document.getElementById(`ob-step-${currentStep}`).classList.add('active');
+    document.getElementById('ob-counter').textContent = `Step ${currentStep} of ${totalSteps}`;
+    document.getElementById('ob-progress').style.width = `${(currentStep / totalSteps) * 100}%`;
+    document.getElementById('ob-btn-label').textContent = stepLabels[currentStep - 1];
+    // update welcome name
+    const nameVal = document.getElementById('ob-name').value.trim().split(' ')[0] || 'Mark';
+    document.getElementById('welcome-name').textContent = nameVal;
+  } else {
+    finishOnboarding();
+  }
+}
+
+function skipOnboarding() {
+  finishOnboarding();
+}
+
+function finishOnboarding() {
+  const overlay = document.getElementById('onboarding-overlay');
+  overlay.classList.add('hidden');
+  setTimeout(() => { overlay.style.display = 'none'; startTour(); }, 400);
+}
+
+function toggleChip(el) { el.classList.toggle('selected'); }
+
+// ─── DASHBOARD TOUR ───
+const tourSteps = [
+  {
+    target: 'kpi-row',
+    title: 'Your KPI Summary',
+    desc: 'At a glance: pipeline value, active deals, vacancy trends, agent-sourced leads, and unread alerts. Updated every morning.',
+    pos: 'bottom'
+  },
+  {
+    target: 'heatmap-card',
+    title: 'Submarket Heatmap',
+    desc: 'Color-coded vacancy rates across every submarket you cover. Red = high vacancy, green = tight. Click any cell to drill in.',
+    pos: 'bottom'
+  },
+  {
+    target: 'agent-card',
+    title: 'Live Agent Feed',
+    desc: 'Real-time stream of everything your AI agents are doing right now — alerts, leads found, documents reviewed, pitches being written.',
+    pos: 'bottom'
+  },
+  {
+    target: 'alerts-card',
+    title: 'Priority Alerts',
+    desc: 'Ranked by urgency. Each alert has a one-click action button so you can act immediately — draft outreach, review a document, or deep-dive.',
+    pos: 'left'
+  },
+  {
+    target: 'add-intel-btn',
+    title: '+ Add Intelligence',
+    desc: 'This is how you tell LandMarq what to watch. Say it in plain English — "track CRE growth in 310 for tech tenants" — and an agent starts immediately.',
+    pos: 'bottom'
+  }
+];
+
+let tourIdx = 0;
+let tourActive = false;
+
+function startTour() {
+  tourActive = true;
+  tourIdx = 0;
+  showTourStep();
+}
+
+function showTourStep() {
+  const ring = document.getElementById('spotlight-ring');
+  const tip = document.getElementById('spotlight-tooltip');
+  const step = tourSteps[tourIdx];
+
+  if (!step) { endTour(); return; }
+
+  const target = document.getElementById(step.target);
+  if (!target) { endTour(); return; }
+
+  const rect = target.getBoundingClientRect();
+  const pad = 8;
+
+  ring.style.top = (rect.top - pad) + 'px';
+  ring.style.left = (rect.left - pad) + 'px';
+  ring.style.width = (rect.width + pad * 2) + 'px';
+  ring.style.height = (rect.height + pad * 2) + 'px';
+  ring.classList.add('visible');
+
+  document.getElementById('tt-step').textContent = `Tour · ${tourIdx + 1} of ${tourSteps.length}`;
+  document.getElementById('tt-title').textContent = step.title;
+  document.getElementById('tt-desc').textContent = step.desc;
+  document.getElementById('tt-next-btn').textContent = tourIdx < tourSteps.length - 1 ? 'Next →' : 'Done ✓';
+
+  // position tooltip
+  const tipW = 280, tipH = 150;
+  let top, left;
+
+  if (step.pos === 'bottom') {
+    top = rect.bottom + pad + 14;
+    left = rect.left;
+  } else if (step.pos === 'left') {
+    top = rect.top;
+    left = rect.left - tipW - 20;
+  } else {
+    top = rect.bottom + 14;
+    left = rect.left;
+  }
+
+  // clamp
+  if (left + tipW > window.innerWidth - 10) left = window.innerWidth - tipW - 10;
+  if (left < 10) left = 10;
+  if (top + tipH > window.innerHeight - 10) top = rect.top - tipH - 14;
+
+  tip.style.top = top + 'px';
+  tip.style.left = left + 'px';
+  tip.classList.add('visible');
+}
+
+function nextTourStep() {
+  tourIdx++;
+  if (tourIdx >= tourSteps.length) { endTour(); return; }
+  showTourStep();
+}
+
+function endTour() {
+  document.getElementById('spotlight-ring').classList.remove('visible');
+  document.getElementById('spotlight-tooltip').classList.remove('visible');
+  tourActive = false;
+}
+
+// ─── INTEL PANEL ───
+function openIntelPanel() {
+  document.getElementById('intel-panel').classList.add('open');
+}
+
+function closeIntelPanel() {
+  document.getElementById('intel-panel').classList.remove('open');
+}
+
+function selectCat(el) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function selectFreq(el) {
+  document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function fillNLP(el) {
+  const text = el.textContent;
+  document.getElementById('nlp-input').value = text;
+  document.getElementById('nlp-input').focus();
+}
+
+function submitNLP() {
+  addWatch(document.getElementById('nlp-input').value);
+  document.getElementById('nlp-input').value = '';
+}
+
+function addWatch(customTitle) {
+  const list = document.getElementById('watch-list');
+  const title = customTitle || 'New Intelligence Watch';
+
+  const item = document.createElement('div');
+  item.className = 'watch-item';
+  item.style.animation = 'streamIn 0.4s ease-out';
+  item.innerHTML = `
+    <div class="watch-item-icon">🔍</div>
+    <div class="watch-item-info">
+      <div class="watch-item-title">${title.length > 60 ? title.substring(0, 60) + '...' : title}</div>
+      <div class="watch-item-meta">Agent configured · Monitoring active</div>
+      <div class="watch-item-freq">Daily · Starting now</div>
+    </div>
+    <div class="watch-remove" onclick="this.parentElement.remove()">✕</div>
+  `;
+  list.prepend(item);
+
+  // Toast
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// watch remove
+document.querySelectorAll('.watch-remove').forEach(btn => {
+  btn.addEventListener('click', () => btn.parentElement.remove());
+});
+
+// Nav
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// Live agent stream
+const streamContainer = document.getElementById('agentStream');
+const newAlerts = [
+  { icon: '🌐', cls: 'icon-intel', text: '<strong>Market Agent</strong> updated SF Financial District vacancy to 26.3% — highest in 18 months.', tagCls: 'tag-intel', tag: 'Market' },
+  { icon: '🎯', cls: 'icon-lead', text: '<strong>Lead Agent</strong> identified Shopify subletting 18K SF in Santa Monica — window opening.', tagCls: 'tag-lead', tag: 'New Lead' },
+  { icon: '📋', cls: 'icon-doc', text: '<strong>LOI Agent</strong> completed Apex Capital clause comparison. 2 items flagged for review.', tagCls: 'tag-doc', tag: 'Document' }
+];
+let alertIdx = 0;
+setInterval(() => {
+  const a = newAlerts[alertIdx % newAlerts.length]; alertIdx++;
+  const el = document.createElement('div');
+  el.className = 'stream-item';
+  el.innerHTML = `<div class="stream-icon ${a.cls}">${a.icon}</div><div><div class="stream-text">${a.text}</div><div class="stream-meta"><span class="stream-tag ${a.tagCls}">${a.tag}</span> just now · Agent</div></div>`;
+  streamContainer.prepend(el);
+  while (streamContainer.children.length > 7) streamContainer.removeChild(streamContainer.lastChild);
+}, 11000);
+</script>
+
+<!-- ─── AUTH GATE ─── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/js/supabase-config.js"></script>
+<script>
+(async function dashboardAuth() {
+  // Gate: require login
+  const session = await LandMarqAuth.requireAuth();
+  if (!session) return; // redirect happening
+
+  // Populate user info in sidebar
+  const user = session.user;
+  const email = user.email || '';
+  const meta = user.user_metadata || {};
+  const displayName = meta.full_name || meta.name || email.split('@')[0];
+  const initials = displayName.charAt(0).toUpperCase();
+
+  const avatarEl = document.querySelector('#nav-profile .user-avatar');
+  const nameEl = document.querySelector('#nav-profile .user-name');
+  const titleEl = document.querySelector('#nav-profile .user-title');
+
+  if (avatarEl) avatarEl.textContent = initials;
+  if (nameEl) nameEl.textContent = displayName;
+  if (titleEl) titleEl.textContent = email;
+
+  // Show the page (it starts hidden via auth-loading)
+  document.body.classList.add('auth-ready');
+})();
+</script>
+
+</body>
+</html>

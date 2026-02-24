@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — LandMarq</title>
+<meta name="description" content="Sign in to your LandMarq executive intelligence dashboard.">
+<style>
+:root {
+  --bg: #0A0C0E;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E242C;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.3);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --cream: #F0EAD6;
+  --text: #C8C0AD;
+  --text-dim: #5C564E;
+  --text-mid: #8A8070;
+  --green: #4A9B6F;
+  --red: #C0533A;
+  --radius: 6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background grid effect */
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(196,158,84,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,158,84,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  padding: 0 24px;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.login-logo a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.login-logo a span { color: var(--gold); }
+
+.login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 36px;
+}
+
+.login-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-bottom: 32px;
+}
+
+/* Tab toggle */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 28px;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 3px;
+}
+.auth-tab {
+  flex: 1;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.auth-tab.active {
+  background: var(--surface-3);
+  color: var(--cream);
+}
+.auth-tab:hover:not(.active) { color: var(--text); }
+
+/* Form fields */
+.form-group {
+  margin-bottom: 20px;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--cream);
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--border-gold);
+}
+.form-input::placeholder {
+  color: var(--text-dim);
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--gold), #B08A3E);
+  color: #0A0C0E;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: inherit;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(196,158,84,0.3);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-google {
+  width: 100%;
+  padding: 12px 24px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-google:hover {
+  border-color: var(--border-gold);
+  background: var(--surface-3);
+}
+.btn-google svg { width: 18px; height: 18px; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Messages */
+.msg {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  margin-bottom: 20px;
+  display: none;
+}
+.msg.success {
+  display: block;
+  background: rgba(74,155,111,0.1);
+  border: 1px solid rgba(74,155,111,0.2);
+  color: var(--green);
+}
+.msg.error {
+  display: block;
+  background: rgba(192,83,58,0.1);
+  border: 1px solid rgba(192,83,58,0.2);
+  color: var(--red);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.login-footer a {
+  color: var(--gold);
+  text-decoration: none;
+}
+.login-footer a:hover { text-decoration: underline; }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Password field */
+.password-group { display: none; }
+.password-group.visible { display: block; }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-logo">
+    <a href="/">Land<span>Marq</span></a>
+  </div>
+
+  <div class="login-card">
+    <h1 class="login-title">Welcome back</h1>
+    <p class="login-subtitle">Sign in to your executive intelligence dashboard</p>
+
+    <div id="message" class="msg"></div>
+
+    <!-- Google OAuth -->
+    <button class="btn-google" onclick="signInGoogle()">
+      <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="divider">or</div>
+
+    <!-- Auth Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-mode="magic" onclick="switchMode('magic')">Magic Link</button>
+      <button class="auth-tab" data-mode="password" onclick="switchMode('password')">Password</button>
+    </div>
+
+    <form id="authForm" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="you@firm.com" required autocomplete="email">
+      </div>
+
+      <div class="form-group password-group" id="passwordGroup">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" minlength="8" autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-primary" id="submitBtn">
+        Send Magic Link
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p id="toggleText">Prefer a password? <a href="#" onclick="switchMode('password'); return false;">Sign in with password</a></p>
+    </div>
+  </div>
+
+  <div class="login-footer" style="margin-top: 32px;">
+    <a href="/">← Back to LandMarq</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a>
+  </div>
+</div>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/js/supabase-config.js"></script>
+<script>
+let authMode = 'magic'; // 'magic' or 'password'
+let isSignUp = false;
+
+function switchMode(mode) {
+  authMode = mode;
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+
+  const pwGroup = document.getElementById('passwordGroup');
+  const submitBtn = document.getElementById('submitBtn');
+  const toggleText = document.getElementById('toggleText');
+
+  if (mode === 'password') {
+    pwGroup.classList.add('visible');
+    document.getElementById('password').required = true;
+    submitBtn.textContent = 'Sign In';
+    toggleText.innerHTML = 'Need an account? <a href="#" onclick="toggleSignUp(); return false;">Create one</a>';
+  } else {
+    pwGroup.classList.remove('visible');
+    document.getElementById('password').required = false;
+    submitBtn.textContent = 'Send Magic Link';
+    toggleText.innerHTML = 'Prefer a password? <a href="#" onclick="switchMode(\'password\'); return false;">Sign in with password</a>';
+  }
+  clearMessage();
+}
+
+function toggleSignUp() {
+  isSignUp = !isSignUp;
+  const submitBtn = document.getElementById('submitBtn');
+  const toggleText = document.getElementById('toggleText');
+  if (isSignUp) {
+    submitBtn.textContent = 'Create Account';
+    toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleSignUp(); return false;">Sign in</a>';
+  } else {
+    submitBtn.textContent = 'Sign In';
+    toggleText.innerHTML = 'Need an account? <a href="#" onclick="toggleSignUp(); return false;">Create one</a>';
+  }
+}
+
+function showMessage(text, type) {
+  const msg = document.getElementById('message');
+  msg.textContent = text;
+  msg.className = `msg ${type}`;
+}
+
+function clearMessage() {
+  const msg = document.getElementById('message');
+  msg.className = 'msg';
+  msg.textContent = '';
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const submitBtn = document.getElementById('submitBtn');
+  const originalText = submitBtn.textContent;
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Working...';
+  clearMessage();
+
+  try {
+    if (authMode === 'magic') {
+      const { error } = await LandMarqAuth.sendMagicLink(email);
+      if (error) throw error;
+      showMessage('Check your inbox — we sent you a sign-in link.', 'success');
+    } else {
+      const password = document.getElementById('password').value;
+      if (isSignUp) {
+        const { data, error } = await LandMarqAuth.signUp(email, password);
+        if (error) throw error;
+        if (data.user && !data.session) {
+          showMessage('Account created! Check your email to confirm, then sign in.', 'success');
+        } else {
+          window.location.href = getReturnUrl();
+        }
+      } else {
+        const { error } = await LandMarqAuth.signInWithPassword(email, password);
+        if (error) throw error;
+        window.location.href = getReturnUrl();
+      }
+    }
+  } catch (err) {
+    showMessage(err.message || 'Something went wrong. Try again.', 'error');
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = originalText;
+}
+
+async function signInGoogle() {
+  const { error } = await LandMarqAuth.signInWithGoogle();
+  if (error) showMessage(error.message, 'error');
+}
+
+function getReturnUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('returnTo') || '/dashboard';
+}
+
+// If already logged in, redirect
+(async () => {
+  const session = await LandMarqAuth.getSession();
+  if (session) window.location.href = getReturnUrl();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — LandMarq</title>
+<style>
+/* Fonts loaded via <link> in each page head — fallbacks below */
+
+:root {
+  --bg: #0A0C0E;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E242C;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.3);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --gold-pale: rgba(196,158,84,0.06);
+  --cream: #F0EAD6;
+  --text: #C8C0AD;
+  --text-dim: #5C564E;
+  --text-mid: #8A8070;
+  --green: #4A9B6F;
+  --green-dim: rgba(74,155,111,0.15);
+  --red: #C0533A;
+  --red-dim: rgba(192,83,58,0.15);
+  --blue: #4A7FA5;
+  --blue-dim: rgba(74,127,165,0.15);
+  --amber: #D4883A;
+  --radius: 6px;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', 'DM Sans', 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; padding: 0 48px;
+  justify-content: space-between;
+  background: rgba(10,12,14,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-logo .lm-marq { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none; align-items: center;
+}
+
+.nav-links a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid); text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--bg) !important;
+  padding: 9px 22px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-bright) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(196,158,84,0.25) !important; }
+
+/* ── FOOTER ── */
+.footer {
+  background: #070809;
+  border-top: 1px solid var(--border);
+  padding: 64px 72px 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {}
+.footer-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 24px; font-weight: 600; color: var(--cream);
+  margin-bottom: 12px;
+  display: block;
+  text-decoration: none;
+}
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 260px; }
+
+.footer-col-title {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--cream); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em;
+}
+
+.footer-badge {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 6px;
+}
+.footer-badge::before {
+  content: '';
+  width: 6px; height: 6px; background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74,155,111,0.5);
+}
+
+/* ── SHARED COMPONENTS ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600; line-height: 1.1;
+  color: var(--cream); letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+.section-sub {
+  font-size: 16px; color: var(--text-mid);
+  line-height: 1.7; font-weight: 400;
+  max-width: 540px;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--bg);
+  padding: 14px 32px; border-radius: 4px;
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,158,84,0.25); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--cream);
+  padding: 13px 32px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-mid); font-size: 13px; font-weight: 500;
+  text-decoration: none; border-bottom: 1px solid transparent;
+  transition: all 0.2s; padding-bottom: 1px;
+}
+.btn-ghost:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── ANIMATE IN ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── PAGE WRAPPER ── */
+.page { padding-top: var(--nav-h); min-height: 100vh; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border-gold); }
+
+/* ── SECTION SPACING ── */
+.section { padding: 100px 72px; }
+.section-sm { padding: 60px 72px; }
+.section-center { text-align: center; }
+.section-center .section-sub { margin: 0 auto; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+</style>
+<style>
+.about-hero { padding: 120px 72px 80px; }
+.about-hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.about-stat { background: var(--surface); padding: 28px 24px; }
+.about-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+.about-stat-desc { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
+
+.mission-section { padding: 80px 72px; background: var(--surface); }
+.mission-inner { max-width: 780px; }
+.mission-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 3vw, 34px); font-style: italic; font-weight: 300; color: var(--cream); line-height: 1.5; border-left: 3px solid var(--gold); padding-left: 28px; margin-bottom: 32px; }
+.mission-body { font-size: 15px; color: var(--text-mid); line-height: 1.8; }
+.mission-body p { margin-bottom: 16px; }
+
+.problem-section { padding: 80px 72px; }
+.problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 56px; }
+.problem-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 32px 28px; }
+.problem-card.solution { border-color: var(--border-gold); background: var(--gold-dim); }
+.problem-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+.problem-card.solution .problem-label { color: var(--gold); }
+.problem-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--cream); margin-bottom: 14px; }
+.problem-items { display: flex; flex-direction: column; gap: 10px; }
+.problem-item { font-size: 13px; color: var(--text-mid); display: flex; gap: 10px; line-height: 1.5; }
+.problem-item::before { flex-shrink: 0; }
+.problem-card:not(.solution) .problem-item::before { content: '✕'; color: var(--red); }
+.problem-card.solution .problem-item::before { content: '✓'; color: var(--green); }
+
+.values-section { padding: 80px 72px; background: var(--surface); }
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+.value-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 28px 24px; transition: border-color 0.2s; }
+.value-card:hover { border-color: var(--border-gold); }
+.value-icon { font-size: 28px; margin-bottom: 14px; }
+.value-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--cream); margin-bottom: 10px; }
+.value-desc { font-size: 13px; color: var(--text-mid); line-height: 1.65; }
+
+.team-section { padding: 80px 72px; }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+.team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 28px 24px; text-align: center; transition: all 0.2s; }
+.team-card:hover { border-color: var(--border-gold); transform: translateY(-3px); }
+.team-avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--bg); margin: 0 auto 16px; }
+.team-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--cream); margin-bottom: 4px; }
+.team-role { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
+.team-bio { font-size: 12.5px; color: var(--text-mid); line-height: 1.6; }
+
+.backed-section { padding: 60px 72px; background: var(--surface); text-align: center; }
+.backed-logos { display: flex; gap: 48px; align-items: center; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+.backed-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.04em; transition: color 0.2s; }
+.backed-logo:hover { color: var(--cream); }
+
+.cta-about { padding: 100px 72px; text-align: center; position: relative; overflow: hidden; }
+.cta-about-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(196,158,84,0.07) 0%, transparent 70%); }
+
+@media (max-width: 900px) {
+  .about-hero { padding: 100px 24px 60px; }
+  .about-hero-inner, .problem-grid { grid-template-columns: 1fr; }
+  .values-grid, .team-grid { grid-template-columns: 1fr; }
+  .mission-section, .problem-section, .values-section, .team-section, .backed-section, .cta-about { padding: 60px 24px; }
+}
+</style>
+<style>
+nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
+.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
+.nav-links li { list-style:none!important; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
+  <ul class="nav-links">
+    <li><a href="agents.html">Agents</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#cases">Use Cases</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <section class="about-hero">
+    <div class="about-hero-inner">
+      <div>
+        <div class="eyebrow">Our Story</div>
+        <h1 class="section-title">Built by people who<br>know the <em>market.</em></h1>
+        <p class="section-sub">LandMarq was founded on a simple observation: the most successful CRE professionals win on information timing — not just relationships. We built the platform we always wished existed.</p>
+      </div>
+      <div class="about-stat-grid reveal">
+        <div class="about-stat"><div class="about-stat-num">6</div><div class="about-stat-desc">AI Agents</div></div>
+        <div class="about-stat"><div class="about-stat-num">24/7</div><div class="about-stat-desc">Market coverage</div></div>
+        <div class="about-stat"><div class="about-stat-num">~12h</div><div class="about-stat-desc">Saved per broker / week</div></div>
+        <div class="about-stat"><div class="about-stat-num">3.4×</div><div class="about-stat-desc">Lead conversion lift</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="mission-inner">
+      <div class="mission-quote reveal">"The best brokers in every market weren't smarter — they were better informed, earlier. We built LandMarq to give every professional that edge, automatically."</div>
+      <div class="mission-body reveal">
+        <p>Commercial real estate has always been an information game. The broker who hears about a tenant displacement first, who knows about a zoning change before it's public, who has a warm introduction ready when a company starts hiring aggressively — that broker wins the deal.</p>
+        <p>For decades, that edge came from relationships, tenure, and luck. We believe it should come from intelligence — continuous, curated, and delivered to you before the competition even knows to look.</p>
+        <p>LandMarq was built by a team of CRE veterans and AI engineers who spent years watching talented brokers waste hours on research that should have taken minutes. Six AI agents. One executive dashboard. Every market you cover, 24 hours a day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="problem-section">
+    <div class="eyebrow">Why LandMarq</div>
+    <h2 class="section-title">The old way was<br>costing you deals.</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-label">Before LandMarq</div>
+        <div class="problem-title">Hours lost to research that should be automatic.</div>
+        <div class="problem-items">
+          <div class="problem-item">Manually checking CoStar, permit portals, and news sources every morning</div>
+          <div class="problem-item">Missing tenant signals until they're already in the RFP process</div>
+          <div class="problem-item">Hours reviewing LOI clauses that an agent could flag in seconds</div>
+          <div class="problem-item">Writing generic outreach when personalized pitches close faster</div>
+          <div class="problem-item">No single view of pipeline, alerts, and leads — just tabs and spreadsheets</div>
+        </div>
+      </div>
+      <div class="problem-card solution">
+        <div class="problem-label">With LandMarq</div>
+        <div class="problem-title">Intelligence delivered. Deals won before they're advertised.</div>
+        <div class="problem-items">
+          <div class="problem-item">Morning brief curated by AI agents, waiting at 6 AM before you sit down</div>
+          <div class="problem-item">Tenant leads surfaced 3–6 months before the RFP, with ranked scores</div>
+          <div class="problem-item">LOI clauses flagged in real-time against your firm's gold template</div>
+          <div class="problem-item">Personalized pitch decks generated in minutes with live market data</div>
+          <div class="problem-item">One executive dashboard: pipeline, alerts, leads, agents — all live</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="eyebrow">Our Principles</div>
+    <h2 class="section-title">What we believe.</h2>
+    <div class="values-grid">
+      <div class="value-card reveal"><div class="value-icon">⚡</div><div class="value-title">Action over dashboards</div><div class="value-desc">Data that sits in a report doesn't win deals. LandMarq agents perform work — they don't just display it. Every insight comes with a clear next action.</div></div>
+      <div class="value-card reveal reveal-delay-1"><div class="value-icon">🎯</div><div class="value-title">First-mover or nothing</div><div class="value-desc">In CRE, timing is the product. We optimize every agent, every alert, and every delivery to put you in the room first — not second.</div></div>
+      <div class="value-card reveal reveal-delay-2"><div class="value-icon">🔒</div><div class="value-title">Your data stays yours</div><div class="value-desc">We never use your deal data to train models or share with other clients. What happens on your dashboard stays on your dashboard.</div></div>
+      <div class="value-card reveal"><div class="value-icon">🛠️</div><div class="value-title">Built for practitioners</div><div class="value-desc">Every feature was designed with active brokers and managing directors — not theorists. If it doesn't help close deals, it doesn't ship.</div></div>
+      <div class="value-card reveal reveal-delay-1"><div class="value-icon">📡</div><div class="value-title">Always on, never missed</div><div class="value-desc">Markets don't wait for office hours. Our agents run 24/7 and surface what matters — from overnight permit filings to Sunday morning news.</div></div>
+      <div class="value-card reveal reveal-delay-2"><div class="value-icon">🗣️</div><div class="value-title">Plain language first</div><div class="value-desc">Add intelligence in plain English. "Track tech tenants expanding in the 310" — not a dropdown menu. Natural language is the interface.</div></div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="eyebrow">The Team</div>
+    <h2 class="section-title">CRE and AI, <em>combined.</em></h2>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#C49E54,#8B6A2E)">T</div>
+        <div class="team-name">Tony A.</div>
+        <div class="team-role">Founder & CEO</div>
+        <div class="team-bio">9+ years B2B healthcare & tech sales. Former Clarivate Winner's Circle (top 3% globally). B.A. Economics, Univ. of Illinois. Built LandMarq from the conviction that CRE executives deserve better intelligence infrastructure.</div>
+      </div>
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#4A7FA5,#2A4F6F)">S</div>
+        <div class="team-name">Sarah K.</div>
+        <div class="team-role">Head of Product</div>
+        <div class="team-bio">Former VP of Product at a leading PropTech firm. 8 years designing CRE data products. Obsessed with turning raw market signals into actionable broker intelligence.</div>
+      </div>
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#4A9B6F,#2A6B4F)">M</div>
+        <div class="team-name">Marcus D.</div>
+        <div class="team-role">Head of Engineering</div>
+        <div class="team-bio">ML engineer with background in financial data systems. Architected the agent infrastructure that runs LandMarq's six-agent fleet across thousands of data sources in real time.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a href="#" class="btn-ghost">We're hiring → view open roles</a>
+    </div>
+  </section>
+
+  <section class="backed-section">
+    <div class="eyebrow" style="justify-content:center;">Advisors & Partners</div>
+    <h2 class="section-title" style="font-size:28px;">Built with guidance from<br>industry veterans.</h2>
+    <div class="backed-logos">
+      <div class="backed-logo">Savills</div>
+      <div class="backed-logo">CBRE Alumni</div>
+      <div class="backed-logo">JLL Alumni</div>
+      <div class="backed-logo">CoStar</div>
+      <div class="backed-logo">AngelList</div>
+    </div>
+  </section>
+
+  <section class="cta-about">
+    <div class="cta-about-bg"></div>
+    <div class="eyebrow" style="justify-content:center;" class="reveal">Get Early Access</div>
+    <h2 class="section-title reveal">Join us at the <em>frontier.</em></h2>
+    <p style="font-size:16px;color:var(--text-mid);max-width:400px;margin:0 auto 32px;line-height:1.7;position:relative;" class="reveal">We're onboarding select brokerage teams and managing directors. Spots are limited during early access.</p>
+    <div style="display:flex;gap:14px;justify-content:center;position:relative;" class="reveal">
+      <a href="dashboard.html" class="btn-primary">See the Dashboard →</a>
+      <a href="pricing.html" class="btn-outline">View Pricing</a>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p></div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

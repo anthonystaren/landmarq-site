@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Fleet — LandMarq</title>
+<style>
+/* Fonts loaded via <link> in each page head — fallbacks below */
+
+:root {
+  --bg: #0A0C0E;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E242C;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.3);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --gold-pale: rgba(196,158,84,0.06);
+  --cream: #F0EAD6;
+  --text: #C8C0AD;
+  --text-dim: #5C564E;
+  --text-mid: #8A8070;
+  --green: #4A9B6F;
+  --green-dim: rgba(74,155,111,0.15);
+  --red: #C0533A;
+  --red-dim: rgba(192,83,58,0.15);
+  --blue: #4A7FA5;
+  --blue-dim: rgba(74,127,165,0.15);
+  --amber: #D4883A;
+  --radius: 6px;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', 'DM Sans', 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; padding: 0 48px;
+  justify-content: space-between;
+  background: rgba(10,12,14,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-logo .lm-marq { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none; align-items: center;
+}
+
+.nav-links a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid); text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--bg) !important;
+  padding: 9px 22px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-bright) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(196,158,84,0.25) !important; }
+
+/* ── FOOTER ── */
+.footer {
+  background: #070809;
+  border-top: 1px solid var(--border);
+  padding: 64px 72px 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {}
+.footer-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 24px; font-weight: 600; color: var(--cream);
+  margin-bottom: 12px;
+  display: block;
+  text-decoration: none;
+}
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 260px; }
+
+.footer-col-title {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--cream); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em;
+}
+
+.footer-badge {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 6px;
+}
+.footer-badge::before {
+  content: '';
+  width: 6px; height: 6px; background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74,155,111,0.5);
+}
+
+/* ── SHARED COMPONENTS ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600; line-height: 1.1;
+  color: var(--cream); letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+.section-sub {
+  font-size: 16px; color: var(--text-mid);
+  line-height: 1.7; font-weight: 400;
+  max-width: 540px;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--bg);
+  padding: 14px 32px; border-radius: 4px;
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,158,84,0.25); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--cream);
+  padding: 13px 32px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-mid); font-size: 13px; font-weight: 500;
+  text-decoration: none; border-bottom: 1px solid transparent;
+  transition: all 0.2s; padding-bottom: 1px;
+}
+.btn-ghost:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── ANIMATE IN ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── PAGE WRAPPER ── */
+.page { padding-top: var(--nav-h); min-height: 100vh; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border-gold); }
+
+/* ── SECTION SPACING ── */
+.section { padding: 100px 72px; }
+.section-sm { padding: 60px 72px; }
+.section-center { text-align: center; }
+.section-center .section-sub { margin: 0 auto; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+</style>
+<style>
+.agents-hero { padding: 120px 72px 80px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.agents-hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.agents-hero-right { display: flex; flex-direction: column; gap: 12px; }
+.fleet-status-bar { background: var(--surface-2); border: 1px solid var(--border-gold); border-radius: 8px; padding: 20px 24px; }
+.fleet-status-title { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.fleet-status-title::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px rgba(74,155,111,0.6); }
+.fleet-stat { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.fleet-stat:last-child { border-bottom: none; }
+.fleet-stat-label { font-size: 12px; color: var(--text-mid); }
+.fleet-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cream); }
+
+.agents-full { padding: 80px 72px; }
+.agent-full-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; transition: border-color 0.2s; }
+.agent-full-card:hover { border-color: var(--border-gold); }
+.agent-full-header { padding: 32px 36px; display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: flex-start; cursor: pointer; }
+.agent-full-icon { font-size: 36px; }
+.agent-full-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--cream); margin-bottom: 6px; }
+.agent-full-sub { font-size: 13px; color: var(--text-mid); line-height: 1.55; max-width: 600px; }
+.agent-full-status { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); white-space: nowrap; }
+.agent-full-status::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: livePulse 2s ease-in-out infinite; }
+@keyframes livePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(74,155,111,0.5); } 50% { box-shadow: 0 0 0 5px rgba(74,155,111,0); } }
+
+.agent-full-body { padding: 0 36px 32px; border-top: 1px solid var(--border); }
+.agent-full-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; padding-top: 28px; }
+.agent-cap { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px; }
+.agent-cap-title { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.agent-cap-item { font-size: 12px; color: var(--text); padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+.agent-cap-item:last-child { border-bottom: none; }
+.agent-cap-item::before { content: '→'; color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 9px; flex-shrink: 0; margin-top: 2px; }
+
+.agent-num-badge { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.15em; color: var(--gold); background: var(--gold-dim); border: 1px solid var(--border-gold); padding: 4px 10px; border-radius: 3px; text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
+
+@media (max-width: 900px) {
+  .agents-hero { padding: 100px 24px 60px; }
+  .agents-hero-inner { grid-template-columns: 1fr; }
+  .agents-full { padding: 60px 24px; }
+  .agent-full-header { grid-template-columns: auto 1fr; }
+  .agent-full-status { display: none; }
+  .agent-full-grid { grid-template-columns: 1fr; }
+}
+</style>
+<style>
+nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
+.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
+.nav-links li { list-style:none!important; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
+  <ul class="nav-links">
+    <li><a href="agents.html" class="active">Agents</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#cases">Use Cases</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <section class="agents-hero">
+    <div class="agents-hero-inner">
+      <div>
+        <div class="eyebrow">The Agent Fleet</div>
+        <h1 class="section-title">Six AI associates.<br>Running <em>24/7.</em></h1>
+        <p class="section-sub">Each agent is purpose-built, continuously running, and calibrated to your markets, role, and deal focus. Together they replace the work of multiple full-time research and admin staff.</p>
+        <br>
+        <a href="dashboard.html" class="btn-primary">Launch Dashboard →</a>
+      </div>
+      <div>
+        <div class="fleet-status-bar">
+          <div class="fleet-status-title">Fleet Status — Live</div>
+          <div class="fleet-stat"><span class="fleet-stat-label">🌐 Market Intelligence</span><span class="fleet-stat-val" style="color:var(--green)">Running · 2m ago</span></div>
+          <div class="fleet-stat"><span class="fleet-stat-label">🎯 Tenant Lead Engine</span><span class="fleet-stat-val" style="color:var(--green)">Running · Continuous</span></div>
+          <div class="fleet-stat"><span class="fleet-stat-label">📋 LOI Review Agent</span><span class="fleet-stat-val" style="color:var(--gold)">Alert · 1 clause flagged</span></div>
+          <div class="fleet-stat"><span class="fleet-stat-label">✉️ Outreach Agent</span><span class="fleet-stat-val" style="color:var(--green)">Active · Drafting now</span></div>
+          <div class="fleet-stat"><span class="fleet-stat-label">📡 Zoning Monitor</span><span class="fleet-stat-val" style="color:var(--green)">Running · 2 new filings</span></div>
+          <div class="fleet-stat"><span class="fleet-stat-label">🏛️ Portfolio Strategist</span><span class="fleet-stat-val" style="color:var(--green)">Complete · 3 assets</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="agents-full">
+
+    <div class="agent-full-card reveal">
+      <div class="agent-full-header">
+        <div class="agent-full-icon">🌐</div>
+        <div>
+          <div class="agent-num-badge">Agent 01 / 06</div>
+          <div class="agent-full-title">Market Intelligence Agent</div>
+          <div class="agent-full-sub">Continuously monitors vacancy rates, rental trends, permit filings, competitor deal flow, and local news across every submarket you care about. Delivers a curated morning brief before you sit down — so your first move each day is already informed.</div>
+        </div>
+        <div class="agent-full-status">Live · Running</div>
+      </div>
+      <div class="agent-full-body">
+        <div class="agent-full-grid">
+          <div class="agent-cap">
+            <div class="agent-cap-title">Data Sources</div>
+            <div class="agent-cap-item">CoStar vacancy & rent data</div>
+            <div class="agent-cap-item">Local news & press monitoring</div>
+            <div class="agent-cap-item">Kastle badge-in occupancy data</div>
+            <div class="agent-cap-item">Competitor transaction feeds</div>
+            <div class="agent-cap-item">Economic & employment reports</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Capabilities</div>
+            <div class="agent-cap-item">Hourly submarket updates</div>
+            <div class="agent-cap-item">Vacancy trend forecasting</div>
+            <div class="agent-cap-item">Competitor deal tracking</div>
+            <div class="agent-cap-item">Morning brief compilation</div>
+            <div class="agent-cap-item">Custom alert thresholds</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Outputs</div>
+            <div class="agent-cap-item">Daily morning brief (6 AM)</div>
+            <div class="agent-cap-item">Real-time push alerts</div>
+            <div class="agent-cap-item">Submarket heatmap data</div>
+            <div class="agent-cap-item">Weekly market summary PDF</div>
+            <div class="agent-cap-item">Custom intelligence watches</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-full-card reveal">
+      <div class="agent-full-header">
+        <div class="agent-full-icon">🎯</div>
+        <div>
+          <div class="agent-num-badge">Agent 02 / 06</div>
+          <div class="agent-full-title">Tenant Lead Engine</div>
+          <div class="agent-full-sub">Mines LLC registrations, job posting velocity, badge-in data, and commercial lease expiration databases to surface companies likely to need space — months before they issue an RFP. You show up as a trusted advisor, not a vendor responding to a bid.</div>
+        </div>
+        <div class="agent-full-status">Live · Running</div>
+      </div>
+      <div class="agent-full-body">
+        <div class="agent-full-grid">
+          <div class="agent-cap">
+            <div class="agent-cap-title">Signal Sources</div>
+            <div class="agent-cap-item">LLC & corporate filings</div>
+            <div class="agent-cap-item">Job posting velocity (LinkedIn, Greenhouse)</div>
+            <div class="agent-cap-item">Lease expiration databases</div>
+            <div class="agent-cap-item">Kastle badge-in occupancy trends</div>
+            <div class="agent-cap-item">Funding round announcements</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Lead Scoring</div>
+            <div class="agent-cap-item">Headcount growth rate</div>
+            <div class="agent-cap-item">Current space efficiency ratio</div>
+            <div class="agent-cap-item">Lease expiry proximity</div>
+            <div class="agent-cap-item">Industry vertical fit</div>
+            <div class="agent-cap-item">Geographic preference signals</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Outputs</div>
+            <div class="agent-cap-item">Ranked lead list daily</div>
+            <div class="agent-cap-item">Company profile cards</div>
+            <div class="agent-cap-item">Space requirement estimates</div>
+            <div class="agent-cap-item">First-mover window alerts</div>
+            <div class="agent-cap-item">Auto-queued outreach drafts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-full-card reveal">
+      <div class="agent-full-header">
+        <div class="agent-full-icon">📋</div>
+        <div>
+          <div class="agent-num-badge">Agent 03 / 06</div>
+          <div class="agent-full-title">LOI Review Agent</div>
+          <div class="agent-full-sub">Reviews letters of intent, NDAs, and lease abstractions in real-time. Flags non-standard clauses against your firm's gold-standard template library — section by section. Reduces document review time from hours to seconds.</div>
+        </div>
+        <div class="agent-full-status" style="color:var(--gold)">Alert · Review Needed</div>
+      </div>
+      <div class="agent-full-body">
+        <div class="agent-full-grid">
+          <div class="agent-cap">
+            <div class="agent-cap-title">Document Types</div>
+            <div class="agent-cap-item">Letters of Intent (LOI)</div>
+            <div class="agent-cap-item">Non-Disclosure Agreements</div>
+            <div class="agent-cap-item">Lease abstractions</div>
+            <div class="agent-cap-item">Term sheets</div>
+            <div class="agent-cap-item">Co-tenancy clauses</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Review Capabilities</div>
+            <div class="agent-cap-item">Clause-by-clause comparison</div>
+            <div class="agent-cap-item">Deviation flagging vs. gold template</div>
+            <div class="agent-cap-item">Risk level scoring per clause</div>
+            <div class="agent-cap-item">Suggested language alternatives</div>
+            <div class="agent-cap-item">Cross-deal precedent matching</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Outputs</div>
+            <div class="agent-cap-item">Instant review alert on upload</div>
+            <div class="agent-cap-item">Side-by-side clause comparison</div>
+            <div class="agent-cap-item">Risk summary report</div>
+            <div class="agent-cap-item">Redline-ready suggestions</div>
+            <div class="agent-cap-item">NDA draft generation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-full-card reveal">
+      <div class="agent-full-header">
+        <div class="agent-full-icon">✉️</div>
+        <div>
+          <div class="agent-num-badge">Agent 04 / 06</div>
+          <div class="agent-full-title">Outreach Personalization Agent</div>
+          <div class="agent-full-sub">Generates bespoke pitch decks and emails for each prospect, pulling in their real-time workforce data, transit scores, competitor moves, and relevant market conditions. Every message lands like it took a day to write — because it used to.</div>
+        </div>
+        <div class="agent-full-status">Live · Drafting</div>
+      </div>
+      <div class="agent-full-body">
+        <div class="agent-full-grid">
+          <div class="agent-cap">
+            <div class="agent-cap-title">Personalization Data</div>
+            <div class="agent-cap-item">Company headcount & growth</div>
+            <div class="agent-cap-item">Recent funding & leadership news</div>
+            <div class="agent-cap-item">Current office location & size</div>
+            <div class="agent-cap-item">Transit & amenity scoring</div>
+            <div class="agent-cap-item">Competitor leasing activity nearby</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Output Formats</div>
+            <div class="agent-cap-item">Personalized email drafts</div>
+            <div class="agent-cap-item">Executive pitch deck (PDF)</div>
+            <div class="agent-cap-item">One-page property summaries</div>
+            <div class="agent-cap-item">Follow-up sequence drafts</div>
+            <div class="agent-cap-item">LinkedIn outreach messages</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Controls</div>
+            <div class="agent-cap-item">Tone & style customization</div>
+            <div class="agent-cap-item">Approval before sending</div>
+            <div class="agent-cap-item">Your firm's brand templates</div>
+            <div class="agent-cap-item">CRM logging (Salesforce, HubSpot)</div>
+            <div class="agent-cap-item">A/B message variation generation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-full-card reveal">
+      <div class="agent-full-header">
+        <div class="agent-full-icon">🏛️</div>
+        <div>
+          <div class="agent-num-badge">Agent 05 / 06</div>
+          <div class="agent-full-title">Portfolio Strategist Agent</div>
+          <div class="agent-full-sub">Delivers autonomous hold/sell analysis for institutional clients using cap rate trends, debt coverage ratios, and macro indicators. Monitors interest rate movements and models their differential impact across office, industrial, and retail assets.</div>
+        </div>
+        <div class="agent-full-status">Live · Complete</div>
+      </div>
+      <div class="agent-full-body">
+        <div class="agent-full-grid">
+          <div class="agent-cap">
+            <div class="agent-cap-title">Analysis Inputs</div>
+            <div class="agent-cap-item">Cap rate trends by submarket</div>
+            <div class="agent-cap-item">Debt coverage ratio modeling</div>
+            <div class="agent-cap-item">Fed rate & treasury spread data</div>
+            <div class="agent-cap-item">Inflation & employment indicators</div>
+            <div class="agent-cap-item">Comparable transaction data</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Models</div>
+            <div class="agent-cap-item">Hold vs. sell scenario analysis</div>
+            <div class="agent-cap-item">Rate change impact by asset class</div>
+            <div class="agent-cap-item">Exit timing optimization</div>
+            <div class="agent-cap-item">Refinancing threshold alerts</div>
+            <div class="agent-cap-item">Portfolio rebalancing signals</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Outputs</div>
+            <div class="agent-cap-item">Institutional PDF analysis reports</div>
+            <div class="agent-cap-item">Rate impact differential dashboard</div>
+            <div class="agent-cap-item">Asset-by-asset recommendation</div>
+            <div class="agent-cap-item">Board-ready presentation export</div>
+            <div class="agent-cap-item">Quarterly portfolio review brief</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-full-card reveal">
+      <div class="agent-full-header">
+        <div class="agent-full-icon">📡</div>
+        <div>
+          <div class="agent-num-badge">Agent 06 / 06</div>
+          <div class="agent-full-title">Zoning & Permit Monitor</div>
+          <div class="agent-full-sub">Watches local government portals for zoning variances, entitlement hearings, and permit approvals across every parcel in your target markets. The moment a status changes, your team knows — before the market does.</div>
+        </div>
+        <div class="agent-full-status">Live · 2 new filings</div>
+      </div>
+      <div class="agent-full-body">
+        <div class="agent-full-grid">
+          <div class="agent-cap">
+            <div class="agent-cap-title">Monitored Sources</div>
+            <div class="agent-cap-item">City planning portals</div>
+            <div class="agent-cap-item">County permit databases</div>
+            <div class="agent-cap-item">State entitlement filings</div>
+            <div class="agent-cap-item">Environmental review notices</div>
+            <div class="agent-cap-item">Public hearing schedules</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Alert Types</div>
+            <div class="agent-cap-item">Variance filings in target area</div>
+            <div class="agent-cap-item">Use conversion applications</div>
+            <div class="agent-cap-item">Demolition permit activity</div>
+            <div class="agent-cap-item">New construction starts</div>
+            <div class="agent-cap-item">Entitlement hearing dates</div>
+          </div>
+          <div class="agent-cap">
+            <div class="agent-cap-title">Outputs</div>
+            <div class="agent-cap-item">Real-time filing alerts</div>
+            <div class="agent-cap-item">Parcel status change notifications</div>
+            <div class="agent-cap-item">Hearing calendar integration</div>
+            <div class="agent-cap-item">Market supply impact modeling</div>
+            <div class="agent-cap-item">Custom geography watches</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section style="padding:80px 72px;background:var(--surface);text-align:center;">
+    <h2 class="section-title">Ready to deploy your fleet?</h2>
+    <p class="section-sub" style="margin:0 auto 32px;">Get all 6 agents running in under 10 minutes.</p>
+    <div style="display:flex;gap:14px;justify-content:center;">
+      <a href="dashboard.html" class="btn-primary">Launch Dashboard →</a>
+      <a href="pricing.html" class="btn-outline">See Pricing</a>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p></div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LandMarq — AI Intelligence for Commercial Real Estate</title>
+<meta name="description" content="LandMarq deploys a fleet of AI agents that continuously monitor CRE markets, surface tenant leads, and flag opportunities — delivered to a single executive dashboard every morning.">
+<style>
+/* Fonts loaded via <link> in each page head — fallbacks below */
+
+:root {
+  --bg: #0A0C0E;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E242C;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.3);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --gold-pale: rgba(196,158,84,0.06);
+  --cream: #F0EAD6;
+  --text: #C8C0AD;
+  --text-dim: #5C564E;
+  --text-mid: #8A8070;
+  --green: #4A9B6F;
+  --green-dim: rgba(74,155,111,0.15);
+  --red: #C0533A;
+  --red-dim: rgba(192,83,58,0.15);
+  --blue: #4A7FA5;
+  --blue-dim: rgba(74,127,165,0.15);
+  --amber: #D4883A;
+  --radius: 6px;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', 'DM Sans', 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; padding: 0 48px;
+  justify-content: space-between;
+  background: rgba(10,12,14,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-logo .lm-marq { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none; align-items: center;
+}
+
+.nav-links a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid); text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--bg) !important;
+  padding: 9px 22px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-bright) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(196,158,84,0.25) !important; }
+
+/* ── FOOTER ── */
+.footer {
+  background: #070809;
+  border-top: 1px solid var(--border);
+  padding: 64px 72px 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {}
+.footer-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 24px; font-weight: 600; color: var(--cream);
+  margin-bottom: 12px;
+  display: block;
+  text-decoration: none;
+}
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 260px; }
+
+.footer-col-title {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--cream); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em;
+}
+
+.footer-badge {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 6px;
+}
+.footer-badge::before {
+  content: '';
+  width: 6px; height: 6px; background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74,155,111,0.5);
+}
+
+/* ── SHARED COMPONENTS ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600; line-height: 1.1;
+  color: var(--cream); letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+.section-sub {
+  font-size: 16px; color: var(--text-mid);
+  line-height: 1.7; font-weight: 400;
+  max-width: 540px;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--bg);
+  padding: 14px 32px; border-radius: 4px;
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,158,84,0.25); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--cream);
+  padding: 13px 32px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-mid); font-size: 13px; font-weight: 500;
+  text-decoration: none; border-bottom: 1px solid transparent;
+  transition: all 0.2s; padding-bottom: 1px;
+}
+.btn-ghost:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── ANIMATE IN ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── PAGE WRAPPER ── */
+.page { padding-top: var(--nav-h); min-height: 100vh; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border-gold); }
+
+/* ── SECTION SPACING ── */
+.section { padding: 100px 72px; }
+.section-sm { padding: 60px 72px; }
+.section-center { text-align: center; }
+.section-center .section-sub { margin: 0 auto; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+</style>
+<style>
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 72px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(196,158,84,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(74,127,165,0.05) 0%, transparent 50%);
+}
+
+.hero-grid-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 760px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-dim); border: 1px solid var(--border-gold);
+  border-radius: 20px; padding: 6px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 32px;
+}
+
+.hero-badge-dot {
+  width: 5px; height: 5px; background: var(--green); border-radius: 50%;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(74,155,111,0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(74,155,111,0); }
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 92px);
+  font-weight: 600; line-height: 1.02;
+  color: var(--cream); letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+.hero-title em { font-style: italic; color: var(--gold); }
+
+.hero-title .line-2 {
+  display: block;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--text-mid) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: 18px; color: var(--text-mid);
+  line-height: 1.72; max-width: 560px;
+  margin-bottom: 40px; font-weight: 400;
+}
+
+.hero-sub strong { color: var(--cream); font-weight: 500; }
+
+.hero-actions {
+  display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+
+.hero-proof {
+  display: flex; gap: 32px; align-items: center;
+}
+
+.hero-proof-item {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.hero-proof-item::before {
+  content: '✓';
+  color: var(--green); font-family: sans-serif; font-size: 11px;
+}
+
+/* FLOATING DASHBOARD PREVIEW */
+.hero-visual {
+  position: absolute;
+  right: -20px; top: 50%; transform: translateY(-50%);
+  width: 52%;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+.dash-preview {
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(196,158,84,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  animation: floatDash 7s ease-in-out infinite;
+}
+
+@keyframes floatDash {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.dp-bar {
+  background: #0D1015;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dp-dots { display: flex; gap: 5px; }
+.dp-dot { width: 9px; height: 9px; border-radius: 50%; }
+.dp-dot:nth-child(1) { background: #FF5F57; }
+.dp-dot:nth-child(2) { background: #FEBC2E; }
+.dp-dot:nth-child(3) { background: #28C840; }
+
+.dp-url {
+  flex: 1; background: rgba(255,255,255,0.05); border-radius: 4px;
+  padding: 4px 10px; font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; color: var(--text-dim); letter-spacing: 0.06em;
+}
+
+.dp-body { padding: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.dp-kpi {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 10px 12px;
+}
+.dp-kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px; }
+.dp-kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--cream); }
+.dp-kpi-val.gold { color: var(--gold); }
+.dp-kpi-delta { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--green); margin-top: 2px; }
+.dp-kpi-delta.red { color: var(--red); }
+
+.dp-wide { grid-column: 1 / -1; }
+
+.dp-alert {
+  background: var(--red-dim); border: 1px solid rgba(192,83,58,0.2);
+  border-left: 3px solid var(--red);
+  border-radius: 4px; padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.dp-alert-title { font-size: 11px; font-weight: 600; color: var(--cream); margin-bottom: 2px; }
+.dp-alert-sub { font-size: 9.5px; color: var(--text-dim); line-height: 1.4; }
+
+.dp-feed { display: flex; flex-direction: column; gap: 6px; }
+.dp-feed-item {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 7px 0; border-bottom: 1px solid var(--border);
+}
+.dp-feed-icon { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; flex-shrink: 0; }
+.dp-feed-text { font-size: 10px; color: var(--text); line-height: 1.4; }
+.dp-feed-text strong { color: var(--cream); font-size: 10px; }
+
+/* ── TICKER ── */
+.ticker {
+  background: var(--gold);
+  padding: 11px 0; overflow: hidden; white-space: nowrap;
+}
+.ticker-track { display: inline-block; animation: tickerMove 35s linear infinite; }
+@keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--bg); margin: 0 28px;
+}
+.ticker-sep { opacity: 0.35; margin: 0 6px; }
+
+/* ── STATS ── */
+.stats-section {
+  padding: 72px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-cell {
+  background: var(--bg);
+  padding: 40px 36px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.stat-cell:hover { background: var(--surface); }
+
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px; font-weight: 300; color: var(--gold);
+  line-height: 1; margin-bottom: 8px;
+}
+
+.stat-desc {
+  font-size: 12px; color: var(--text-dim);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── AGENTS SECTION ── */
+.agents-section { padding: 100px 72px; background: var(--surface); }
+
+.agents-intro {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: center; margin-bottom: 72px;
+}
+
+.agents-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border); border: 1px solid var(--border); border-radius: 8px;
+  overflow: hidden;
+}
+
+.agent-cell {
+  background: var(--surface);
+  padding: 32px 28px;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+
+.agent-cell::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.agent-cell:hover { background: var(--surface-2); }
+.agent-cell:hover::before { transform: scaleX(1); }
+
+.agent-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; letter-spacing: 0.18em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 14px;
+}
+
+.agent-icon { font-size: 26px; margin-bottom: 12px; display: block; }
+
+.agent-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; color: var(--cream);
+  margin-bottom: 10px; line-height: 1.2;
+}
+
+.agent-desc { font-size: 13px; color: var(--text-mid); line-height: 1.65; }
+
+.agent-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 14px; }
+.agent-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; letter-spacing: 0.08em; padding: 3px 9px;
+  background: var(--gold-dim); color: var(--gold);
+  border: 1px solid var(--border-gold); border-radius: 2px;
+  text-transform: uppercase;
+}
+
+/* ── HOW IT WORKS ── */
+.how-section { padding: 100px 72px; }
+.how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 64px; }
+
+.how-steps { display: flex; flex-direction: column; gap: 0; }
+.how-step {
+  display: flex; gap: 24px; padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.2s;
+  cursor: default;
+}
+.how-step:hover { padding-left: 8px; }
+.how-step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; font-weight: 300;
+  color: rgba(196,158,84,0.2); line-height: 1; min-width: 52px;
+  transition: color 0.2s;
+}
+.how-step:hover .how-step-num { color: var(--gold); }
+.how-step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; color: var(--cream); margin-bottom: 6px;
+}
+.how-step-desc { font-size: 13px; color: var(--text-mid); line-height: 1.65; }
+
+/* NLP Demo Box */
+.nlp-demo {
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+}
+
+.nlp-demo-header {
+  padding: 14px 20px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.nlp-demo-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);
+}
+
+.nlp-demo-body { padding: 20px; }
+
+.nlp-prompt {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px; padding: 12px 14px;
+  font-size: 13px; color: var(--text);
+  font-style: italic; margin-bottom: 16px;
+  line-height: 1.5; position: relative;
+}
+
+.nlp-prompt::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; color: var(--gold); opacity: 0.4;
+  position: absolute; top: -4px; left: 10px;
+  line-height: 1;
+}
+
+.nlp-response {
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.nlp-r-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 12px;
+  background: var(--gold-dim); border: 1px solid var(--border-gold);
+  border-radius: 5px; animation: nlpIn 0.4s ease-out;
+}
+
+@keyframes nlpIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+
+.nlp-r-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+.nlp-r-text { font-size: 12px; color: var(--cream); line-height: 1.45; }
+.nlp-r-text span { color: var(--gold); font-weight: 600; }
+
+.nlp-prompts-cycle { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.nlp-cycle-item {
+  padding: 8px 12px; border-radius: 4px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-size: 12px; color: var(--text-dim); line-height: 1.4;
+  cursor: pointer; transition: all 0.15s;
+}
+.nlp-cycle-item:hover { color: var(--cream); border-color: var(--border-gold); background: var(--gold-dim); }
+.nlp-cycle-item.active { color: var(--gold); border-color: var(--border-gold); background: var(--gold-dim); }
+
+/* ── USE CASES ── */
+.cases-section {
+  padding: 100px 72px;
+  background: var(--surface);
+}
+
+.cases-tabs {
+  display: flex; gap: 0; margin-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+
+.case-tab {
+  padding: 12px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-dim); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: all 0.2s;
+}
+
+.case-tab:hover { color: var(--text); }
+.case-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.case-panel { display: none; }
+.case-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; animation: stepIn 0.3s ease-out; }
+@keyframes stepIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
+
+.case-text {}
+.case-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--cream); margin-bottom: 16px; line-height: 1.2; }
+.case-desc { font-size: 14px; color: var(--text-mid); line-height: 1.75; margin-bottom: 24px; }
+.case-outcomes { display: flex; flex-direction: column; gap: 10px; }
+.case-outcome {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 5px;
+}
+.outcome-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.outcome-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+.outcome-text strong { color: var(--cream); display: block; margin-bottom: 2px; }
+
+.case-visual {
+  background: var(--surface-2);
+  border: 1px solid var(--border-gold);
+  border-radius: 8px; padding: 24px;
+}
+
+/* ── TESTIMONIALS ── */
+.proof-section { padding: 100px 72px; }
+.proof-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 56px; }
+
+.proof-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 32px 28px;
+  transition: all 0.2s;
+}
+.proof-card:hover { border-color: var(--border-gold); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.2); }
+
+.proof-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-style: italic; color: var(--text);
+  line-height: 1.6; margin-bottom: 24px;
+}
+.proof-quote::before { content: '"'; color: var(--gold); font-size: 28px; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
+
+.proof-attr { display: flex; align-items: center; gap: 12px; }
+.proof-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600; color: var(--bg); flex-shrink: 0;
+}
+.proof-name { font-size: 13px; font-weight: 600; color: var(--cream); }
+.proof-role { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 2px; }
+
+/* ── PRICING PREVIEW ── */
+.pricing-preview {
+  padding: 100px 72px;
+  background: var(--surface);
+}
+
+.pricing-grid {
+  display: grid; grid-template-columns: 1fr 1.08fr 1fr;
+  gap: 20px; margin-top: 56px; max-width: 920px; margin-left: auto; margin-right: auto;
+}
+
+.price-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 36px 28px;
+  transition: all 0.2s; position: relative;
+}
+.price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.2); }
+.price-card.featured { background: var(--surface-2); border-color: var(--gold); box-shadow: 0 0 0 1px rgba(196,158,84,0.15); }
+
+.price-badge {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: var(--bg);
+  font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em;
+  padding: 3px 14px; border-radius: 20px; text-transform: uppercase; font-weight: 700;
+  white-space: nowrap;
+}
+
+.price-tier { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.price-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--cream); margin-bottom: 18px; }
+.price-amount { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--cream); line-height: 1; }
+.price-period { font-size: 12px; color: var(--text-dim); margin-bottom: 24px; margin-top: 4px; }
+
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 28px; }
+.price-feature { font-size: 13px; color: var(--text-mid); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+.price-feature::before { content: '→'; color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 2px; flex-shrink: 0; }
+
+.price-btn {
+  display: block; width: 100%; text-align: center;
+  padding: 12px; border-radius: 4px; font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  cursor: pointer; border: none; transition: all 0.2s; text-decoration: none;
+}
+.price-btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--cream); }
+.price-btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.price-btn-gold { background: var(--gold); color: var(--bg); }
+.price-btn-gold:hover { background: var(--gold-bright); }
+
+/* ── CTA SECTION ── */
+.cta-section {
+  padding: 120px 72px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(196,158,84,0.08) 0%, transparent 70%);
+}
+
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 600; color: var(--cream);
+  line-height: 1.1; margin-bottom: 20px;
+  position: relative;
+}
+.cta-title em { font-style: italic; color: var(--gold); }
+
+.cta-sub { font-size: 16px; color: var(--text-mid); max-width: 440px; margin: 0 auto 36px; line-height: 1.7; position: relative; }
+
+.cta-form {
+  display: flex; gap: 10px; max-width: 460px; margin: 0 auto;
+  position: relative;
+}
+
+.cta-input {
+  flex: 1; background: var(--surface);
+  border: 1px solid var(--border-gold); border-radius: 4px;
+  padding: 13px 18px; color: var(--cream);
+  font-family: 'Syne', sans-serif; font-size: 14px; outline: none;
+  transition: border-color 0.2s;
+}
+.cta-input:focus { border-color: var(--gold); }
+.cta-input::placeholder { color: var(--text-dim); }
+
+.cta-note { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-top: 12px; position: relative; }
+
+@media (max-width: 900px) {
+  .hero { padding: 100px 24px 60px; }
+  .hero-visual { display: none; }
+  .hero-title { font-size: 44px; }
+  .stats-section { grid-template-columns: 1fr 1fr; }
+  .agents-section { padding: 60px 24px; }
+  .agents-intro { grid-template-columns: 1fr; gap: 40px; }
+  .agents-grid { grid-template-columns: 1fr; }
+  .how-grid { grid-template-columns: 1fr; }
+  .proof-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .case-panel.active { grid-template-columns: 1fr; }
+  .cta-form { flex-direction: column; }
+}
+</style>
+<style>
+nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
+.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
+.nav-links li { list-style:none!important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
+  <ul class="nav-links">
+    <li><a href="agents.html">Agents</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#cases">Use Cases</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge reveal"><div class="hero-badge-dot"></div> 6 AI Agents Running 24/7</div>
+
+    <h1 class="hero-title reveal reveal-delay-1">
+      Your market never sleeps.<br>
+      Neither should your<br>
+      <em>intelligence.</em>
+    </h1>
+
+    <p class="hero-sub reveal reveal-delay-2">
+      LandMarq deploys a fleet of specialized AI agents that <strong>monitor submarkets</strong>, surface tenant leads, review documents, and flag opportunities — all delivered to a single executive dashboard, every morning.
+    </p>
+
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="dashboard.html" class="btn-primary">See the Dashboard →</a>
+      <a href="#how" class="btn-outline">How It Works</a>
+    </div>
+
+    <div class="hero-proof reveal reveal-delay-4">
+      <div class="hero-proof-item">14-day free trial</div>
+      <div class="hero-proof-item">No credit card</div>
+      <div class="hero-proof-item">Live in 10 minutes</div>
+    </div>
+  </div>
+
+  <!-- Floating dashboard preview -->
+  <div class="hero-visual">
+    <div class="dash-preview">
+      <div class="dp-bar">
+        <div class="dp-dots"><div class="dp-dot"></div><div class="dp-dot"></div><div class="dp-dot"></div></div>
+        <div class="dp-url">landmarq.ai/dashboard — Morning Brief · 6:04 AM</div>
+      </div>
+      <div class="dp-body">
+        <div class="dp-kpi"><div class="dp-kpi-label">Pipeline Value</div><div class="dp-kpi-val gold">$218M</div><div class="dp-kpi-delta">▲ 12.4%</div></div>
+        <div class="dp-kpi"><div class="dp-kpi-label">LA Vacancy</div><div class="dp-kpi-val">14.2%</div><div class="dp-kpi-delta red">▼ 0.8%</div></div>
+        <div class="dp-kpi"><div class="dp-kpi-label">New Leads (30d)</div><div class="dp-kpi-val">31</div><div class="dp-kpi-delta">▲ 8</div></div>
+        <div class="dp-wide">
+          <div class="dp-alert">
+            <div class="dp-alert-title">⚡ Snap Inc. vacating 42K SF — Santa Monica</div>
+            <div class="dp-alert-sub">Lease expires Q2. 3 TAMI tenants actively searching. First-mover window: ~6 weeks.</div>
+          </div>
+          <div class="dp-feed">
+            <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(196,158,84,0.15);border:1px solid rgba(196,158,84,0.3)">🎯</div><div class="dp-feed-text"><strong>Lead Agent</strong> — TechCo Inc. expansion signal detected. 40+ LA job postings.</div></div>
+            <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,155,111,0.15);border:1px solid rgba(74,155,111,0.3)">📋</div><div class="dp-feed-text"><strong>LOI Agent</strong> — Non-standard clause flagged in Apex Capital draft. Review needed.</div></div>
+            <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,127,165,0.15);border:1px solid rgba(74,127,165,0.3)">📡</div><div class="dp-feed-text"><strong>Zoning Agent</strong> — Variance filed at 1150 S Olive St. Mixed-use conversion.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Market Intelligence Agent<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Tenant Lead Engine<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">LOI Review Agent<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Zoning & Permit Monitor<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Outreach Personalization<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Portfolio Strategist<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Natural Language Intelligence<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Morning Brief · 6:00 AM Daily<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Market Intelligence Agent<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Tenant Lead Engine<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">LOI Review Agent<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Zoning & Permit Monitor<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Outreach Personalization<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Portfolio Strategist<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Natural Language Intelligence<span class="ticker-sep"> · </span></span>
+    <span class="ticker-item">Morning Brief · 6:00 AM Daily<span class="ticker-sep"> · </span></span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stat-cell reveal"><div class="stat-num">24/7</div><div class="stat-desc">Market Monitoring</div></div>
+  <div class="stat-cell reveal reveal-delay-1"><div class="stat-num">~12h</div><div class="stat-desc">Saved Per Broker / Week</div></div>
+  <div class="stat-cell reveal reveal-delay-2"><div class="stat-num">3.4×</div><div class="stat-desc">Lead-to-Meeting Rate</div></div>
+  <div class="stat-cell reveal reveal-delay-3"><div class="stat-num">6</div><div class="stat-desc">Specialized AI Agents</div></div>
+</div>
+
+<!-- AGENTS SECTION -->
+<section class="agents-section" id="agents">
+  <div class="agents-intro">
+    <div>
+      <div class="eyebrow">The Agent Fleet</div>
+      <h2 class="section-title">Six AI associates<br>working before<br>you sit down.</h2>
+      <p class="section-sub">Each agent is purpose-built for a specific function. Together, they replace hours of research, admin, and monitoring — so your brokers do what they do best.</p>
+      <br>
+      <a href="agents.html" class="btn-ghost">Explore all agents →</a>
+    </div>
+    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:28px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">● Live Agent Status</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">🌐</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Market Intelligence</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Last run: 2 min ago · 15 submarkets</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(74,155,111,0.6);"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">🎯</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Tenant Lead Engine</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">31 leads qualified this month</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(74,155,111,0.6);"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">📋</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">LOI Review Agent</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">1 clause flagged · Apex Capital</div></div>
+          <div style="width:7px;height:7px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px rgba(196,158,84,0.6);"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">✉️</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Outreach Agent</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Drafting Netflix pitch now...</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;animation:livePulse 2s ease-in-out infinite;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">📡</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Zoning Monitor</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">2 variances filed overnight</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
+          <span style="font-size:16px;">🏛️</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Portfolio Strategist</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Analysis complete · 3 assets</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="agents-grid">
+    <div class="agent-cell reveal"><div class="agent-num">01 / 06</div><span class="agent-icon">🌐</span><div class="agent-name">Market Intelligence Agent</div><div class="agent-desc">Continuously monitors vacancy rates, rents, permit filings, and competitor deal flow across your focus submarkets. Delivers a curated morning brief before your first coffee.</div><div class="agent-tags"><span class="agent-tag">CoStar Data</span><span class="agent-tag">Permit APIs</span><span class="agent-tag">Hourly</span></div></div>
+    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">02 / 06</div><span class="agent-icon">🎯</span><div class="agent-name">Tenant Lead Engine</div><div class="agent-desc">Mines LLC registrations, job postings, badge-in data, and lease expiration databases. Flags companies before they issue an RFP — giving you first-mover advantage.</div><div class="agent-tags"><span class="agent-tag">LLC Filings</span><span class="agent-tag">Job Trends</span><span class="agent-tag">Expiry DB</span></div></div>
+    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">03 / 06</div><span class="agent-icon">📋</span><div class="agent-name">LOI Review Agent</div><div class="agent-desc">Reviews letters of intent and NDAs in real-time, flagging non-standard clauses against your firm's gold-standard templates. Turns hours of review into seconds.</div><div class="agent-tags"><span class="agent-tag">LOI Review</span><span class="agent-tag">NDA Drafting</span><span class="agent-tag">Clause AI</span></div></div>
+    <div class="agent-cell reveal"><div class="agent-num">04 / 06</div><span class="agent-icon">✉️</span><div class="agent-name">Outreach Personalization</div><div class="agent-desc">Generates bespoke pitch decks and emails for each prospect, pulling real-time workforce data, transit scores, and competitor moves. Every message lands like it took a day to write.</div><div class="agent-tags"><span class="agent-tag">Pitch Decks</span><span class="agent-tag">Auto-personalize</span></div></div>
+    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">05 / 06</div><span class="agent-icon">🏛️</span><div class="agent-name">Portfolio Strategist</div><div class="agent-desc">Autonomous hold/sell analysis using cap rate trends, debt coverage ratios, and macro indicators. Turns months of analyst work into an on-demand institutional report.</div><div class="agent-tags"><span class="agent-tag">Cap Rates</span><span class="agent-tag">DCR Analysis</span><span class="agent-tag">PDF Export</span></div></div>
+    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">06 / 06</div><span class="agent-icon">📡</span><div class="agent-name">Zoning & Permit Monitor</div><div class="agent-desc">Watches local government portals for zoning variances, entitlement hearings, and permit approvals. The moment a parcel status changes, your team knows — before the market does.</div><div class="agent-tags"><span class="agent-tag">Gov Portals</span><span class="agent-tag">Real-time</span></div></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-center">
+    <div class="eyebrow" style="justify-content:center;">Simple Onboarding</div>
+    <h2 class="section-title">Live in under<br>ten minutes.</h2>
+  </div>
+
+  <div class="how-grid">
+    <div class="how-steps">
+      <div class="how-step"><div class="how-step-num">01</div><div><div class="how-step-title">Create your profile</div><div class="how-step-desc">Enter your firm, role, and focus markets. LandMarq calibrates everything to your context in 90 seconds.</div></div></div>
+      <div class="how-step"><div class="how-step-num">02</div><div><div class="how-step-title">Select your agents</div><div class="how-step-desc">Toggle on the AI agents relevant to your role — broker, team lead, or portfolio manager.</div></div></div>
+      <div class="how-step"><div class="how-step-num">03</div><div><div class="how-step-title">Tell it what to watch</div><div class="how-step-desc">Use plain English. "Track CRE growth in the 310 area for tech tenants" is all it takes to spin up a new intelligence watch.</div></div></div>
+      <div class="how-step"><div class="how-step-num">04</div><div><div class="how-step-title">Wake up ahead of the market</div><div class="how-step-desc">Your morning brief, agent alerts, and qualified leads are waiting at 6 AM. Every single day.</div></div></div>
+    </div>
+
+    <!-- NLP Demo -->
+    <div class="nlp-demo">
+      <div class="nlp-demo-header">
+        <div style="width:7px;height:7px;background:var(--green);border-radius:50%;animation:livePulse 2s ease-in-out infinite;"></div>
+        <div class="nlp-demo-title">Add Intelligence — Natural Language</div>
+      </div>
+      <div class="nlp-demo-body">
+        <div class="nlp-prompt" id="nlp-active-prompt">I want to see how interest rate changes will impact commercial real estate differently across office, industrial, and retail</div>
+        <div class="nlp-response">
+          <div class="nlp-r-item"><div class="nlp-r-icon">📈</div><div class="nlp-r-text"><span>Macro Signal Agent</span> activated · Monitoring Fed signals + treasury spreads</div></div>
+          <div class="nlp-r-item"><div class="nlp-r-icon">🏢</div><div class="nlp-r-text"><span>3 property type models</span> configured · Office, Industrial, Retail · Cap rate impact projections enabled</div></div>
+          <div class="nlp-r-item"><div class="nlp-r-icon">🔔</div><div class="nlp-r-text"><span>Alert threshold</span> set · Notify on ±25bps rate movement · Daily differential report added to brief</div></div>
+        </div>
+        <div class="nlp-prompts-cycle" id="nlp-examples">
+          <div class="nlp-cycle-item active" onclick="setPrompt(this, 0)">I want to see how interest rate changes will impact CRE differently across office, industrial, and retail</div>
+          <div class="nlp-cycle-item" onclick="setPrompt(this, 1)">Show me CRE growth projections in the 310 area code for tech tenants</div>
+          <div class="nlp-cycle-item" onclick="setPrompt(this, 2)">Alert me when vacancy in Santa Monica drops below 8%</div>
+          <div class="nlp-cycle-item" onclick="setPrompt(this, 3)">Track all commercial real estate activity in ZIP codes 90401 and 90232</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="cases-section" id="cases">
+  <div class="eyebrow">Built For</div>
+  <h2 class="section-title">Every role.<br>One platform.</h2>
+
+  <div class="cases-tabs">
+    <div class="case-tab active" onclick="switchCase(this, 0)">Managing Director</div>
+    <div class="case-tab" onclick="switchCase(this, 1)">Tenant Rep Broker</div>
+    <div class="case-tab" onclick="switchCase(this, 2)">Portfolio Manager</div>
+    <div class="case-tab" onclick="switchCase(this, 3)">Research Analyst</div>
+  </div>
+
+  <div class="case-panel active" id="case-0">
+    <div class="case-text">
+      <div class="case-title">Lead from the front with intelligence, not instinct.</div>
+      <div class="case-desc">As a Managing Director overseeing multiple markets and teams, you need a consolidated view of what matters — not 12 different dashboards. LandMarq gives you a single command center that surfaces what needs your attention, before it becomes urgent.</div>
+      <div class="case-outcomes">
+        <div class="case-outcome"><div class="outcome-icon">◈</div><div class="outcome-text"><strong>Morning Brief</strong>Curated overnight intelligence across all your markets, delivered at 6 AM.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">△</div><div class="outcome-text"><strong>Team-wide visibility</strong>See every active deal, lead, and alert across your entire brokerage team.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">⚡</div><div class="outcome-text"><strong>First-mover alerts</strong>Know about tenant displacements and market shifts before your competitors.</div></div>
+      </div>
+    </div>
+    <div class="case-visual">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">● MD Command View</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:5px;padding:12px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;">Team Pipeline</div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);">$218M</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--green);">▲ 12.4% QoQ</div></div>
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:5px;padding:12px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;">Active Deals</div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);">14</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--green);">▲ 3 this month</div></div>
+      </div>
+      <div style="margin-top:10px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;padding:10px 12px;">
+        <div style="font-size:11px;font-weight:600;color:var(--cream);margin-bottom:3px;">⚡ Snap Inc. vacating 42K SF</div>
+        <div style="font-size:9.5px;color:var(--text-dim);">First-mover window: ~6 weeks. 3 TAMI tenants in submarket.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="case-1">
+    <div class="case-text">
+      <div class="case-title">Know about the deal before the RFP hits your inbox.</div>
+      <div class="case-desc">LandMarq's Tenant Lead Engine scans job postings, LLC filings, badge-in data, and lease expirations to identify companies likely to need space — months before they start looking. You show up as a trusted advisor, not a vendor responding to a bid.</div>
+      <div class="case-outcomes">
+        <div class="case-outcome"><div class="outcome-icon">🎯</div><div class="outcome-text"><strong>Pre-RFP lead detection</strong>Find tenants with expansion signals 3–6 months before they issue requirements.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">✉️</div><div class="outcome-text"><strong>Personalized outreach</strong>Agent drafts a bespoke pitch in minutes using real workforce and market data.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">📋</div><div class="outcome-text"><strong>LOI review built-in</strong>Never miss a non-standard clause again. Flagged automatically vs. your template.</div></div>
+      </div>
+    </div>
+    <div class="case-visual">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">🎯 New Lead Detected</div>
+      <div style="background:var(--surface-3);border:1px solid var(--border-gold);border-radius:6px;padding:14px;margin-bottom:10px;">
+        <div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:4px;">TechCo Inc. — Series C · 240 employees</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);margin-bottom:10px;">Playa Vista / Culver City · Office · 15–25K SF est.</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="font-size:11px;color:var(--text);">📊 40+ LA job postings this week</div>
+          <div style="font-size:11px;color:var(--text);">🏢 Badge-in at WeWork up 62%</div>
+          <div style="font-size:11px;color:var(--text);">📅 Current lease expires Q4 2026</div>
+        </div>
+      </div>
+      <div style="background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:4px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;text-align:center;">Outreach Agent: Draft Personalized Pitch →</div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="case-2">
+    <div class="case-text">
+      <div class="case-title">Autonomous hold/sell analysis for institutional portfolios.</div>
+      <div class="case-desc">LandMarq's Portfolio Strategist continuously models cap rate trends, debt coverage ratios, and macro signals against your assets. Get an on-demand institutional-grade report — in minutes, not months.</div>
+      <div class="case-outcomes">
+        <div class="case-outcome"><div class="outcome-icon">🏛️</div><div class="outcome-text"><strong>Hold vs. Sell analysis</strong>Automated DCR, cap rate compression, and exit scenario modeling for each asset.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">📈</div><div class="outcome-text"><strong>Macro signal integration</strong>Fed rate decisions, treasury spreads, and inflation data wired directly into your models.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">📊</div><div class="outcome-text"><strong>Institutional PDF reports</strong>Export board-ready analysis on any asset in your portfolio on demand.</div></div>
+      </div>
+    </div>
+    <div class="case-visual">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">🏛️ Portfolio Strategist — Rate Impact</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:5px;padding:12px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-size:12px;font-weight:600;color:var(--cream);">Office Assets</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim)">+25bps → cap rate impact</div></div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--red);">−$4.2M</div>
+        </div>
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:5px;padding:12px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-size:12px;font-weight:600;color:var(--cream);">Industrial Assets</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim)">+25bps → cap rate impact</div></div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--green);">+$1.8M</div>
+        </div>
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:5px;padding:12px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-size:12px;font-weight:600;color:var(--cream);">Retail Assets</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim)">+25bps → cap rate impact</div></div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--amber);">−$0.9M</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="case-3">
+    <div class="case-text">
+      <div class="case-title">Stop building reports. Start delivering insights.</div>
+      <div class="case-desc">LandMarq agents do the data gathering so your analysts can focus on interpretation. Vacancy trends, permit activity, comparable transactions — aggregated, structured, and ready to present.</div>
+      <div class="case-outcomes">
+        <div class="case-outcome"><div class="outcome-icon">🌐</div><div class="outcome-text"><strong>Automated data collection</strong>Vacancy, rents, permits, and transactions aggregated from multiple sources continuously.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">📡</div><div class="outcome-text"><strong>Zoning intelligence</strong>Every variance and permit filing tracked and categorized across your markets.</div></div>
+        <div class="case-outcome"><div class="outcome-icon">📊</div><div class="outcome-text"><strong>Export-ready data</strong>Pull structured data into your existing models and presentations instantly.</div></div>
+      </div>
+    </div>
+    <div class="case-visual">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">🌐 Market Data · LA Metro</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:4px;padding:10px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.12em;">Office Vacancy</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">14.2%</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--red)">▼ 0.8%</div></div>
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:4px;padding:10px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.12em;">Avg NNN PSF</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">$62</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--green)">▲ $1.20</div></div>
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:4px;padding:10px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.12em;">Permit Filings</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">7</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim)">today</div></div>
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:4px;padding:10px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.12em;">Submarkets</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">15</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim)">monitored</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="proof-section">
+  <div class="section-center">
+    <div class="eyebrow" style="justify-content:center;">Early Access Feedback</div>
+    <h2 class="section-title">What brokers are saying.</h2>
+  </div>
+  <div class="proof-grid">
+    <div class="proof-card reveal">
+      <div class="proof-quote">This is the first platform I've seen that doesn't just show me data — it tells me what to do with it. My morning brief replaced three different subscriptions and two junior analyst hours.</div>
+      <div class="proof-attr"><div class="proof-avatar" style="background:linear-gradient(135deg,#C49E54,#8B6A2E)">J</div><div><div class="proof-name">Jennifer Hartwell</div><div class="proof-role">SVP Tenant Rep · West Coast Markets</div></div></div>
+    </div>
+    <div class="proof-card reveal reveal-delay-1">
+      <div class="proof-quote">The lead engine alone is worth the subscription. It found a tenant we never would have discovered through normal channels — they signed within 90 days.</div>
+      <div class="proof-attr"><div class="proof-avatar" style="background:linear-gradient(135deg,#4A7FA5,#2A4F6F)">R</div><div><div class="proof-name">Robert Chen</div><div class="proof-role">Principal Broker · TAMI Specialist</div></div></div>
+    </div>
+    <div class="proof-card reveal reveal-delay-2">
+      <div class="proof-quote">We gave it to our team of 12 and the quality of deal pipeline improved measurably within 30 days. It's like having a research department that never sleeps.</div>
+      <div class="proof-attr"><div class="proof-avatar" style="background:linear-gradient(135deg,#4A9B6F,#2A6B4F)">A</div><div><div class="proof-name">Alexandra Russo</div><div class="proof-role">Managing Director · Pacific Division</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING PREVIEW -->
+<section class="pricing-preview" id="pricing-preview">
+  <div class="section-center">
+    <div class="eyebrow" style="justify-content:center;">Pricing</div>
+    <h2 class="section-title">Invest in intelligence,<br>not headcount.</h2>
+    <p class="section-sub" style="margin:0 auto 16px;">All plans include a 14-day free trial. No credit card required.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card"><div class="price-tier">Broker</div><div class="price-name">Solo</div><div class="price-amount">$199</div><div class="price-period">per month, per user</div><ul class="price-features"><li class="price-feature">3 AI Agents of your choice</li><li class="price-feature">2 focus submarkets</li><li class="price-feature">Daily morning brief</li><li class="price-feature">Email + Slack delivery</li></ul><a href="pricing.html" class="price-btn price-btn-outline">Start Free Trial</a></div>
+    <div class="price-card featured"><div class="price-badge">Most Popular</div><div class="price-tier">Team</div><div class="price-name">Pro</div><div class="price-amount">$449</div><div class="price-period">per seat / month · min 3 seats</div><ul class="price-features"><li class="price-feature">All 6 AI Agents</li><li class="price-feature">Unlimited submarkets</li><li class="price-feature">Hourly intelligence</li><li class="price-feature">CRM integrations</li><li class="price-feature">Shared team dashboard</li><li class="price-feature">Custom document templates</li></ul><a href="pricing.html" class="price-btn price-btn-gold">Start Free Trial</a></div>
+    <div class="price-card"><div class="price-tier">Firm</div><div class="price-name">Enterprise</div><div class="price-amount">Custom</div><div class="price-period">tailored to your firm</div><ul class="price-features"><li class="price-feature">White-label option</li><li class="price-feature">API integrations</li><li class="price-feature">Dedicated success manager</li><li class="price-feature">Custom agent development</li></ul><a href="pricing.html" class="price-btn price-btn-outline">Schedule Demo</a></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="eyebrow" style="justify-content:center;" class="reveal">Early Access</div>
+  <h2 class="cta-title reveal">Ready to wake up<br>ahead of the <em>market?</em></h2>
+  <p class="cta-sub reveal">Join the waitlist. We're onboarding CRE executives and brokerage teams now.</p>
+  <div class="cta-form reveal">
+    <input class="cta-input" type="email" placeholder="your@firm.com" />
+    <button class="btn-primary" onclick="handleWaitlist()">Request Access →</button>
+  </div>
+  <div class="cta-note reveal">No spam. No pitch deck. Just early access.</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-logo">Land<span>Marq</span></a>
+      <p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p>
+    </div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="#">Integrations</a></li><li><a href="#">Security</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai · All rights reserved</div>
+    <div class="footer-badge">6 Agents Active</div>
+  </div>
+</footer>
+
+<script>
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// NLP prompt cycling
+const prompts = [
+  { text: "I want to see how interest rate changes will impact commercial real estate differently across office, industrial, and retail", responses: ["📈 Macro Signal Agent activated · Monitoring Fed signals + treasury spreads","🏢 3 property type models configured · Cap rate impact projections enabled","🔔 Alert threshold set · Notify on ±25bps movement · Daily report added to brief"] },
+  { text: "Show me CRE growth projections in the 310 area code for tech tenants", responses: ["📍 Area 310 monitor activated · Covering Santa Monica, Culver City, Brentwood","🎯 Tech tenant filter applied · TAMI vertical tracking enabled","📊 Growth projection model running · 12-month forecast added to your brief"] },
+  { text: "Alert me when vacancy in Santa Monica drops below 8%", responses: ["📡 Vacancy threshold watch created · Santa Monica submarket","🔔 Alert trigger set at 8.0% · Currently at 9.8% · 1.8% from threshold","📊 Trend analysis activated · Tracking 90-day velocity toward threshold"] },
+  { text: "Track all commercial real estate activity in ZIP codes 90401 and 90232", responses: ["📍 ZIP monitors created · 90401 (Santa Monica) + 90232 (Culver City)","🌐 All property types tracked · Office, retail, industrial, mixed-use","📋 Permit filings, lease transactions, and ownership changes now monitored"] }
+];
+
+function setPrompt(el, idx) {
+  document.querySelectorAll('.nlp-cycle-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('nlp-active-prompt').textContent = prompts[idx].text;
+}
+
+// Use case tabs
+function switchCase(tab, idx) {
+  document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.case-panel').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById(`case-${idx}`).classList.add('active');
+}
+
+// Waitlist
+function handleWaitlist() {
+  const input = document.querySelector('.cta-input');
+  if (input.value && input.value.includes('@')) {
+    input.value = '';
+    input.placeholder = '✓ You\'re on the list — we\'ll be in touch soon';
+    input.style.borderColor = 'var(--green)';
+    input.style.color = 'var(--green)';
+  }
+}
+</script>
+</body>
+</html>

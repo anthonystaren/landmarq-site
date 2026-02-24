@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — LandMarq</title>
+<style>
+/* Fonts loaded via <link> in each page head — fallbacks below */
+
+:root {
+  --bg: #0A0C0E;
+  --surface: #111418;
+  --surface-2: #181C22;
+  --surface-3: #1E242C;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(196,158,84,0.3);
+  --gold: #C49E54;
+  --gold-dim: rgba(196,158,84,0.12);
+  --gold-bright: #E8C97A;
+  --gold-pale: rgba(196,158,84,0.06);
+  --cream: #F0EAD6;
+  --text: #C8C0AD;
+  --text-dim: #5C564E;
+  --text-mid: #8A8070;
+  --green: #4A9B6F;
+  --green-dim: rgba(74,155,111,0.15);
+  --red: #C0533A;
+  --red-dim: rgba(192,83,58,0.15);
+  --blue: #4A7FA5;
+  --blue-dim: rgba(74,127,165,0.15);
+  --amber: #D4883A;
+  --radius: 6px;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', 'DM Sans', 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; padding: 0 48px;
+  justify-content: space-between;
+  background: rgba(10,12,14,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-logo .lm-marq { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none; align-items: center;
+}
+
+.nav-links a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid); text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--bg) !important;
+  padding: 9px 22px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-bright) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(196,158,84,0.25) !important; }
+
+/* ── FOOTER ── */
+.footer {
+  background: #070809;
+  border-top: 1px solid var(--border);
+  padding: 64px 72px 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {}
+.footer-logo {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: 24px; font-weight: 600; color: var(--cream);
+  margin-bottom: 12px;
+  display: block;
+  text-decoration: none;
+}
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 260px; }
+
+.footer-col-title {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--cream); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em;
+}
+
+.footer-badge {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 6px;
+}
+.footer-badge::before {
+  content: '';
+  width: 6px; height: 6px; background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74,155,111,0.5);
+}
+
+/* ── SHARED COMPONENTS ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600; line-height: 1.1;
+  color: var(--cream); letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+.section-sub {
+  font-size: 16px; color: var(--text-mid);
+  line-height: 1.7; font-weight: 400;
+  max-width: 540px;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--bg);
+  padding: 14px 32px; border-radius: 4px;
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,158,84,0.25); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--cream);
+  padding: 13px 32px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-mid); font-size: 13px; font-weight: 500;
+  text-decoration: none; border-bottom: 1px solid transparent;
+  transition: all 0.2s; padding-bottom: 1px;
+}
+.btn-ghost:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── ANIMATE IN ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── PAGE WRAPPER ── */
+.page { padding-top: var(--nav-h); min-height: 100vh; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border-gold); }
+
+/* ── SECTION SPACING ── */
+.section { padding: 100px 72px; }
+.section-sm { padding: 60px 72px; }
+.section-center { text-align: center; }
+.section-center .section-sub { margin: 0 auto; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+</style>
+<style>
+.legal-page { padding: 120px 72px 80px; display: grid; grid-template-columns: 220px 1fr; gap: 64px; max-width: 1100px; margin: 0 auto; }
+.legal-toc { position: sticky; top: 88px; height: fit-content; }
+.toc-title { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.toc-links { display: flex; flex-direction: column; gap: 2px; }
+.toc-link { font-size: 12px; color: var(--text-dim); text-decoration: none; padding: 5px 10px; border-left: 2px solid var(--border); transition: all 0.15s; }
+.toc-link:hover { color: var(--cream); border-left-color: var(--gold); }
+.toc-link.active { color: var(--gold); border-left-color: var(--gold); }
+.legal-hero-text { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.legal-title { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 600; color: var(--cream); margin-bottom: 10px; }
+.legal-meta { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; }
+.legal-section { margin-bottom: 48px; scroll-margin-top: 88px; }
+.ls-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--cream); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.ls-body { font-size: 14px; color: var(--text-mid); line-height: 1.8; }
+.ls-body p { margin-bottom: 14px; }
+.ls-body ul { margin: 12px 0 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+.ls-body li { font-size: 13.5px; }
+.ls-body strong { color: var(--text); font-weight: 600; }
+.ls-body a { color: var(--gold); text-decoration: none; }
+.ls-body a:hover { text-decoration: underline; }
+.legal-highlight { background: var(--gold-dim); border: 1px solid var(--border-gold); border-radius: 6px; padding: 18px 20px; margin-bottom: 16px; font-size: 13.5px; color: var(--cream); line-height: 1.65; }
+.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+.data-table th { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; text-align: left; background: var(--surface-2); border: 1px solid var(--border); }
+.data-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text-mid); vertical-align: top; line-height: 1.5; }
+.data-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+@media (max-width: 900px) {
+  .legal-page { padding: 100px 24px 60px; grid-template-columns: 1fr; }
+  .legal-toc { display: none; }
+}
+</style>
+<style>
+nav.nav { display:flex!important; align-items:center!important; justify-content:space-between!important; }
+.nav-links { display:flex!important; list-style:none!important; gap:32px!important; align-items:center!important; }
+.nav-links li { list-style:none!important; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
+  <ul class="nav-links">
+    <li><a href="agents.html">Agents</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="legal-page">
+    <div class="legal-toc">
+      <div class="toc-title">Contents</div>
+      <div class="toc-links">
+        <a href="#overview" class="toc-link">1. Overview</a>
+        <a href="#collect" class="toc-link">2. What We Collect</a>
+        <a href="#use" class="toc-link">3. How We Use Data</a>
+        <a href="#sharing" class="toc-link">4. Data Sharing</a>
+        <a href="#retention" class="toc-link">5. Data Retention</a>
+        <a href="#security" class="toc-link">6. Security</a>
+        <a href="#rights" class="toc-link">7. Your Rights</a>
+        <a href="#cookies" class="toc-link">8. Cookies</a>
+        <a href="#children" class="toc-link">9. Children</a>
+        <a href="#changes" class="toc-link">10. Policy Changes</a>
+        <a href="#contact-privacy" class="toc-link">11. Contact</a>
+      </div>
+    </div>
+
+    <div class="legal-body">
+      <div class="legal-hero-text">
+        <div class="legal-title">Privacy Policy</div>
+        <div class="legal-meta">Last updated: February 23, 2026 · LandMarq AI, Inc.</div>
+      </div>
+
+      <div class="legal-highlight">Your privacy matters to us. LandMarq AI, Inc. does not sell your personal data. We do not use your Customer Data to train AI models without your consent. This policy explains clearly what we collect, why, and how you can control it.</div>
+
+      <div class="legal-section" id="overview">
+        <div class="ls-title">1. Overview</div>
+        <div class="ls-body">
+          <p>LandMarq AI, Inc. ("LandMarq," "we," "us") operates the LandMarq platform at landmarq.ai. This Privacy Policy describes how we collect, use, and protect information when you use our Service, and your rights with respect to that information.</p>
+          <p>This policy applies to all LandMarq products and services, including our website, executive dashboard, AI agents, and any APIs or integrations we offer. By using LandMarq, you consent to the practices described in this policy.</p>
+          <p>LandMarq is designed for business use by commercial real estate professionals. We are not a consumer product. If you are accessing LandMarq as an authorized user of an organizational account, your employer's data processing agreement may also govern your use.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="collect">
+        <div class="ls-title">2. What We Collect</div>
+        <div class="ls-body">
+          <p>We collect information in three categories:</p>
+
+          <table class="data-table">
+            <thead><tr><th>Category</th><th>Examples</th><th>Source</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Account Data</strong></td><td>Name, work email, firm name, job title, password hash</td><td>You provide during registration</td></tr>
+              <tr><td><strong>Usage Data</strong></td><td>Pages visited, agent interactions, dashboard activity, feature usage</td><td>Automatically collected</td></tr>
+              <tr><td><strong>Customer Data</strong></td><td>Deal information, documents uploaded, intelligence watches, notes</td><td>You input during use</td></tr>
+              <tr><td><strong>Billing Data</strong></td><td>Payment card (last 4 digits, expiry), billing address</td><td>You provide; processed by Stripe</td></tr>
+              <tr><td><strong>Communication Data</strong></td><td>Support emails, feedback forms, onboarding responses</td><td>You provide</td></tr>
+              <tr><td><strong>Technical Data</strong></td><td>IP address, browser type, device ID, session logs</td><td>Automatically collected</td></tr>
+            </tbody>
+          </table>
+
+          <p><strong>Third-Party Market Data.</strong> Our AI agents aggregate data from public and licensed sources including CoStar, government permit portals, LLC filing databases, and job posting platforms. This data is used to generate intelligence for you and is not personal data about you.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="use">
+        <div class="ls-title">3. How We Use Your Data</div>
+        <div class="ls-body">
+          <p>We use collected data for the following purposes:</p>
+          <ul>
+            <li><strong>Service delivery:</strong> Operate the platform, run AI agents on your behalf, generate briefings and alerts, and deliver outputs to your configured channels.</li>
+            <li><strong>Account management:</strong> Create and maintain your account, manage subscriptions, and process payments.</li>
+            <li><strong>Product improvement:</strong> Analyze anonymized usage patterns to improve features, fix bugs, and develop new capabilities. We do not use your Customer Data (deal data, uploaded documents) for this purpose without your consent.</li>
+            <li><strong>Security & compliance:</strong> Detect fraud, prevent unauthorized access, and comply with applicable legal obligations.</li>
+            <li><strong>Communications:</strong> Send transactional emails (invoices, alerts, password resets), product updates, and — with your consent — marketing communications.</li>
+          </ul>
+          <p><strong>AI Training Policy.</strong> LandMarq does not use your Customer Data (deal information, uploaded documents, or business-specific configurations) to train or improve our AI models without your explicit, opt-in consent. Anonymized, aggregated usage patterns (e.g., "users who configure watches for office submarkets") may inform product development.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="sharing">
+        <div class="ls-title">4. Data Sharing & Disclosure</div>
+        <div class="ls-body">
+          <p><strong>We do not sell your data.</strong> LandMarq does not sell, rent, or trade your personal data or Customer Data to third parties for their commercial purposes.</p>
+          <p>We share data only in the following circumstances:</p>
+          <ul>
+            <li><strong>Service providers:</strong> Trusted vendors who process data on our behalf under strict data processing agreements (e.g., Stripe for payments, AWS for hosting, Sendgrid for email delivery).</li>
+            <li><strong>Your integrations:</strong> If you connect LandMarq to third-party tools (Salesforce, HubSpot, Slack), data you choose to sync is shared with those services per your configuration.</li>
+            <li><strong>Legal requirements:</strong> When required by law, court order, or governmental authority, or to protect the rights, property, or safety of LandMarq, its users, or the public.</li>
+            <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets, with appropriate confidentiality protections and notice to affected users.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="legal-section" id="retention">
+        <div class="ls-title">5. Data Retention</div>
+        <div class="ls-body">
+          <p>We retain data for as long as necessary to provide the Service and fulfill the purposes described in this policy:</p>
+          <ul>
+            <li><strong>Active account data:</strong> Retained for the duration of your subscription.</li>
+            <li><strong>Customer Data after cancellation:</strong> Retained for 30 days following account termination, during which you may request an export. After 30 days, Customer Data is permanently deleted from our systems.</li>
+            <li><strong>Billing records:</strong> Retained for 7 years to comply with tax and accounting requirements.</li>
+            <li><strong>Security & audit logs:</strong> Retained for up to 12 months.</li>
+            <li><strong>Anonymized usage data:</strong> May be retained indefinitely for product analytics.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="legal-section" id="security">
+        <div class="ls-title">6. Security</div>
+        <div class="ls-body">
+          <p>We take security seriously. LandMarq implements the following measures to protect your data:</p>
+          <ul>
+            <li>Encryption in transit (TLS 1.2+) and at rest (AES-256)</li>
+            <li>Role-based access controls limiting internal data access to authorized personnel</li>
+            <li>Regular security audits and penetration testing</li>
+            <li>Multi-factor authentication available for all accounts (required for Enterprise)</li>
+            <li>SOC 2 Type II compliance (in progress — target Q3 2026)</li>
+          </ul>
+          <p>No security system is impenetrable. In the event of a data breach that affects your personal data, we will notify affected users within 72 hours of confirmed discovery in accordance with applicable law.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="rights">
+        <div class="ls-title">7. Your Rights & Choices</div>
+        <div class="ls-body">
+          <p>Depending on your location, you may have the following rights with respect to your data:</p>
+          <ul>
+            <li><strong>Access:</strong> Request a copy of the personal data we hold about you.</li>
+            <li><strong>Correction:</strong> Request correction of inaccurate or incomplete data.</li>
+            <li><strong>Deletion:</strong> Request deletion of your personal data, subject to legal retention obligations.</li>
+            <li><strong>Portability:</strong> Request your Customer Data in a structured, machine-readable format.</li>
+            <li><strong>Opt-out of marketing:</strong> Unsubscribe from marketing emails at any time via the link in any marketing email.</li>
+            <li><strong>CCPA rights (California):</strong> California residents have additional rights under the CCPA, including the right to know what data is collected and shared, and the right to opt out of sale (we do not sell data).</li>
+          </ul>
+          <p>To exercise any of these rights, contact us at <strong>privacy@landmarq.ai</strong>. We will respond within 30 days (or as required by applicable law).</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="cookies">
+        <div class="ls-title">8. Cookies & Tracking</div>
+        <div class="ls-body">
+          <p>LandMarq uses cookies and similar tracking technologies to operate and improve the Service:</p>
+          <ul>
+            <li><strong>Essential cookies:</strong> Required for authentication, session management, and security. Cannot be disabled.</li>
+            <li><strong>Analytics cookies:</strong> Help us understand how users interact with the platform. We use privacy-respecting analytics (no cross-site tracking).</li>
+            <li><strong>Preference cookies:</strong> Remember your settings such as notification preferences and display options.</li>
+          </ul>
+          <p>We do not use third-party advertising cookies or sell browsing data to ad networks. You can manage cookie preferences through your browser settings, though disabling essential cookies will impair platform functionality.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="children">
+        <div class="ls-title">9. Children's Privacy</div>
+        <div class="ls-body">
+          <p>LandMarq is a professional B2B platform not directed at individuals under 18 years of age. We do not knowingly collect personal data from minors. If we become aware that a minor has provided personal data, we will delete it promptly. Contact privacy@landmarq.ai if you believe we have inadvertently collected data from a minor.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="changes">
+        <div class="ls-title">10. Changes to This Policy</div>
+        <div class="ls-body">
+          <p>We may update this Privacy Policy from time to time. Material changes will be communicated by (a) email to the address on file for your account, and (b) a prominent notice on the platform, at least 14 days before the change takes effect.</p>
+          <p>Continued use of LandMarq following the effective date of any change constitutes acceptance of the updated policy. The "Last Updated" date at the top of this page reflects the most recent revision.</p>
+        </div>
+      </div>
+
+      <div class="legal-section" id="contact-privacy">
+        <div class="ls-title">11. Contact Us</div>
+        <div class="ls-body">
+          <p>For privacy-related questions, data requests, or to report a concern:</p>
+          <ul>
+            <li><strong>Email:</strong> privacy@landmarq.ai</li>
+            <li><strong>Response time:</strong> Within 30 days for data rights requests; 5 business days for general inquiries</li>
+            <li><strong>Mailing address:</strong> LandMarq AI, Inc. · Attn: Privacy · Phoenix, Arizona 85001</li>
+          </ul>
+          <p>If you are located in the European Economic Area and have concerns about our data practices that we have not adequately addressed, you have the right to lodge a complaint with your local data protection authority.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives.</p></div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>
+</footer>
+
+<script>
+const sections = document.querySelectorAll('.legal-section');
+const links = document.querySelectorAll('.toc-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
