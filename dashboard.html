@@ -1242,7 +1242,7 @@ body {
         <span class="ob-step-icon" style="font-size:42px;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#B08A3E);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:700;line-height:1;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0A0C0E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
-        <div class="ob-step-title">You're all set, <em id="welcome-name">Mark</em>.</div>
+        <div class="ob-step-title">You're all set<em id="welcome-name"></em>.</div>
         <div class="ob-step-desc">Your agents are now running across your selected markets. Your first morning brief will be ready within minutes. As you use the dashboard, click <strong style="color:var(--gold);">+ Add Intelligence</strong> anytime to configure new watches — just tell us in plain English what you want to track.</div>
         <div class="ob-features">
           <div class="ob-feature"><div class="ob-feature-icon">💬</div><div class="ob-feature-text"><strong>Natural Language</strong>"Show me CRE growth projections in 310 area for tech tenants" — just type it.</div></div>
@@ -1339,7 +1339,7 @@ body {
 <div class="main">
   <div class="topbar" id="topbar">
     <div class="topbar-title">Morning Brief</div>
-    <div class="topbar-date">Monday, Feb 23, 2026 · 6:04 AM PST</div>
+    <div class="topbar-date" id="topbar-date"></div>
     <div class="topbar-right">
       <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
       <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
@@ -1622,8 +1622,8 @@ function nextStep() {
     document.getElementById('ob-progress').style.width = `${(currentStep / totalSteps) * 100}%`;
     document.getElementById('ob-btn-label').textContent = stepLabels[currentStep - 1];
     // update welcome name
-    const nameVal = document.getElementById('ob-name').value.trim().split(' ')[0] || 'Mark';
-    document.getElementById('welcome-name').textContent = nameVal;
+    const nameVal = document.getElementById('ob-name').value.trim().split(' ')[0];
+    document.getElementById('welcome-name').textContent = nameVal ? ', ' + nameVal : '';
   } else {
     finishOnboarding();
   }
@@ -2223,6 +2223,158 @@ document.querySelectorAll('.action-dots').forEach((dots, i) => {
     });
   }
 })();
+
+// ─── DYNAMIC DATE ───
+(function() {
+  const el = document.getElementById('topbar-date');
+  if (!el) return;
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const h = now.getHours(), m = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  const mm = m < 10 ? '0' + m : m;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const tzAbbr = now.toLocaleTimeString('en-US', {timeZoneName:'short'}).split(' ').pop();
+  el.textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} · ${h12}:${mm} ${ampm} ${tzAbbr}`;
+})();
+
+// ─── SIDEBAR NAV CLICK HANDLERS ───
+(function() {
+  const navHandlers = {
+    'nav-brief': () => showModal('Morning Brief', 'Today\'s Morning Brief',
+      `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Your morning brief aggregates overnight intelligence from all 6 agents across your monitored markets.</div>`
+      + detailRow('Brief Time', '6:00 AM PST', 'var(--cream)')
+      + detailRow('Markets Covered', '15 submarkets', 'var(--cream)')
+      + detailRow('New Alerts Overnight', '7', 'var(--gold)')
+      + detailRow('Agent Updates', '12 items processed', 'var(--green)')
+      + `<div style="margin-top:16px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">Top Priority: Snap Inc. vacating 42K SF in Santa Monica. First-mover window ~6 weeks.</div>`
+    ),
+    'nav-agents': () => showModal('Agent Fleet', 'Your AI Agent Fleet — 6 Active',
+      `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">All agents are running and monitoring your markets in real time.</div>`
+      + detailRow('Intel Agent', '● Active — 4 updates today', 'var(--green)')
+      + detailRow('Lead Agent', '● Active — 2 leads found', 'var(--green)')
+      + detailRow('LOI Agent', '● Active — 1 document reviewed', 'var(--green)')
+      + detailRow('Outreach Agent', '● Active — 1 draft in progress', 'var(--gold)')
+      + detailRow('Permit Agent', '● Active — 1 zoning alert', 'var(--green)')
+      + detailRow('Macro Agent', '● Active — rate watch triggered', 'var(--green)')
+    ),
+    'nav-pipeline': () => showModal('Deal Pipeline', 'Active Deal Pipeline — 14 Deals',
+      `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Total pipeline value: $218M. 3 new deals this month. Click any row in the pipeline table for details.</div>`
+      + detailRow('Prospect', '3 deals · $12M', 'var(--text-mid)')
+      + detailRow('Qualifying', '4 deals · $38M', 'var(--blue)')
+      + detailRow('Proposal', '4 deals · $86M', 'var(--amber)')
+      + detailRow('LOI Signed', '2 deals · $52M', 'var(--gold)')
+      + detailRow('Closing', '1 deal · $30M', 'var(--green)')
+    ),
+    'nav-leads': () => showModal('Tenant Leads', 'Agent-Sourced Tenant Leads — 3 New',
+      `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Your Lead Agent has identified 3 new high-intent tenants in your coverage area this week.</div>`
+      + detailRow('TechCo Inc.', '● Very High Intent — 40+ jobs, WeWork +62%', 'var(--green)')
+      + detailRow('Shopify (sublease)', '● High Intent — 18K SF Santa Monica', 'var(--gold)')
+      + detailRow('Meridian Health', '◆ Moderate — exploring Burbank/Glendale', 'var(--amber)')
+    )
+  };
+
+  // Sidebar items with IDs
+  Object.keys(navHandlers).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', navHandlers[id]);
+    }
+  });
+
+  // Sidebar items without IDs (Market Intel, reports, preferences, etc.)
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.trim();
+    if (text.includes('Market Intel')) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => showModal('Market Intel', 'Market Intelligence Overview',
+        `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Aggregated market intelligence across all monitored submarkets. Your agents are watching 15 submarkets for vacancy changes, new listings, and zoning updates.</div>`
+        + detailRow('Total Submarkets', '15', 'var(--cream)')
+        + detailRow('Avg. Vacancy (LA)', '14.2%', 'var(--amber)')
+        + detailRow('Avg. Vacancy (SF)', '21.1%', 'var(--red)')
+        + detailRow('Avg. Vacancy (SEA)', '10.1%', 'var(--green)')
+      ));
+    } else if (text.includes('West Coast Markets')) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => showModal('Report', 'West Coast Markets Report',
+        `<div style="font-size:13px;color:var(--text);line-height:1.7;">Comprehensive report covering LA, SF, and Seattle metro CRE markets. Updated weekly by your Intel Agent.</div>`
+      ));
+    } else if (text.includes('Submarket Tracker')) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => showModal('Report', 'Submarket Tracker',
+        `<div style="font-size:13px;color:var(--text);line-height:1.7;">Track vacancy trends, rent comps, and absorption across all 15 monitored submarkets. Historical data up to 24 months.</div>`
+      ));
+    } else if (text.includes('Portfolio Analysis')) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => showModal('Report', 'Portfolio Analysis',
+        `<div style="font-size:13px;color:var(--text);line-height:1.7;">Analyze your active deals and pipeline performance. Win rates, average close times, and revenue projections.</div>`
+      ));
+    } else if (text.includes('Preferences')) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => showModal('Settings', 'Dashboard Preferences',
+        detailRow('Morning Brief Time', '6:00 AM PST', 'var(--cream)')
+        + detailRow('Delivery Channels', 'Dashboard + Email', 'var(--cream)')
+        + detailRow('Active Agents', '6 of 6', 'var(--green)')
+        + detailRow('Monitored Submarkets', '15', 'var(--cream)')
+        + detailRow('Alert Threshold', 'Medium + High', 'var(--cream)')
+        + detailRow('Plan', 'Pro · 3 seats', 'var(--gold)')
+      ));
+    } else if (text.includes('Brief Schedule')) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => showModal('Settings', 'Brief Schedule',
+        `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Configure when and how your morning briefs are delivered.</div>`
+        + detailRow('Morning Brief', '6:00 AM PST · Daily', 'var(--cream)')
+        + detailRow('Weekly Digest', 'Monday 8:00 AM · Weekly', 'var(--cream)')
+        + detailRow('Delivery', 'Dashboard + Email', 'var(--cream)')
+      ));
+    }
+  });
+
+  // Profile card click
+  const profileCard = document.getElementById('nav-profile');
+  if (profileCard) {
+    profileCard.style.cursor = 'pointer';
+    profileCard.addEventListener('click', () => {
+      const name = profileCard.querySelector('.user-name')?.textContent || 'User';
+      const email = profileCard.querySelector('.user-title')?.textContent || '';
+      showModal('Profile', name,
+        `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">${email}</div>`
+        + detailRow('Plan', 'Pro · 3 seats', 'var(--gold)')
+        + detailRow('Markets', '15 submarkets', 'var(--cream)')
+        + detailRow('Active Agents', '6', 'var(--green)')
+        + detailRow('Intelligence Watches', '4 active', 'var(--cream)')
+      );
+    });
+  }
+})();
+
+// ─── MAKE NEW STREAM ITEMS CLICKABLE ───
+const origPrepend = Element.prototype.prepend;
+const streamEl = document.getElementById('agentStream');
+if (streamEl) {
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(node => {
+        if (node.nodeType === 1 && node.classList.contains('stream-item') && !node._clickBound) {
+          node._clickBound = true;
+          node.style.cursor = 'pointer';
+          node.addEventListener('click', () => {
+            const text = node.querySelector('.stream-text')?.innerHTML || '';
+            const meta = node.querySelector('.stream-meta')?.textContent || '';
+            showModal('Agent Activity', 'Activity Detail',
+              `<div style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px;">${text}</div>`
+              + `<div style="font-size:11px;color:var(--text-dim);">${meta}</div>`
+            );
+          });
+        }
+      });
+    });
+  });
+  observer.observe(streamEl, { childList: true });
+}
 </script>
 
 <!-- ─── AUTH GATE ─── -->
