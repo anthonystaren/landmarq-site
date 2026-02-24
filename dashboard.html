@@ -893,8 +893,8 @@ nav.nav { display:flex!important; align-items:center!important; justify-content:
         <div style="margin-top:14px;">
           <label class="ob-label">Or add a specific ZIP / Area Code</label>
           <div style="display:flex;gap:8px;">
-            <input class="ob-input" type="text" placeholder="e.g. 90401, 310, 90064..." style="flex:1;" />
-            <button onclick="" style="background:var(--gold);color:var(--bg);border:none;border-radius:4px;padding:0 16px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Add</button>
+            <input class="ob-input" id="market-zip-input" type="text" placeholder="e.g. 90401, Phoenix, 90064..." style="flex:1;" onkeydown="if(event.key==='Enter'){addMarketChip();}" />
+            <button onclick="addMarketChip()" style="background:var(--gold);color:var(--bg);border:none;border-radius:4px;padding:0 16px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Add</button>
           </div>
         </div>
       </div>
@@ -1339,6 +1339,24 @@ function finishOnboarding() {
 }
 
 function toggleChip(el) { el.classList.toggle('selected'); }
+
+function addMarketChip() {
+  const input = document.getElementById('market-zip-input');
+  const val = input.value.trim();
+  if (!val) return;
+  // Support comma-separated entries
+  val.split(',').forEach(entry => {
+    const text = entry.trim();
+    if (!text) return;
+    const chip = document.createElement('div');
+    chip.className = 'ob-chip selected';
+    chip.setAttribute('onclick', 'toggleChip(this)');
+    chip.textContent = text;
+    document.getElementById('market-chips').appendChild(chip);
+  });
+  input.value = '';
+  input.focus();
+}
 
 // ─── DASHBOARD TOUR ───
 const tourSteps = [
