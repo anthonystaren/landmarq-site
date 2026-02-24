@@ -359,7 +359,7 @@ body::after {
 /* FLOATING DASHBOARD PREVIEW */
 .hero-visual {
   position: absolute;
-  right: -20px; top: 50%; transform: translateY(-50%);
+  right: -20px; top: 140px;
   width: 52%;
   z-index: 1;
   opacity: 0.9;
@@ -867,19 +867,76 @@ nav.nav { display:flex!important; align-items:center!important; justify-content:
         <div class="dp-dots"><div class="dp-dot"></div><div class="dp-dot"></div><div class="dp-dot"></div></div>
         <div class="dp-url">landmarq.ai/dashboard — Morning Brief · 6:04 AM</div>
       </div>
-      <div class="dp-body">
-        <div class="dp-kpi"><div class="dp-kpi-label">Pipeline Value</div><div class="dp-kpi-val gold">$218M</div><div class="dp-kpi-delta">▲ 12.4%</div></div>
-        <div class="dp-kpi"><div class="dp-kpi-label">LA Vacancy</div><div class="dp-kpi-val">14.2%</div><div class="dp-kpi-delta red">▼ 0.8%</div></div>
-        <div class="dp-kpi"><div class="dp-kpi-label">New Leads (30d)</div><div class="dp-kpi-val">31</div><div class="dp-kpi-delta">▲ 8</div></div>
-        <div class="dp-wide">
-          <div class="dp-alert">
-            <div class="dp-alert-title">⚡ Snap Inc. vacating 42K SF — Santa Monica</div>
-            <div class="dp-alert-sub">Lease expires Q2. 3 TAMI tenants actively searching. First-mover window: ~6 weeks.</div>
+      <div style="display:flex;">
+        <!-- Mini sidebar -->
+        <div style="width:48px;background:#0D1015;border-right:1px solid var(--border);padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0;">
+          <div style="font-size:10px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;line-height:1;">L<span style="color:var(--cream);">M</span></div>
+          <div style="width:24px;height:24px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gold);">T</div>
+          <div style="width:20px;height:1px;background:var(--border);"></div>
+          <div style="font-size:8px;color:var(--text-dim);">◉</div>
+          <div style="font-size:8px;color:var(--gold);">◷</div>
+          <div style="font-size:8px;color:var(--text-dim);">≡</div>
+          <div style="font-size:8px;color:var(--text-dim);">⚙</div>
+        </div>
+        <!-- Main content area -->
+        <div style="flex:1;padding:12px;overflow:hidden;">
+          <!-- Topbar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;color:var(--cream);">Morning Brief</div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:6px;color:var(--text-dim);">Mon, Feb 24 · 6:04 AM</div>
+              <div style="background:var(--gold);color:#0A0C0E;font-size:6px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'Syne',sans-serif;">+ Add Intelligence</div>
+            </div>
           </div>
-          <div class="dp-feed">
-            <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(196,158,84,0.15);border:1px solid rgba(196,158,84,0.3)">🎯</div><div class="dp-feed-text"><strong>Lead Agent</strong> — TechCo Inc. expansion signal detected. 40+ LA job postings.</div></div>
-            <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,155,111,0.15);border:1px solid rgba(74,155,111,0.3)">📋</div><div class="dp-feed-text"><strong>LOI Agent</strong> — Non-standard clause flagged in Apex Capital draft. Review needed.</div></div>
-            <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,127,165,0.15);border:1px solid rgba(74,127,165,0.3)">📡</div><div class="dp-feed-text"><strong>Zoning Agent</strong> — Variance filed at 1150 S Olive St. Mixed-use conversion.</div></div>
+          <!-- KPI Row -->
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px;">
+            <div class="dp-kpi"><div class="dp-kpi-label">Pipeline</div><div class="dp-kpi-val gold" style="font-size:16px;">$218M</div><div class="dp-kpi-delta">▲ 12.4%</div></div>
+            <div class="dp-kpi"><div class="dp-kpi-label">Deals</div><div class="dp-kpi-val" style="font-size:16px;">14</div><div class="dp-kpi-delta">▲ 3</div></div>
+            <div class="dp-kpi"><div class="dp-kpi-label">LA Vacancy</div><div class="dp-kpi-val" style="font-size:16px;">14.2%</div><div class="dp-kpi-delta red">▼ 0.8%</div></div>
+            <div class="dp-kpi"><div class="dp-kpi-label">Leads (30d)</div><div class="dp-kpi-val" style="font-size:16px;">31</div><div class="dp-kpi-delta">▲ 8</div></div>
+            <div class="dp-kpi"><div class="dp-kpi-label">NNN PSF</div><div class="dp-kpi-val" style="font-size:16px;">$62</div><div class="dp-kpi-delta">▲ $1.20</div></div>
+          </div>
+          <!-- Two-column: Heatmap + Agent Feed -->
+          <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:8px;margin-bottom:10px;">
+            <!-- Heatmap -->
+            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div class="dp-kpi-label" style="margin-bottom:6px;">Submarket Heatmap</div>
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px;">
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.5);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.3);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.5);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.5);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.4);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.6);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.6);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.4);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.3);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.6);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.5);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.4);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(74,155,111,0.7);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(212,136,58,0.3);"></div>
+                <div style="height:14px;border-radius:2px;background:rgba(192,83,58,0.5);"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-dim);">Low vacancy</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:5px;color:var(--text-dim);">High vacancy</span>
+              </div>
+            </div>
+            <!-- Agent Feed -->
+            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:8px;">
+              <div class="dp-kpi-label" style="margin-bottom:6px;">Live Agent Feed</div>
+              <div class="dp-feed">
+                <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(196,158,84,0.15);border:1px solid rgba(196,158,84,0.3);width:14px;height:14px;font-size:6px;">🎯</div><div class="dp-feed-text" style="font-size:8px;"><strong style="font-size:8px;">Lead Agent</strong> — TechCo expansion signal. 40+ LA jobs.</div></div>
+                <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,155,111,0.15);border:1px solid rgba(74,155,111,0.3);width:14px;height:14px;font-size:6px;">📋</div><div class="dp-feed-text" style="font-size:8px;"><strong style="font-size:8px;">LOI Agent</strong> — Non-standard clause flagged. Review.</div></div>
+                <div class="dp-feed-item"><div class="dp-feed-icon" style="background:rgba(74,127,165,0.15);border:1px solid rgba(74,127,165,0.3);width:14px;height:14px;font-size:6px;">📡</div><div class="dp-feed-text" style="font-size:8px;"><strong style="font-size:8px;">Zoning</strong> — Variance at 1150 S Olive. Mixed-use.</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Alert bar -->
+          <div class="dp-alert" style="margin-bottom:0;">
+            <div class="dp-alert-title" style="font-size:9px;">⚡ Snap Inc. vacating 42K SF — Santa Monica</div>
+            <div class="dp-alert-sub" style="font-size:7.5px;">Lease expires Q2. 3 TAMI tenants searching. First-mover window: ~6 weeks.</div>
           </div>
         </div>
       </div>
