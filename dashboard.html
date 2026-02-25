@@ -2401,6 +2401,155 @@ function actionArchiveDeal(idx) {
   ), 200);
 }
 
+// ─── SHARE BRIEF ───
+function shareBrief() {
+  showModal('Share', 'Share Morning Brief',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Share today's Morning Brief with your team or clients.</div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;">`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">RECIPIENTS</label><input id="share-emails" type="text" placeholder="email@company.com, team@company.com" style="width:100%;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;" /></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">ADD A NOTE (OPTIONAL)</label><textarea placeholder="Check out this morning's brief — the Snap vacancy is a big opportunity." style="width:100%;min-height:80px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;resize:vertical;"></textarea></div>`
+    + `<div style="display:flex;flex-direction:column;gap:6px;">`
+    + `<label style="font-size:10px;color:var(--text-dim);display:block;">INCLUDE SECTIONS</label>`
+    + `<div style="display:flex;flex-wrap:wrap;gap:6px;">`
+    + ['Executive Summary','Priority Actions','Market Snapshot','Agent Activity','Pipeline Status','Macro Indicators'].map(s =>
+      `<label style="display:flex;align-items:center;gap:5px;padding:6px 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:11px;color:var(--cream);"><input type="checkbox" checked style="accent-color:var(--gold);" /> ${s}</label>`
+    ).join('')
+    + `</div></div>`
+    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;color:var(--cream);">Include sensitive deal data</div><div onclick="this.classList.toggle('on');this.style.background=this.classList.contains('on')?'var(--gold)':'var(--surface-3)';this.querySelector('div').style.transform=this.classList.contains('on')?'translateX(16px)':'translateX(0)'" style="width:36px;height:20px;border-radius:10px;background:var(--surface-3);cursor:pointer;padding:2px;transition:0.2s;"><div style="width:16px;height:16px;border-radius:50%;background:white;transition:0.2s;"></div></div></div><div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Deal values, contact info, and commission estimates</div></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;">`
+    + `<button onclick="const e=document.getElementById('share-emails');if(!e.value.trim()){e.style.borderColor='var(--red)';return;}closeModal();showToast('Brief shared to '+e.value.split(',').length+' recipient(s)')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Send Brief →</button>`
+    + `<button onclick="navigator.clipboard.writeText(window.location.origin+'/brief/today?token='+Date.now());showToast('Share link copied to clipboard')" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Copy Link</button>`
+    + `<button onclick="closeModal()" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button>`
+    + `</div>`
+  );
+}
+
+// ─── MORNING BRIEF PRIORITY ACTION HANDLERS ───
+function briefActionSnapOutreach() {
+  showModal('Outreach Agent', 'Snap Vacancy — Draft Outreach to 3 Tenants',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Snap Inc. is vacating <strong style="color:var(--gold);">42,000 SF</strong> at 2101 Colorado Ave, Santa Monica. Lease expires Q2 2026 — estimated <strong style="color:var(--red);">6-week first-mover window</strong>.</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">MATCHING TENANTS IDENTIFIED BY INTEL AGENT</div>`
+    + `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><div style="font-size:13px;font-weight:600;color:var(--cream);">TechCo Inc.</div><div style="font-size:10px;color:var(--green);font-weight:600;">94% match</div></div>`
+      + `<div style="font-size:11px;color:var(--text-mid);margin-bottom:6px;">Series C startup · Currently at WeWork Playa Vista · Seeking 15–25K SF · Badge-in up 62%</div>`
+      + `<div style="font-size:10px;color:var(--text-dim);margin-bottom:8px;">Contact: Sarah Chen, VP Operations · sarah.chen@techco.io</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);line-height:1.6;max-height:80px;overflow-y:auto;">`
+      + `Subject: 42K SF Creative Office — 2101 Colorado Ave, Santa Monica<br><br>Hi Sarah, Given TechCo's growth trajectory and your current Playa Vista presence, I wanted to flag a premium space that just became available...`
+      + `</div>`
+      + `<div style="display:flex;gap:6px;margin-top:8px;"><button onclick="actionEditDraft('TechCo — Snap Vacancy')" style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-size:10px;cursor:pointer;">Edit Draft</button><button onclick="showToast('Outreach sent to Sarah Chen at TechCo')" style="padding:5px 10px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.3);border-radius:3px;color:var(--green);font-size:10px;cursor:pointer;">Send →</button></div>`
+    + `</div>`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><div style="font-size:13px;font-weight:600;color:var(--cream);">WestShore Media</div><div style="font-size:10px;color:var(--gold);font-weight:600;">87% match</div></div>`
+      + `<div style="font-size:11px;color:var(--text-mid);margin-bottom:6px;">Content production · Current lease expiring Q3 · Searching Santa Monica/Venice · Needs 20–30K SF</div>`
+      + `<div style="font-size:10px;color:var(--text-dim);margin-bottom:8px;">Contact: Lisa Tran, Head of Real Estate · l.tran@westshoremedia.com</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);line-height:1.6;max-height:80px;overflow-y:auto;">`
+      + `Subject: Ideal Production Space — 42K SF, Santa Monica Oceanfront<br><br>Lisa, A unique space just opened at 2101 Colorado Ave that aligns perfectly with WestShore's content production requirements...`
+      + `</div>`
+      + `<div style="display:flex;gap:6px;margin-top:8px;"><button onclick="actionEditDraft('WestShore — Snap Vacancy')" style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-size:10px;cursor:pointer;">Edit Draft</button><button onclick="showToast('Outreach sent to Lisa Tran at WestShore Media')" style="padding:5px 10px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.3);border-radius:3px;color:var(--green);font-size:10px;cursor:pointer;">Send →</button></div>`
+    + `</div>`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><div style="font-size:13px;font-weight:600;color:var(--cream);">Shopify</div><div style="font-size:10px;color:var(--blue);font-weight:600;">79% match</div></div>`
+      + `<div style="font-size:11px;color:var(--text-mid);margin-bottom:6px;">E-commerce · Consolidating 3 WeWork locations · Needs 30–45K SF · Budget $4.20/SF FSG</div>`
+      + `<div style="font-size:10px;color:var(--text-dim);margin-bottom:8px;">Contact: Mike Rhodes, Facilities Director · m.rhodes@shopify.com</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);line-height:1.6;max-height:80px;overflow-y:auto;">`
+      + `Subject: Consolidate to One HQ — 42K SF at 2101 Colorado Ave<br><br>Mike, I understand Shopify is looking to consolidate your three LA-area WeWork locations. This 42K SF space at 2101 Colorado Ave could be the perfect single-HQ solution...`
+      + `</div>`
+      + `<div style="display:flex;gap:6px;margin-top:8px;"><button onclick="actionEditDraft('Shopify — Snap Vacancy')" style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-size:10px;cursor:pointer;">Edit Draft</button><button onclick="showToast('Outreach sent to Mike Rhodes at Shopify')" style="padding:5px 10px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.3);border-radius:3px;color:var(--green);font-size:10px;cursor:pointer;">Send →</button></div>`
+    + `</div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;">`
+    + `<button onclick="closeModal();showToast('All 3 outreach emails sent successfully')" style="flex:1;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Send All 3 Drafts →</button>`
+    + `<button onclick="closeModal()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>`
+    + `</div>`
+  );
+}
+
+function briefActionApexLOI() {
+  showModal('LOI Agent', 'LOI Clause Mismatch — Apex Capital',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">LOI Agent has flagged <strong style="color:var(--red);">2 non-standard clauses</strong> in the Apex Capital LOI for Century Park East, Suites 2800-3200.</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">FLAGGED SECTIONS vs. SAVILLS GOLD TEMPLATE</div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">`
+    + `<div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">Section 4.2 — Co-Tenancy</div><div style="font-size:9px;padding:3px 8px;background:var(--red-dim);border-radius:3px;color:var(--red);font-weight:600;">HIGH RISK</div></div>`
+      + `<div style="font-size:11px;color:var(--text-mid);margin-bottom:10px;">Tenant termination right if anchor tenant vacates &gt;50% of premises. This gives Apex a free exit option and undervalues the landlord position.</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;margin-bottom:6px;">`
+      + `<div style="font-size:9px;color:var(--red);letter-spacing:0.08em;margin-bottom:4px;">THEIR LANGUAGE:</div>`
+      + `<div style="font-size:11px;color:var(--text);line-height:1.5;text-decoration:line-through;opacity:0.7;">Tenant may terminate this Lease upon 30 days notice if any anchor tenant vacates more than 50% of its premises within the building.</div>`
+      + `</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;">`
+      + `<div style="font-size:9px;color:var(--green);letter-spacing:0.08em;margin-bottom:4px;">RECOMMENDED (SAVILLS TEMPLATE):</div>`
+      + `<div style="font-size:11px;color:var(--green);line-height:1.5;">Tenant shall receive proportional rent abatement (not to exceed 15%) if anchor tenant vacates &gt;60% of premises for a continuous period of 12 months. No termination right.</div>`
+      + `</div>`
+    + `</div>`
+    + `<div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:6px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">Section 7 — Assignment</div><div style="font-size:9px;padding:3px 8px;background:var(--gold-dim);border-radius:3px;color:var(--gold);font-weight:600;">MEDIUM RISK</div></div>`
+      + `<div style="font-size:11px;color:var(--text-mid);margin-bottom:10px;">Unrestricted affiliate assignment without landlord consent. Could allow unknown entities to occupy the space without approval.</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;margin-bottom:6px;">`
+      + `<div style="font-size:9px;color:var(--red);letter-spacing:0.08em;margin-bottom:4px;">THEIR LANGUAGE:</div>`
+      + `<div style="font-size:11px;color:var(--text);line-height:1.5;text-decoration:line-through;opacity:0.7;">Tenant may freely assign this Lease to any affiliate without obtaining landlord consent.</div>`
+      + `</div>`
+      + `<div style="background:var(--surface-3);border-radius:4px;padding:10px;">`
+      + `<div style="font-size:9px;color:var(--green);letter-spacing:0.08em;margin-bottom:4px;">RECOMMENDED (SAVILLS TEMPLATE):</div>`
+      + `<div style="font-size:11px;color:var(--green);line-height:1.5;">Assignment to affiliates (&gt;50% common ownership) requires 30-day prior written notice and landlord acknowledgment. All other assignments require landlord consent, not to be unreasonably withheld.</div>`
+      + `</div>`
+    + `</div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;">`
+    + `<button onclick="actionGenerateRedline()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate Redline Document →</button>`
+    + `<button onclick="actionViewFullLOI()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Full LOI</button>`
+    + `<button onclick="closeModal()" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Dismiss</button>`
+    + `</div>`
+  );
+}
+
+function briefActionTechCoQualify() {
+  showModal('Lead Agent', 'Qualify Lead — TechCo Inc.',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Lead Agent detected a <strong style="color:var(--gold);">high expansion signal</strong> for TechCo Inc. — a Series C startup currently at WeWork Playa Vista.</div>`
+    + `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:6px;">EXPANSION SIGNALS</div>`
+      + `<div style="font-size:12px;color:var(--cream);margin-bottom:4px;">40+ LA job postings (2 weeks)</div>`
+      + `<div style="font-size:12px;color:var(--cream);margin-bottom:4px;">WeWork badge-in up 62%</div>`
+      + `<div style="font-size:12px;color:var(--cream);margin-bottom:4px;">Series C closed ($85M)</div>`
+      + `<div style="font-size:12px;color:var(--cream);">Current space: 8K SF (maxed)</div>`
+    + `</div>`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:6px;">ESTIMATED NEED</div>`
+      + `<div style="font-size:12px;color:var(--cream);margin-bottom:4px;">15,000 – 25,000 SF</div>`
+      + `<div style="font-size:12px;color:var(--cream);margin-bottom:4px;">Budget: $3.80–$4.50/SF FSG</div>`
+      + `<div style="font-size:12px;color:var(--cream);margin-bottom:4px;">Timeline: 3–6 months</div>`
+      + `<div style="font-size:12px;color:var(--cream);">Submarkets: Playa Vista, SM, CC</div>`
+    + `</div>`
+    + `</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">KEY CONTACTS</div>`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;">`
+      + `<div><div style="font-size:13px;font-weight:600;color:var(--cream);">Sarah Chen</div><div style="font-size:11px;color:var(--text-mid);">VP Operations · sarah.chen@techco.io · (310) 555-0142</div></div>`
+      + `<div style="font-size:10px;color:var(--green);font-weight:600;">Decision Maker</div>`
+      + `</div>`
+    + `</div>`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;margin-bottom:16px;">`
+      + `<div style="display:flex;justify-content:space-between;align-items:center;">`
+      + `<div><div style="font-size:13px;font-weight:600;color:var(--cream);">James Park</div><div style="font-size:11px;color:var(--text-mid);">CEO · j.park@techco.io</div></div>`
+      + `<div style="font-size:10px;color:var(--gold);font-weight:600;">Final Approver</div>`
+      + `</div>`
+    + `</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">MATCHING PROPERTIES (3)</div>`
+    + `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">`
+    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:var(--cream);">2101 Colorado Ave, Santa Monica — 42K SF</div><div style="font-size:10px;color:var(--gold);">$4.25/SF</div></div>`
+    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:var(--cream);">12777 Jefferson Blvd, Playa Vista — 18K SF</div><div style="font-size:10px;color:var(--gold);">$3.95/SF</div></div>`
+    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:var(--cream);">5790 W. Jefferson, Playa Vista — 22K SF</div><div style="font-size:10px;color:var(--gold);">$4.10/SF</div></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;">`
+    + `<button onclick="actionDraftOutreach('TechCo Inc.','Sarah Chen')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Draft Outreach →</button>`
+    + `<button onclick="actionAddToPipeline('TechCo Inc.','New Requirement')" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Add to Pipeline</button>`
+    + `<button onclick="closeModal();showToast('Lead dismissed')" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Dismiss</button>`
+    + `</div>`
+  );
+}
+
 // ─── AGENT FEED EXTRA ACTIONS ───
 function actionDraftOutreachAll(companies, context) {
   closeModal();
@@ -3539,7 +3688,7 @@ function renderMorningBrief() {
       </div>
       <div style="display:flex;gap:8px;">
         <button onclick="showEditBriefModal()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">⚙ Configure Brief</button>
-        <button style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">↗ Share Brief</button>
+        <button onclick="shareBrief()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">↗ Share Brief</button>
       </div>
     </div>
     ${viewSection('Executive Summary')}
@@ -3550,17 +3699,17 @@ function renderMorningBrief() {
     </div>`)}
     ${viewSection('Priority Actions — 3 Items')}
     ${viewCard(`<div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="display:flex;gap:12px;padding:12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:6px;cursor:pointer;" onclick="showModal('Action','Snap Vacancy — Draft Outreach','<div style=\\'font-size:13px;color:var(--text);line-height:1.7;\\'>Outreach Agent has 3 tenant matches ready. Review and send personalized pitches to TechCo, WestShore Media, and Shopify.</div>')">
+      <div style="display:flex;gap:12px;padding:12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:6px;cursor:pointer;" onclick="briefActionSnapOutreach()">
         <div style="font-size:18px;">⚡</div>
         <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px;">Draft outreach for Snap vacancy — 3 matching tenants</div><div style="font-size:11px;color:var(--text-mid);">Santa Monica · 42K SF · 6-week window · Intel Agent</div></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--red);align-self:center;">URGENT</div>
       </div>
-      <div style="display:flex;gap:12px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:6px;cursor:pointer;">
+      <div style="display:flex;gap:12px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:6px;cursor:pointer;" onclick="briefActionApexLOI()">
         <div style="font-size:18px;">📋</div>
         <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px;">Review LOI clause mismatch — Apex Capital</div><div style="font-size:11px;color:var(--text-mid);">Century City · Sections 4.2 & 7 flagged · LOI Agent</div></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--gold);align-self:center;">HIGH</div>
       </div>
-      <div style="display:flex;gap:12px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:6px;cursor:pointer;">
+      <div style="display:flex;gap:12px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:6px;cursor:pointer;" onclick="briefActionTechCoQualify()">
         <div style="font-size:18px;">🎯</div>
         <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px;">Qualify TechCo Inc. — high expansion signal</div><div style="font-size:11px;color:var(--text-mid);">Playa Vista · 40+ jobs, WeWork badge-in +62% · Lead Agent</div></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--blue);align-self:center;">MEDIUM</div>
@@ -3608,6 +3757,104 @@ function showEditBriefModal() {
     + editableRow('Include Pipeline Updates', true, 'brief-pipeline', 'toggle')
     + editableRow('Include Macro Signals', true, 'brief-macro', 'toggle')
     + `<button id="settings-save-btn" onclick="saveSettings();closeModal();" style="width:100%;margin-top:16px;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;opacity:0.5;" disabled>Save Changes</button>`
+  );
+}
+
+// ─── MARKET INTEL EDIT FUNCTIONS ───
+function editMarketData() {
+  showModal('Market Intel', 'Edit Market Data',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Update metro-level market data. Changes will reflect across the dashboard immediately.</div>`
+    + `<div style="display:flex;flex-direction:column;gap:12px;">`
+    + ['Los Angeles','San Francisco','Seattle'].map(metro => {
+      const defaults = { 'Los Angeles': { v:'14.2',r:'62',o:'Improving' }, 'San Francisco': { v:'21.1',r:'61',o:'Distressed' }, 'Seattle': { v:'10.1',r:'55',o:'Recovering' } };
+      const d = defaults[metro];
+      return `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">`
+        + `<div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:8px;">${metro}</div>`
+        + `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">`
+        + `<div><label style="font-size:9px;color:var(--text-dim);display:block;margin-bottom:3px;">VACANCY %</label><input type="text" value="${d.v}%" style="width:100%;padding:6px 8px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:11px;" /></div>`
+        + `<div><label style="font-size:9px;color:var(--text-dim);display:block;margin-bottom:3px;">AVG RENT ($/SF)</label><input type="text" value="$${d.r}" style="width:100%;padding:6px 8px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:11px;" /></div>`
+        + `<div><label style="font-size:9px;color:var(--text-dim);display:block;margin-bottom:3px;">OUTLOOK</label><select style="width:100%;padding:6px 8px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-size:11px;"><option ${d.o==='Improving'?'selected':''}>Improving</option><option ${d.o==='Stable'?'selected':''}>Stable</option><option ${d.o==='Recovering'?'selected':''}>Recovering</option><option ${d.o==='Distressed'?'selected':''}>Distressed</option></select></div>`
+        + `</div></div>`;
+    }).join('')
+    + `</div>`
+    + `<div style="display:flex;gap:8px;margin-top:16px;"><button onclick="closeModal();showToast('Market data updated');switchView('market-intel')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Save Changes</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button></div>`
+  );
+}
+
+function editMetroData(metro) {
+  const subs = {
+    'Los Angeles': ['DTLA','Century City','Santa Monica','Culver City','Playa Vista','El Segundo','West Hollywood','Wilshire Corridor','Burbank','Manhattan Beach'],
+    'San Francisco': ['SF Financial','SF SOMA','SF Mission Bay'],
+    'Seattle': ['Bellevue','Seattle SLU']
+  };
+  const list = subs[metro] || [];
+  showModal('Market Intel', 'Edit ' + metro + ' Submarkets',
+    `<div style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">Update vacancy and rent data for each submarket.</div>`
+    + `<div style="max-height:380px;overflow-y:auto;">`
+    + list.map(s => `<div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);"><div style="flex:1;font-size:12px;color:var(--cream);">${s}</div><div style="display:flex;gap:6px;"><input type="text" placeholder="Vacancy %" style="width:70px;padding:5px 7px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:10px;" /><input type="text" placeholder="$/SF" style="width:60px;padding:5px 7px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:10px;" /></div></div>`).join('')
+    + `</div>`
+    + `<div style="margin-top:8px;"><button onclick="closeModal();showToast('${metro} submarket data updated')" style="width:100%;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Save All</button></div>`
+  );
+}
+
+function addCustomIntel() {
+  showModal('Market Intel', 'Add Custom Intelligence',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Add a custom intelligence report or market update.</div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;">`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TITLE</label><input type="text" placeholder="e.g. New development filing at 1200 Main St" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;" /></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">CATEGORY</label><select style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;"><option>Market Update</option><option>Vacancy Change</option><option>Comp Sale</option><option>Lease Transaction</option><option>Zoning / Permit</option><option>Development</option><option>Economic Indicator</option></select></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">SUBMARKET</label><input type="text" placeholder="e.g. DTLA" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">PRIORITY</label><select style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;"><option>High</option><option selected>Medium</option><option>Low</option></select></div></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">DETAILS</label><textarea placeholder="Describe the intel in detail..." style="width:100%;min-height:100px;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;resize:vertical;"></textarea></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">SOURCE</label><input type="text" placeholder="e.g. CoStar, Public Records, Direct Intel" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();showToast('Intelligence added to feed')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Add to Feed</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button></div>`
+  );
+}
+
+// ─── TENANT LEAD EDIT FUNCTIONS ───
+function editLeadDetails(leadName) {
+  const leadData = {
+    'TechCo Inc.': { type:'Series C · SaaS', sf:'15–25K SF', market:'Playa Vista', timeline:'Q3 2026', contact:'Sarah Chen', email:'sarah.chen@techco.io', phone:'(310) 555-0142', budget:'$3.80–$4.50/SF FSG', notes:'High growth startup, badge-in data suggests maxing out current WeWork space.' },
+    'Shopify': { type:'Public · E-commerce', sf:'18K SF', market:'Santa Monica', timeline:'Q2 2026', contact:'Mike Rhodes', email:'m.rhodes@shopify.com', phone:'(424) 555-0298', budget:'$4.00–$4.50/SF FSG', notes:'Consolidating 3 WeWork locations into one HQ. Sublease exit signal strong.' },
+    'Meridian Health Partners': { type:'Private · Healthcare', sf:'9K SF', market:'Burbank / Glendale', timeline:'Q4 2026', contact:'Michael Torres', email:'m.torres@meridianhp.com', phone:'(818) 555-0177', budget:'$2.80–$3.40/SF NNN', notes:'Clinic use requires specific zoning (C-2 with health permit). New LLC filing indicates serious intent.' }
+  };
+  const d = leadData[leadName] || {};
+  showModal('Lead Details', 'Edit Lead — ' + leadName,
+    `<div style="display:flex;flex-direction:column;gap:10px;">`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">COMPANY NAME</label><input type="text" value="${leadName}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TYPE</label><input type="text" value="${d.type||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">EST. NEED (SF)</label><input type="text" value="${d.sf||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">BUDGET</label><input type="text" value="${d.budget||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TARGET MARKET</label><input type="text" value="${d.market||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TIMELINE</label><input type="text" value="${d.timeline||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">CONTACT NAME</label><input type="text" value="${d.contact||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">EMAIL</label><input type="text" value="${d.email||''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">NOTES</label><textarea style="width:100%;min-height:80px;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;resize:vertical;">${d.notes||''}</textarea></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();showToast('${leadName} updated');switchView('tenant-leads')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Save Changes</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button></div>`
+  );
+}
+
+function addCustomLead() {
+  showModal('New Lead', 'Add Custom Lead',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Manually add a tenant lead to your pipeline.</div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;">`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">COMPANY NAME</label><input type="text" placeholder="e.g. Acme Corp" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">COMPANY TYPE</label><input type="text" placeholder="e.g. Private · Tech" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">EST. SF NEED</label><input type="text" placeholder="e.g. 10–20K SF" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TARGET MARKET</label><input type="text" placeholder="e.g. DTLA" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">SIGNAL STRENGTH</label><select style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;"><option>Very High</option><option selected>High</option><option>Moderate</option><option>Low</option></select></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TIMELINE</label><input type="text" placeholder="e.g. Q3 2026" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">CONTACT NAME</label><input type="text" placeholder="Name, Title" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">EMAIL</label><input type="text" placeholder="email@company.com" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;" /></div></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">EXPANSION SIGNALS</label><textarea placeholder="List the signals that indicate this lead is expanding (one per line)" style="width:100%;min-height:80px;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;resize:vertical;"></textarea></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();showToast('Lead added successfully');switchView('tenant-leads')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Add Lead</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button></div>`
+  );
+}
+
+function importLeadsCSV() {
+  showModal('Import', 'Import Tenant Leads from CSV',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Upload a CSV file with lead data. Expected columns: Company, Type, SF Need, Market, Timeline, Contact, Email, Signal Strength.</div>`
+    + `<div style="border:2px dashed var(--border);border-radius:8px;padding:40px;text-align:center;margin-bottom:16px;cursor:pointer;" onclick="this.querySelector('input').click()">`
+    + `<input type="file" accept=".csv,.xlsx,.xls" style="display:none;" onchange="closeModal();showToast('Importing '+this.files[0].name+'...')" />`
+    + `<div style="font-size:32px;margin-bottom:8px;">📄</div>`
+    + `<div style="font-size:13px;color:var(--cream);margin-bottom:4px;">Drop file here or click to upload</div>`
+    + `<div style="font-size:10px;color:var(--text-dim);">Supports .csv, .xlsx, .xls · Max 500 leads</div>`
+    + `</div>`
+    + `<div style="font-size:10px;color:var(--text-dim);">You can also <a href="#" onclick="event.preventDefault();closeModal();showToast('Template CSV downloaded')" style="color:var(--gold);text-decoration:underline;">download a template</a> to get started.</div>`
   );
 }
 
@@ -4073,7 +4320,10 @@ function renderMarketIntel() {
         <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Market Intelligence</div>
         <div style="font-size:12px;color:var(--text-dim);margin-top:4px;">15 submarkets · 3 metros · Updated continuously</div>
       </div>
-      <button onclick="openIntelPanel()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Add Intelligence</button>
+      <div style="display:flex;gap:8px;">
+        <button onclick="addCustomIntel()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Add Intelligence</button>
+        <button onclick="editMarketData()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Edit Market Data</button>
+      </div>
     </div>
     ${viewSection('Metro Overview')}
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
@@ -4090,6 +4340,7 @@ function renderMarketIntel() {
         ${detailRow('Submarkets', m.markets, 'var(--cream)')}
         ${detailRow('Avg. Rent', m.rent, 'var(--gold)')}
         ${detailRow('Outlook', m.outlook, m.outlook === 'Distressed' ? 'var(--red)' : 'var(--green)')}
+        <div style="margin-top:8px;text-align:center;"><button onclick="editMetroData('${m.metro}')" style="padding:4px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:3px;color:var(--text-dim);font-size:9px;cursor:pointer;">Edit ${m.metro} Data</button></div>
       `)).join('')}
     </div>
     ${viewSection('Recent Intel Updates')}
@@ -4113,8 +4364,8 @@ function renderMarketIntel() {
 // ─── TENANT LEADS VIEW ───
 function renderTenantLeads() {
   const leads = [
-    { name: 'TechCo Inc.', type: 'Series C · SaaS', signal: 'Very High', signalColor: 'var(--green)', sf: '15–25K SF', market: 'Playa Vista', signals: ['40+ LA job postings (30d)', 'WeWork badge-in +62% MoM', 'Glassdoor headcount growing rapidly'], timeline: 'Q3 2026', contact: 'VP Operations (to be identified)' },
-    { name: 'Shopify', type: 'Public · E-commerce', signal: 'High', signalColor: 'var(--gold)', sf: '18K SF (sublease exit)', market: 'Santa Monica', signals: ['Sublease listing filed 48 hours ago', 'Below-market asking: $66/SF NNN', 'Creative office w/ outdoor space'], timeline: 'Q2 2026', contact: 'Real Estate Dept' },
+    { name: 'TechCo Inc.', type: 'Series C · SaaS', signal: 'Very High', signalColor: 'var(--green)', sf: '15–25K SF', market: 'Playa Vista', signals: ['40+ LA job postings (30d)', 'WeWork badge-in +62% MoM', 'Glassdoor headcount growing rapidly'], timeline: 'Q3 2026', contact: 'Sarah Chen, VP Operations' },
+    { name: 'Shopify', type: 'Public · E-commerce', signal: 'High', signalColor: 'var(--gold)', sf: '18K SF (sublease exit)', market: 'Santa Monica', signals: ['Sublease listing filed 48 hours ago', 'Below-market asking: $66/SF NNN', 'Creative office w/ outdoor space'], timeline: 'Q2 2026', contact: 'Mike Rhodes, Facilities' },
     { name: 'Meridian Health Partners', type: 'Private · Healthcare', signal: 'Moderate', signalColor: 'var(--amber)', sf: '9K SF', market: 'Burbank / Glendale', signals: ['New LLC filing in CA', 'Job postings for clinical staff', 'Specific zoning requirements for clinic use'], timeline: 'Q4 2026', contact: 'Michael Torres, CFO' }
   ];
   return `<div style="max-width:900px;">
@@ -4122,6 +4373,10 @@ function renderTenantLeads() {
       <div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Tenant Leads</div>
         <div style="font-size:12px;color:var(--text-dim);margin-top:4px;">3 new high-intent tenants this week · 31 total (30d)</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="addCustomLead()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Add Custom Lead</button>
+        <button onclick="importLeadsCSV()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Import CSV</button>
       </div>
     </div>
     ${leads.map(l => viewCard(`
@@ -4143,9 +4398,10 @@ function renderTenantLeads() {
             ${l.signals.map(s => `<div style="font-size:11px;color:var(--text);padding:4px 0;display:flex;gap:6px;align-items:center;"><span style="color:var(--green);">●</span> ${s}</div>`).join('')}
           </div>
           <div style="display:flex;gap:8px;margin-top:12px;">
-            <button onclick="showModal('Outreach','Draft Outreach — ${l.name}','<div style=\\'font-size:13px;color:var(--text);\\'>Outreach Agent will draft a personalized pitch for ${l.name} based on their expansion signals and preferred markets.</div>')" style="padding:6px 14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Draft Outreach</button>
-            <button onclick="openAddDealModal()" style="padding:6px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Add to Pipeline</button>
-            <button style="padding:6px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Dismiss Lead</button>
+            <button onclick="actionDraftOutreach('${l.name}','${l.contact.split(',')[0]}')" style="padding:6px 14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Draft Outreach</button>
+            <button onclick="actionAddToPipeline('${l.name}','${l.type}')" style="padding:6px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Add to Pipeline</button>
+            <button onclick="editLeadDetails('${l.name}')" style="padding:6px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Edit Lead</button>
+            <button onclick="this.closest('.card').style.opacity='0.3';showToast('${l.name} dismissed')" style="padding:6px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Dismiss</button>
           </div>
         </div>
       </div>
@@ -4583,9 +4839,25 @@ if (streamEl) {
       return;
     }
 
+    // Handle auth callback tokens that may land on dashboard URL
+    const hash = window.location.hash;
+    if (hash && (hash.includes('access_token') || hash.includes('type=signup') || hash.includes('type=magiclink'))) {
+      // Let Supabase process the token, then clean the URL
+      await new Promise(r => setTimeout(r, 500));
+      history.replaceState(null, '', '/dashboard');
+    }
+
     // Gate: require login
     const session = await LandMarqAuth.requireAuth();
     if (!session) return; // redirect happening
+
+    // Listen for auth changes — stay on dashboard, never bounce to homepage
+    LandMarqAuth.onAuthStateChange && LandMarqAuth.onAuthStateChange((event, sess) => {
+      if (event === 'SIGNED_IN' && sess) {
+        // Already on dashboard — just refresh user info, don't redirect
+        document.body.classList.add('auth-ready');
+      }
+    });
 
     // Populate user info in sidebar
     const user = session.user;
