@@ -436,6 +436,13 @@ function getReturnUrl() {
   const session = await LandMarqAuth.getSession();
   if (session) window.location.href = getReturnUrl();
 })();
+
+// Listen for auth state changes (handles OAuth/magic link callbacks)
+LandMarqAuth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session) {
+    window.location.href = getReturnUrl();
+  }
+});
 </script>
 </body>
 </html>

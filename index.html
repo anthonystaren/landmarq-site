@@ -952,7 +952,7 @@ body::after {
     <li><a href="index.html#cases">Use Cases</a></li>
     <li><a href="pricing.html">Pricing</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="dashboard.html" class="nav-cta">View Dashboard →</a></li>
+    <li><a href="/dashboard" class="nav-cta">View Dashboard →</a></li>
   </ul>
   <button class="nav-hamburger" aria-label="Toggle menu">
     <span></span>
@@ -1002,7 +1002,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </p>
 
     <div class="hero-actions reveal reveal-delay-3">
-      <a href="dashboard.html" class="btn-primary">See the Dashboard →</a>
+      <a href="/dashboard" class="btn-primary">See the Dashboard →</a>
       <a href="#how" class="btn-outline">How It Works</a>
     </div>
 
@@ -1486,7 +1486,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <a href="index.html" class="footer-logo">Land<span>Marq</span></a>
       <p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p>
     </div>
-    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="#">Integrations</a></li><li><a href="#">Security</a></li></ul></div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="/dashboard">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="#">Integrations</a></li><li><a href="#">Security</a></li></ul></div>
     <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
     <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
   </div>
@@ -1524,6 +1524,14 @@ function switchCase(tab, idx) {
   tab.classList.add('active');
   document.getElementById(`case-${idx}`).classList.add('active');
 }
+
+// Handle auth callback tokens landing on homepage — redirect to dashboard
+(function() {
+  const hash = window.location.hash;
+  if (hash && (hash.includes('access_token') || hash.includes('type=signup') || hash.includes('type=magiclink') || hash.includes('type=recovery'))) {
+    window.location.href = '/dashboard' + hash;
+  }
+})();
 
 // Waitlist
 function handleWaitlist() {

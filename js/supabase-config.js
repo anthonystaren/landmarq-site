@@ -93,9 +93,9 @@ const LandMarqAuth = {
 
   /** Sign out */
   async signOut() {
-    if (!_supabaseClient) { window.location.href = '/'; return { error: null }; }
+    if (!_supabaseClient) { window.location.href = '/login'; return { error: null }; }
     const { error } = await _supabaseClient.auth.signOut();
-    if (!error) window.location.href = '/';
+    if (!error) window.location.href = '/login';
     return { error };
   },
 
