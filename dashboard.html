@@ -4610,20 +4610,79 @@ function renderPreferences() {
       detailRow('Current Plan', 'Pro · 3 seats', 'var(--gold)')
       + detailRow('Billing Cycle', 'Annual', 'var(--cream)')
       + detailRow('Next Renewal', 'Jan 15, 2027', 'var(--text-mid)')
-      + `<button style="margin-top:12px;padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Manage Billing →</button>`
+      + `<button onclick="manageBilling()" style="margin-top:12px;padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Manage Billing →</button>`
     )}
     ${viewSection('Data & Privacy')}
     ${viewCard(
       editableRow('Data Retention', '12 months', 'pref-retention', 'select', ['6 months', '12 months', '24 months', 'Indefinite'])
       + editableRow('Share Analytics with Team', true, 'pref-share-analytics', 'toggle')
       + `<div style="display:flex;gap:8px;margin-top:12px;">
-        <button style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Export My Data</button>
-        <button style="padding:8px 16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:4px;color:var(--red);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Delete Account</button>
+        <button onclick="exportMyData()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Export My Data</button>
+        <button onclick="deleteAccountPrompt()" style="padding:8px 16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:4px;color:var(--red);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Delete Account</button>
       </div>`
     )}
     <button id="settings-save-btn" onclick="saveSettings()" style="width:100%;margin-top:16px;padding:14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:14px;cursor:pointer;opacity:0.5;" disabled>Save Changes</button>
     <div style="margin-top:20px;text-align:center;"><button onclick="switchView('dashboard')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← Back to Dashboard</button></div>
   </div>`;
+}
+
+// ─── SETTINGS ACTION HANDLERS ───
+function manageBilling() {
+  showModal('Billing', 'Plan & Billing',
+    `<div style="padding:16px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:8px;margin-bottom:16px;">`
+    + `<div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:4px;">CURRENT PLAN</div><div style="font-size:20px;font-weight:600;color:var(--cream);">Pro Plan</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">3 seats · Annual billing · Next renewal Jan 15, 2027</div></div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);">$299<span style="font-size:12px;color:var(--text-dim);">/mo</span></div></div>`
+    + `</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">PLAN FEATURES</div>`
+    + `<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;">`
+    + ['6 AI Agents','Unlimited Alerts','15 Submarkets','Priority Support','Custom Reports','API Access','Data Export','Team Collaboration'].map(f => `<div style="font-size:11px;color:var(--cream);padding:6px 0;display:flex;gap:6px;"><span style="color:var(--green);">✓</span> ${f}</div>`).join('')
+    + `</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">USAGE THIS MONTH</div>`
+    + `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">`
+    + `<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text-mid);">API Calls</span><span style="font-size:11px;color:var(--cream);">12,847 / 50,000</span></div><div style="height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden;"><div style="width:25.7%;height:100%;background:var(--green);border-radius:2px;"></div></div>`
+    + `<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text-mid);">Data Sources</span><span style="font-size:11px;color:var(--cream);">4 / 12 connected</span></div><div style="height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden;"><div style="width:33%;height:100%;background:var(--gold);border-radius:2px;"></div></div>`
+    + `<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text-mid);">Reports Generated</span><span style="font-size:11px;color:var(--cream);">28 / Unlimited</span></div><div style="height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden;"><div style="width:100%;height:100%;background:var(--green);border-radius:2px;"></div></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;">`
+    + `<button onclick="closeModal();showToast('Upgrade flow would open in production')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Upgrade Plan</button>`
+    + `<button onclick="closeModal();showToast('Payment method settings would open in production')" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Update Payment</button>`
+    + `<button onclick="closeModal()" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Close</button>`
+    + `</div>`
+  );
+}
+
+function exportMyData() {
+  showModal('Export', 'Export Your Data',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Download a copy of all your LandMarq data. Select which data to include:</div>`
+    + `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">`
+    + [
+      { label:'Deal Pipeline & History', desc:'All 14 active deals + closed deals, stages, contacts, notes', size:'~2.4 MB' },
+      { label:'Market Intelligence Data', desc:'Vacancy rates, rents, trends across 15 submarkets', size:'~8.1 MB' },
+      { label:'Tenant Leads & Outreach', desc:'Lead profiles, signals, outreach drafts and history', size:'~1.2 MB' },
+      { label:'Agent Activity Logs', desc:'Complete activity history for all 6 agents', size:'~4.7 MB' },
+      { label:'Reports & Briefs', desc:'All generated reports and morning brief archive', size:'~3.3 MB' },
+      { label:'Account Settings', desc:'Preferences, notification config, connected sources', size:'~12 KB' }
+    ].map(d => `<label style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--gold);margin-top:2px;" /><div style="flex:1;"><div style="font-size:12px;color:var(--cream);">${d.label}</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">${d.desc}</div></div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);align-self:center;">${d.size}</div></label>`).join('')
+    + `</div>`
+    + `<div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">FORMAT</label><select style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-size:12px;"><option>JSON (structured)</option><option>CSV (spreadsheet)</option><option>PDF (formatted reports)</option></select></div></div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();showToast('Preparing data export... You will receive a download link via email within 10 minutes.')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Export Data →</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button></div>`
+  );
+}
+
+function deleteAccountPrompt() {
+  showModal('Danger', 'Delete Account',
+    `<div style="padding:16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.3);border-radius:8px;margin-bottom:16px;">`
+    + `<div style="font-size:14px;font-weight:600;color:var(--red);margin-bottom:8px;">⚠ This action is permanent and cannot be undone</div>`
+    + `<div style="font-size:12px;color:var(--text);line-height:1.6;">Deleting your account will permanently remove:</div>`
+    + `<ul style="font-size:12px;color:var(--text);line-height:1.8;margin:8px 0 0 16px;padding:0;">`
+    + `<li>All deal pipeline data and history</li>`
+    + `<li>Market intelligence and reports</li>`
+    + `<li>Agent configurations and activity logs</li>`
+    + `<li>Connected data source credentials</li>`
+    + `<li>Tenant leads and outreach history</li>`
+    + `</ul></div>`
+    + `<div style="margin-bottom:16px;"><label style="font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;">TYPE "DELETE" TO CONFIRM</label><input id="delete-confirm" type="text" placeholder="Type DELETE to confirm" style="width:100%;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:12px;" /></div>`
+    + `<div style="display:flex;gap:8px;"><button onclick="const v=document.getElementById('delete-confirm');if(v&&v.value==='DELETE'){closeModal();showToast('Account deletion request submitted. You will receive a confirmation email.')}else{v.style.borderColor='var(--red)';v.placeholder='You must type DELETE';}" style="flex:1;padding:10px;background:var(--red);color:white;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Delete My Account</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Cancel</button></div>`
+  );
 }
 
 function renderBriefSchedule() {
