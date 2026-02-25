@@ -3660,29 +3660,216 @@ function renderAgentFleet() {
   </div>`;
 }
 
+// ─── DATA SOURCE CONNECTION STATE ───
+const connectedSources = JSON.parse(localStorage.getItem('lmq_sources') || '{"CoStar Group":true}');
+function saveSourceState() { localStorage.setItem('lmq_sources', JSON.stringify(connectedSources)); }
+
+const dataSourceConfig = {
+  'CoStar Group': { type: 'api', icon: '🏢', desc: 'Vacancy, comps, building data', fields: [{id:'costar-key',label:'API Key',placeholder:'cg_live_xxxxxxxxxxxx'},{id:'costar-acct',label:'Account ID',placeholder:'Your CoStar account ID'}], url: 'https://api.costar.com', docs: 'https://developer.costar.com/docs' },
+  'CBRE Econometric Advisors': { type: 'api', icon: '📊', desc: 'Forecasting models', fields: [{id:'cbre-key',label:'API Key',placeholder:'cbre_ea_xxxxxxxxxxxx'},{id:'cbre-region',label:'Region Access',placeholder:'west-coast,national',type:'select',options:['West Coast Only','National','Global']}], url: 'https://api.cbre-ea.com', docs: 'https://developer.cbre.com' },
+  'Bloomberg Terminal': { type: 'api', icon: '💹', desc: 'Real-time market data', fields: [{id:'bb-key',label:'Bloomberg API Key',placeholder:'bb_xxxxxxxxxxxx'},{id:'bb-firm',label:'Firm ID',placeholder:'Your Bloomberg firm ID'},{id:'bb-feeds',label:'Data Feeds',type:'select',options:['CRE + Macro','CRE Only','Full Terminal','Macro Only']}], url: 'https://api.bloomberg.com', docs: 'https://developer.bloomberg.com' },
+  'Yardi Matrix': { type: 'api', icon: '🏠', desc: 'Rent comps, property data', fields: [{id:'yardi-key',label:'API Key',placeholder:'ym_xxxxxxxxxxxx'},{id:'yardi-markets',label:'Markets',placeholder:'e.g. Los Angeles, San Francisco, Seattle'}], url: 'https://api.yardimatrix.com', docs: 'https://www.yardimatrix.com/api' },
+  'Reonomy': { type: 'api', icon: '🔍', desc: 'Ownership, transaction data', fields: [{id:'reo-key',label:'API Key',placeholder:'reo_xxxxxxxxxxxx'},{id:'reo-tier',label:'Subscription Tier',type:'select',options:['Professional','Enterprise','Enterprise+']}], url: 'https://api.reonomy.com', docs: 'https://developer.reonomy.com' },
+  'LexisNexis': { type: 'api', icon: '⚖️', desc: 'Legal precedent, compliance', fields: [{id:'ln-key',label:'API Key',placeholder:'ln_xxxxxxxxxxxx'},{id:'ln-scope',label:'Scope',type:'select',options:['Real Estate + Corporate','Real Estate Only','Full Legal']}], url: 'https://api.lexisnexis.com', docs: 'https://developer.lexisnexis.com' },
+  'Salesforce': { type: 'oauth', icon: '☁️', desc: 'CRM, pipeline sync', authUrl: 'https://login.salesforce.com/services/oauth2/authorize', fields: [{id:'sf-instance',label:'Instance URL',placeholder:'https://yourcompany.my.salesforce.com'},{id:'sf-client',label:'Connected App Client ID',placeholder:'3MVG9...'},{id:'sf-secret',label:'Client Secret',placeholder:'Your client secret'}], scopes: 'api refresh_token offline_access' },
+  'HubSpot': { type: 'oauth', icon: '🔶', desc: 'CRM, contact management', authUrl: 'https://app.hubspot.com/oauth/authorize', fields: [{id:'hs-portal',label:'Portal ID',placeholder:'Your HubSpot portal ID'},{id:'hs-client',label:'Client ID',placeholder:'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'},{id:'hs-secret',label:'Client Secret',placeholder:'Your client secret'}], scopes: 'crm.objects.contacts.read crm.objects.deals.read' },
+  'Gmail / Outlook': { type: 'oauth', icon: '✉️', desc: 'Email integration', fields: [{id:'email-provider',label:'Email Provider',type:'select',options:['Gmail (Google Workspace)','Outlook (Microsoft 365)','Other IMAP']},{id:'email-acct',label:'Email Address',placeholder:'you@company.com'}], authUrl: 'https://accounts.google.com/o/oauth2/auth' },
+  'Slack': { type: 'oauth', icon: '💬', desc: 'Team notifications', authUrl: 'https://slack.com/oauth/v2/authorize', fields: [{id:'slack-workspace',label:'Workspace',placeholder:'yourteam.slack.com'},{id:'slack-channel',label:'Default Channel',placeholder:'#landmarq-alerts'}], scopes: 'chat:write channels:read' },
+  'DocuSign': { type: 'oauth', icon: '✍️', desc: 'Document signing', authUrl: 'https://account-d.docusign.com/oauth/auth', fields: [{id:'ds-acct',label:'Account ID',placeholder:'Your DocuSign account ID'},{id:'ds-integration',label:'Integration Key',placeholder:'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'}], scopes: 'signature impersonation' }
+};
+
 function showDataSourcesPanel() {
+  const premiumSources = ['CoStar Group','CBRE Econometric Advisors','Bloomberg Terminal','Yardi Matrix','Reonomy','LexisNexis'];
+  const crmSources = ['Salesforce','HubSpot','Gmail / Outlook','Slack','DocuSign'];
+
+  function renderSourceRow(name) {
+    const cfg = dataSourceConfig[name];
+    const isConnected = connectedSources[name];
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface-2);border:1px solid ${isConnected ? 'rgba(74,155,111,0.2)' : 'var(--border)'};border-radius:6px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:18px;">${cfg.icon}</span>
+        <div><div style="font-size:12px;color:var(--cream);">${name}</div><div style="font-size:10px;color:var(--text-dim);">${cfg.desc}</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        ${isConnected ? `<span style="font-size:10px;color:var(--green);">● Active</span><button onclick="showSourceSettings('${name.replace(/'/g,"\\'")}')" style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:9px;cursor:pointer;">Settings</button><button onclick="disconnectSource('${name.replace(/'/g,"\\'")}')" style="padding:5px 10px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:4px;color:var(--red);font-family:'Syne',sans-serif;font-size:9px;cursor:pointer;">Disconnect</button>` : `<button onclick="connectSource('${name.replace(/'/g,"\\'")}')" style="padding:6px 14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Connect →</button>`}
+      </div>
+    </div>`;
+  }
+
+  const connectedCount = Object.keys(connectedSources).filter(k => connectedSources[k]).length;
+  const totalCount = Object.keys(dataSourceConfig).length;
+
   showModal('Data Sources', 'Connect Your Data Sources',
-    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Connect premium and private data sources to enhance agent intelligence. Your API keys are encrypted and stored securely.</div>`
+    `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">Enhance agent intelligence with premium and private data feeds.</div>
+      <div style="padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;">${connectedCount}/${totalCount} connected</div>
+    </div>`
     + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">PREMIUM DATA PROVIDERS</div>`
     + `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">`
-    + ['CoStar Group — Vacancy, comps, building data', 'CBRE Econometric Advisors — Forecasting models', 'Bloomberg Terminal — Real-time market data', 'Yardi Matrix — Rent comps, property data', 'Reonomy — Ownership, transaction data', 'LexisNexis — Legal precedent, compliance'].map(s => {
-      const name = s.split(' — ')[0];
-      const desc = s.split(' — ')[1];
-      const connected = ['CoStar Group'].includes(name);
-      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface-2);border:1px solid ${connected ? 'rgba(74,155,111,0.2)' : 'var(--border)'};border-radius:6px;"><div><div style="font-size:12px;color:var(--cream);">${name}</div><div style="font-size:10px;color:var(--text-dim);">${desc}</div></div><button onclick="this.textContent='Connected ✓';this.style.background='var(--green-dim)';this.style.color='var(--green)';this.style.borderColor='rgba(74,155,111,0.2)'" style="padding:6px 14px;background:${connected ? 'var(--green-dim)' : 'var(--surface-3)'};border:1px solid ${connected ? 'rgba(74,155,111,0.2)' : 'var(--border)'};border-radius:4px;color:${connected ? 'var(--green)' : 'var(--text)'};font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">${connected ? 'Connected ✓' : 'Connect'}</button></div>`;
-    }).join('')
+    + premiumSources.map(renderSourceRow).join('')
     + `</div>`
-    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">CRM & TOOLS</div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">CRM & INTEGRATIONS</div>`
     + `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">`
-    + ['Salesforce — CRM, pipeline sync', 'HubSpot — CRM, contact management', 'Gmail / Outlook — Email integration', 'Slack — Team notifications', 'DocuSign — Document signing'].map(s => {
-      const name = s.split(' — ')[0];
-      const desc = s.split(' — ')[1];
-      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div><div style="font-size:12px;color:var(--cream);">${name}</div><div style="font-size:10px;color:var(--text-dim);">${desc}</div></div><button onclick="this.textContent='Connected ✓';this.style.background='var(--green-dim)';this.style.color='var(--green)';this.style.borderColor='rgba(74,155,111,0.2)'" style="padding:6px 14px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Connect</button></div>`;
-    }).join('')
+    + crmSources.map(renderSourceRow).join('')
     + `</div>`
-    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">CUSTOM API</div>`
-    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-size:12px;color:var(--cream);margin-bottom:8px;">Connect any REST API endpoint</div><input type="text" placeholder="https://api.yourdatasource.com/v1/" style="width:100%;padding:8px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:6px;" /><input type="text" placeholder="API Key (encrypted at rest)" style="width:100%;padding:8px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;" /><button onclick="showToast('Custom API connected successfully');closeModal()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Test & Connect</button></div>`
+    + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">CUSTOM API ENDPOINT</div>`
+    + `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;">
+      <div style="font-size:12px;color:var(--cream);margin-bottom:8px;">Connect any REST API or data feed</div>
+      <input id="custom-api-url" type="text" placeholder="https://api.yourdatasource.com/v1/" style="width:100%;padding:8px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:6px;" />
+      <input id="custom-api-key" type="password" placeholder="API Key (encrypted at rest)" style="width:100%;padding:8px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:6px;" />
+      <select id="custom-api-format" style="width:100%;padding:8px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;margin-bottom:8px;"><option>JSON REST API</option><option>GraphQL</option><option>CSV/FTP Feed</option><option>Webhook (push)</option></select>
+      <button onclick="testCustomAPI()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Test Connection & Connect</button>
+    </div>`
   );
+}
+
+function connectSource(name) {
+  const cfg = dataSourceConfig[name];
+  if (!cfg) return;
+  closeModal();
+
+  const isOAuth = cfg.type === 'oauth';
+  const fieldHTML = cfg.fields.map(f => {
+    if (f.type === 'select') {
+      return `<div><label style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">${f.label}</label><select id="${f.id}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;">${f.options.map(o=>'<option>'+o+'</option>').join('')}</select></div>`;
+    }
+    return `<div><label style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">${f.label}</label><input id="${f.id}" type="${f.label.toLowerCase().includes('secret') || f.label.toLowerCase().includes('key') ? 'password' : 'text'}" placeholder="${f.placeholder || ''}" style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:12px;" /></div>`;
+  }).join('');
+
+  setTimeout(() => showModal('Connect', cfg.icon + ' Connect ' + name,
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:12px;">${isOAuth ? 'Authorize LandMarq to access your ' + name + ' account via OAuth 2.0.' : 'Enter your ' + name + ' API credentials. All keys are encrypted at rest with AES-256.'}</div>`
+    + (cfg.docs ? `<div style="margin-bottom:12px;"><a href="${cfg.docs}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;">📖 View ${name} API documentation →</a></div>` : '')
+    + `<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">${fieldHTML}</div>`
+    + (isOAuth ? `<div style="padding:10px 12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;margin-bottom:12px;font-size:11px;color:var(--gold);line-height:1.5;">
+      <strong>OAuth Scopes Requested:</strong> ${cfg.scopes || 'read-only access'}<br>
+      <span style="color:var(--text-dim);">LandMarq will never modify your data without explicit confirmation.</span>
+    </div>` : '')
+    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:14px;">🔒</span>
+        <div style="font-size:10px;color:var(--text-dim);line-height:1.4;">Credentials encrypted with AES-256. Stored in your private vault. Never shared with third parties. You can revoke access at any time.</div>
+      </div>
+    </div>`
+    + `<div id="connect-status-${name.replace(/\s/g,'')}" style="display:none;padding:10px 12px;border-radius:6px;margin-bottom:12px;font-size:12px;"></div>`
+    + `<div style="display:flex;gap:8px;">
+      <button id="connect-btn-${name.replace(/\s/g,'')}" onclick="executeConnection('${name.replace(/'/g,"\\'")}')" style="flex:1;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">${isOAuth ? 'Authorize & Connect' : 'Test & Connect'}</button>
+      <button onclick="closeModal();setTimeout(showDataSourcesPanel,200)" style="padding:12px 20px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+    </div>`
+  ), 200);
+}
+
+function executeConnection(name) {
+  const safeName = name.replace(/\s/g,'');
+  const statusEl = document.getElementById('connect-status-' + safeName);
+  const btnEl = document.getElementById('connect-btn-' + safeName);
+  if (!statusEl || !btnEl) return;
+
+  // Check if required fields are filled
+  const cfg = dataSourceConfig[name];
+  let hasEmpty = false;
+  cfg.fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (el && !el.value.trim() && f.type !== 'select') {
+      el.style.borderColor = 'var(--red)';
+      hasEmpty = true;
+    }
+  });
+  if (hasEmpty) {
+    statusEl.style.display = 'block';
+    statusEl.style.background = 'var(--red-dim)';
+    statusEl.style.border = '1px solid rgba(192,83,58,0.2)';
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = 'Please fill in all required fields.';
+    return;
+  }
+
+  // Simulate connection test
+  btnEl.disabled = true;
+  btnEl.textContent = 'Connecting...';
+  btnEl.style.opacity = '0.6';
+  statusEl.style.display = 'block';
+  statusEl.style.background = 'var(--gold-dim)';
+  statusEl.style.border = '1px solid var(--border-gold)';
+  statusEl.style.color = 'var(--gold)';
+  statusEl.innerHTML = '⏳ Testing connection to ' + name + '...';
+
+  setTimeout(() => {
+    statusEl.innerHTML = '⏳ Authenticating credentials...';
+  }, 800);
+
+  setTimeout(() => {
+    statusEl.innerHTML = '⏳ Verifying data access permissions...';
+  }, 1600);
+
+  setTimeout(() => {
+    // Connection success
+    statusEl.style.background = 'var(--green-dim)';
+    statusEl.style.border = '1px solid rgba(74,155,111,0.2)';
+    statusEl.style.color = 'var(--green)';
+    statusEl.innerHTML = '✅ Connected successfully! Data sync starting...';
+    connectedSources[name] = true;
+    saveSourceState();
+    btnEl.textContent = '✓ Connected';
+    btnEl.style.background = 'var(--green)';
+    btnEl.style.opacity = '1';
+
+    setTimeout(() => {
+      closeModal();
+      showToast(name + ' connected — agents now pulling live data');
+      setTimeout(showDataSourcesPanel, 200);
+    }, 1200);
+  }, 2400);
+}
+
+function disconnectSource(name) {
+  closeModal();
+  setTimeout(() => showModal('Disconnect', 'Disconnect ' + name + '?',
+    `<div style="padding:16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:8px;margin-bottom:16px;">
+      <div style="font-size:14px;color:var(--red);font-weight:600;margin-bottom:6px;">⚠ Confirm Disconnect</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">This will revoke LandMarq's access to <strong style="color:var(--cream);">${name}</strong>. Agents that rely on this data source will fall back to cached data until reconnected.</div>
+    </div>`
+    + `<div style="display:flex;gap:8px;">
+      <button onclick="connectedSources['${name.replace(/'/g,"\\'")}'] = false;saveSourceState();closeModal();showToast('${name} disconnected');setTimeout(showDataSourcesPanel,200)" style="flex:1;padding:12px;background:var(--red);color:white;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Disconnect</button>
+      <button onclick="closeModal();setTimeout(showDataSourcesPanel,200)" style="flex:1;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+    </div>`
+  ), 200);
+}
+
+function showSourceSettings(name) {
+  const cfg = dataSourceConfig[name];
+  if (!cfg) return;
+  closeModal();
+  setTimeout(() => showModal('Settings', cfg.icon + ' ' + name + ' — Settings',
+    `<div style="padding:10px 12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+      <span style="color:var(--green);">●</span>
+      <div style="font-size:12px;color:var(--green);">Connected & Active</div>
+      <div style="margin-left:auto;font-size:10px;color:var(--text-dim);">Last sync: 2 min ago</div>
+    </div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">`
+    + `<div><label style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Sync Frequency</label><select style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;"><option>Realtime (streaming)</option><option selected>Every 15 minutes</option><option>Hourly</option><option>Daily</option></select></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Data Scope</label><select style="width:100%;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;"><option selected>All configured markets</option><option>Active deal markets only</option><option>Custom selection</option></select></div>`
+    + `<div><label style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">API Key</label><div style="display:flex;gap:6px;"><input type="password" value="••••••••••••••••" style="flex:1;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:12px;" /><button onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password';this.textContent=this.previousElementSibling.type==='password'?'Show':'Hide'" style="padding:8px 12px;background:var(--surface-3);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:10px;cursor:pointer;">Show</button></div></div>`
+    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:6px;">USAGE THIS MONTH</div><div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--text-mid);">API Calls</span><span style="color:var(--cream);">12,847 / 50,000</span></div><div style="width:100%;height:4px;background:var(--surface-3);border-radius:2px;margin-top:6px;"><div style="width:26%;height:100%;background:var(--gold);border-radius:2px;"></div></div></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;">
+      <button onclick="closeModal();showToast('${name} settings saved');setTimeout(showDataSourcesPanel,200)" style="flex:1;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Save Settings</button>
+      <button onclick="closeModal();setTimeout(showDataSourcesPanel,200)" style="padding:12px 20px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+    </div>`
+  ), 200);
+}
+
+function testCustomAPI() {
+  const url = document.getElementById('custom-api-url')?.value;
+  const key = document.getElementById('custom-api-key')?.value;
+  if (!url || !key) { showToast('Please enter both API URL and key'); return; }
+  showToast('Testing connection to ' + url + '...');
+  setTimeout(() => {
+    connectedSources['Custom: ' + url.split('/')[2]] = true;
+    saveSourceState();
+    closeModal();
+    showToast('Custom API connected successfully');
+    setTimeout(showDataSourcesPanel, 200);
+  }, 1500);
 }
 
 function showAgentConfig(agentName) {
