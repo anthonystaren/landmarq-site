@@ -456,7 +456,7 @@ body {
 .status-text { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.08em; }
 
 /* ─── MAIN ─── */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; min-height: 0; }
 
 .topbar {
   height: 54px; border-bottom: 1px solid var(--border);
@@ -506,6 +506,7 @@ body {
 /* ─── CONTENT ─── */
 .content {
   flex: 1; overflow-y: auto; overflow-x: hidden; padding: 18px 20px 40px;
+  min-height: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 310px;
   grid-template-rows: auto auto auto auto auto;
@@ -1421,8 +1422,8 @@ body {
         <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">LOI Clause Mismatch — Apex Capital</div><div class="alert-body">Non-standard "co-tenancy" clause on Sections 4.2 & 7. Differs from Savills gold template.</div><div class="alert-footer"><div class="alert-agent">LOI Agent</div><div class="alert-time">31m ago</div></div><div class="alert-action-btn">Review Comparison →</div></div>
         <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">TechCo Inc. Expansion Signal</div><div class="alert-body">40+ LA job postings. Badge-in at current WeWork up 62%. Likely seeking 15–25K SF.</div><div class="alert-footer"><div class="alert-agent">Lead Agent</div><div class="alert-time">14m ago</div></div><div class="alert-action-btn">View Lead Profile →</div></div>
         <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">Interest Rate Watch Triggered</div><div class="alert-body">Fed signals pause. Model projects cap rate compression in industrial by 25bps over 90 days.</div><div class="alert-footer"><div class="alert-agent">Macro Agent</div><div class="alert-time">1h ago</div></div><div class="alert-action-btn">View Impact Report →</div></div>
-        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">Playa Vista Occupancy Up</div><div class="alert-body">Badge-in data: Playa Vista 74% vs. 61% DTLA avg. Tenant preference shifting toward submarket.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">4h ago</div></div></div>
-        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">CBRE Deal Closed — Water Garden</div><div class="alert-body">18,500 SF closed. 3 remaining comparable availabilities in SM. Market tightening.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2h ago</div></div></div>
+        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">Playa Vista Occupancy Up</div><div class="alert-body">Badge-in data: Playa Vista 74% vs. 61% DTLA avg. Tenant preference shifting toward submarket.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">4h ago</div></div><div class="alert-action-btn">View Submarket Data →</div></div>
+        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">CBRE Deal Closed — Water Garden</div><div class="alert-body">18,500 SF closed. 3 remaining comparable availabilities in SM. Market tightening.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2h ago</div></div><div class="alert-action-btn">Update Comp Set →</div></div>
       </div>
     </div>
 
@@ -1642,6 +1643,21 @@ function skipOnboarding() {
 }
 
 function finishOnboarding() {
+  // Update sidebar profile card with onboarding data
+  const nameVal = document.getElementById('ob-name')?.value.trim() || '';
+  const firmInputs = document.querySelectorAll('#ob-step-2 .ob-input');
+  const firmVal = firmInputs[1]?.value.trim() || '';
+  const titleVal = firmInputs[2]?.value.trim() || '';
+
+  if (nameVal) {
+    const avatarEl = document.querySelector('#nav-profile .user-avatar');
+    const nameEl = document.querySelector('#nav-profile .user-name');
+    const titleEl = document.querySelector('#nav-profile .user-title');
+    if (avatarEl) avatarEl.textContent = nameVal.charAt(0).toUpperCase();
+    if (nameEl) nameEl.textContent = nameVal;
+    if (titleEl) titleEl.textContent = [titleVal, firmVal].filter(Boolean).join(' · ') || 'CRE Professional';
+  }
+
   const overlay = document.getElementById('onboarding-overlay');
   overlay.classList.add('hidden');
   setTimeout(() => { overlay.style.display = 'none'; startTour(); }, 400);
@@ -2156,6 +2172,43 @@ document.querySelectorAll('.alert-action-btn').forEach(btn => {
         + detailRow('Industrial Cap Rate Δ', '-25bps projected', 'var(--green)')
         + detailRow('Retail Cap Rate Δ', '-8bps projected', 'var(--text-mid)')
         + `<div style="margin-top:16px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;font-size:12px;color:var(--green);line-height:1.5;">Implication: Asset values could increase 2-4% in industrial over 90 days. Consider accelerating Burbank deal timeline.</div>`
+      );
+    } else if (text.includes('Submarket Data')) {
+      showModal('Intel Agent', 'Playa Vista — Submarket Deep Dive',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Playa Vista is showing strong occupancy recovery. Badge-in data indicates a tenant preference shift away from DTLA toward creative/tech corridors.</div>`
+        + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+        + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">SUBMARKET METRICS</div>`
+        + detailRow('Current Vacancy', '8.1%', 'var(--green)')
+        + detailRow('90-Day Trend', '▼ 0.9%', 'var(--green)')
+        + detailRow('Badge-In Occupancy', '74%', 'var(--green)')
+        + detailRow('DTLA Comparison', '61% (gap widening)', 'var(--red)')
+        + detailRow('Avg. Asking Rent', '$68/SF NNN', 'var(--gold)')
+        + detailRow('Available Spaces', '12 (▼ 3 MoM)', 'var(--cream)')
+        + `</div>`
+        + detailRow('Key Tenants', 'Google, YouTube, IMAX, Fullscreen', 'var(--cream)')
+        + detailRow('Active Searches', '4 tenants, 15K–40K SF combined', 'var(--gold)')
+        + `<div style="margin-top:12px;padding:10px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">Recommendation: Position Playa Vista as primary alternative for DTLA-averse TAMI tenants. 2 current pipeline deals (TechCo, WestShore) should include PV options.</div>`
+      );
+    } else if (text.includes('Comp Set')) {
+      showModal('Intel Agent', 'Santa Monica — Updated Comp Set',
+        `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">CBRE closed 18,500 SF at Water Garden. Updated comparable availabilities in Santa Monica:</div>`
+        + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:10px;">`
+        + detailRow('Water Garden (CLOSED)', '18,500 SF · $72/SF NNN', 'var(--text-dim)')
+        + `</div>`
+        + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin:12px 0 8px;">REMAINING COMPARABLES</div>`
+        + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:8px;">`
+        + detailRow('Colorado Center', '24,000 SF · $74/SF NNN', 'var(--cream)')
+        + detailRow('Status', 'Available · Tour ready', 'var(--green)')
+        + `</div>`
+        + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:8px;">`
+        + detailRow('Gateway', '15,200 SF · $68/SF NNN', 'var(--cream)')
+        + detailRow('Status', 'Available · Sub-listing', 'var(--amber)')
+        + `</div>`
+        + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">`
+        + detailRow('The Brickyard', '9,800 SF · $65/SF NNN', 'var(--cream)')
+        + detailRow('Status', 'Under negotiation', 'var(--red)')
+        + `</div>`
+        + `<div style="padding:10px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">SM inventory tightening — 3 remaining vs. 4 last month. Recommend accelerating tours for WestShore Media before The Brickyard closes.</div>`
       );
     }
   });
@@ -2683,23 +2736,44 @@ document.querySelectorAll('.action-dots').forEach((dots, i) => {
   }
 })();
 
-// ─── MAKE NEW STREAM ITEMS CLICKABLE ───
-const origPrepend = Element.prototype.prepend;
+// ─── MAKE NEW STREAM ITEMS CLICKABLE (rich views) ───
 const streamEl = document.getElementById('agentStream');
 if (streamEl) {
+  const newStreamDetails = [
+    { badge: 'Intel Agent', title: 'SF Financial District — Vacancy Update',
+      body: `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Intel Agent updated SF Financial District vacancy to 26.3% — the highest in 18 months. This is driven by continued tech sector downsizing and remote work adoption.</div>`
+      + detailRow('Current Vacancy', '26.3%', 'var(--red)')
+      + detailRow('Previous (90d ago)', '24.2%', 'var(--text-mid)')
+      + detailRow('Trend', '▲ 2.1% (rising)', 'var(--red)')
+      + detailRow('Largest Vacancies', 'Salesforce Tower 22F, 555 California 8-10F', 'var(--cream)')
+      + `<div style="margin-top:12px;padding:10px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;font-size:12px;color:var(--red);">SF Financial now ranks as the most distressed Class A submarket on the West Coast. Sublease inventory at 3.1M SF.</div>` },
+    { badge: 'Lead Agent', title: 'New Lead — Shopify Sublease Exit',
+      body: `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">Shopify is subletting 18K SF of creative office in Santa Monica. Lead Agent detected early vacancy signal from sublease listing filed 48 hours ago.</div>`
+      + detailRow('Company', 'Shopify · E-commerce · Public', 'var(--cream)')
+      + detailRow('Space', '18,000 SF · Creative Office', 'var(--cream)')
+      + detailRow('Location', 'Santa Monica · 2nd St Corridor', 'var(--cream)')
+      + detailRow('Available', 'Q2 2026 (sublease)', 'var(--amber)')
+      + detailRow('Asking', '$66/SF NNN (below market)', 'var(--gold)')
+      + `<div style="display:flex;gap:8px;margin-top:16px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Match with Tenants →</button><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Listing</button></div>` },
+    { badge: 'LOI Agent', title: 'Document Review — Apex Capital (Updated)',
+      body: `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:16px;">LOI Agent completed secondary review after Apex Capital's counsel responded. Assignment clause (Sec 7) has been updated to partial match.</div>`
+      + detailRow('Original Flags', '2 non-standard clauses', 'var(--red)')
+      + detailRow('Resolved', 'Sec 7 (Assignment) — partial match', 'var(--amber)')
+      + detailRow('Remaining', 'Sec 4.2 (Co-tenancy) — still non-standard', 'var(--red)')
+      + `<div style="display:flex;gap:8px;margin-top:16px;"><button onclick="closeModal()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Updated Redline →</button></div>` }
+  ];
+  let newStreamIdx = 0;
+
   const observer = new MutationObserver(mutations => {
     mutations.forEach(m => {
       m.addedNodes.forEach(node => {
         if (node.nodeType === 1 && node.classList.contains('stream-item') && !node._clickBound) {
           node._clickBound = true;
           node.style.cursor = 'pointer';
+          const detail = newStreamDetails[newStreamIdx % newStreamDetails.length];
+          newStreamIdx++;
           node.addEventListener('click', () => {
-            const text = node.querySelector('.stream-text')?.innerHTML || '';
-            const meta = node.querySelector('.stream-meta')?.textContent || '';
-            showModal('Agent Activity', 'Activity Detail',
-              `<div style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px;">${text}</div>`
-              + `<div style="font-size:11px;color:var(--text-dim);">${meta}</div>`
-            );
+            showModal(detail.badge, detail.title, detail.body);
           });
         }
       });
