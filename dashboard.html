@@ -2060,15 +2060,24 @@ const kpiData = [
     + detailRow('Meridian Health — Burbank', '$4.2M', 'var(--cream)')
     + detailRow('Other deals (9)', '$133.3M', 'var(--text-mid)')
     + `<div style="margin-top:16px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;font-size:12px;color:var(--green);">▲ Weighted pipeline up $24M from Q4 2025. 4 deals expected to close by May.</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();switchView('pipeline')" style="flex:1;padding:8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">View Full Pipeline →</button><button onclick="closeModal();showToast('Pipeline report exported to PDF')" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Export Report</button></div>`
   },
   { badge: 'Deals', title: 'Active Deals — 14', body: () =>
     `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">3 new deals entered pipeline this month. 2 deals advanced stages (Qualifying → Proposal).</div>`
-    + detailRow('Prospect', '3 deals', 'var(--text-mid)')
-    + detailRow('Qualifying', '4 deals', 'var(--blue)')
-    + detailRow('Proposal', '4 deals', 'var(--amber)')
-    + detailRow('LOI Signed', '2 deals', 'var(--gold)')
-    + detailRow('Closing', '1 deal', 'var(--green)')
+    + `<div style="display:flex;gap:4px;margin-bottom:16px;height:24px;border-radius:4px;overflow:hidden;">`
+    + `<div style="flex:3;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--text-dim);" title="Prospect">3</div>`
+    + `<div style="flex:4;background:rgba(74,127,165,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--blue);" title="Qualifying">4</div>`
+    + `<div style="flex:4;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--gold);" title="Proposal">4</div>`
+    + `<div style="flex:2;background:rgba(196,158,84,0.4);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--gold);" title="LOI Signed">2</div>`
+    + `<div style="flex:1;background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--green);" title="Closing">1</div>`
+    + `</div>`
+    + detailRow('Prospect', '3 deals · $12.2M', 'var(--text-mid)')
+    + detailRow('Qualifying', '4 deals · $33.4M', 'var(--blue)')
+    + detailRow('Proposal', '4 deals · $73.3M', 'var(--amber)')
+    + detailRow('LOI Signed', '2 deals · $26.8M', 'var(--gold)')
+    + detailRow('Closing', '1 deal · $28M', 'var(--green)')
     + `<div style="margin-top:16px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">Next milestone: Apex Capital closing expected Mar '26. Netflix proposal due Apr 1.</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();switchView('pipeline')" style="flex:1;padding:8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">View All Deals →</button><button onclick="closeModal();openAddDealModal()" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Add Deal</button></div>`
   },
   { badge: 'Vacancy', title: 'Avg. LA Office Vacancy — 14.2%', body: () =>
     `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">LA metro vacancy trending down 0.8% over 90 days. TAMI sector absorption driving tightening in Westside submarkets.</div>`
@@ -2079,15 +2088,23 @@ const kpiData = [
     + detailRow('DTLA', '18.4%', 'var(--red)')
     + detailRow('Wilshire Corridor', '16.1%', 'var(--red)')
     + `<div style="margin-top:16px;padding:12px;background:var(--blue-dim);border:1px solid rgba(74,127,165,0.2);border-radius:6px;font-size:12px;color:var(--blue);">▼ Westside vacancy at lowest since 2022. Expect upward rent pressure in Q2.</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();switchView('market-intel')" style="flex:1;padding:8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Full Market Intel →</button><button onclick="closeModal();switchView('west-coast-report')" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">West Coast Report</button></div>`
   },
   { badge: 'Leads', title: 'Agent-Sourced Leads — 31 (30d)', body: () =>
     `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">8 new leads this month, up from 23 last month. Lead Agent accuracy: 78% qualification rate.</div>`
+    + `<div style="display:flex;gap:4px;margin-bottom:16px;height:20px;border-radius:4px;overflow:hidden;">`
+    + `<div style="flex:14;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--gold);">TAMI 14</div>`
+    + `<div style="flex:6;background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--green);">Health 6</div>`
+    + `<div style="flex:5;background:rgba(74,127,165,0.2);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--blue);">Finance 5</div>`
+    + `<div style="flex:6;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--text-dim);">Other 6</div>`
+    + `</div>`
     + detailRow('TAMI Sector', '14 leads', 'var(--gold)')
     + detailRow('Healthcare', '6 leads', 'var(--green)')
     + detailRow('Financial Services', '5 leads', 'var(--blue)')
     + detailRow('Professional Services', '4 leads', 'var(--cream)')
     + detailRow('Other', '2 leads', 'var(--text-mid)')
     + `<div style="margin-top:16px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,155,111,0.2);border-radius:6px;font-size:12px;color:var(--green);">Top signal: TechCo Inc. — 40+ LA job postings, WeWork badge-in up 62%. High intent.</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();switchView('tenant-leads')" style="flex:1;padding:8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">View All Leads →</button><button onclick="closeModal();addCustomLead()" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Add Lead</button></div>`
   },
   { badge: 'Market', title: 'Avg. NNN PSF — $62 (SF Metro)', body: () =>
     `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">NNN asking rents up $1.20/SF MoM across LA metro. Class A driving the increase.</div>`
@@ -2096,12 +2113,14 @@ const kpiData = [
     + detailRow('Class B — Westside', '$52/SF', 'var(--cream)')
     + detailRow('Class B — Valley', '$38/SF', 'var(--text-mid)')
     + `<div style="margin-top:16px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;font-size:12px;color:var(--gold);">Trend: Westside Class A rents up 6.2% YoY. Expect acceleration with declining vacancy.</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();switchView('west-coast-report')" style="flex:1;padding:8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Rent Report →</button><button onclick="closeModal();switchView('submarket-tracker')" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Submarket Tracker</button></div>`
   },
   { badge: 'Alerts', title: 'Unread Alerts — 7', body: () =>
-    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">3 high priority alerts require immediate attention. 2 medium alerts pending review.</div>`
-    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;margin-bottom:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">⚡ Snap vacating 42K SF — Santa Monica</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">First-mover window: ~6 weeks</div></div>`
-    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;margin-bottom:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">📋 LOI Clause Mismatch — Apex Capital</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">Non-standard co-tenancy clause flagged</div></div>`
-    + `<div style="padding:10px 12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:4px;margin-bottom:6px;"><div style="font-size:12px;font-weight:600;color:var(--cream);">🎯 TechCo Expansion Signal</div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">40+ LA job postings detected</div></div>`
+    `<div style="margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.6;">3 high priority, 2 medium, 2 intel updates. Here are the ones needing your attention:</div>`
+    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;margin-bottom:6px;cursor:pointer;" onclick="closeModal();setTimeout(()=>briefActionSnapOutreach(),200)"><div style="display:flex;justify-content:space-between;"><div style="font-size:12px;font-weight:600;color:var(--cream);">⚡ Snap vacating 42K SF — Santa Monica</div><div style="font-size:9px;color:var(--red);">ACT NOW →</div></div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">First-mover window: ~6 weeks · 3 tenants matched</div></div>`
+    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:4px;margin-bottom:6px;cursor:pointer;" onclick="closeModal();setTimeout(()=>briefActionApexLOI(),200)"><div style="display:flex;justify-content:space-between;"><div style="font-size:12px;font-weight:600;color:var(--cream);">📋 LOI Clause Mismatch — Apex Capital</div><div style="font-size:9px;color:var(--red);">REVIEW →</div></div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">Non-standard co-tenancy clause · Sec 4.2 & 7 flagged</div></div>`
+    + `<div style="padding:10px 12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:4px;margin-bottom:6px;cursor:pointer;" onclick="closeModal();setTimeout(()=>briefActionTechCoQualify(),200)"><div style="display:flex;justify-content:space-between;"><div style="font-size:12px;font-weight:600;color:var(--cream);">🎯 TechCo Expansion Signal</div><div style="font-size:9px;color:var(--gold);">QUALIFY →</div></div><div style="font-size:11px;color:var(--text-mid);margin-top:2px;">40+ LA jobs · WeWork badge-in +62% · 15-25K SF need</div></div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;"><button onclick="closeModal();actionCustomizeNotifications()" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Customize Notifications</button><button onclick="closeModal();showToast('All alerts marked as read')" style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Mark All Read</button></div>`
   }
 ];
 
@@ -2632,17 +2651,41 @@ function actionEditOutreachParams(company, contact, deal) {
 
 function showNotificationsPanel() {
   showModal('Notifications', '7 Unread Notifications',
-    `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">`
-    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;cursor:pointer;" onclick="closeModal();document.querySelector('.alert-action-btn')?.click()"><div style="font-size:12px;font-weight:600;color:var(--cream);">⚡ Snap vacating 42K SF — Santa Monica</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">2 min ago · Intel Agent · Click to take action</div></div>`
-    + `<div style="padding:10px 12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;cursor:pointer;" onclick="closeModal()"><div style="font-size:12px;font-weight:600;color:var(--cream);">📋 LOI Clause Mismatch — Apex Capital</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">31 min ago · LOI Agent</div></div>`
-    + `<div style="padding:10px 12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;cursor:pointer;" onclick="closeModal()"><div style="font-size:12px;font-weight:600;color:var(--cream);">🎯 TechCo Expansion Signal</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">14 min ago · Lead Agent</div></div>`
-    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;cursor:pointer;" onclick="closeModal()"><div style="font-size:12px;font-weight:600;color:var(--cream);">📈 Interest Rate Watch Triggered</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">1h ago · Macro Agent</div></div>`
-    + `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;cursor:pointer;" onclick="closeModal()"><div style="font-size:12px;font-weight:600;color:var(--cream);">🔍 Playa Vista Occupancy Up</div><div style="font-size:10px;color:var(--text-dim);margin-top:2px;">4h ago · Intel Agent</div></div>`
+    `<div style="display:flex;flex-direction:column;gap:12px;">`
+    + `<div style="display:flex;gap:6px;border-bottom:1px solid var(--border);padding-bottom:10px;overflow-x:auto;">`
+    + `<button onclick="document.querySelectorAll('[data-notif-item]').forEach(el=>el.style.display='flex');this.style.background='var(--gold)';this.style.color='#0A0C0E';document.querySelectorAll('.notif-tab-btn').forEach(b=>b.style.background='');this.style.background='var(--gold)';this.style.color='#0A0C0E';" class="notif-tab-btn" style="padding:6px 12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">All (7)</button>`
+    + `<button onclick="document.querySelectorAll('[data-notif-item]').forEach(el=>el.style.display='none');document.querySelectorAll('[data-notif-urgent]').forEach(el=>el.style.display='flex');this.style.background='var(--gold)';this.style.color='#0A0C0E';document.querySelectorAll('.notif-tab-btn').forEach(b=>b.style.background='');this.style.background='var(--gold)';this.style.color='#0A0C0E';" class="notif-tab-btn" style="padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;white-space:nowrap;color:var(--text);">Urgent (2)</button>`
+    + `<button onclick="document.querySelectorAll('[data-notif-item]').forEach(el=>el.style.display='none');document.querySelectorAll('[data-notif-deal]').forEach(el=>el.style.display='flex');this.style.background='var(--gold)';this.style.color='#0A0C0E';document.querySelectorAll('.notif-tab-btn').forEach(b=>b.style.background='');this.style.background='var(--gold)';this.style.color='#0A0C0E';" class="notif-tab-btn" style="padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;white-space:nowrap;color:var(--text);">Deals (3)</button>`
+    + `<button onclick="document.querySelectorAll('[data-notif-item]').forEach(el=>el.style.display='none');document.querySelectorAll('[data-notif-market]').forEach(el=>el.style.display='flex');this.style.background='var(--gold)';this.style.color='#0A0C0E';document.querySelectorAll('.notif-tab-btn').forEach(b=>b.style.background='');this.style.background='var(--gold)';this.style.color='#0A0C0E';" class="notif-tab-btn" style="padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;white-space:nowrap;color:var(--text);">Market (2)</button>`
     + `</div>`
-    + `<div style="display:flex;gap:8px;">
-      <button onclick="closeModal();showToast('All notifications marked as read')" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Mark All Read</button>
-      <button onclick="closeModal();actionCustomizeNotifications()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Customize Notifications ⚙</button>
-    </div>`
+    + `<div style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;">`
+    + `<div data-notif-item data-notif-urgent style="padding:12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--red);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">⚡</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">Snap vacancy — 42K SF</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">Santa Monica space available immediately</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">2 min ago</div><button onclick="briefActionSnapOutreach();closeModal();" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">Take Action →</button></div></div>`
+    + `<div data-notif-item data-notif-urgent style="padding:12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--red);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">📋</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">LOI Clause Mismatch</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">Apex Capital draft has 2 non-standard terms</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">31 min ago</div><button onclick="briefActionApexLOI();closeModal();" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">Review →</button></div></div>`
+    + `<div data-notif-item data-notif-deal style="padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">🎯</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">TechCo Expansion Signal</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">40+ LA job postings, expansion timeline Q3</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">14 min ago</div><button onclick="briefActionTechCoQualify();closeModal();" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">Qualify →</button></div></div>`
+    + `<div data-notif-item data-notif-market style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">📈</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">Interest Rate Watch Triggered</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">Fed paused, cap rate compression 15–25bps projected</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">1h ago</div><button onclick="showModal('Macro Agent','Interest Rate Impact',detailRow('Fed Funds Rate','4.25%','var(--amber)')+detailRow('10Y Treasury','4.12%','var(--cream)')+detailRow('CRE Cap Rate Impact','+15bps widening','var(--red)')+detailRow('Forecast','Hold through Q2, cut Q3','var(--green)')+'<div style=\"margin-top:12px;font-size:12px;color:var(--text);line-height:1.6;\">Impact on your pipeline: Apex Capital may push for rate-adjusted terms. Netflix deal unaffected (corporate lease). Monitor Meridian Health — healthcare REITs sensitive to rate moves.</div>');" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">Details →</button></div></div>`
+    + `<div data-notif-item data-notif-market style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--green);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">🔍</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">Playa Vista Occupancy Up</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">8.1% vacancy, 90-day downtrend 0.9%, hottest Westside submarket</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">4h ago</div><button onclick="showModal('Intel Agent','Playa Vista Market Update',detailRow('Current Vacancy','8.1%','var(--green)')+detailRow('90-Day Trend','▼ 0.9%','var(--green)')+detailRow('Avg Asking Rent','$68/SF','var(--gold)')+detailRow('Net Absorption (Q4)','+ 85K SF','var(--green)')+'<div style=\"margin-top:12px;font-size:12px;color:var(--text);line-height:1.6;\">Playa Vista continues to be the hottest Westside submarket. TechCo and 2 other TAMI tenants are actively searching. Expect vacancy to drop below 7% by Q2.</div>');" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">View →</button></div></div>`
+    + `<div data-notif-item data-notif-deal style="padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">📑</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">Pinnacle Studios — Closing Docs Ready</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">Deal Agent prepared final documents for legal review</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">6h ago</div><button onclick="showDealDetail(2);closeModal();" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">Open →</button></div></div>`
+    + `<div data-notif-item data-notif-deal style="padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
+    + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">📊</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">New Comp Data — Q4 Rent Survey</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">Playa Vista, Culver City, Santa Monica, West LA included</div></div></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">8h ago</div><button onclick="closeModal();switchView('reports');" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">View Report →</button></div></div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px;margin-top:8px;">`
+    + `<button onclick="closeModal();showToast('All notifications marked as read')" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Mark All Read</button>`
+    + `<button onclick="closeModal();actionCustomizeNotifications()" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Customize Notifications ⚙</button>`
+    + `</div>`
+    + `</div>`
   );
 }
 
@@ -3352,9 +3395,23 @@ function sendAgentChat() {
     else response = `I'm scanning my intelligence feeds for "${query}". I can help with: specific deals (Netflix, Apex, TechCo, Pinnacle, Arclight, etc.), submarkets (DTLA, Santa Monica, Playa Vista, SF, Seattle), market data (vacancy, rents, trends), agent activity, pipeline metrics, revenue projections, risk analysis, zoning/permits, outreach status, LOI reviews, and data source connections. What would you like to know?`;
   }
 
+  // Build follow-up suggestions based on topic
+  let followUps = [];
+  if (q.includes('snap') || q.includes('vacancy')) followUps = ['Draft outreach for Snap space','Show Santa Monica comps','What tenants are searching?'];
+  else if (q.includes('apex') || q.includes('loi')) followUps = ['View full LOI','Generate redline','Show Apex deal details'];
+  else if (q.includes('techco') || q.includes('lead')) followUps = ['Draft outreach to TechCo','Show matching properties','Add to pipeline'];
+  else if (q.includes('pipeline') || q.includes('deal')) followUps = ['Which deals close next?','Show risk analysis','Revenue projection'];
+  else if (q.includes('market') || q.includes('vacancy') || q.includes('rent')) followUps = ['Compare submarkets','Show rent trends','Export market report'];
+  else if (q.includes('agent')) followUps = ['Show agent history','Configure agents','Connect data source'];
+  else if (q.includes('revenue') || q.includes('commission')) followUps = ['Show pipeline breakdown','Compare to last quarter','Export forecast'];
+  else if (q.includes('risk')) followUps = ['Show deal details','Mitigation strategies','Pipeline health'];
+  else followUps = ['Pipeline summary','Top leads this week','Market overview'];
+
+  const followUpHtml = `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">${followUps.map(f => `<button onclick="document.getElementById('agent-chat-input').value='${f}';sendAgentChat();" style="padding:3px 8px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;color:var(--gold);font-size:9px;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;">${f}</button>`).join('')}</div>`;
+
   // Simulate typing delay
   setTimeout(() => {
-    msgArea.innerHTML += `<div style="padding:8px 10px;margin-bottom:6px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:2px 6px 6px 6px;font-size:12px;color:var(--text);line-height:1.5;"><strong style="color:var(--gold);">Agent:</strong> ${response}</div>`;
+    msgArea.innerHTML += `<div style="padding:8px 10px;margin-bottom:6px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:2px 6px 6px 6px;font-size:12px;color:var(--text);line-height:1.5;"><strong style="color:var(--gold);">Agent:</strong> ${response}${followUpHtml}</div>`;
     msgArea.scrollTop = msgArea.scrollHeight;
   }, 400);
 
@@ -3681,15 +3738,38 @@ function renderMorningBrief() {
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   return `<div style="max-width:900px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Morning Brief</div>
-        <div style="font-size:12px;color:var(--text-dim);margin-top:4px;">${dateStr} · Delivered 6:00 AM PST</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Good morning, Mark</div>
+        <div style="font-size:12px;color:var(--gold);margin-top:4px;">${dateStr} · 3 items need your attention today</div>
       </div>
       <div style="display:flex;gap:8px;">
         <button onclick="showEditBriefModal()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">⚙ Configure Brief</button>
         <button onclick="shareBrief()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">↗ Share Brief</button>
       </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;">
+      <div style="padding:16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;cursor:pointer;" onclick="switchView('pipeline')">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--red);margin-bottom:8px;font-weight:600;">DEALS AT RISK</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--red);">2</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">Total at risk: <strong style="color:var(--red);">$18.5M</strong></div>
+      </div>
+      <div style="padding:16px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;cursor:pointer;" onclick="switchView('leads')">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--gold);margin-bottom:8px;font-weight:600;">OPPORTUNITIES</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);">7</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">Qualified leads ready</div>
+      </div>
+      <div style="padding:16px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;cursor:pointer;" onclick="showAgentFleet()">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--green);margin-bottom:8px;font-weight:600;">AGENTS ACTIVE</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--green);">6</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">10 active tasks today</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:24px;">
+      <button onclick="switchView('pipeline')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">📊 Open Pipeline</button>
+      <button onclick="switchView('leads')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">🎯 Check Leads</button>
+      <button onclick="switchView('market-intel')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">📈 View Reports</button>
+      <button onclick="showModal('AI Assistant','Ask AI Agent','<div style=\"font-size:13px;color:var(--text);line-height:1.6;\">Ask a question about your portfolio, market conditions, or strategic questions.</div><input type=\"text\" placeholder=\"What is the status of the Netflix deal?\" style=\"width:100%;padding:10px;margin-top:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:\\'Syne\\',sans-serif;font-size:12px;\" /><button onclick=\"closeModal();showToast(\\'AI analyzing your question...\\')\" style=\"width:100%;margin-top:12px;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:\\'Syne\\',sans-serif;font-size:11px;cursor:pointer;\">Send Question</button>')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">✨ Ask AI</button>
     </div>
     ${viewSection('Executive Summary')}
     ${viewCard(`<div style="font-size:13px;color:var(--text);line-height:1.8;">
@@ -3713,6 +3793,40 @@ function renderMorningBrief() {
         <div style="font-size:18px;">🎯</div>
         <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px;">Qualify TechCo Inc. — high expansion signal</div><div style="font-size:11px;color:var(--text-mid);">Playa Vista · 40+ jobs, WeWork badge-in +62% · Lead Agent</div></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--blue);align-self:center;">MEDIUM</div>
+      </div>
+    </div>`)}
+    ${viewSection('Portfolio Health')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+      <div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--text-dim);margin-bottom:6px;">TOTAL PIPELINE VALUE</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);">$218M</div><div style="font-size:10px;color:var(--green);margin-top:4px;">+$28.4M (14.9%)</div></div>
+      <div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--text-dim);margin-bottom:6px;">WEIGHTED VALUE</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);">$156.3M</div><div style="font-size:10px;color:var(--text-mid);margin-top:4px;">Probability-adjusted</div></div>
+      <div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--text-dim);margin-bottom:6px;">WIN PROBABILITY (AVG)</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--green);">71.8%</div><div style="font-size:10px;color:var(--text-mid);margin-top:4px;">Across 14 deals</div></div>
+      <div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--text-dim);margin-bottom:6px;">NEXT CLOSE DATE</div><div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);">Mar 28, 2026</div><div style="font-size:10px;color:var(--gold);margin-top:4px;">Pinnacle · $32M</div></div>
+    </div>`)}
+    ${viewSection('Key Dates')}
+    ${viewCard(`<div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:6px;">
+        <div style="font-size:20px;">📅</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:600;color:var(--cream);">LOI Expiry — Apex Capital</div>
+          <div style="font-size:11px;color:var(--text-mid);">Century City · 21 days remaining</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);font-weight:600;">MAR 15</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:6px;">
+        <div style="font-size:20px;">📋</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:600;color:var(--cream);">Netflix Proposal Due</div>
+          <div style="font-size:11px;color:var(--text-mid);">Culver City · Comprehensive lease proposal</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);font-weight:600;">MAR 22</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;">
+        <div style="font-size:20px;">🎯</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:600;color:var(--cream);">Pinnacle Closing Target</div>
+          <div style="font-size:11px;color:var(--text-mid);">DTLA · Final documentation phase</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);font-weight:600;">MAR 28</div>
       </div>
     </div>`)}
     ${viewSection('Market Snapshot')}
@@ -4173,24 +4287,39 @@ function toggleAgentPause(btn, agentName) {
 // ─── PIPELINE VIEW ───
 function renderPipeline() {
   const allDeals = [
-    { name: 'Netflix Inc.', sub: 'HQ Expansion · TAMI', market: 'Culver City', sf: '~60K', value: '$42M', stage: 'Proposal', prob: 72, close: "Apr '26", contact: 'Sarah Chen, VP Real Estate' },
-    { name: 'Apex Capital Group', sub: 'Relocation · Financial', market: 'Century City', sf: '28.5K', value: '$19M', stage: 'LOI Signed', prob: 88, close: "Mar '26", contact: 'David Park, COO' },
-    { name: 'Pinnacle Studios', sub: 'Expansion · Entertain.', market: 'Burbank', sf: '45K', value: '$30M', stage: 'Closing', prob: 94, close: "Mar '26", contact: 'Rachel Adams, CFO' },
-    { name: 'TechCo Inc.', sub: 'New Requirement · SaaS', market: 'Playa Vista', sf: '~20K', value: '$11M', stage: 'Qualifying', prob: 38, close: "Q3 '26", contact: 'VP Operations (TBD)' },
-    { name: 'WestShore Media', sub: 'Expansion · Media', market: 'Santa Monica', sf: '14.2K', value: '$8.5M', stage: 'Proposal', prob: 61, close: "May '26", contact: 'Lisa Tran, Head of Ops' },
-    { name: 'Meridian Health', sub: 'New Req. · Healthcare', market: 'Burbank', sf: '9K', value: '$4.2M', stage: 'Prospect', prob: 24, close: "Q4 '26", contact: 'Michael Torres, CFO' },
-    { name: 'Summit Legal Group', sub: 'Expansion · Legal', market: 'Century City', sf: '18K', value: '$16M', stage: 'LOI Signed', prob: 82, close: "Apr '26", contact: 'Jennifer Walsh, Managing Partner' },
-    { name: 'Horizon Biotech', sub: 'Expansion · Life Sci', market: 'El Segundo', sf: '22K', value: '$14M', stage: 'Qualifying', prob: 42, close: "Q3 '26", contact: 'Dr. Robert Lin, COO' },
-    { name: 'Pacific Ventures', sub: 'Relocation · VC', market: 'Santa Monica', sf: '12K', value: '$7.8M', stage: 'Proposal', prob: 55, close: "Jun '26", contact: 'Tom Huang, Partner' },
-    { name: 'Catalyst Media', sub: 'New Req. · Media', market: 'Culver City', sf: '8.5K', value: '$5.1M', stage: 'Qualifying', prob: 35, close: "Q4 '26", contact: 'Amy Castillo, CEO' },
-    { name: 'CloudNine Software', sub: 'New Req. · SaaS', market: 'Playa Vista', sf: '11K', value: '$6.8M', stage: 'Prospect', prob: 18, close: "2027", contact: 'Jason Reed, VP Eng' },
-    { name: 'Verde Architects', sub: 'Relocation · Design', market: 'W. Hollywood', sf: '5.5K', value: '$3.2M', stage: 'Proposal', prob: 58, close: "May '26", contact: 'Maria Santos, Founder' },
-    { name: 'Arclight Partners', sub: 'Expansion · Finance', market: 'DTLA', sf: '35K', value: '$18M', stage: 'Qualifying', prob: 45, close: "Q3 '26", contact: 'Steven Park, MD' },
-    { name: 'Zenith Healthcare', sub: 'New Req. · Healthcare', market: 'Burbank', sf: '7K', value: '$3.4M', stage: 'Prospect', prob: 22, close: "Q4 '26", contact: 'Dr. Nina Patel' }
+    { name: 'Netflix Inc.', sub: 'HQ Expansion · TAMI', market: 'Culver City', sf: '~60K', value: '$42M', stage: 'Proposal', prob: 72, close: "Apr '26", contact: 'Sarah Chen, VP Real Estate', daysInStage: 14 },
+    { name: 'Apex Capital Group', sub: 'Relocation · Financial', market: 'Century City', sf: '28.5K', value: '$19M', stage: 'LOI Signed', prob: 88, close: "Mar '26", contact: 'David Park, COO', daysInStage: 8 },
+    { name: 'Pinnacle Studios', sub: 'Expansion · Entertain.', market: 'Burbank', sf: '45K', value: '$30M', stage: 'Closing', prob: 94, close: "Mar '26", contact: 'Rachel Adams, CFO', daysInStage: 3 },
+    { name: 'TechCo Inc.', sub: 'New Requirement · SaaS', market: 'Playa Vista', sf: '~20K', value: '$11M', stage: 'Qualifying', prob: 38, close: "Q3 '26", contact: 'VP Operations (TBD)', daysInStage: 22 },
+    { name: 'WestShore Media', sub: 'Expansion · Media', market: 'Santa Monica', sf: '14.2K', value: '$8.5M', stage: 'Proposal', prob: 61, close: "May '26", contact: 'Lisa Tran, Head of Ops', daysInStage: 18 },
+    { name: 'Meridian Health', sub: 'New Req. · Healthcare', market: 'Burbank', sf: '9K', value: '$4.2M', stage: 'Prospect', prob: 24, close: "Q4 '26", contact: 'Michael Torres, CFO', daysInStage: 31 },
+    { name: 'Summit Legal Group', sub: 'Expansion · Legal', market: 'Century City', sf: '18K', value: '$16M', stage: 'LOI Signed', prob: 82, close: "Apr '26", contact: 'Jennifer Walsh, Managing Partner', daysInStage: 11 },
+    { name: 'Horizon Biotech', sub: 'Expansion · Life Sci', market: 'El Segundo', sf: '22K', value: '$14M', stage: 'Qualifying', prob: 42, close: "Q3 '26", contact: 'Dr. Robert Lin, COO', daysInStage: 19 },
+    { name: 'Pacific Ventures', sub: 'Relocation · VC', market: 'Santa Monica', sf: '12K', value: '$7.8M', stage: 'Proposal', prob: 55, close: "Jun '26", contact: 'Tom Huang, Partner', daysInStage: 25 },
+    { name: 'Catalyst Media', sub: 'New Req. · Media', market: 'Culver City', sf: '8.5K', value: '$5.1M', stage: 'Qualifying', prob: 35, close: "Q4 '26", contact: 'Amy Castillo, CEO', daysInStage: 28 },
+    { name: 'CloudNine Software', sub: 'New Req. · SaaS', market: 'Playa Vista', sf: '11K', value: '$6.8M', stage: 'Prospect', prob: 18, close: "2027", contact: 'Jason Reed, VP Eng', daysInStage: 42 },
+    { name: 'Verde Architects', sub: 'Relocation · Design', market: 'W. Hollywood', sf: '5.5K', value: '$3.2M', stage: 'Proposal', prob: 58, close: "May '26", contact: 'Maria Santos, Founder', daysInStage: 12 },
+    { name: 'Arclight Partners', sub: 'Expansion · Finance', market: 'DTLA', sf: '35K', value: '$18M', stage: 'Qualifying', prob: 45, close: "Q3 '26", contact: 'Steven Park, MD', daysInStage: 16 },
+    { name: 'Zenith Healthcare', sub: 'New Req. · Healthcare', market: 'Burbank', sf: '7K', value: '$3.4M', stage: 'Prospect', prob: 22, close: "Q4 '26", contact: 'Dr. Nina Patel', daysInStage: 35 }
   ];
   const stageColors = { 'Prospect': 'var(--text-dim)', 'Qualifying': 'var(--blue)', 'Proposal': 'var(--amber)', 'LOI Signed': 'var(--gold)', 'Closing': 'var(--green)' };
   const stageCounts = {};
-  allDeals.forEach(d => { stageCounts[d.stage] = (stageCounts[d.stage] || 0) + 1; });
+  const stageValues = { 'Prospect': 0, 'Qualifying': 0, 'Proposal': 0, 'LOI Signed': 0, 'Closing': 0 };
+
+  allDeals.forEach(d => {
+    stageCounts[d.stage] = (stageCounts[d.stage] || 0) + 1;
+    const numValue = parseFloat(d.value.replace(/[^0-9.]/g, ''));
+    stageValues[d.stage] += numValue;
+  });
+
+  const totalPipelineValue = Object.values(stageValues).reduce((a, b) => a + b, 0);
+  const stages = ['Prospect', 'Qualifying', 'Proposal', 'LOI Signed', 'Closing'];
+
+  const getHealthIndicator = (prob) => {
+    if (prob > 60) return { color: 'var(--green)', label: 'On Track' };
+    if (prob >= 30) return { color: 'var(--amber)', label: 'Needs Attention' };
+    return { color: 'var(--red)', label: 'At Risk' };
+  };
 
   return `<div style="max-width:1100px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -4200,6 +4329,7 @@ function renderPipeline() {
       </div>
       <div style="display:flex;gap:8px;">
         <button onclick="openAddDealModal()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Add Deal</button>
+        <button onclick="showPipelineKanban()" style="padding:8px 16px;background:var(--surface-2);color:var(--cream);border:1px solid var(--border);border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Board View</button>
         <select id="pipeline-filter" onchange="filterPipelineView()" style="padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;">
           <option value="all">All Stages</option>
           <option value="Prospect">Prospect</option>
@@ -4217,8 +4347,25 @@ function renderPipeline() {
       </div>
     </div>
     ${viewSection('Stage Summary')}
+
+    <!-- Pipeline Funnel Bar -->
+    <div style="margin-bottom:20px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:6px;">
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">PIPELINE VALUE BY STAGE</div>
+      <div style="display:flex;height:48px;gap:2px;border-radius:4px;overflow:hidden;background:var(--surface-2);">
+        ${stages.map(stage => {
+          const pct = totalPipelineValue > 0 ? (stageValues[stage] / totalPipelineValue) * 100 : 0;
+          return `<div style="flex:${pct || 0.1};background:${stageColors[stage]};display:flex;align-items:center;justify-content:center;position:relative;min-width:${pct < 5 ? '40px' : '0'};" title="${stage}: $${stageValues[stage].toFixed(1)}M">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#0A0C0E;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,0.3);">${pct > 8 ? '$' + stageValues[stage].toFixed(1) + 'M' : ''}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:16px;margin-top:10px;font-size:10px;flex-wrap:wrap;">
+        ${stages.map(s => `<div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;background:${stageColors[s]};border-radius:2px;"></div><span style="color:var(--text-mid);">${s}: <span style="color:var(--cream);font-weight:600;">$${stageValues[s].toFixed(1)}M</span></span></div>`).join('')}
+      </div>
+    </div>
+
     <div style="display:flex;gap:8px;margin-bottom:16px;">
-      ${['Prospect','Qualifying','Proposal','LOI Signed','Closing'].map(s =>
+      ${stages.map(s =>
         `<div style="flex:1;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;border-top:2px solid ${stageColors[s]};text-align:center;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:4px;">${s.toUpperCase()}</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);">${stageCounts[s] || 0}</div>
@@ -4227,18 +4374,23 @@ function renderPipeline() {
     </div>
     ${viewSection('All Deals')}
     <div id="pipeline-view-list">
-    ${allDeals.map((d,i) => `<div class="pipeline-view-row" data-stage="${d.stage}" data-value="${parseFloat(d.value.replace(/[^0-9.]/g,''))}" data-prob="${d.prob}" data-name="${d.name}" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px;margin-bottom:8px;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.borderColor='var(--border)'" onclick="showDealDetail(${i})">
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="flex:2;min-width:0;"><div style="font-size:14px;font-weight:600;color:var(--cream);">${d.name}</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${d.sub}</div></div>
-        <div style="width:90px;"><span style="font-size:10px;padding:3px 8px;background:var(--surface-2);border-radius:3px;color:var(--text-mid);font-family:'JetBrains Mono',monospace;">${d.market}</span></div>
-        <div style="width:60px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-mid);">${d.sf}</div>
-        <div style="width:50px;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--gold);">${d.value}</div>
-        <div style="width:80px;"><span style="font-size:9px;padding:3px 8px;border-radius:12px;font-family:'JetBrains Mono',monospace;background:var(--surface-3);color:${stageColors[d.stage]};">${d.stage}</span></div>
-        <div style="width:60px;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${d.prob}%;background:${d.prob > 70 ? 'var(--green)' : d.prob > 40 ? 'var(--gold)' : 'var(--red)'};border-radius:2px;"></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-mid);">${d.prob}%</span></div></div>
-        <div style="width:55px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);">${d.close}</div>
-        <div style="width:30px;text-align:center;"><button onclick="event.stopPropagation();showDealActions(${i},'${d.name.replace(/'/g,"\\'")}')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;">⋯</button></div>
-      </div>
-    </div>`).join('')}
+    ${allDeals.map((d,i) => {
+      const health = getHealthIndicator(d.prob);
+      return `<div class="pipeline-view-row" data-stage="${d.stage}" data-value="${parseFloat(d.value.replace(/[^0-9.]/g,''))}" data-prob="${d.prob}" data-name="${d.name}" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px;margin-bottom:8px;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.borderColor='var(--border)'" onclick="showDealDetail(${i})">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="width:10px;height:10px;background:${health.color};border-radius:50%;flex-shrink:0;border:2px solid var(--surface-2);" title="${health.label}"></div>
+          <div style="flex:2;min-width:0;"><div style="font-size:14px;font-weight:600;color:var(--cream);">${d.name}</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${d.sub}</div></div>
+          <div style="width:90px;"><span style="font-size:10px;padding:3px 8px;background:var(--surface-2);border-radius:3px;color:var(--text-mid);font-family:'JetBrains Mono',monospace;">${d.market}</span></div>
+          <div style="width:60px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-mid);">${d.sf}</div>
+          <div style="width:50px;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--gold);">${d.value}</div>
+          <div style="width:80px;"><span style="font-size:9px;padding:3px 8px;border-radius:12px;font-family:'JetBrains Mono',monospace;background:var(--surface-3);color:${stageColors[d.stage]};">${d.stage}</span></div>
+          <div style="width:60px;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${d.prob}%;background:${d.prob > 70 ? 'var(--green)' : d.prob > 40 ? 'var(--gold)' : 'var(--red)'};border-radius:2px;"></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-mid);">${d.prob}%</span></div></div>
+          <div style="width:50px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);text-align:center;">${d.daysInStage}d</div>
+          <div style="width:55px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);">${d.close}</div>
+          <div style="width:30px;text-align:center;"><button onclick="event.stopPropagation();showDealActions(${i},'${d.name.replace(/'/g,"\'")}')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;">⋯</button></div>
+        </div>
+      </div>`;
+    }).join('')}
     </div>
     <div style="margin-top:20px;text-align:center;"><button onclick="switchView('dashboard')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← Back to Dashboard</button></div>
   </div>`;
@@ -4310,6 +4462,81 @@ function sortPipelineView() {
     }
   });
   rows.forEach(row => container.appendChild(row));
+}
+
+// ─── PIPELINE KANBAN VIEW ───
+function showPipelineKanban() {
+  const allDeals = [
+    { name: 'Netflix Inc.', sub: 'HQ Expansion · TAMI', market: 'Culver City', sf: '~60K', value: '$42M', stage: 'Proposal', prob: 72, close: "Apr '26", contact: 'Sarah Chen, VP Real Estate', daysInStage: 14 },
+    { name: 'Apex Capital Group', sub: 'Relocation · Financial', market: 'Century City', sf: '28.5K', value: '$19M', stage: 'LOI Signed', prob: 88, close: "Mar '26", contact: 'David Park, COO', daysInStage: 8 },
+    { name: 'Pinnacle Studios', sub: 'Expansion · Entertain.', market: 'Burbank', sf: '45K', value: '$30M', stage: 'Closing', prob: 94, close: "Mar '26", contact: 'Rachel Adams, CFO', daysInStage: 3 },
+    { name: 'TechCo Inc.', sub: 'New Requirement · SaaS', market: 'Playa Vista', sf: '~20K', value: '$11M', stage: 'Qualifying', prob: 38, close: "Q3 '26", contact: 'VP Operations (TBD)', daysInStage: 22 },
+    { name: 'WestShore Media', sub: 'Expansion · Media', market: 'Santa Monica', sf: '14.2K', value: '$8.5M', stage: 'Proposal', prob: 61, close: "May '26", contact: 'Lisa Tran, Head of Ops', daysInStage: 18 },
+    { name: 'Meridian Health', sub: 'New Req. · Healthcare', market: 'Burbank', sf: '9K', value: '$4.2M', stage: 'Prospect', prob: 24, close: "Q4 '26", contact: 'Michael Torres, CFO', daysInStage: 31 },
+    { name: 'Summit Legal Group', sub: 'Expansion · Legal', market: 'Century City', sf: '18K', value: '$16M', stage: 'LOI Signed', prob: 82, close: "Apr '26", contact: 'Jennifer Walsh, Managing Partner', daysInStage: 11 },
+    { name: 'Horizon Biotech', sub: 'Expansion · Life Sci', market: 'El Segundo', sf: '22K', value: '$14M', stage: 'Qualifying', prob: 42, close: "Q3 '26", contact: 'Dr. Robert Lin, COO', daysInStage: 19 },
+    { name: 'Pacific Ventures', sub: 'Relocation · VC', market: 'Santa Monica', sf: '12K', value: '$7.8M', stage: 'Proposal', prob: 55, close: "Jun '26", contact: 'Tom Huang, Partner', daysInStage: 25 },
+    { name: 'Catalyst Media', sub: 'New Req. · Media', market: 'Culver City', sf: '8.5K', value: '$5.1M', stage: 'Qualifying', prob: 35, close: "Q4 '26", contact: 'Amy Castillo, CEO', daysInStage: 28 },
+    { name: 'CloudNine Software', sub: 'New Req. · SaaS', market: 'Playa Vista', sf: '11K', value: '$6.8M', stage: 'Prospect', prob: 18, close: "2027", contact: 'Jason Reed, VP Eng', daysInStage: 42 },
+    { name: 'Verde Architects', sub: 'Relocation · Design', market: 'W. Hollywood', sf: '5.5K', value: '$3.2M', stage: 'Proposal', prob: 58, close: "May '26", contact: 'Maria Santos, Founder', daysInStage: 12 },
+    { name: 'Arclight Partners', sub: 'Expansion · Finance', market: 'DTLA', sf: '35K', value: '$18M', stage: 'Qualifying', prob: 45, close: "Q3 '26", contact: 'Steven Park, MD', daysInStage: 16 },
+    { name: 'Zenith Healthcare', sub: 'New Req. · Healthcare', market: 'Burbank', sf: '7K', value: '$3.4M', stage: 'Prospect', prob: 22, close: "Q4 '26", contact: 'Dr. Nina Patel', daysInStage: 35 }
+  ];
+
+  const stageColors = { 'Prospect': 'var(--text-dim)', 'Qualifying': 'var(--blue)', 'Proposal': 'var(--amber)', 'LOI Signed': 'var(--gold)', 'Closing': 'var(--green)' };
+  const stages = ['Prospect', 'Qualifying', 'Proposal', 'LOI Signed', 'Closing'];
+
+  const getHealthIndicator = (prob) => {
+    if (prob > 60) return { color: 'var(--green)', label: 'On Track' };
+    if (prob >= 30) return { color: 'var(--amber)', label: 'Needs Attention' };
+    return { color: 'var(--red)', label: 'At Risk' };
+  };
+
+  const kanbanHTML = `<div style="max-width:1400px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Pipeline Board</div>
+        <div style="font-size:12px;color:var(--text-dim);margin-top:4px;">Kanban-style deal management</div>
+      </div>
+      <button onclick="switchView('pipeline')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← List View</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:16px;overflow-x:auto;padding-bottom:20px;">
+      ${stages.map(stage => {
+        const stageDeals = allDeals.filter(d => d.stage === stage);
+        const stageValue = stageDeals.reduce((sum, d) => sum + parseFloat(d.value.replace(/[^0-9.]/g, '')), 0);
+        return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;min-width:280px;">
+          <div style="background:${stageColors[stage]};padding:12px 16px;border-bottom:1px solid var(--border);">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#0A0C0E;font-weight:600;letter-spacing:0.1em;">${stage.toUpperCase()}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#0A0C0E;margin-top:4px;">${stageDeals.length} deals</div>
+            <div style="font-size:10px;color:#0A0C0E;margin-top:4px;">$${stageValue.toFixed(1)}M value</div>
+          </div>
+          <div style="padding:12px;max-height:600px;overflow-y:auto;">
+            ${stageDeals.map((d, idx) => {
+              const health = getHealthIndicator(d.prob);
+              return `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;" onclick="showDealDetail(${allDeals.indexOf(d)})" onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                  <div style="width:8px;height:8px;background:${health.color};border-radius:50%;flex-shrink:0;"></div>
+                  <div style="font-size:12px;font-weight:600;color:var(--cream);flex:1;min-width:0;word-break:break-word;">${d.name}</div>
+                </div>
+                <div style="font-size:10px;color:var(--text-dim);margin-bottom:8px;">${d.sub}</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <span style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);font-weight:600;">${d.value}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-mid);">${d.prob}%</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-dim);">
+                  <span>${d.market}</span>
+                  <span>${d.daysInStage}d</span>
+                </div>
+              </div>`;
+            }).join('')}
+            ${stageDeals.length === 0 ? `<div style="text-align:center;padding:20px;color:var(--text-dim);font-size:12px;">No deals</div>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  document.getElementById('main-content').innerHTML = kanbanHTML;
 }
 
 // ─── MARKET INTEL VIEW ───
@@ -4488,6 +4715,68 @@ function renderWestCoastReport() {
         </tbody>
       </table>
     </div>`)}
+    ${viewSection('Absorption Trends — 4 Quarters')}
+    ${viewCard(`<div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;">MARKET</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q1 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q2 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q3 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q4 '25</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">LA Metro</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+340K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+280K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+410K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+520K</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">SF Metro</td>
+            <td style="text-align:right;padding:8px;color:var(--red);">-180K</td>
+            <td style="text-align:right;padding:8px;color:var(--red);">-90K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+20K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+45K</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Seattle</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+120K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+200K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+260K</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+310K</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`)}
+    ${viewSection('Top Transactions This Quarter')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr;gap:8px;">
+      ${[
+        { company: 'Netflix', size: '60K SF', location: 'Culver City', rate: '$62/SF' },
+        { company: 'Amazon', size: '45K SF', location: 'Bellevue', rate: '$58/SF' },
+        { company: 'Hulu', size: '30K SF', location: 'Santa Monica', rate: '$72/SF' },
+        { company: 'Stripe', size: '25K SF', location: 'SF Mission', rate: '$54/SF' },
+        { company: 'DoorDash', size: '20K SF', location: 'Seattle SLU', rate: '$48/SF' }
+      ].map(d => `<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="color:var(--cream);font-weight:600;margin-bottom:2px;">${d.company}</div>
+          <div style="font-size:11px;color:var(--text-dim);">${d.size} • ${d.location}</div>
+        </div>
+        <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;">${d.rate}</div>
+      </div>`).join('')}
+    </div>`)}
+    ${viewSection('Market Risk Indicators')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      ${[
+        { label: 'Interest Rate Impact', desc: 'Fed funds at 4.25%, CRE cap rates widening 15bps', color: 'var(--amber)', bg: 'rgba(237, 137, 54, 0.1)', border: 'var(--amber-dim)' },
+        { label: 'Supply Pipeline', desc: '2.4M SF under construction, 68% pre-leased', color: 'var(--green)', bg: 'rgba(52, 211, 153, 0.1)', border: 'var(--green-dim)' },
+        { label: 'Sublease Overhang', desc: '1.8M SF available, concentrated in SF SOMA/Financial', color: 'var(--red)', bg: 'rgba(239, 68, 68, 0.1)', border: 'var(--red-dim)' }
+      ].map(r => `<div style="padding:12px;background:${r.bg};border:1px solid ${r.border};border-radius:4px;">
+        <div style="color:${r.color};font-weight:600;margin-bottom:6px;font-size:12px;">${r.label}</div>
+        <div style="color:var(--text-mid);font-size:11px;line-height:1.5;">${r.desc}</div>
+      </div>`).join('')}
+    </div>`)}
     <div style="margin-top:20px;text-align:center;"><button onclick="switchView('dashboard')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← Back to Dashboard</button></div>
   </div>`;
 }
@@ -4521,6 +4810,97 @@ function renderSubmarketTracker() {
           </tr>`).join('')}
         </tbody>
       </table>
+    </div>`)}
+    ${viewSection('Rent Growth Trends — 6 Quarters')}
+    ${viewCard(`<div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">SUBMARKET</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q4 '24</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q1 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q2 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q3 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Q4 '25</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--gold);">NOW</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Santa Monica</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$68</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$69</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$70</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$71</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$71.50</td>
+            <td style="text-align:right;padding:8px;color:var(--gold);font-weight:600;">$72</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Playa Vista</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$64</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$65</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$66</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$67</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$67.50</td>
+            <td style="text-align:right;padding:8px;color:var(--gold);font-weight:600;">$68</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Culver City</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$58</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$59</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$60</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$61</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$61.50</td>
+            <td style="text-align:right;padding:8px;color:var(--gold);font-weight:600;">$62</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">DTLA</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$56</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$55</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$54</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$54</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$54</td>
+            <td style="text-align:right;padding:8px;color:var(--gold);font-weight:600;">$54</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">SF Financial</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$72</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$71</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$70</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$69</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">$68</td>
+            <td style="text-align:right;padding:8px;color:var(--gold);font-weight:600;">$68</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`)}
+    ${viewSection('Visual Vacancy Bars')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr;gap:12px;">
+      ${[
+        { market: 'Santa Monica', vacancy: 9.8, color: 'var(--green)' },
+        { market: 'Playa Vista', vacancy: 8.1, color: 'var(--green)' },
+        { market: 'Culver City', vacancy: 11.2, color: 'var(--amber)' },
+        { market: 'DTLA', vacancy: 18.4, color: 'var(--red)' },
+        { market: 'SF Financial', vacancy: 26.3, color: 'var(--red)' }
+      ].map(d => `<div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="color:var(--cream);font-weight:600;font-size:11px;">${d.market}</span>
+          <span style="color:${d.color};font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;">${d.vacancy}%</span>
+        </div>
+        <div style="height:16px;background:var(--surface-2);border-radius:2px;overflow:hidden;border:1px solid var(--border);">
+          <div style="height:100%;background:${d.color};width:${d.vacancy * 3}%;opacity:0.8;"></div>
+        </div>
+      </div>`).join('')}
+    </div>`)}
+    ${viewSection('Submarket Alerts')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr;gap:8px;">
+      <div style="padding:12px;background:rgba(52, 211, 153, 0.1);border:1px solid var(--green-dim);border-radius:4px;color:var(--green);font-size:11px;">
+        ✓ Santa Monica approaching single-digit vacancy — watch for rent acceleration
+      </div>
+      <div style="padding:12px;background:rgba(239, 68, 68, 0.1);border:1px solid var(--red-dim);border-radius:4px;color:var(--red);font-size:11px;">
+        ! DTLA vacancy rising for 6th consecutive quarter
+      </div>
+      <div style="padding:12px;background:rgba(239, 68, 68, 0.1);border:1px solid var(--red-dim);border-radius:4px;color:var(--red);font-size:11px;">
+        ! SF Financial at highest vacancy since COVID peak
+      </div>
     </div>`)}
     <div style="margin-top:20px;text-align:center;"><button onclick="switchView('dashboard')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← Back to Dashboard</button></div>
   </div>`;
@@ -4558,6 +4938,82 @@ function renderPortfolioAnalysis() {
       ${detailRow('Proposal → LOI', 'Avg. 35 days', 'var(--cream)')}
       ${detailRow('LOI → Closing', 'Avg. 19 days', 'var(--cream)')}
     `)}
+    ${viewSection('Win/Loss Analysis')}
+    ${viewCard(`<div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;">METRIC</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">THIS QTR</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">LAST QTR</th>
+          <th style="text-align:right;padding:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">YoY</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Deals Won</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">4</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">3</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+33%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Deals Lost</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">1</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">2</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">-50%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Win Rate</td>
+            <td style="text-align:right;padding:8px;color:var(--gold);font-weight:600;">80%</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">60%</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">+20pp</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;color:var(--cream);font-weight:600;">Avg Days to Win</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">87</td>
+            <td style="text-align:right;padding:8px;color:var(--text-mid);">102</td>
+            <td style="text-align:right;padding:8px;color:var(--green);">-15d</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`)}
+    ${viewSection('Revenue by Market')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr;gap:10px;">
+      ${[
+        { market: 'Burbank', revenue: '$37.6M', percent: 100 },
+        { market: 'Century City', revenue: '$35M', percent: 93 },
+        { market: 'Culver City', revenue: '$30M', percent: 80 },
+        { market: 'Playa Vista', revenue: '$17.8M', percent: 47 },
+        { market: 'Santa Monica', revenue: '$16.3M', percent: 43 }
+      ].map(d => `<div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="color:var(--cream);font-weight:600;font-size:11px;">${d.market}</span>
+          <span style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;">${d.revenue}</span>
+        </div>
+        <div style="height:20px;background:var(--surface-2);border-radius:2px;overflow:hidden;border:1px solid var(--border);">
+          <div style="height:100%;background:var(--gold);width:${d.percent}%;opacity:0.8;"></div>
+        </div>
+      </div>`).join('')}
+    </div>`)}
+    ${viewSection('Sector Distribution')}
+    ${viewCard(`<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;">
+      <div style="display:grid;grid-template-columns:1fr;gap:8px;">
+        ${[
+          { sector: 'TAMI', percent: 42, value: '$91.5M', color: 'var(--gold)' },
+          { sector: 'Financial', percent: 18, value: '$39.2M', color: 'var(--green)' },
+          { sector: 'Entertainment', percent: 14, value: '$30.5M', color: 'var(--cream)' },
+          { sector: 'Healthcare', percent: 8, value: '$17.4M', color: 'var(--amber)' },
+          { sector: 'Other', percent: 18, value: '$39.2M', color: 'var(--text-dim)' }
+        ].map(d => `<div style="padding:8px;background:var(--surface-2);border-left:3px solid ${d.color};border-radius:2px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="color:var(--cream);font-weight:600;font-size:11px;">${d.sector}</div>
+          <div style="text-align:right;">
+            <div style="color:${d.color};font-weight:600;font-size:11px;">${d.percent}%</div>
+            <div style="color:var(--text-dim);font-size:9px;">${d.value}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;height:200px;background:var(--surface-2);border-radius:4px;border:1px solid var(--border);">
+        <div style="text-align:center;color:var(--text-dim);font-size:11px;">Pie Chart<br/>Visual Distribution</div>
+      </div>
+    </div>`)}
     <div style="margin-top:20px;text-align:center;"><button onclick="switchView('dashboard')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← Back to Dashboard</button></div>
   </div>`;
 }
