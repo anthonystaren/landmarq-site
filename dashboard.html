@@ -563,8 +563,9 @@ body {
 .kpi-sub { font-size: 9px; color: var(--text-dim); margin-left: 3px; }
 
 /* ─── HEATMAP ─── */
-.heatmap-card { grid-column: 1 / 3; }
-.heatmap-body { padding: 0 16px 14px; overflow-y: auto; overflow-x: hidden; max-height: 260px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.heatmap-card { grid-column: 1 / 3; min-height: 200px; resize: vertical; overflow: hidden; position: relative; }
+.heatmap-card::after, .pipeline-card::after { content: '⋯'; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--text-dim); opacity: 0.4; pointer-events: none; letter-spacing: 2px; }
+.heatmap-body { padding: 0 16px 14px; overflow-y: auto; overflow-x: hidden; max-height: none; height: calc(100% - 70px); scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .heatmap-body::-webkit-scrollbar { width: 4px; }
 .heatmap-body::-webkit-scrollbar-track { background: transparent; }
 .heatmap-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -572,7 +573,7 @@ body {
 .heatmap-tab { padding: 6px 14px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; border: 1px solid var(--border); border-radius: 3px; background: transparent; transition: all 0.15s; white-space: nowrap; margin-right: 4px; }
 .heatmap-tab:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
 .heatmap-tab.active { background: var(--gold-dim); color: var(--gold); border-color: var(--border-gold); }
-.heatmap-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; grid-auto-rows: minmax(52px, auto); }
+.heatmap-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; grid-auto-rows: minmax(54px, auto); }
 .heatmap-cell { border-radius: 4px; padding: 9px 7px; cursor: pointer; transition: all 0.2s; min-height: 52px; overflow: visible; position: relative; }
 .heatmap-cell:hover { filter: brightness(1.25); transform: scale(1.04); z-index: 2; }
 .heat-market { font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 2px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -656,8 +657,8 @@ body {
 .spark-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--text-dim); }
 
 /* ─── PIPELINE ─── */
-.pipeline-card { grid-column: 1/4; }
-.pipeline-body { padding: 0 16px 14px; overflow-y: auto; max-height: 480px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.pipeline-card { grid-column: 1/4; min-height: 300px; resize: vertical; overflow: hidden; position: relative; }
+.pipeline-body { padding: 0 16px 14px; overflow-y: auto; max-height: 520px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .pipeline-body::-webkit-scrollbar { width: 4px; }
 .pipeline-body::-webkit-scrollbar-track { background: transparent; }
 .pipeline-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
