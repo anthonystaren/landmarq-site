@@ -564,14 +564,17 @@ body {
 
 /* ─── HEATMAP ─── */
 .heatmap-card { grid-column: 1 / 3; }
-.heatmap-body { padding: 0 16px 14px; overflow: visible; }
+.heatmap-body { padding: 0 16px 14px; overflow-y: auto; overflow-x: hidden; max-height: 260px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.heatmap-body::-webkit-scrollbar { width: 4px; }
+.heatmap-body::-webkit-scrollbar-track { background: transparent; }
+.heatmap-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .heatmap-tabs { display: flex; gap: 0; padding: 0 16px 10px; overflow-x: auto; }
 .heatmap-tab { padding: 6px 14px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; border: 1px solid var(--border); border-radius: 3px; background: transparent; transition: all 0.15s; white-space: nowrap; margin-right: 4px; }
 .heatmap-tab:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
 .heatmap-tab.active { background: var(--gold-dim); color: var(--gold); border-color: var(--border-gold); }
 .heatmap-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; grid-auto-rows: minmax(52px, auto); }
-.heatmap-cell { border-radius: 4px; padding: 9px 7px; cursor: pointer; transition: all 0.2s; min-height: 52px; overflow: visible; }
-.heatmap-cell:hover { filter: brightness(1.25); transform: scale(1.05); z-index: 1; position: relative; }
+.heatmap-cell { border-radius: 4px; padding: 9px 7px; cursor: pointer; transition: all 0.2s; min-height: 52px; overflow: visible; position: relative; }
+.heatmap-cell:hover { filter: brightness(1.25); transform: scale(1.04); z-index: 2; }
 .heat-market { font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 2px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .heat-val { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.7); }
 
@@ -654,9 +657,12 @@ body {
 
 /* ─── PIPELINE ─── */
 .pipeline-card { grid-column: 1/4; }
-.pipeline-body { padding: 0 16px 14px; }
+.pipeline-body { padding: 0 16px 14px; overflow-y: auto; max-height: 480px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.pipeline-body::-webkit-scrollbar { width: 4px; }
+.pipeline-body::-webkit-scrollbar-track { background: transparent; }
+.pipeline-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .pipeline-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.pipeline-table th { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 0 8px 8px 0; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.pipeline-table th { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 0 8px 8px 0; border-bottom: 1px solid var(--border); white-space: nowrap; position: sticky; top: 0; background: var(--surface); z-index: 1; }
 .pipeline-table td { padding: 10px 8px 10px 0; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
 .pipeline-table tr:last-child td { border-bottom: none; }
 .pipeline-table tr:hover td { color: var(--cream); background: rgba(255,255,255,0.015); }
