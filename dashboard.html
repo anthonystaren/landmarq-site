@@ -1547,7 +1547,7 @@ body {
 
     <!-- HEATMAP -->
     <div class="card heatmap-card" id="heatmap-card">
-      <div class="card-header"><div class="card-title">Submarket Pulse</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div>
+      <div class="card-header"><div class="card-title">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;">Edit Markets</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
       <div class="heatmap-tabs" id="heatmap-tabs">
         <div class="heatmap-tab active" onclick="switchHeatmapRegion('west-coast',this)">West Coast</div>
         <div class="heatmap-tab" onclick="switchHeatmapRegion('southwest',this)">Southwest</div>
@@ -4303,37 +4303,147 @@ const metroSubmarkets = {
   ]
 };
 
-// Build "My Markets" heatmap tab from user's onboarding selections
-function buildUserHeatmapTab() {
-  const saved = localStorage.getItem('lmq_markets');
-  if (!saved) return;
-  try {
-    const markets = JSON.parse(saved);
-    if (!markets || markets.length === 0) return;
-    // Gather all submarkets for user's selected metros
-    let userCells = [];
-    markets.forEach(metro => {
-      const subs = metroSubmarkets[metro];
-      if (subs) userCells = userCells.concat(subs);
-    });
-    if (userCells.length === 0) return;
-    // Add to heatmapRegions
-    heatmapRegions['my-markets'] = userCells;
-    // Update heatmap tabs to show "My Markets" first
-    const tabsEl = document.getElementById('heatmap-tabs');
-    if (tabsEl) {
-      // Remove existing active
-      tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
-      // Prepend "My Markets" tab
-      const myTab = document.createElement('div');
-      myTab.className = 'heatmap-tab active';
-      myTab.textContent = 'My Markets';
-      myTab.onclick = function() { switchHeatmapRegion('my-markets', this); };
-      tabsEl.prepend(myTab);
-      // Switch to My Markets view
-      switchHeatmapRegion('my-markets', myTab);
+// Flat lookup: every known submarket by name (lowercase key)
+const allSubmarketData = {};
+// Index metroSubmarkets
+Object.values(metroSubmarkets).forEach(subs => {
+  subs.forEach(s => { allSubmarketData[s.market.toLowerCase()] = s; });
+});
+// Index heatmapRegions
+Object.values(heatmapRegions).forEach(cells => {
+  cells.forEach(s => { allSubmarketData[s.market.toLowerCase()] = s; });
+});
+
+// Resolve a user selection (metro name or submarket name) into heatmap cells
+function resolveMarketSelection(name) {
+  // First check if it's a metro with defined submarkets
+  if (metroSubmarkets[name]) return metroSubmarkets[name];
+  // Then check if it's a known submarket name (exact or fuzzy)
+  const lower = name.toLowerCase();
+  if (allSubmarketData[lower]) return [allSubmarketData[lower]];
+  // Fuzzy match: check if any submarket contains this name
+  const matches = [];
+  for (const [key, val] of Object.entries(allSubmarketData)) {
+    if (key.includes(lower) || lower.includes(key.split(' ')[0].toLowerCase())) {
+      matches.push(val);
     }
-  } catch(e) { console.log('Error building user heatmap:', e); }
+  }
+  if (matches.length > 0) return matches;
+  // Unknown market — create a placeholder cell
+  return [{ market: name, val: '—', bg: 'rgba(74,127,165,0.3)' }];
+}
+
+// Get/set user's market selections
+function getUserMarkets() {
+  try { return JSON.parse(localStorage.getItem('lmq_markets') || '[]'); } catch(e) { return []; }
+}
+function setUserMarkets(markets) {
+  localStorage.setItem('lmq_markets', JSON.stringify(markets));
+  buildUserHeatmapTab();
+}
+
+// Add a market to user's list
+function addUserMarket(name) {
+  const markets = getUserMarkets();
+  if (!markets.includes(name)) {
+    markets.push(name);
+    setUserMarkets(markets);
+  }
+}
+
+// Remove a market from user's list
+function removeUserMarket(name) {
+  let markets = getUserMarkets();
+  markets = markets.filter(m => m !== name);
+  setUserMarkets(markets);
+}
+
+// Show add/remove market modal
+function showManageMarketsModal() {
+  const markets = getUserMarkets();
+  const allMetros = Object.keys(metroSubmarkets);
+  let chipsHtml = allMetros.map(m => {
+    const sel = markets.includes(m) ? 'selected' : '';
+    return `<div class="ob-chip ${sel}" onclick="this.classList.toggle('selected')" data-metro="${m}">${m}</div>`;
+  }).join('');
+
+  showModal('MANAGE', 'My Markets',
+    `<div style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">Toggle metros on/off. You can also add custom submarkets below.</div>`
+    + `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;" id="manage-market-chips">${chipsHtml}</div>`
+    + `<div style="display:flex;gap:8px;margin-bottom:16px;">`
+    + `<input id="custom-market-input" type="text" placeholder="Add custom submarket or ZIP..." style="flex:1;padding:8px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;" onkeydown="if(event.key==='Enter')addCustomMarketFromModal()" />`
+    + `<button onclick="addCustomMarketFromModal()" style="padding:8px 16px;background:var(--gold);color:var(--bg);border:none;border-radius:4px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Add</button>`
+    + `</div>`
+    + `<div id="custom-markets-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">${markets.filter(m => !allMetros.includes(m)).map(m => `<div class="ob-chip selected" style="position:relative;" data-custom="${m}">${m} <span onclick="this.parentElement.remove()" style="cursor:pointer;margin-left:4px;opacity:0.6;">✕</span></div>`).join('')}</div>`
+    + `<button onclick="saveMarketsFromModal()" style="width:100%;padding:10px;background:var(--gold);color:var(--bg);border:none;border-radius:6px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Save Markets</button>`
+  );
+}
+
+function addCustomMarketFromModal() {
+  const input = document.getElementById('custom-market-input');
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = '';
+  const list = document.getElementById('custom-markets-list');
+  list.innerHTML += `<div class="ob-chip selected" style="position:relative;" data-custom="${val}">${val} <span onclick="this.parentElement.remove()" style="cursor:pointer;margin-left:4px;opacity:0.6;">✕</span></div>`;
+}
+
+function saveMarketsFromModal() {
+  const newMarkets = [];
+  // Get selected metros
+  document.querySelectorAll('#manage-market-chips .ob-chip.selected').forEach(c => {
+    newMarkets.push(c.dataset.metro);
+  });
+  // Get custom submarkets
+  document.querySelectorAll('#custom-markets-list .ob-chip').forEach(c => {
+    newMarkets.push(c.dataset.custom);
+  });
+  setUserMarkets(newMarkets);
+  closeModal();
+}
+
+// Build "My Markets" heatmap tab from user's selections
+function buildUserHeatmapTab() {
+  const markets = getUserMarkets();
+  if (!markets || markets.length === 0) return;
+  // Resolve each selection into submarket cells
+  let userCells = [];
+  const seen = new Set();
+  markets.forEach(name => {
+    const resolved = resolveMarketSelection(name);
+    resolved.forEach(cell => {
+      if (!seen.has(cell.market)) {
+        seen.add(cell.market);
+        userCells.push(cell);
+      }
+    });
+  });
+  if (userCells.length === 0) return;
+  // Update heatmapRegions
+  heatmapRegions['my-markets'] = userCells;
+  // Ensure "My Markets" tab exists and is first
+  const tabsEl = document.getElementById('heatmap-tabs');
+  if (!tabsEl) return;
+  let myTab = tabsEl.querySelector('[data-region="my-markets"]');
+  if (!myTab) {
+    tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
+    myTab = document.createElement('div');
+    myTab.className = 'heatmap-tab active';
+    myTab.dataset.region = 'my-markets';
+    myTab.textContent = 'My Markets';
+    myTab.onclick = function() { switchHeatmapRegion('my-markets', this); };
+    // Add edit button
+    const editBtn = document.createElement('span');
+    editBtn.textContent = ' ✎';
+    editBtn.style.cssText = 'cursor:pointer;opacity:0.6;font-size:10px;';
+    editBtn.onclick = function(e) { e.stopPropagation(); showManageMarketsModal(); };
+    myTab.appendChild(editBtn);
+    tabsEl.prepend(myTab);
+  }
+  // Switch to My Markets view
+  tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
+  myTab.classList.add('active');
+  switchHeatmapRegion('my-markets', myTab);
 }
 
 function switchHeatmapRegion(region, tabEl) {
