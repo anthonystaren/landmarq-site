@@ -3832,10 +3832,14 @@ async function sendAIPanelMsg() {
       msgs.scrollTop = msgs.scrollHeight;
       return;
     }
-    // If API returns error, fall through to offline mode
+    // API returned an error — try to read it
+    let errInfo = '';
+    try { const errData = await res.json(); errInfo = errData.error || errData.message || JSON.stringify(errData); } catch(e2) { errInfo = res.status + ' ' + res.statusText; }
+    console.error('AI API error:', res.status, errInfo);
+    // Fall through to offline mode
   } catch (e) {
     // Network error — fall through to offline mode
-    console.log('AI API unavailable, using offline mode:', e.message);
+    console.error('AI API network error:', e.message);
   }
 
   // Offline fallback: keyword matching
