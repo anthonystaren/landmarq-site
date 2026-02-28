@@ -3741,7 +3741,11 @@ function switchView(viewName) {
 
   const renderer = views[viewName];
   if (renderer) {
-    content.innerHTML = renderer();
+    const stickyNav = `<div style="position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border);padding:8px 16px;margin:-18px -20px 16px;display:flex;align-items:center;gap:10px;">
+      <button onclick="switchView('dashboard')" style="padding:6px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;font-weight:600;transition:all 0.2s;">← Dashboard</button>
+      <span style="font-size:12px;color:var(--text-dim);font-weight:500;">${getViewTitle(viewName)}</span>
+    </div>`;
+    content.innerHTML = stickyNav + renderer();
     if (topTitle) topTitle.textContent = getViewTitle(viewName);
   }
 }
