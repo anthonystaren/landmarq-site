@@ -36,43 +36,47 @@
 
 /* ─── LIGHT MODE ─── */
 html.light-mode {
-  --bg: #F4F1EC;
-  --surface: #FFFFFF;
-  --surface-2: #F0EDE7;
-  --surface-3: #E6E2DB;
-  --border: rgba(0,0,0,0.09);
-  --border-gold: rgba(156,120,50,0.3);
-  --gold: #9C7832;
-  --gold-dim: rgba(156,120,50,0.1);
-  --gold-bright: #B8922E;
+  --bg: #E2DED6;
+  --surface: #EFECE6;
+  --surface-2: #E8E4DC;
+  --surface-3: #DBD6CC;
+  --border: rgba(0,0,0,0.18);
+  --border-gold: rgba(136,100,30,0.4);
+  --gold: #8A6A1E;
+  --gold-dim: rgba(136,100,30,0.12);
+  --gold-bright: #A07A1A;
   --cream: #1A1A1A;
-  --text: #3D3830;
-  --text-dim: #A09888;
-  --text-mid: #6B6050;
-  --green: #2E7D4F;
-  --green-dim: rgba(46,125,79,0.1);
-  --red: #B03D26;
-  --red-dim: rgba(176,61,38,0.1);
-  --blue: #2E6B8F;
-  --blue-dim: rgba(46,107,143,0.1);
-  --amber: #B87228;
+  --text: #2C261F;
+  --text-dim: #7A6E60;
+  --text-mid: #5A4F42;
+  --green: #256B42;
+  --green-dim: rgba(37,107,66,0.12);
+  --red: #A03320;
+  --red-dim: rgba(160,51,32,0.12);
+  --blue: #255E80;
+  --blue-dim: rgba(37,94,128,0.12);
+  --amber: #A06420;
 }
 html.light-mode body { background: var(--bg); }
-html.light-mode .sidebar { background: #FAFAF7; border-right: 1px solid var(--border); }
-html.light-mode .topbar { background: #FAFAF7; border-bottom: 1px solid var(--border); }
-html.light-mode .card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-html.light-mode .kpi-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+html.light-mode .sidebar { background: #E8E5DE; border-right: 1px solid var(--border); }
+html.light-mode .topbar { background: #E8E5DE; border-bottom: 1px solid var(--border); }
+html.light-mode .card { box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+html.light-mode .kpi-card { box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid var(--border); }
 html.light-mode .stage-pill, html.light-mode .market-tag { color: var(--text); }
 html.light-mode .heatmap-cell .heat-market,
 html.light-mode .heatmap-cell .heat-val { color: #fff; }
 html.light-mode .topbar-chip { background: var(--surface-2); border-color: var(--border); }
-html.light-mode .sidebar-nav a.active { background: rgba(156,120,50,0.08); }
+html.light-mode .sidebar-nav a.active { background: rgba(136,100,30,0.12); }
 html.light-mode .ob-overlay { background: rgba(0,0,0,0.3); }
-html.light-mode .modal-overlay { background: rgba(0,0,0,0.35); }
+html.light-mode .modal-overlay { background: rgba(0,0,0,0.4); }
 html.light-mode .modal-box { background: var(--surface); border-color: var(--border); }
 html.light-mode #intel-panel { background: var(--surface); }
 html.light-mode .add-intel-btn { background: var(--gold); color: #fff; }
-html.light-mode .theme-toggle { background: var(--surface-2); color: var(--text); }
+html.light-mode .theme-toggle { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+html.light-mode .sidebar-nav a { color: var(--text-mid); }
+html.light-mode .sidebar-nav a:hover { color: var(--text); background: rgba(0,0,0,0.04); }
+html.light-mode .card-title { color: var(--text); }
+html.light-mode input, html.light-mode textarea, html.light-mode select { background: var(--surface-2); color: var(--text); border-color: var(--border); }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
