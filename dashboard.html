@@ -1551,7 +1551,7 @@ body {
 
     <!-- HEATMAP -->
     <div class="card heatmap-card" id="heatmap-card">
-      <div class="card-header"><div class="card-title">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;">Edit Markets</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
+      <div class="card-header"><div class="card-title">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;color:var(--gold);">✎ Edit</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
       <div class="heatmap-tabs" id="heatmap-tabs">
         <div class="heatmap-tab active" onclick="switchHeatmapRegion('west-coast',this)">West Coast</div>
         <div class="heatmap-tab" onclick="switchHeatmapRegion('southwest',this)">Southwest</div>
@@ -4409,7 +4409,18 @@ function saveMarketsFromModal() {
 // Build "My Markets" heatmap tab from user's selections
 function buildUserHeatmapTab() {
   const markets = getUserMarkets();
-  if (!markets || markets.length === 0) return;
+  if (!markets || markets.length === 0) {
+    // Remove My Markets tab if it exists and switch to West Coast
+    const tabsEl = document.getElementById('heatmap-tabs');
+    if (tabsEl) {
+      const myTab = tabsEl.querySelector('[data-region="my-markets"]');
+      if (myTab) { myTab.remove(); }
+      const wcTab = tabsEl.querySelector('.heatmap-tab');
+      if (wcTab) switchHeatmapRegion('west-coast', wcTab);
+    }
+    delete heatmapRegions['my-markets'];
+    return;
+  }
   // Resolve each selection into submarket cells
   let userCells = [];
   const seen = new Set();
