@@ -1340,25 +1340,34 @@ body {
       <div class="ob-step" id="ob-step-3">
         <span class="ob-step-icon">📍</span>
         <div class="ob-step-title">Choose your <em>markets</em></div>
-        <div class="ob-step-desc">Select the submarkets you want LandMarq to monitor. You can add zip codes and area codes, or pick from major metros. You can always change these later.</div>
+        <div class="ob-step-desc">Select the metros you want LandMarq to monitor. You can also add specific cities, zip codes, or submarkets below. You can always change these later in Settings.</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:6px;">MAJOR METROS — SELECT ALL THAT APPLY</div>
         <div class="ob-chips-row" id="market-chips">
-          <div class="ob-chip selected" onclick="toggleChip(this)">Los Angeles</div>
-          <div class="ob-chip selected" onclick="toggleChip(this)">Santa Monica</div>
-          <div class="ob-chip selected" onclick="toggleChip(this)">Culver City</div>
-          <div class="ob-chip selected" onclick="toggleChip(this)">Century City</div>
+          <div class="ob-chip" onclick="toggleChip(this)">New York</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Los Angeles</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Chicago</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Dallas / Fort Worth</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Houston</div>
           <div class="ob-chip" onclick="toggleChip(this)">San Francisco</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Miami</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Washington D.C.</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Atlanta</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Boston</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Phoenix</div>
           <div class="ob-chip" onclick="toggleChip(this)">Seattle</div>
-          <div class="ob-chip selected" onclick="toggleChip(this)">Playa Vista</div>
-          <div class="ob-chip" onclick="toggleChip(this)">Burbank</div>
-          <div class="ob-chip" onclick="toggleChip(this)">El Segundo</div>
-          <div class="ob-chip" onclick="toggleChip(this)">Manhattan Beach</div>
-          <div class="ob-chip" onclick="toggleChip(this)">West Hollywood</div>
-          <div class="ob-chip" onclick="toggleChip(this)">DTLA</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Denver</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Austin</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Nashville</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Charlotte</div>
+          <div class="ob-chip" onclick="toggleChip(this)">San Diego</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Minneapolis</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Portland</div>
+          <div class="ob-chip" onclick="toggleChip(this)">Raleigh-Durham</div>
         </div>
         <div style="margin-top:14px;">
-          <label class="ob-label">Or add a specific ZIP / Area Code</label>
+          <label class="ob-label">Or add specific cities, submarkets, or ZIP codes</label>
           <div style="display:flex;gap:8px;">
-            <input class="ob-input" id="market-zip-input" type="text" placeholder="e.g. 90401, Phoenix, 90064..." style="flex:1;" onkeydown="if(event.key==='Enter'){addMarketChip();}" />
+            <input class="ob-input" id="market-zip-input" type="text" placeholder="e.g. Midtown Manhattan, 60601, Buckhead, SoMa..." style="flex:1;" onkeydown="if(event.key==='Enter'){addMarketChip();}" />
             <button onclick="addMarketChip()" style="background:var(--gold);color:var(--bg);border:none;border-radius:4px;padding:0 16px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Add</button>
           </div>
         </div>
@@ -1420,11 +1429,14 @@ body {
 
     </div>
 
-    <div class="ob-footer">
+    <div class="ob-footer" style="display:flex;align-items:center;justify-content:space-between;">
       <button class="ob-btn-skip" onclick="skipOnboarding()">Skip Tour</button>
-      <button class="ob-btn-next" id="ob-next-btn" onclick="nextStep()">
-        <span id="ob-btn-label">Get Started</span> →
-      </button>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button id="ob-back-btn" onclick="prevStep()" style="display:none;padding:10px 20px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;font-weight:500;">← Back</button>
+        <button class="ob-btn-next" id="ob-next-btn" onclick="nextStep()">
+          <span id="ob-btn-label">Get Started</span> →
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -1859,11 +1871,24 @@ function nextStep() {
     document.getElementById('ob-counter').textContent = `Step ${currentStep} of ${totalSteps}`;
     document.getElementById('ob-progress').style.width = `${(currentStep / totalSteps) * 100}%`;
     document.getElementById('ob-btn-label').textContent = stepLabels[currentStep - 1];
+    document.getElementById('ob-back-btn').style.display = currentStep > 1 ? 'block' : 'none';
     // update welcome name
     const nameVal = document.getElementById('ob-name').value.trim().split(' ')[0];
     document.getElementById('welcome-name').textContent = nameVal ? ', ' + nameVal : '';
   } else {
     finishOnboarding();
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    document.getElementById(`ob-step-${currentStep}`).classList.remove('active');
+    currentStep--;
+    document.getElementById(`ob-step-${currentStep}`).classList.add('active');
+    document.getElementById('ob-counter').textContent = `Step ${currentStep} of ${totalSteps}`;
+    document.getElementById('ob-progress').style.width = `${(currentStep / totalSteps) * 100}%`;
+    document.getElementById('ob-btn-label').textContent = stepLabels[currentStep - 1];
+    document.getElementById('ob-back-btn').style.display = currentStep > 1 ? 'block' : 'none';
   }
 }
 
