@@ -3721,6 +3721,7 @@ function closeAIPanel() {
 }
 
 function clearAIChat() {
+  aiChatHistory = [];
   const msgs = document.getElementById('ai-messages');
   msgs.innerHTML = `<div class="ai-msg ai-msg-bot">
     <div style="font-weight:600;color:var(--cream);margin-bottom:6px;">Chat cleared</div>
@@ -3739,7 +3740,41 @@ function askAI(question) {
   sendAIPanelMsg();
 }
 
-function sendAIPanelMsg() {
+// Gather all dashboard data into a context string for the AI
+function gatherDashboardContext() {
+  const parts = [];
+  // Pipeline & deals
+  parts.push('PIPELINE: ' + agentChatKnowledge['pipeline']);
+  parts.push('DEALS AT RISK: ' + agentChatKnowledge['risk']);
+  parts.push('CLOSING SOON: ' + agentChatKnowledge['close']);
+  parts.push('REVENUE: ' + agentChatKnowledge['revenue']);
+  parts.push('QoQ COMPARISON: ' + agentChatKnowledge['compare']);
+  // Individual deals
+  ['netflix','apex','arclight','techco','pinnacle','westshore','meridian','summit','horizon','pacific','catalyst','cloudnine','verde','zenith','snap'].forEach(d => {
+    if (agentChatKnowledge[d]) parts.push('DEAL — ' + d.toUpperCase() + ': ' + agentChatKnowledge[d]);
+  });
+  // Markets
+  parts.push('VACANCY OVERVIEW: ' + agentChatKnowledge['vacancy']);
+  parts.push('RENTS: ' + agentChatKnowledge['rent']);
+  parts.push('MARKET OVERVIEW: ' + agentChatKnowledge['market']);
+  parts.push('INTEREST RATES: ' + agentChatKnowledge['interest']);
+  ['dtla','santa monica','culver','playa','sf','seattle'].forEach(m => {
+    if (agentChatKnowledge[m]) parts.push('SUBMARKET — ' + m.toUpperCase() + ': ' + agentChatKnowledge[m]);
+  });
+  // Operations
+  parts.push('LEADS: ' + agentChatKnowledge['leads']);
+  parts.push('AGENTS: ' + agentChatKnowledge['agents']);
+  parts.push('DATA SOURCES: ' + agentChatKnowledge['data']);
+  parts.push('ZONING: ' + agentChatKnowledge['zoning']);
+  parts.push('OUTREACH: ' + agentChatKnowledge['outreach']);
+  parts.push('LOI REVIEWS: ' + agentChatKnowledge['loi']);
+  return parts.join('\n\n');
+}
+
+// Chat history for multi-turn context (kept in memory)
+let aiChatHistory = [];
+
+async function sendAIPanelMsg() {
   const input = document.getElementById('ai-panel-input');
   const msgs = document.getElementById('ai-messages');
   const query = input.value.trim();
@@ -3755,82 +3790,86 @@ function sendAIPanelMsg() {
   msgs.innerHTML += `<div class="ai-msg-typing" id="${typingId}"><span style="display:inline-flex;gap:4px;"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span> Analyzing with 6 agents...</div>`;
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Generate response after delay
-  setTimeout(() => {
+  // Try the Claude API first
+  try {
+    const res = await fetch('/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: query,
+        dashboardContext: gatherDashboardContext()
+      })
+    });
+
     const typingEl = document.getElementById(typingId);
     if (typingEl) typingEl.remove();
 
-    const q = query.toLowerCase();
-    let response = '';
-    let followUps = [];
-
-    // Use the existing agentChatKnowledge
-    for (const [key, val] of Object.entries(agentChatKnowledge)) {
-      if (q.includes(key)) { response = val; break; }
+    if (res.ok) {
+      const data = await res.json();
+      const followUps = generateSmartFollowUps(query);
+      let followUpHtml = `<div class="ai-follow-ups">${followUps.map(f => `<button class="ai-follow-btn" onclick="askAI('${f.replace(/'/g, "\\'")}')">${f}</button>`).join('')}</div>`;
+      msgs.innerHTML += `<div class="ai-msg ai-msg-bot">${data.response}${followUpHtml}</div>`;
+      msgs.scrollTop = msgs.scrollHeight;
+      return;
     }
+    // If API returns error, fall through to offline mode
+  } catch (e) {
+    // Network error — fall through to offline mode
+    console.log('AI API unavailable, using offline mode:', e.message);
+  }
 
-    // Broader keyword matching (same as existing sendAgentChat logic)
-    if (!response) {
-      if (q.includes('deal') || q.includes('pipeline') || q.includes('how many')) { response = agentChatKnowledge['pipeline']; followUps = ['Top 3 deals by value', 'Deals closing soon', 'Which deals are at risk?']; }
-      else if (q.includes('top') || q.includes('largest') || q.includes('biggest')) {
-        response = 'Your <strong>3 largest deals</strong> by value:<br><br>' +
-          '1. <span class="ai-stat">Netflix HQ Expansion</span> — $42M, Proposal stage, 72% probability. Culver City, 60K SF creative office.<br>' +
-          '2. <span class="ai-stat">Arclight Partners</span> — $28M, Closing stage, 92% probability. Century City, 35K SF premium build-out. Close target: Mar 2026.<br>' +
-          '3. <span class="ai-stat">Apex Capital Group</span> — $19M, LOI Signed, 88% probability. Century City relocation, 2 clauses flagged.';
-        followUps = ['Tell me more about Netflix', 'When does Arclight close?', 'What clauses are flagged on Apex?'];
-      }
-      else if (q.includes('lead') || q.includes('tenant') || q.includes('prospect')) { response = agentChatKnowledge['leads']; followUps = ['Tell me about TechCo', 'Lead sources breakdown', 'Best qualified leads']; }
-      else if (q.includes('vacant') || q.includes('vacancy') || q.includes('office') || q.includes('available')) { response = agentChatKnowledge['vacancy']; followUps = ['DTLA details', 'Santa Monica details', 'SF market']; }
-      else if (q.includes('rate') || q.includes('fed') || q.includes('cap') || q.includes('treasury') || q.includes('macro')) { response = agentChatKnowledge['interest']; followUps = ['Impact on deals', 'Market outlook', 'Revenue projections']; }
-      else if (q.includes('agent') || q.includes('bot') || q.includes('running')) { response = agentChatKnowledge['agents']; followUps = ['What data sources?', 'Agent performance', 'Recent agent activity']; }
-      else if (q.includes('west') || q.includes('la ') || q.includes('los angeles') || q.includes('market overview') || q.includes('overview')) { response = agentChatKnowledge['market']; followUps = ['LA vacancy details', 'SF market', 'Seattle market']; }
-      else if (q.includes('rent') || q.includes('asking') || q.includes('price') || q.includes('cost') || q.includes('expensive')) { response = agentChatKnowledge['rent']; followUps = ['Cheapest markets', 'Rent trends', 'Century City details']; }
-      else if (q.includes('downtown') || q.includes('dtla')) { response = agentChatKnowledge['dtla']; followUps = ['Zoning changes in DTLA', 'DTLA deals', 'Rent comparison']; }
-      else if (q.includes('santa monica') || q.includes('snap')) { response = agentChatKnowledge['santa monica']; if (q.includes('snap')) response = agentChatKnowledge['snap']; followUps = ['Draft Snap outreach', 'Matching tenants', 'SM rent trends']; }
-      else if (q.includes('culver')) { response = agentChatKnowledge['culver']; followUps = ['Netflix deal details', 'Media tenants', 'Culver City rent']; }
-      else if (q.includes('playa')) { response = agentChatKnowledge['playa']; followUps = ['Badge-in data', 'TechCo details', 'Playa Vista deals']; }
-      else if (q.includes('san francisco') || q.includes(' sf ') || q.includes('financial district') || q.includes('soma')) { response = agentChatKnowledge['sf']; followUps = ['SF rent data', 'AI startups filling space', 'Compare to LA']; }
-      else if (q.includes('seattle') || q.includes('bellevue') || q.includes('amazon')) { response = agentChatKnowledge['seattle']; followUps = ['Amazon RTO impact', 'Bellevue vs SLU', 'Investment opportunity']; }
-      else if (q.includes('zone') || q.includes('zoning') || q.includes('permit')) { response = agentChatKnowledge['zoning']; followUps = ['1150 S Olive conversion', 'Impact on inventory', 'New filings']; }
-      else if (q.includes('outreach') || q.includes('email') || q.includes('draft') || q.includes('pitch')) { response = agentChatKnowledge['outreach']; followUps = ['Snap outreach status', 'Netflix follow-up', 'TechCo pitch']; }
-      else if (q.includes('loi') || q.includes('letter of intent') || q.includes('clause') || q.includes('redline')) { response = agentChatKnowledge['loi']; followUps = ['Apex LOI issues', 'Summit LOI status', 'Review history']; }
-      else if (q.includes('data') || q.includes('source') || q.includes('costar') || q.includes('connected') || q.includes('integration')) { response = agentChatKnowledge['data']; followUps = ['Add new source', 'Source reliability', 'Data freshness']; }
-      else if (q.includes('close') || q.includes('closing') || q.includes('when') || q.includes('timeline')) { response = agentChatKnowledge['close']; followUps = ['Revenue from closings', 'Risk to timelines', 'Next steps']; }
-      else if (q.includes('revenue') || q.includes('commission') || q.includes('money') || q.includes('earning')) { response = agentChatKnowledge['revenue']; followUps = ['Quarterly comparison', 'Top revenue deals', 'Year-end projection']; }
-      else if (q.includes('compare') || q.includes('quarter') || q.includes('growth') || q.includes('trend') || q.includes('performance')) { response = agentChatKnowledge['compare']; followUps = ['What improved most?', 'Area of concern', 'Next quarter forecast']; }
-      else if (q.includes('risk') || q.includes('concern') || q.includes('worry') || q.includes('issue') || q.includes('problem') || q.includes('stall')) { response = agentChatKnowledge['risk']; followUps = ['Mitigation strategies', 'CloudNine details', 'Horizon Biotech status']; }
-      else if (q.includes('hello') || q.includes('hi ') || q.includes('hey') || q.includes('help')) {
-        response = 'Hello! I can help you with any questions about your LandMarq dashboard. Here are some things you can ask about:<br><br>' +
-          '• <strong>Deals</strong> — pipeline status, specific deals (Netflix, Apex, etc.), closing timelines<br>' +
-          '• <strong>Markets</strong> — vacancy rates, rents, submarkets (DTLA, Santa Monica, SF, etc.)<br>' +
-          '• <strong>Leads</strong> — tenant signals, qualified leads, outreach status<br>' +
-          '• <strong>Agents</strong> — what your 6 AI agents are doing, data sources<br>' +
-          '• <strong>Financials</strong> — revenue projections, commissions, quarterly comparisons';
-        followUps = ['Pipeline summary', 'What are my agents doing?', 'Deals at risk', 'Market overview'];
-      }
-      else {
-        response = "I don't have specific data on that topic yet. Try asking about:<br><br>" +
-          '• Specific deals (Netflix, Apex, Arclight, Snap, etc.)<br>' +
-          '• Pipeline status and deal counts<br>' +
-          '• Market vacancy and rent data<br>' +
-          '• Submarket details (DTLA, Santa Monica, SF, etc.)<br>' +
-          '• Agent activity and data sources<br>' +
-          '• Revenue projections and comparisons';
-        followUps = ['Pipeline summary', 'LA vacancy trends', 'Top deals by value', 'Agent activity'];
-      }
-    } else {
-      // Generate relevant follow-ups based on matched key
-      followUps = ['Pipeline summary', 'Deals at risk', 'Market overview'];
-    }
+  // Offline fallback: keyword matching
+  const typingEl = document.getElementById(typingId);
+  if (typingEl) typingEl.remove();
 
-    // Add response
-    let followUpHtml = '';
-    if (followUps.length > 0) {
-      followUpHtml = `<div class="ai-follow-ups">${followUps.map(f => `<button class="ai-follow-btn" onclick="askAI('${f.replace(/'/g, "\\'")}')">${f}</button>`).join('')}</div>`;
+  const q = query.toLowerCase();
+  let response = '';
+  let followUps = [];
+
+  for (const [key, val] of Object.entries(agentChatKnowledge)) {
+    if (q.includes(key)) { response = val; break; }
+  }
+
+  if (!response) {
+    if (q.includes('deal') || q.includes('pipeline') || q.includes('how many')) { response = agentChatKnowledge['pipeline']; followUps = ['Top 3 deals by value', 'Deals closing soon', 'Deals at risk']; }
+    else if (q.includes('top') || q.includes('largest') || q.includes('biggest')) {
+      response = 'Your <strong>3 largest deals</strong> by value:<br><br>1. <strong>Netflix HQ Expansion</strong> — $42M, Proposal stage, 72% probability<br>2. <strong>Arclight Partners</strong> — $28M, Closing stage, 92% probability<br>3. <strong>Apex Capital Group</strong> — $19M, LOI Signed, 88% probability';
+      followUps = ['Tell me more about Netflix', 'When does Arclight close?', 'Apex LOI issues'];
     }
-    msgs.innerHTML += `<div class="ai-msg ai-msg-bot">${response}${followUpHtml}</div>`;
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 600 + Math.random() * 400);
+    else if (q.includes('lead') || q.includes('tenant')) { response = agentChatKnowledge['leads']; followUps = ['Tell me about TechCo', 'Lead sources', 'Best leads']; }
+    else if (q.includes('vacant') || q.includes('vacancy')) { response = agentChatKnowledge['vacancy']; followUps = ['DTLA details', 'Santa Monica', 'SF market']; }
+    else if (q.includes('agent') || q.includes('bot')) { response = agentChatKnowledge['agents']; followUps = ['Data sources', 'Agent performance', 'Recent activity']; }
+    else if (q.includes('rent') || q.includes('price')) { response = agentChatKnowledge['rent']; followUps = ['Cheapest markets', 'Rent trends', 'Century City']; }
+    else if (q.includes('risk') || q.includes('concern')) { response = agentChatKnowledge['risk']; followUps = ['Mitigation strategies', 'CloudNine details', 'Horizon Biotech']; }
+    else if (q.includes('hello') || q.includes('hi ') || q.includes('hey') || q.includes('help')) {
+      response = 'Hello! I can help with questions about your deals, markets, leads, agents, and financials. What would you like to know?';
+      followUps = ['Pipeline summary', 'Deals at risk', 'LA vacancy', 'Market overview'];
+    }
+    else {
+      response = "I'm running in offline mode right now. I can still answer basic questions about your pipeline, markets, leads, and agents. For full AI-powered analysis, ensure your Anthropic API key is configured in Vercel.";
+      followUps = ['Pipeline summary', 'LA vacancy trends', 'Top deals', 'Agent activity'];
+    }
+  } else {
+    followUps = ['Pipeline summary', 'Deals at risk', 'Market overview'];
+  }
+
+  let followUpHtml = `<div class="ai-follow-ups">${followUps.map(f => `<button class="ai-follow-btn" onclick="askAI('${f.replace(/'/g, "\\'")}')">${f}</button>`).join('')}</div>`;
+  msgs.innerHTML += `<div class="ai-msg ai-msg-bot">${response}${followUpHtml}</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// Generate contextual follow-up suggestions based on the question asked
+function generateSmartFollowUps(query) {
+  const q = query.toLowerCase();
+  if (q.includes('pipeline') || q.includes('deal')) return ['Which deals are at risk?', 'Top 3 deals by value', 'Revenue forecast'];
+  if (q.includes('risk') || q.includes('concern')) return ['Mitigation strategies', 'Pipeline summary', 'Deals closing soon'];
+  if (q.includes('vacancy') || q.includes('market')) return ['Rent comparison', 'Best submarkets to target', 'SF vs LA comparison'];
+  if (q.includes('lead') || q.includes('tenant')) return ['Best qualified leads', 'Lead sources breakdown', 'Outreach status'];
+  if (q.includes('agent')) return ['Data sources connected', 'Agent performance', 'Recent alerts'];
+  if (q.includes('rent') || q.includes('price')) return ['Cheapest submarkets', 'Rent trends', 'Compare to last quarter'];
+  if (q.includes('revenue') || q.includes('commission')) return ['Quarterly comparison', 'Top revenue deals', 'Year-end projection'];
+  if (q.includes('compare') || q.includes('rank')) return ['Pipeline health', 'Best performing submarket', 'Deal velocity'];
+  return ['Pipeline overview', 'Market trends', 'Deals at risk'];
 }
 
 // Keyboard shortcut: Cmd+K or Ctrl+K to open AI panel
