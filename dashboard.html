@@ -34,6 +34,46 @@
   --amber: #D4883A;
 }
 
+/* ─── LIGHT MODE ─── */
+html.light-mode {
+  --bg: #F4F1EC;
+  --surface: #FFFFFF;
+  --surface-2: #F0EDE7;
+  --surface-3: #E6E2DB;
+  --border: rgba(0,0,0,0.09);
+  --border-gold: rgba(156,120,50,0.3);
+  --gold: #9C7832;
+  --gold-dim: rgba(156,120,50,0.1);
+  --gold-bright: #B8922E;
+  --cream: #1A1A1A;
+  --text: #3D3830;
+  --text-dim: #A09888;
+  --text-mid: #6B6050;
+  --green: #2E7D4F;
+  --green-dim: rgba(46,125,79,0.1);
+  --red: #B03D26;
+  --red-dim: rgba(176,61,38,0.1);
+  --blue: #2E6B8F;
+  --blue-dim: rgba(46,107,143,0.1);
+  --amber: #B87228;
+}
+html.light-mode body { background: var(--bg); }
+html.light-mode .sidebar { background: #FAFAF7; border-right: 1px solid var(--border); }
+html.light-mode .topbar { background: #FAFAF7; border-bottom: 1px solid var(--border); }
+html.light-mode .card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+html.light-mode .kpi-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+html.light-mode .stage-pill, html.light-mode .market-tag { color: var(--text); }
+html.light-mode .heatmap-cell .heat-market,
+html.light-mode .heatmap-cell .heat-val { color: #fff; }
+html.light-mode .topbar-chip { background: var(--surface-2); border-color: var(--border); }
+html.light-mode .sidebar-nav a.active { background: rgba(156,120,50,0.08); }
+html.light-mode .ob-overlay { background: rgba(0,0,0,0.3); }
+html.light-mode .modal-overlay { background: rgba(0,0,0,0.35); }
+html.light-mode .modal-box { background: var(--surface); border-color: var(--border); }
+html.light-mode #intel-panel { background: var(--surface); }
+html.light-mode .add-intel-btn { background: var(--gold); color: #fff; }
+html.light-mode .theme-toggle { background: var(--surface-2); color: var(--text); }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
 
@@ -1363,6 +1403,7 @@ body {
     <div class="topbar-right">
       <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
       <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
+      <div class="icon-btn theme-toggle" id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer;font-size:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;" title="Toggle Light/Dark Mode">🌙</div>
       <div class="icon-btn" id="topbar-bell" onclick="showNotificationsPanel()" style="cursor:pointer;" title="Notifications">🔔</div>
       <div class="icon-btn" id="topbar-gear" onclick="switchView('preferences')" style="cursor:pointer;" title="Settings">⚙</div>
     </div>
@@ -3308,6 +3349,26 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// ─── THEME TOGGLE (Light / Dark) ───
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.classList.toggle('light-mode');
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = isLight ? '☀️' : '🌙';
+  try { localStorage.setItem('lmq_theme', isLight ? 'light' : 'dark'); } catch(e) {}
+  showToast(isLight ? 'Switched to Light Mode' : 'Switched to Dark Mode');
+}
+// Restore saved theme on load
+(function() {
+  try {
+    const saved = localStorage.getItem('lmq_theme');
+    if (saved === 'light') {
+      document.documentElement.classList.add('light-mode');
+      setTimeout(() => { const btn = document.getElementById('theme-toggle'); if (btn) btn.textContent = '☀️'; }, 0);
+    }
+  } catch(e) {}
+})();
 
 // ─── AGENT CHAT BOT ───
 const agentChatKnowledge = {
