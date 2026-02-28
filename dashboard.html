@@ -71,6 +71,13 @@ html.light-mode .ob-overlay { background: rgba(0,0,0,0.35); }
 html.light-mode .modal-overlay { background: rgba(0,0,0,0.45); }
 html.light-mode .modal-box { background: var(--surface); border-color: var(--border); }
 html.light-mode #intel-panel { background: var(--surface); }
+html.light-mode #ai-panel { background: var(--bg); }
+html.light-mode .ai-msg-bot { background: var(--surface); color: var(--text); }
+html.light-mode .ai-msg-user { background: var(--gold); color: #0A0C0E; }
+html.light-mode .ai-panel-header { background: var(--surface); }
+html.light-mode .ai-panel-input-area { background: var(--surface); }
+html.light-mode .ai-input-wrap textarea { background: var(--surface-2); color: var(--text); }
+html.light-mode .ai-follow-btn { color: var(--gold); background: var(--surface-2); }
 html.light-mode .add-intel-btn { background: var(--gold); color: #fff; }
 html.light-mode .theme-toggle { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
 html.light-mode .sidebar-nav a { color: var(--text-mid); }
@@ -751,6 +758,93 @@ body {
 
 #intel-panel.open { transform: translateX(0); }
 
+/* ─── AI ASSISTANT PANEL ─── */
+#ai-panel {
+  position: fixed; right: 0; top: 0; bottom: 0; width: 420px;
+  background: var(--bg); border-left: 1px solid var(--border-gold);
+  z-index: 600; transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+  box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+}
+#ai-panel.open { transform: translateX(0); }
+
+.ai-panel-header {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+.ai-panel-messages {
+  flex: 1; overflow-y: auto; padding: 16px 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+
+.ai-msg {
+  max-width: 92%; padding: 12px 16px; border-radius: 12px;
+  font-size: 13px; line-height: 1.6; animation: msgFadeIn 0.3s ease;
+}
+.ai-msg-user {
+  align-self: flex-end; background: var(--gold); color: #0A0C0E;
+  border-radius: 12px 12px 4px 12px; font-weight: 500;
+}
+.ai-msg-bot {
+  align-self: flex-start; background: var(--surface);
+  border: 1px solid var(--border); color: var(--text);
+  border-radius: 12px 12px 12px 4px;
+}
+.ai-msg-bot strong { color: var(--cream); }
+.ai-msg-bot .ai-stat { color: var(--gold); font-weight: 600; }
+.ai-msg-typing {
+  align-self: flex-start; background: var(--surface);
+  border: 1px solid var(--border); color: var(--text-dim);
+  border-radius: 12px 12px 12px 4px; padding: 12px 16px;
+  font-size: 13px;
+}
+.ai-follow-ups {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+}
+.ai-follow-btn {
+  padding: 5px 12px; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 20px; color: var(--gold); font-size: 11px; cursor: pointer;
+  font-family: 'Syne', sans-serif; transition: all 0.2s; white-space: nowrap;
+}
+.ai-follow-btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+
+@keyframes msgFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-panel-input-area {
+  padding: 14px 20px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.ai-input-wrap {
+  display: flex; gap: 8px; align-items: flex-end;
+}
+.ai-input-wrap textarea {
+  flex: 1; padding: 12px 14px; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 10px;
+  color: var(--cream); font-family: 'Syne', sans-serif; font-size: 13px;
+  outline: none; resize: none; min-height: 44px; max-height: 120px;
+  line-height: 1.4; transition: border-color 0.2s;
+}
+.ai-input-wrap textarea:focus { border-color: var(--gold); }
+.ai-input-wrap textarea::placeholder { color: var(--text-dim); }
+.ai-send-btn {
+  width: 44px; height: 44px; background: var(--gold); border: none;
+  border-radius: 10px; color: #0A0C0E; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.ai-send-btn:hover { filter: brightness(1.1); transform: scale(1.05); }
+
 .panel-header {
   padding: 22px 24px 18px;
   border-bottom: 1px solid var(--border);
@@ -1418,6 +1512,7 @@ body {
         <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-dim);pointer-events:none;">🔍</span>
         <div id="search-results-anchor" style="position:absolute;top:100%;left:0;width:320px;z-index:100;"></div>
       </div>
+      <button onclick="openAIPanel()" style="padding:6px 14px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border:none;border-radius:6px;color:#0A0C0E;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.2s;white-space:nowrap;" title="Ask AI (⌘K)"><span style="font-size:13px;">✦</span> Ask AI</button>
       <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
       <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
       <div class="icon-btn theme-toggle" id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer;font-size:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;" title="Toggle Light/Dark Mode">🌙</div>
@@ -1694,6 +1789,47 @@ body {
 
   </div>
 </div>
+
+<!-- ══ AI ASSISTANT PANEL ══ -->
+<div id="ai-panel">
+  <div class="ai-panel-header">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream);display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">✦</span> LandMarq AI
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-top:2px;">INTELLIGENCE ASSISTANT · 6 AGENTS CONNECTED</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button onclick="clearAIChat()" style="padding:4px 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-size:10px;cursor:pointer;font-family:'Syne',sans-serif;">Clear</button>
+      <div class="panel-close" onclick="closeAIPanel()" style="cursor:pointer;font-size:18px;color:var(--text-dim);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--border);">✕</div>
+    </div>
+  </div>
+  <div class="ai-panel-messages" id="ai-messages">
+    <div class="ai-msg ai-msg-bot">
+      <div style="font-weight:600;color:var(--cream);margin-bottom:6px;">Welcome to LandMarq AI</div>
+      I have access to your entire dashboard — pipeline data, market intelligence, agent activity, leads, and more. Ask me anything.
+      <div class="ai-follow-ups" style="margin-top:10px;">
+        <button class="ai-follow-btn" onclick="askAI('What are my top deals?')">Top deals</button>
+        <button class="ai-follow-btn" onclick="askAI('Pipeline summary')">Pipeline overview</button>
+        <button class="ai-follow-btn" onclick="askAI('Which deals are at risk?')">Deals at risk</button>
+        <button class="ai-follow-btn" onclick="askAI('LA vacancy trends')">LA vacancy</button>
+        <button class="ai-follow-btn" onclick="askAI('What are my agents doing?')">Agent activity</button>
+      </div>
+    </div>
+  </div>
+  <div class="ai-panel-input-area">
+    <div class="ai-input-wrap">
+      <textarea id="ai-panel-input" rows="1" placeholder="Ask about deals, markets, leads, agents..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIPanelMsg()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+      <button class="ai-send-btn" onclick="sendAIPanelMsg()">→</button>
+    </div>
+    <div style="font-size:9px;color:var(--text-dim);margin-top:6px;text-align:center;">Powered by 6 AI agents · Data from 12 connected sources</div>
+  </div>
+</div>
+
+<!-- AI FAB BUTTON -->
+<button id="ai-fab" onclick="toggleAIPanel()" style="position:fixed;bottom:80px;right:24px;width:56px;height:56px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border:none;border-radius:16px;color:#0A0C0E;font-size:22px;cursor:pointer;z-index:400;box-shadow:0 4px 20px rgba(156,120,50,0.4);display:flex;align-items:center;justify-content:center;transition:all 0.3s;" title="Ask AI (⌘K)">
+  <span id="ai-fab-icon">✦</span>
+</button>
 
 <!-- TOAST -->
 <div class="toast" id="toast">
@@ -3536,6 +3672,153 @@ function handleGlobalSearch(q) {
   document.getElementById('global-search-wrap').appendChild(dropdown);
 }
 
+// ─── AI ASSISTANT PANEL ───
+function toggleAIPanel() {
+  const panel = document.getElementById('ai-panel');
+  if (panel.classList.contains('open')) {
+    closeAIPanel();
+  } else {
+    openAIPanel();
+  }
+}
+
+function openAIPanel() {
+  document.getElementById('ai-panel').classList.add('open');
+  document.getElementById('ai-fab').style.display = 'none';
+  // Close intel panel if open
+  document.getElementById('intel-panel').classList.remove('open');
+  setTimeout(() => document.getElementById('ai-panel-input')?.focus(), 350);
+}
+
+function closeAIPanel() {
+  document.getElementById('ai-panel').classList.remove('open');
+  document.getElementById('ai-fab').style.display = 'flex';
+}
+
+function clearAIChat() {
+  const msgs = document.getElementById('ai-messages');
+  msgs.innerHTML = `<div class="ai-msg ai-msg-bot">
+    <div style="font-weight:600;color:var(--cream);margin-bottom:6px;">Chat cleared</div>
+    Ready for new questions. Ask me anything about your dashboard data.
+    <div class="ai-follow-ups" style="margin-top:10px;">
+      <button class="ai-follow-btn" onclick="askAI('Pipeline summary')">Pipeline overview</button>
+      <button class="ai-follow-btn" onclick="askAI('Which deals are at risk?')">Deals at risk</button>
+      <button class="ai-follow-btn" onclick="askAI('LA vacancy trends')">LA vacancy</button>
+    </div>
+  </div>`;
+}
+
+function askAI(question) {
+  const input = document.getElementById('ai-panel-input');
+  input.value = question;
+  sendAIPanelMsg();
+}
+
+function sendAIPanelMsg() {
+  const input = document.getElementById('ai-panel-input');
+  const msgs = document.getElementById('ai-messages');
+  const query = input.value.trim();
+  if (!query) return;
+
+  // Add user message
+  msgs.innerHTML += `<div class="ai-msg ai-msg-user">${query}</div>`;
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Add typing indicator
+  const typingId = 'typing-' + Date.now();
+  msgs.innerHTML += `<div class="ai-msg-typing" id="${typingId}"><span style="display:inline-flex;gap:4px;"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span> Analyzing with 6 agents...</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Generate response after delay
+  setTimeout(() => {
+    const typingEl = document.getElementById(typingId);
+    if (typingEl) typingEl.remove();
+
+    const q = query.toLowerCase();
+    let response = '';
+    let followUps = [];
+
+    // Use the existing agentChatKnowledge
+    for (const [key, val] of Object.entries(agentChatKnowledge)) {
+      if (q.includes(key)) { response = val; break; }
+    }
+
+    // Broader keyword matching (same as existing sendAgentChat logic)
+    if (!response) {
+      if (q.includes('deal') || q.includes('pipeline') || q.includes('how many')) { response = agentChatKnowledge['pipeline']; followUps = ['Top 3 deals by value', 'Deals closing soon', 'Which deals are at risk?']; }
+      else if (q.includes('top') || q.includes('largest') || q.includes('biggest')) {
+        response = 'Your <strong>3 largest deals</strong> by value:<br><br>' +
+          '1. <span class="ai-stat">Netflix HQ Expansion</span> — $42M, Proposal stage, 72% probability. Culver City, 60K SF creative office.<br>' +
+          '2. <span class="ai-stat">Arclight Partners</span> — $28M, Closing stage, 92% probability. Century City, 35K SF premium build-out. Close target: Mar 2026.<br>' +
+          '3. <span class="ai-stat">Apex Capital Group</span> — $19M, LOI Signed, 88% probability. Century City relocation, 2 clauses flagged.';
+        followUps = ['Tell me more about Netflix', 'When does Arclight close?', 'What clauses are flagged on Apex?'];
+      }
+      else if (q.includes('lead') || q.includes('tenant') || q.includes('prospect')) { response = agentChatKnowledge['leads']; followUps = ['Tell me about TechCo', 'Lead sources breakdown', 'Best qualified leads']; }
+      else if (q.includes('vacant') || q.includes('vacancy') || q.includes('office') || q.includes('available')) { response = agentChatKnowledge['vacancy']; followUps = ['DTLA details', 'Santa Monica details', 'SF market']; }
+      else if (q.includes('rate') || q.includes('fed') || q.includes('cap') || q.includes('treasury') || q.includes('macro')) { response = agentChatKnowledge['interest']; followUps = ['Impact on deals', 'Market outlook', 'Revenue projections']; }
+      else if (q.includes('agent') || q.includes('bot') || q.includes('running')) { response = agentChatKnowledge['agents']; followUps = ['What data sources?', 'Agent performance', 'Recent agent activity']; }
+      else if (q.includes('west') || q.includes('la ') || q.includes('los angeles') || q.includes('market overview') || q.includes('overview')) { response = agentChatKnowledge['market']; followUps = ['LA vacancy details', 'SF market', 'Seattle market']; }
+      else if (q.includes('rent') || q.includes('asking') || q.includes('price') || q.includes('cost') || q.includes('expensive')) { response = agentChatKnowledge['rent']; followUps = ['Cheapest markets', 'Rent trends', 'Century City details']; }
+      else if (q.includes('downtown') || q.includes('dtla')) { response = agentChatKnowledge['dtla']; followUps = ['Zoning changes in DTLA', 'DTLA deals', 'Rent comparison']; }
+      else if (q.includes('santa monica') || q.includes('snap')) { response = agentChatKnowledge['santa monica']; if (q.includes('snap')) response = agentChatKnowledge['snap']; followUps = ['Draft Snap outreach', 'Matching tenants', 'SM rent trends']; }
+      else if (q.includes('culver')) { response = agentChatKnowledge['culver']; followUps = ['Netflix deal details', 'Media tenants', 'Culver City rent']; }
+      else if (q.includes('playa')) { response = agentChatKnowledge['playa']; followUps = ['Badge-in data', 'TechCo details', 'Playa Vista deals']; }
+      else if (q.includes('san francisco') || q.includes(' sf ') || q.includes('financial district') || q.includes('soma')) { response = agentChatKnowledge['sf']; followUps = ['SF rent data', 'AI startups filling space', 'Compare to LA']; }
+      else if (q.includes('seattle') || q.includes('bellevue') || q.includes('amazon')) { response = agentChatKnowledge['seattle']; followUps = ['Amazon RTO impact', 'Bellevue vs SLU', 'Investment opportunity']; }
+      else if (q.includes('zone') || q.includes('zoning') || q.includes('permit')) { response = agentChatKnowledge['zoning']; followUps = ['1150 S Olive conversion', 'Impact on inventory', 'New filings']; }
+      else if (q.includes('outreach') || q.includes('email') || q.includes('draft') || q.includes('pitch')) { response = agentChatKnowledge['outreach']; followUps = ['Snap outreach status', 'Netflix follow-up', 'TechCo pitch']; }
+      else if (q.includes('loi') || q.includes('letter of intent') || q.includes('clause') || q.includes('redline')) { response = agentChatKnowledge['loi']; followUps = ['Apex LOI issues', 'Summit LOI status', 'Review history']; }
+      else if (q.includes('data') || q.includes('source') || q.includes('costar') || q.includes('connected') || q.includes('integration')) { response = agentChatKnowledge['data']; followUps = ['Add new source', 'Source reliability', 'Data freshness']; }
+      else if (q.includes('close') || q.includes('closing') || q.includes('when') || q.includes('timeline')) { response = agentChatKnowledge['close']; followUps = ['Revenue from closings', 'Risk to timelines', 'Next steps']; }
+      else if (q.includes('revenue') || q.includes('commission') || q.includes('money') || q.includes('earning')) { response = agentChatKnowledge['revenue']; followUps = ['Quarterly comparison', 'Top revenue deals', 'Year-end projection']; }
+      else if (q.includes('compare') || q.includes('quarter') || q.includes('growth') || q.includes('trend') || q.includes('performance')) { response = agentChatKnowledge['compare']; followUps = ['What improved most?', 'Area of concern', 'Next quarter forecast']; }
+      else if (q.includes('risk') || q.includes('concern') || q.includes('worry') || q.includes('issue') || q.includes('problem') || q.includes('stall')) { response = agentChatKnowledge['risk']; followUps = ['Mitigation strategies', 'CloudNine details', 'Horizon Biotech status']; }
+      else if (q.includes('hello') || q.includes('hi ') || q.includes('hey') || q.includes('help')) {
+        response = 'Hello! I can help you with any questions about your LandMarq dashboard. Here are some things you can ask about:<br><br>' +
+          '• <strong>Deals</strong> — pipeline status, specific deals (Netflix, Apex, etc.), closing timelines<br>' +
+          '• <strong>Markets</strong> — vacancy rates, rents, submarkets (DTLA, Santa Monica, SF, etc.)<br>' +
+          '• <strong>Leads</strong> — tenant signals, qualified leads, outreach status<br>' +
+          '• <strong>Agents</strong> — what your 6 AI agents are doing, data sources<br>' +
+          '• <strong>Financials</strong> — revenue projections, commissions, quarterly comparisons';
+        followUps = ['Pipeline summary', 'What are my agents doing?', 'Deals at risk', 'Market overview'];
+      }
+      else {
+        response = "I don't have specific data on that topic yet. Try asking about:<br><br>" +
+          '• Specific deals (Netflix, Apex, Arclight, Snap, etc.)<br>' +
+          '• Pipeline status and deal counts<br>' +
+          '• Market vacancy and rent data<br>' +
+          '• Submarket details (DTLA, Santa Monica, SF, etc.)<br>' +
+          '• Agent activity and data sources<br>' +
+          '• Revenue projections and comparisons';
+        followUps = ['Pipeline summary', 'LA vacancy trends', 'Top deals by value', 'Agent activity'];
+      }
+    } else {
+      // Generate relevant follow-ups based on matched key
+      followUps = ['Pipeline summary', 'Deals at risk', 'Market overview'];
+    }
+
+    // Add response
+    let followUpHtml = '';
+    if (followUps.length > 0) {
+      followUpHtml = `<div class="ai-follow-ups">${followUps.map(f => `<button class="ai-follow-btn" onclick="askAI('${f.replace(/'/g, "\\'")}')">${f}</button>`).join('')}</div>`;
+    }
+    msgs.innerHTML += `<div class="ai-msg ai-msg-bot">${response}${followUpHtml}</div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600 + Math.random() * 400);
+}
+
+// Keyboard shortcut: Cmd+K or Ctrl+K to open AI panel
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    toggleAIPanel();
+  }
+  if (e.key === 'Escape' && document.getElementById('ai-panel').classList.contains('open')) {
+    closeAIPanel();
+  }
+});
+
 // ─── AGENT CHAT BOT ───
 const agentChatKnowledge = {
   'snap': 'Snap Inc. is vacating 42K SF at 2101 Colorado Ave in Santa Monica. Their lease expires Q2 2026. Intel Agent identified 3 TAMI tenants in the same submarket actively searching for space. First-mover window is approximately 6 weeks. The space features open floor plans and ocean proximity.',
@@ -4107,7 +4390,7 @@ function renderMorningBrief() {
       <button onclick="switchView('pipeline')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">📊 Open Pipeline</button>
       <button onclick="switchView('tenant-leads')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">🎯 Check Leads</button>
       <button onclick="switchView('market-intel')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">📈 View Reports</button>
-      <button onclick="openBriefAskAI()" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">✨ Ask AI</button>
+      <button onclick="openAIPanel()" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">✨ Ask AI</button>
     </div>
     ${viewSection('Executive Summary')}
     ${viewCard(`<div style="font-size:13px;color:var(--text);line-height:1.8;">
