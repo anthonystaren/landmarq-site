@@ -1912,6 +1912,26 @@ function finishOnboarding() {
     if (titleEl) titleEl.textContent = [titleVal, firmVal].filter(Boolean).join(' · ') || 'CRE Professional';
   }
 
+  // Save selected markets to localStorage
+  const selectedMarkets = [];
+  document.querySelectorAll('#market-chips .ob-chip.selected').forEach(c => selectedMarkets.push(c.textContent.trim()));
+  // Also save custom-added markets
+  document.querySelectorAll('#market-chips .ob-chip.custom-chip.selected, #market-chips .ob-chip.custom-chip').forEach(c => {
+    const t = c.textContent.trim().replace('✕','').trim();
+    if (t && !selectedMarkets.includes(t)) selectedMarkets.push(t);
+  });
+  if (selectedMarkets.length > 0) {
+    localStorage.setItem('lmq_markets', JSON.stringify(selectedMarkets));
+    buildUserHeatmapTab();
+  }
+
+  // Save selected agents
+  const selectedAgents = [];
+  document.querySelectorAll('.ob-agent-toggle.on .toggle-name').forEach(n => selectedAgents.push(n.textContent.trim()));
+  if (selectedAgents.length > 0) {
+    localStorage.setItem('lmq_agents', JSON.stringify(selectedAgents));
+  }
+
   const overlay = document.getElementById('onboarding-overlay');
   overlay.classList.add('hidden');
   setTimeout(() => { overlay.style.display = 'none'; startTour(); }, 400);
@@ -4165,6 +4185,153 @@ const heatmapRegions = {
   ]
 };
 
+// Metro → submarket mapping for user-selected markets
+const metroSubmarkets = {
+  'New York': [
+    { market: 'Midtown Manhattan', val: '12.8%', bg: 'rgba(196,158,84,0.42)' },
+    { market: 'Downtown NYC', val: '14.1%', bg: 'rgba(196,158,84,0.5)' },
+    { market: 'Hudson Yards', val: '9.4%', bg: 'rgba(74,127,165,0.42)' },
+    { market: 'Brooklyn DUMBO', val: '8.2%', bg: 'rgba(74,155,111,0.4)' }
+  ],
+  'Los Angeles': [
+    { market: 'DTLA', val: '18.4%', bg: 'rgba(192,83,58,0.55)' },
+    { market: 'Santa Monica', val: '9.8%', bg: 'rgba(74,127,165,0.5)' },
+    { market: 'Century City', val: '12.6%', bg: 'rgba(196,158,84,0.35)' },
+    { market: 'Culver City', val: '11.2%', bg: 'rgba(196,158,84,0.45)' }
+  ],
+  'Chicago': [
+    { market: 'Chicago Loop', val: '19.4%', bg: 'rgba(192,83,58,0.5)' },
+    { market: 'West Loop', val: '14.2%', bg: 'rgba(196,158,84,0.45)' },
+    { market: 'River North', val: '11.8%', bg: 'rgba(74,127,165,0.45)' },
+    { market: 'Fulton Market', val: '7.6%', bg: 'rgba(74,155,111,0.42)' }
+  ],
+  'Dallas / Fort Worth': [
+    { market: 'Dallas Uptown', val: '15.1%', bg: 'rgba(192,83,58,0.38)' },
+    { market: 'Las Colinas', val: '17.2%', bg: 'rgba(192,83,58,0.42)' },
+    { market: 'Plano TX', val: '12.4%', bg: 'rgba(196,158,84,0.4)' },
+    { market: 'Fort Worth CBD', val: '13.8%', bg: 'rgba(196,158,84,0.45)' }
+  ],
+  'Houston': [
+    { market: 'Houston CBD', val: '22.6%', bg: 'rgba(192,83,58,0.55)' },
+    { market: 'The Woodlands', val: '14.8%', bg: 'rgba(196,158,84,0.45)' },
+    { market: 'Galleria/Uptown', val: '16.2%', bg: 'rgba(192,83,58,0.38)' },
+    { market: 'Katy TX', val: '10.4%', bg: 'rgba(74,127,165,0.42)' }
+  ],
+  'San Francisco': [
+    { market: 'SF Financial', val: '26.3%', bg: 'rgba(192,83,58,0.65)' },
+    { market: 'SF SOMA', val: '22.1%', bg: 'rgba(192,83,58,0.45)' },
+    { market: 'SF Mission', val: '14.8%', bg: 'rgba(74,127,165,0.4)' }
+  ],
+  'Miami': [
+    { market: 'Miami Brickell', val: '7.2%', bg: 'rgba(74,155,111,0.45)' },
+    { market: 'Wynwood', val: '6.8%', bg: 'rgba(74,155,111,0.5)' },
+    { market: 'Coral Gables', val: '9.4%', bg: 'rgba(74,127,165,0.4)' },
+    { market: 'Doral', val: '11.2%', bg: 'rgba(74,127,165,0.45)' }
+  ],
+  'Washington D.C.': [
+    { market: 'DC Georgetown', val: '12.8%', bg: 'rgba(74,127,165,0.5)' },
+    { market: 'NoMa DC', val: '15.4%', bg: 'rgba(192,83,58,0.38)' },
+    { market: 'Tysons VA', val: '18.2%', bg: 'rgba(192,83,58,0.45)' },
+    { market: 'Bethesda MD', val: '10.6%', bg: 'rgba(74,127,165,0.42)' }
+  ],
+  'Atlanta': [
+    { market: 'Atlanta Midtown', val: '16.7%', bg: 'rgba(192,83,58,0.42)' },
+    { market: 'Buckhead', val: '19.2%', bg: 'rgba(192,83,58,0.5)' },
+    { market: 'Atlanta Perimeter', val: '21.4%', bg: 'rgba(192,83,58,0.52)' },
+    { market: 'Alpharetta', val: '12.8%', bg: 'rgba(196,158,84,0.4)' }
+  ],
+  'Boston': [
+    { market: 'Boston Seaport', val: '11.4%', bg: 'rgba(74,127,165,0.45)' },
+    { market: 'Back Bay', val: '9.8%', bg: 'rgba(74,127,165,0.4)' },
+    { market: 'Cambridge/Kendall', val: '13.2%', bg: 'rgba(196,158,84,0.4)' },
+    { market: 'Financial Dist', val: '14.6%', bg: 'rgba(196,158,84,0.48)' }
+  ],
+  'Phoenix': [
+    { market: 'Phoenix CBD', val: '15.2%', bg: 'rgba(192,83,58,0.4)' },
+    { market: 'Scottsdale', val: '9.8%', bg: 'rgba(74,127,165,0.45)' },
+    { market: 'Tempe', val: '11.4%', bg: 'rgba(74,127,165,0.5)' },
+    { market: 'Chandler AZ', val: '6.9%', bg: 'rgba(74,155,111,0.5)' }
+  ],
+  'Seattle': [
+    { market: 'Seattle SLU', val: '11.0%', bg: 'rgba(74,127,165,0.38)' },
+    { market: 'Bellevue WA', val: '9.2%', bg: 'rgba(74,155,111,0.45)' },
+    { market: 'Redmond WA', val: '7.8%', bg: 'rgba(74,155,111,0.4)' }
+  ],
+  'Denver': [
+    { market: 'Denver LoDo', val: '16.4%', bg: 'rgba(192,83,58,0.4)' },
+    { market: 'Denver Tech Ctr', val: '13.8%', bg: 'rgba(196,158,84,0.42)' },
+    { market: 'Boulder CO', val: '8.6%', bg: 'rgba(74,155,111,0.4)' }
+  ],
+  'Austin': [
+    { market: 'Austin CBD', val: '18.6%', bg: 'rgba(192,83,58,0.45)' },
+    { market: 'Austin Domain', val: '12.4%', bg: 'rgba(196,158,84,0.4)' },
+    { market: 'East Austin', val: '9.2%', bg: 'rgba(74,127,165,0.4)' }
+  ],
+  'Nashville': [
+    { market: 'Nashville CBD', val: '10.8%', bg: 'rgba(74,127,165,0.42)' },
+    { market: 'The Gulch', val: '8.4%', bg: 'rgba(74,155,111,0.4)' },
+    { market: 'Cool Springs', val: '12.2%', bg: 'rgba(196,158,84,0.38)' }
+  ],
+  'Charlotte': [
+    { market: 'Charlotte Uptown', val: '14.6%', bg: 'rgba(196,158,84,0.48)' },
+    { market: 'South End CLT', val: '9.8%', bg: 'rgba(74,127,165,0.42)' },
+    { market: 'Ballantyne', val: '11.4%', bg: 'rgba(74,127,165,0.45)' }
+  ],
+  'San Diego': [
+    { market: 'San Diego CBD', val: '13.4%', bg: 'rgba(196,158,84,0.42)' },
+    { market: 'UTC San Diego', val: '10.2%', bg: 'rgba(74,127,165,0.42)' },
+    { market: 'Del Mar Heights', val: '8.6%', bg: 'rgba(74,155,111,0.4)' }
+  ],
+  'Minneapolis': [
+    { market: 'Minneapolis CBD', val: '20.2%', bg: 'rgba(192,83,58,0.5)' },
+    { market: 'Bloomington MN', val: '14.8%', bg: 'rgba(196,158,84,0.45)' },
+    { market: 'St. Paul', val: '16.4%', bg: 'rgba(192,83,58,0.4)' }
+  ],
+  'Portland': [
+    { market: 'Portland Pearl', val: '14.6%', bg: 'rgba(196,158,84,0.45)' },
+    { market: 'Portland Lloyd', val: '16.8%', bg: 'rgba(192,83,58,0.4)' },
+    { market: 'Lake Oswego', val: '9.4%', bg: 'rgba(74,127,165,0.4)' }
+  ],
+  'Raleigh-Durham': [
+    { market: 'Raleigh CBD', val: '11.8%', bg: 'rgba(74,127,165,0.45)' },
+    { market: 'RTP', val: '15.6%', bg: 'rgba(192,83,58,0.38)' },
+    { market: 'Durham', val: '10.2%', bg: 'rgba(74,127,165,0.42)' }
+  ]
+};
+
+// Build "My Markets" heatmap tab from user's onboarding selections
+function buildUserHeatmapTab() {
+  const saved = localStorage.getItem('lmq_markets');
+  if (!saved) return;
+  try {
+    const markets = JSON.parse(saved);
+    if (!markets || markets.length === 0) return;
+    // Gather all submarkets for user's selected metros
+    let userCells = [];
+    markets.forEach(metro => {
+      const subs = metroSubmarkets[metro];
+      if (subs) userCells = userCells.concat(subs);
+    });
+    if (userCells.length === 0) return;
+    // Add to heatmapRegions
+    heatmapRegions['my-markets'] = userCells;
+    // Update heatmap tabs to show "My Markets" first
+    const tabsEl = document.getElementById('heatmap-tabs');
+    if (tabsEl) {
+      // Remove existing active
+      tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
+      // Prepend "My Markets" tab
+      const myTab = document.createElement('div');
+      myTab.className = 'heatmap-tab active';
+      myTab.textContent = 'My Markets';
+      myTab.onclick = function() { switchHeatmapRegion('my-markets', this); };
+      tabsEl.prepend(myTab);
+      // Switch to My Markets view
+      switchHeatmapRegion('my-markets', myTab);
+    }
+  } catch(e) { console.log('Error building user heatmap:', e); }
+}
+
 function switchHeatmapRegion(region, tabEl) {
   document.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
   if (tabEl) tabEl.classList.add('active');
@@ -6091,6 +6258,9 @@ if (streamEl) {
 
     // Show the page
     document.body.classList.add('auth-ready');
+
+    // Load user's market selections into Submarket Pulse
+    buildUserHeatmapTab();
   } catch (err) {
     console.error('LandMarq auth error:', err);
     window.location.href = '/login?returnTo=/dashboard';
