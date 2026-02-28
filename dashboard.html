@@ -1231,7 +1231,7 @@ body {
         </div>
         <div class="ob-input-group">
           <label class="ob-label">Firm</label>
-          <input class="ob-input" type="text" placeholder="e.g. Savills North America" />
+          <input class="ob-input" type="text" placeholder="e.g. CBRE, JLL, Cushman &amp; Wakefield" />
         </div>
         <div class="ob-input-group">
           <label class="ob-label">Your Role / Focus</label>
@@ -1413,6 +1413,11 @@ body {
     <div class="topbar-title">Morning Brief</div>
     <div class="topbar-date" id="topbar-date"></div>
     <div class="topbar-right">
+      <div style="position:relative;" id="global-search-wrap">
+        <input type="text" id="global-search" placeholder="Search deals, leads, markets..." style="width:200px;padding:6px 12px 6px 28px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;outline:none;transition:all 0.2s;" onfocus="this.style.width='280px';this.style.borderColor='var(--gold)'" onblur="setTimeout(()=>{this.style.width='200px';this.style.borderColor='var(--border)';document.getElementById('search-results')?.remove()},200)" oninput="handleGlobalSearch(this.value)" onkeydown="if(event.key==='Escape'){this.blur();document.getElementById('search-results')?.remove()}" />
+        <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-dim);pointer-events:none;">🔍</span>
+        <div id="search-results-anchor" style="position:absolute;top:100%;left:0;width:320px;z-index:100;"></div>
+      </div>
       <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
       <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
       <div class="icon-btn theme-toggle" id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer;font-size:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;" title="Toggle Light/Dark Mode">🌙</div>
@@ -1498,7 +1503,7 @@ body {
       <div class="card-header"><div class="card-title">Priority Alerts</div><div class="card-action">Mark All Read</div></div>
       <div class="alerts-body">
         <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">Snap vacating 42K SF — Santa Monica</div><div class="alert-body">Lease expires Q2. 3 TAMI tenants in same submarket searching. First-mover window: ~6 weeks.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2m ago</div></div><div class="alert-action-btn">Draft Outreach →</div></div>
-        <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">LOI Clause Mismatch — Apex Capital</div><div class="alert-body">Non-standard "co-tenancy" clause on Sections 4.2 & 7. Differs from Savills gold template.</div><div class="alert-footer"><div class="alert-agent">LOI Agent</div><div class="alert-time">31m ago</div></div><div class="alert-action-btn">Review Comparison →</div></div>
+        <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">LOI Clause Mismatch — Apex Capital</div><div class="alert-body">Non-standard "co-tenancy" clause on Sections 4.2 & 7. Differs from LandMarq gold template.</div><div class="alert-footer"><div class="alert-agent">LOI Agent</div><div class="alert-time">31m ago</div></div><div class="alert-action-btn">Review Comparison →</div></div>
         <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">TechCo Inc. Expansion Signal</div><div class="alert-body">40+ LA job postings. Badge-in at current WeWork up 62%. Likely seeking 15–25K SF.</div><div class="alert-footer"><div class="alert-agent">Lead Agent</div><div class="alert-time">14m ago</div></div><div class="alert-action-btn">View Lead Profile →</div></div>
         <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">Interest Rate Watch Triggered</div><div class="alert-body">Fed signals pause. Model projects cap rate compression in industrial by 25bps over 90 days.</div><div class="alert-footer"><div class="alert-agent">Macro Agent</div><div class="alert-time">1h ago</div></div><div class="alert-action-btn">View Impact Report →</div></div>
         <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">Playa Vista Occupancy Up</div><div class="alert-body">Badge-in data: Playa Vista 74% vs. 61% DTLA avg. Tenant preference shifting toward submarket.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">4h ago</div></div><div class="alert-action-btn">View Submarket Data →</div></div>
@@ -2558,7 +2563,7 @@ function handleBriefAIAsk() {
     'snap': 'Snap Inc. is <strong>vacating 42,000 SF</strong> at 2101 Colorado Ave, Santa Monica. Lease expires Q2 2026. Your agents have identified 3 TAMI tenants searching this submarket. First-mover window: ~6 weeks. Priority: <strong style="color:var(--red);">Urgent</strong>.',
     'pipeline': 'Pipeline value is <strong>$218M</strong> (+12.4% QoQ) with 14 active deals across 8 submarkets. 2 deals are at risk (CloudNine Software, Zenith Healthcare) totaling $10.2M. 3 new deals entered this month. Weighted pipeline: $156.3M.',
     'vacancy': 'LA metro avg vacancy: <strong>14.2%</strong> (▼0.8% over 90d, improving). SF Financial District: 26.3% (highest in 18 months). Seattle: 10.1% (▼0.8%, recovering). Overall West Coast trend is positive with LA leading recovery.',
-    'apex': 'Apex Capital LOI has <strong>clause mismatches</strong> in Sections 4.2 & 7 — non-standard co-tenancy clause differs from Savills gold template. LOI expiry: Mar 15 (21 days). Priority: High. Recommend immediate review with LOI Agent.',
+    'apex': 'Apex Capital LOI has <strong>clause mismatches</strong> in Sections 4.2 & 7 — non-standard co-tenancy clause differs from LandMarq gold template. LOI expiry: Mar 15 (21 days). Priority: High. Recommend immediate review with LOI Agent.',
     'risk': 'Two deals flagged as at-risk: <strong>CloudNine Software</strong> (18% probability, 42 days in Prospect, stalled) and <strong>Zenith Healthcare</strong> (22% probability, 35 days in Prospect, budget concerns). Combined at-risk value: $10.2M.',
     'lead': 'Your agents found <strong>31 leads</strong> this month (up from 23). 7 are qualified and ready for outreach. Top signals: TechCo Inc. (40+ job postings, WeWork badge-in +62%), and 3 TAMI tenants matching the Snap vacancy.',
     'agent': '6 agents are active with 12 tasks completed today. Intel Agent: 4 market updates. Lead Agent: 3 new leads. LOI Agent: 1 document review. Outreach Agent: 1 draft in progress. Permit Agent: 1 zoning alert. Macro Agent: rate watch triggered.',
@@ -3452,6 +3457,85 @@ function toggleTheme() {
   } catch(e) {}
 })();
 
+// ─── GLOBAL SEARCH ───
+function handleGlobalSearch(q) {
+  const old = document.getElementById('search-results');
+  if (old) old.remove();
+  if (!q || q.length < 2) return;
+  q = q.toLowerCase();
+
+  const results = [];
+
+  // Search deals
+  const deals = [
+    { name:'Netflix Inc.', market:'Culver City', val:'$22M', stage:'Proposal', view:'pipeline' },
+    { name:'Horizon Biotech', market:'El Segundo', val:'$14M', stage:'Qualifying', view:'pipeline' },
+    { name:'Pacific Ventures', market:'Santa Monica', val:'$7.8M', stage:'Proposal', view:'pipeline' },
+    { name:'Catalyst Media', market:'Culver City', val:'$5.1M', stage:'Qualifying', view:'pipeline' },
+    { name:'CloudNine Software', market:'Playa Vista', val:'$6.8M', stage:'Prospect', view:'pipeline' },
+    { name:'Verde Architects', market:'W. Hollywood', val:'$3.2M', stage:'Proposal', view:'pipeline' },
+    { name:'Arclight Partners', market:'DTLA', val:'$18M', stage:'Qualifying', view:'pipeline' },
+    { name:'Zenith Healthcare', market:'Burbank', val:'$3.4M', stage:'Prospect', view:'pipeline' },
+    { name:'Pinnacle Group', market:'DTLA', val:'$32M', stage:'Closing', view:'pipeline' },
+    { name:'Apex Capital', market:'Century City', val:'$15M', stage:'LOI', view:'pipeline' },
+    { name:'Meridian REIT', market:'Santa Monica', val:'$28M', stage:'LOI', view:'pipeline' },
+    { name:'Solaris Energy', market:'El Segundo', val:'$8.5M', stage:'Qualifying', view:'pipeline' },
+    { name:'Atlas Logistics', market:'DTLA', val:'$12M', stage:'Proposal', view:'pipeline' },
+    { name:'Beacon Finance', market:'Century City', val:'$9.2M', stage:'Proposal', view:'pipeline' }
+  ];
+  deals.forEach(d => {
+    if (d.name.toLowerCase().includes(q) || d.market.toLowerCase().includes(q))
+      results.push({ icon:'📊', title:d.name, sub:`${d.market} · ${d.val} · ${d.stage}`, action:() => switchView('pipeline') });
+  });
+
+  // Search leads
+  const leads = [
+    { name:'TechCo Inc.', signal:'40+ LA job postings', view:'tenant-leads' },
+    { name:'BrightPath Health', signal:'New LLC filing in Santa Monica', view:'tenant-leads' },
+    { name:'Quantum Analytics', signal:'Series B, $42M raised', view:'tenant-leads' }
+  ];
+  leads.forEach(l => {
+    if (l.name.toLowerCase().includes(q) || l.signal.toLowerCase().includes(q))
+      results.push({ icon:'🎯', title:l.name, sub:l.signal, action:() => switchView('tenant-leads') });
+  });
+
+  // Search markets
+  const markets = ['DTLA','Culver City','Santa Monica','Playa Vista','El Segundo','Century City','West Hollywood','Wilshire Corridor','Burbank','Manhattan Beach','SF Financial','SF SOMA','SF Mission','Bellevue WA','Seattle SLU'];
+  markets.forEach(m => {
+    if (m.toLowerCase().includes(q))
+      results.push({ icon:'📍', title:m, sub:'Submarket', action:() => { switchView('dashboard'); setTimeout(() => showHeatmapDetail(m), 300); } });
+  });
+
+  // Search pages
+  const pages = [
+    { name:'Morning Brief', view:'morning-brief' }, { name:'Agent Fleet', view:'agent-fleet' },
+    { name:'Deal Pipeline', view:'pipeline' }, { name:'Market Intelligence', view:'market-intel' },
+    { name:'Tenant Leads', view:'tenant-leads' }, { name:'West Coast Report', view:'west-coast-report' },
+    { name:'Submarket Tracker', view:'submarket-tracker' }, { name:'Portfolio Analysis', view:'portfolio-analysis' },
+    { name:'Preferences', view:'preferences' }, { name:'Brief Schedule', view:'brief-schedule' }
+  ];
+  pages.forEach(p => {
+    if (p.name.toLowerCase().includes(q))
+      results.push({ icon:'📄', title:p.name, sub:'Page', action:() => switchView(p.view) });
+  });
+
+  if (results.length === 0) return;
+
+  const dropdown = document.createElement('div');
+  dropdown.id = 'search-results';
+  dropdown.style.cssText = 'position:absolute;top:100%;left:0;width:320px;max-height:320px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:100;margin-top:4px;';
+  results.slice(0, 8).forEach(r => {
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;gap:10px;align-items:center;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.15s;';
+    item.onmouseenter = () => item.style.background = 'var(--surface-2)';
+    item.onmouseleave = () => item.style.background = 'transparent';
+    item.innerHTML = `<span style="font-size:14px;">${r.icon}</span><div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.title}</div><div style="font-size:10px;color:var(--text-dim);">${r.sub}</div></div>`;
+    item.onmousedown = (e) => { e.preventDefault(); r.action(); document.getElementById('global-search').value = ''; dropdown.remove(); };
+    dropdown.appendChild(item);
+  });
+  document.getElementById('global-search-wrap').appendChild(dropdown);
+}
+
 // ─── AGENT CHAT BOT ───
 const agentChatKnowledge = {
   'snap': 'Snap Inc. is vacating 42K SF at 2101 Colorado Ave in Santa Monica. Their lease expires Q2 2026. Intel Agent identified 3 TAMI tenants in the same submarket actively searching for space. First-mover window is approximately 6 weeks. The space features open floor plans and ocean proximity.',
@@ -4231,7 +4315,7 @@ function renderAgentFleet() {
   const agents = [
     { icon: '🌐', name: 'Market Intel Agent', status: 'Active', tasks: '4 updates today', desc: 'Monitors vacancy rates, comps, listing activity, and market shifts across your selected submarkets. Pulls live data from connected commercial real estate databases and public records.', config: { markets: '15 submarkets', frequency: 'Realtime', lastRun: '2 min ago' }, sources: [ { name: 'CoStar Group', type: 'Premium', status: 'connected', desc: 'Vacancy, rents, comps, building data' }, { name: 'LoopNet', type: 'Premium', status: 'connected', desc: 'Active listings, asking rents' }, { name: 'County Recorder', type: 'Public', status: 'connected', desc: 'Deed transfers, lease recordings' }, { name: 'Census / BLS', type: 'Public', status: 'connected', desc: 'Employment, demographic data' } ] },
     { icon: '🎯', name: 'Lead Finder Agent', status: 'Active', tasks: '3 leads found', desc: 'Identifies high-intent tenant signals — job postings, LLC filings, lease expirations, and expansion indicators. Cross-references multiple employment and corporate filing databases.', config: { markets: 'LA Metro, SF Metro', frequency: 'Hourly', lastRun: '14 min ago' }, sources: [ { name: 'Indeed / LinkedIn', type: 'Aggregated', status: 'connected', desc: 'Job postings, headcount signals' }, { name: 'Secretary of State', type: 'Public', status: 'connected', desc: 'LLC filings, entity registrations' }, { name: 'SEC / EDGAR', type: 'Public', status: 'connected', desc: 'Public company filings, 10-K reports' }, { name: 'WeWork Occupancy API', type: 'Premium', status: 'connected', desc: 'Badge-in data, flex space utilization' } ] },
-    { icon: '📋', name: 'LOI Review Agent', status: 'Active', tasks: '1 doc reviewed', desc: 'Reviews LOIs and lease documents against your gold standard template. Flags non-standard clauses and generates redlines. Uses NLP to compare clause-by-clause against your approved language.', config: { template: 'Savills Gold Standard v3', autoFlag: 'Co-tenancy, Assignment, Exclusivity', lastRun: '31 min ago' }, sources: [ { name: 'Your Document Library', type: 'Private', status: 'connected', desc: 'Gold standard templates, past LOIs' }, { name: 'LexisNexis', type: 'Premium', status: 'available', desc: 'Legal precedent, clause analysis' } ] },
+    { icon: '📋', name: 'LOI Review Agent', status: 'Active', tasks: '1 doc reviewed', desc: 'Reviews LOIs and lease documents against your gold standard template. Flags non-standard clauses and generates redlines. Uses NLP to compare clause-by-clause against your approved language.', config: { template: 'LandMarq Gold Standard v3', autoFlag: 'Co-tenancy, Assignment, Exclusivity', lastRun: '31 min ago' }, sources: [ { name: 'Your Document Library', type: 'Private', status: 'connected', desc: 'Gold standard templates, past LOIs' }, { name: 'LexisNexis', type: 'Premium', status: 'available', desc: 'Legal precedent, clause analysis' } ] },
     { icon: '✉️', name: 'Outreach Agent', status: 'Drafting', tasks: '1 draft in progress', desc: 'Generates personalized tenant pitches using deal history, tenant preferences, and property data. Can integrate with your CRM and email system to send directly.', config: { tone: 'Professional, Consultative', approval: 'Required before send', lastRun: 'Now' }, sources: [ { name: 'Your CRM', type: 'Integration', status: 'available', desc: 'Salesforce, HubSpot, or custom CRM' }, { name: 'Email Provider', type: 'Integration', status: 'available', desc: 'Gmail, Outlook, or SMTP' }, { name: 'Deal History', type: 'Private', status: 'connected', desc: 'Past outreach performance, response rates' } ] },
     { icon: '📡', name: 'Zoning Monitor', status: 'Active', tasks: '1 zoning alert', desc: 'Monitors government portals for permit filings, zoning variances, and entitlement changes. Scans municipal planning department sites and public hearing agendas.', config: { markets: 'SM, Culver City, Burbank, DTLA', types: 'Variance, Permit, Use Change', lastRun: '1 hr ago' }, sources: [ { name: 'Municipal Planning Portals', type: 'Public', status: 'connected', desc: 'LA, SM, Burbank, Culver City' }, { name: 'Building & Safety', type: 'Public', status: 'connected', desc: 'Permit applications, plan checks' } ] },
     { icon: '🏛️', name: 'Macro Analyst', status: 'Triggered', tasks: 'Rate watch active', desc: 'Tracks macroeconomic signals — interest rates, cap rates, inflation, and their projected impact on CRE valuations. Uses proprietary models to project cap rate movement.', config: { signals: 'Fed Funds, 10Y, CPI', threshold: '±25bps', lastRun: '1.5 hr ago' }, sources: [ { name: 'Federal Reserve (FRED)', type: 'Public', status: 'connected', desc: 'Interest rates, monetary policy' }, { name: 'Bloomberg Terminal', type: 'Premium', status: 'available', desc: 'Real-time market data, analytics' }, { name: 'CBRE Econometric Advisors', type: 'Premium', status: 'available', desc: 'CRE-specific forecasting models' } ] }
