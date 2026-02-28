@@ -3797,6 +3797,21 @@ function editableRow(label, value, id, type='text', options) {
   </div>`;
 }
 
+// ─── LOCALSTORAGE SETTINGS SYSTEM ───
+function getLmqSettings() {
+  try {
+    return JSON.parse(localStorage.getItem('lmq_settings') || '{}');
+  } catch(e) {
+    return {};
+  }
+}
+
+function setLmqSettings(s) {
+  try {
+    localStorage.setItem('lmq_settings', JSON.stringify(s));
+  } catch(e) {}
+}
+
 function markSettingChanged(el) {
   el.style.borderColor = 'var(--gold)';
   const saveBtn = document.getElementById('settings-save-btn');
@@ -3804,6 +3819,87 @@ function markSettingChanged(el) {
 }
 
 function saveSettings() {
+  const settings = getLmqSettings();
+
+  // Profile fields
+  const profileFields = ['pref-name', 'pref-company', 'pref-title', 'pref-email'];
+  profileFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) settings[fieldId] = el.value;
+  });
+
+  // Morning Brief fields
+  const briefFields = ['pref-brief-time', 'pref-tz', 'pref-brief-freq', 'pref-delivery'];
+  briefFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) settings[fieldId] = el.value;
+  });
+
+  // Notifications & Alerts fields
+  const notifFields = ['pref-alert-threshold', 'pref-email-notif', 'pref-browser-notif', 'pref-slack-notif', 'pref-digest'];
+  notifFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) {
+      settings[fieldId] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+  });
+
+  // Markets & Coverage fields
+  const marketFields = ['pref-metro', 'pref-submarkets', 'pref-types', 'pref-industries'];
+  marketFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) settings[fieldId] = el.value;
+  });
+
+  // Agent Configuration fields
+  const agentFields = ['pref-agent-intel', 'pref-agent-lead', 'pref-agent-loi', 'pref-agent-outreach', 'pref-agent-zoning', 'pref-agent-macro'];
+  agentFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) settings[fieldId] = el.checked;
+  });
+
+  // Data & Privacy fields
+  const privacyFields = ['pref-retention', 'pref-share-analytics'];
+  privacyFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) {
+      settings[fieldId] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+  });
+
+  // Brief Schedule fields
+  const schedFields = ['sched-morning-time', 'sched-morning-days', 'sched-morning-delivery', 'sched-morning-market', 'sched-morning-agents', 'sched-morning-pipeline', 'sched-weekly-day', 'sched-weekly-time', 'sched-weekly-enabled', 'sched-realtime', 'sched-min-priority', 'sched-quiet', 'sched-weekend'];
+  schedFields.forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) {
+      settings[fieldId] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+  });
+
+  // Save to localStorage
+  setLmqSettings(settings);
+
+  // Update sidebar with new profile info
+  const nameEl = document.querySelector('#nav-profile .user-name');
+  const titleEl = document.querySelector('#nav-profile .user-title');
+  const avatarEl = document.querySelector('#nav-profile .user-avatar');
+
+  const newName = settings['pref-name'];
+  const newTitle = settings['pref-title'];
+  const newCompany = settings['pref-company'];
+  const newEmail = settings['pref-email'];
+
+  if (newName && nameEl) {
+    nameEl.textContent = newName;
+    if (avatarEl) avatarEl.textContent = newName.charAt(0).toUpperCase();
+  }
+
+  if (titleEl) {
+    const titleDisplay = newTitle && newCompany ? `${newTitle} · ${newCompany}` : (newTitle || newEmail || titleEl.textContent);
+    titleEl.textContent = titleDisplay;
+  }
+
+  // Show success feedback
   const saveBtn = document.getElementById('settings-save-btn');
   if (saveBtn) {
     saveBtn.textContent = '✓ Saved';
@@ -3811,19 +3907,24 @@ function saveSettings() {
     setTimeout(() => { saveBtn.textContent = 'Save Changes'; saveBtn.style.background = 'var(--gold)'; saveBtn.style.opacity = '0.5'; saveBtn.disabled = true; }, 2000);
   }
   const toast = document.getElementById('toast');
-  toast.innerHTML = `<div class="toast-icon">✅</div><div class="toast-text"><strong>Settings saved.</strong> Changes will take effect immediately.</div>`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
+  if (toast) {
+    toast.innerHTML = `<div class="toast-icon">✅</div><div class="toast-text"><strong>Settings saved.</strong> Changes will take effect immediately.</div>`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
 }
 
 // ─── MORNING BRIEF VIEW ───
 function renderMorningBrief() {
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const s = getLmqSettings();
+  const greeting = s['pref-name'] || document.querySelector('#nav-profile .user-name')?.textContent || 'there';
+  const firstName = greeting.split(' ')[0];
   return `<div style="max-width:900px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Good morning, Mark</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);">Good morning, ${firstName}</div>
         <div style="font-size:12px;color:var(--gold);margin-top:4px;">${dateStr} · 3 items need your attention today</div>
       </div>
       <div style="display:flex;gap:8px;">
@@ -5103,46 +5204,52 @@ function renderPortfolioAnalysis() {
 
 // ─── SETTINGS VIEWS ───
 function renderPreferences() {
+  const s = getLmqSettings();
+  const nameEl = document.querySelector('#nav-profile .user-name');
+  const titleEl = document.querySelector('#nav-profile .user-title');
+  const defaultName = s['pref-name'] || (nameEl ? nameEl.textContent : 'Your Name');
+  const defaultEmail = s['pref-email'] || (document.querySelector('#nav-profile')?.getAttribute('data-email') || '');
+
   return `<div style="max-width:700px;">
     <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);margin-bottom:4px;">Settings & Preferences</div>
     <div style="font-size:12px;color:var(--text-dim);margin-bottom:20px;">Customize your LandMarq experience</div>
     ${viewSection('Profile')}
     ${viewCard(
-      editableRow('Display Name', 'Mark Sullivan', 'pref-name')
-      + editableRow('Company', 'Savills North America', 'pref-company')
-      + editableRow('Title', 'Executive Vice President', 'pref-title')
-      + editableRow('Email', 'msullivan@savills.com', 'pref-email', 'email')
+      editableRow('Display Name', s['pref-name'] || defaultName, 'pref-name')
+      + editableRow('Company', s['pref-company'] || '', 'pref-company')
+      + editableRow('Title', s['pref-title'] || '', 'pref-title')
+      + editableRow('Email', s['pref-email'] || defaultEmail, 'pref-email', 'email')
     )}
     ${viewSection('Morning Brief')}
     ${viewCard(
-      editableRow('Delivery Time', '06:00', 'pref-brief-time', 'time')
-      + editableRow('Timezone', 'America/Los_Angeles', 'pref-tz', 'select', ['America/Los_Angeles', 'America/New_York', 'America/Chicago', 'America/Denver', 'UTC'])
-      + editableRow('Frequency', 'Daily', 'pref-brief-freq', 'select', ['Daily', 'Weekdays Only', 'Mon/Wed/Fri', 'Weekly (Monday)'])
-      + editableRow('Delivery Method', 'Dashboard + Email', 'pref-delivery', 'select', ['Dashboard Only', 'Dashboard + Email', 'Dashboard + Email + Slack', 'Email Only'])
+      editableRow('Delivery Time', s['pref-brief-time'] || '06:00', 'pref-brief-time', 'time')
+      + editableRow('Timezone', s['pref-tz'] || 'America/Los_Angeles', 'pref-tz', 'select', ['America/Los_Angeles', 'America/New_York', 'America/Chicago', 'America/Denver', 'UTC'])
+      + editableRow('Frequency', s['pref-brief-freq'] || 'Daily', 'pref-brief-freq', 'select', ['Daily', 'Weekdays Only', 'Mon/Wed/Fri', 'Weekly (Monday)'])
+      + editableRow('Delivery Method', s['pref-delivery'] || 'Dashboard + Email', 'pref-delivery', 'select', ['Dashboard Only', 'Dashboard + Email', 'Dashboard + Email + Slack', 'Email Only'])
     )}
     ${viewSection('Notifications & Alerts')}
     ${viewCard(
-      editableRow('Alert Priority Threshold', 'Medium + High', 'pref-alert-threshold', 'select', ['All Alerts', 'Medium + High', 'High Only', 'Critical Only'])
-      + editableRow('Email Notifications', true, 'pref-email-notif', 'toggle')
-      + editableRow('Browser Notifications', true, 'pref-browser-notif', 'toggle')
-      + editableRow('Slack Notifications', false, 'pref-slack-notif', 'toggle')
-      + editableRow('Daily Digest Email', true, 'pref-digest', 'toggle')
+      editableRow('Alert Priority Threshold', s['pref-alert-threshold'] || 'Medium + High', 'pref-alert-threshold', 'select', ['All Alerts', 'Medium + High', 'High Only', 'Critical Only'])
+      + editableRow('Email Notifications', s['pref-email-notif'] !== undefined ? s['pref-email-notif'] : true, 'pref-email-notif', 'toggle')
+      + editableRow('Browser Notifications', s['pref-browser-notif'] !== undefined ? s['pref-browser-notif'] : true, 'pref-browser-notif', 'toggle')
+      + editableRow('Slack Notifications', s['pref-slack-notif'] !== undefined ? s['pref-slack-notif'] : false, 'pref-slack-notif', 'toggle')
+      + editableRow('Daily Digest Email', s['pref-digest'] !== undefined ? s['pref-digest'] : true, 'pref-digest', 'toggle')
     )}
     ${viewSection('Markets & Coverage')}
     ${viewCard(
-      editableRow('Primary Metro', 'Los Angeles', 'pref-metro', 'select', ['Los Angeles', 'San Francisco', 'Seattle', 'Phoenix', 'Denver', 'All West Coast'])
-      + editableRow('Monitored Submarkets', '15', 'pref-submarkets')
-      + editableRow('Property Types', 'Office, Industrial', 'pref-types', 'select', ['Office Only', 'Office, Industrial', 'Office, Industrial, Retail', 'All Types'])
-      + editableRow('Industry Focus', 'TAMI, Healthcare, Financial', 'pref-industries')
+      editableRow('Primary Metro', s['pref-metro'] || 'Los Angeles', 'pref-metro', 'select', ['Los Angeles', 'San Francisco', 'Seattle', 'Phoenix', 'Denver', 'All West Coast'])
+      + editableRow('Monitored Submarkets', s['pref-submarkets'] || '15', 'pref-submarkets')
+      + editableRow('Property Types', s['pref-types'] || 'Office, Industrial', 'pref-types', 'select', ['Office Only', 'Office, Industrial', 'Office, Industrial, Retail', 'All Types'])
+      + editableRow('Industry Focus', s['pref-industries'] || 'TAMI, Healthcare, Financial', 'pref-industries')
     )}
     ${viewSection('Agent Configuration')}
     ${viewCard(
-      editableRow('Intel Agent', true, 'pref-agent-intel', 'toggle')
-      + editableRow('Lead Finder', true, 'pref-agent-lead', 'toggle')
-      + editableRow('LOI Review', true, 'pref-agent-loi', 'toggle')
-      + editableRow('Outreach Agent', true, 'pref-agent-outreach', 'toggle')
-      + editableRow('Zoning Monitor', true, 'pref-agent-zoning', 'toggle')
-      + editableRow('Macro Analyst', true, 'pref-agent-macro', 'toggle')
+      editableRow('Intel Agent', s['pref-agent-intel'] !== undefined ? s['pref-agent-intel'] : true, 'pref-agent-intel', 'toggle')
+      + editableRow('Lead Finder', s['pref-agent-lead'] !== undefined ? s['pref-agent-lead'] : true, 'pref-agent-lead', 'toggle')
+      + editableRow('LOI Review', s['pref-agent-loi'] !== undefined ? s['pref-agent-loi'] : true, 'pref-agent-loi', 'toggle')
+      + editableRow('Outreach Agent', s['pref-agent-outreach'] !== undefined ? s['pref-agent-outreach'] : true, 'pref-agent-outreach', 'toggle')
+      + editableRow('Zoning Monitor', s['pref-agent-zoning'] !== undefined ? s['pref-agent-zoning'] : true, 'pref-agent-zoning', 'toggle')
+      + editableRow('Macro Analyst', s['pref-agent-macro'] !== undefined ? s['pref-agent-macro'] : true, 'pref-agent-macro', 'toggle')
     )}
     ${viewSection('Plan & Billing')}
     ${viewCard(
@@ -5153,8 +5260,8 @@ function renderPreferences() {
     )}
     ${viewSection('Data & Privacy')}
     ${viewCard(
-      editableRow('Data Retention', '12 months', 'pref-retention', 'select', ['6 months', '12 months', '24 months', 'Indefinite'])
-      + editableRow('Share Analytics with Team', true, 'pref-share-analytics', 'toggle')
+      editableRow('Data Retention', s['pref-retention'] || '12 months', 'pref-retention', 'select', ['6 months', '12 months', '24 months', 'Indefinite'])
+      + editableRow('Share Analytics with Team', s['pref-share-analytics'] !== undefined ? s['pref-share-analytics'] : true, 'pref-share-analytics', 'toggle')
       + `<div style="display:flex;gap:8px;margin-top:12px;">
         <button onclick="exportMyData()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Export My Data</button>
         <button onclick="deleteAccountPrompt()" style="padding:8px 16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:4px;color:var(--red);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Delete Account</button>
@@ -5225,30 +5332,31 @@ function deleteAccountPrompt() {
 }
 
 function renderBriefSchedule() {
+  const s = getLmqSettings();
   return `<div style="max-width:700px;">
     <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);margin-bottom:4px;">Brief Schedule</div>
     <div style="font-size:12px;color:var(--text-dim);margin-bottom:20px;">Configure when and how your intelligence briefs are delivered</div>
     ${viewSection('Morning Brief')}
     ${viewCard(
-      editableRow('Delivery Time', '06:00', 'sched-morning-time', 'time')
-      + editableRow('Days', 'Weekdays Only', 'sched-morning-days', 'select', ['Every Day', 'Weekdays Only', 'Mon/Wed/Fri', 'Monday Only'])
-      + editableRow('Delivery', 'Dashboard + Email', 'sched-morning-delivery', 'select', ['Dashboard Only', 'Dashboard + Email', 'Email Only'])
-      + editableRow('Include Market Data', true, 'sched-morning-market', 'toggle')
-      + editableRow('Include Agent Activity', true, 'sched-morning-agents', 'toggle')
-      + editableRow('Include Pipeline Updates', true, 'sched-morning-pipeline', 'toggle')
+      editableRow('Delivery Time', s['sched-morning-time'] || '06:00', 'sched-morning-time', 'time')
+      + editableRow('Days', s['sched-morning-days'] || 'Weekdays Only', 'sched-morning-days', 'select', ['Every Day', 'Weekdays Only', 'Mon/Wed/Fri', 'Monday Only'])
+      + editableRow('Delivery', s['sched-morning-delivery'] || 'Dashboard + Email', 'sched-morning-delivery', 'select', ['Dashboard Only', 'Dashboard + Email', 'Email Only'])
+      + editableRow('Include Market Data', s['sched-morning-market'] !== undefined ? s['sched-morning-market'] : true, 'sched-morning-market', 'toggle')
+      + editableRow('Include Agent Activity', s['sched-morning-agents'] !== undefined ? s['sched-morning-agents'] : true, 'sched-morning-agents', 'toggle')
+      + editableRow('Include Pipeline Updates', s['sched-morning-pipeline'] !== undefined ? s['sched-morning-pipeline'] : true, 'sched-morning-pipeline', 'toggle')
     )}
     ${viewSection('Weekly Digest')}
     ${viewCard(
-      editableRow('Delivery Day', 'Monday', 'sched-weekly-day', 'select', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
-      + editableRow('Delivery Time', '08:00', 'sched-weekly-time', 'time')
-      + editableRow('Enabled', true, 'sched-weekly-enabled', 'toggle')
+      editableRow('Delivery Day', s['sched-weekly-day'] || 'Monday', 'sched-weekly-day', 'select', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+      + editableRow('Delivery Time', s['sched-weekly-time'] || '08:00', 'sched-weekly-time', 'time')
+      + editableRow('Enabled', s['sched-weekly-enabled'] !== undefined ? s['sched-weekly-enabled'] : true, 'sched-weekly-enabled', 'toggle')
     )}
     ${viewSection('Alert Notifications')}
     ${viewCard(
-      editableRow('Realtime Alerts', true, 'sched-realtime', 'toggle')
-      + editableRow('Minimum Priority', 'Medium', 'sched-min-priority', 'select', ['Low', 'Medium', 'High', 'Critical Only'])
-      + editableRow('Quiet Hours', '10:00 PM - 6:00 AM', 'sched-quiet')
-      + editableRow('Weekend Alerts', false, 'sched-weekend', 'toggle')
+      editableRow('Realtime Alerts', s['sched-realtime'] !== undefined ? s['sched-realtime'] : true, 'sched-realtime', 'toggle')
+      + editableRow('Minimum Priority', s['sched-min-priority'] || 'Medium', 'sched-min-priority', 'select', ['Low', 'Medium', 'High', 'Critical Only'])
+      + editableRow('Quiet Hours', s['sched-quiet'] || '10:00 PM - 6:00 AM', 'sched-quiet')
+      + editableRow('Weekend Alerts', s['sched-weekend'] !== undefined ? s['sched-weekend'] : false, 'sched-weekend', 'toggle')
     )}
     <button id="settings-save-btn" onclick="saveSettings()" style="width:100%;margin-top:16px;padding:14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:14px;cursor:pointer;opacity:0.5;" disabled>Save Changes</button>
     <div style="margin-top:20px;text-align:center;"><button onclick="switchView('dashboard')" style="padding:10px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">← Back to Dashboard</button></div>
@@ -5471,6 +5579,14 @@ if (streamEl) {
     if (avatarEl) avatarEl.textContent = initials;
     if (nameEl) nameEl.textContent = displayName;
     if (titleEl) titleEl.textContent = email;
+
+    // Initialize localStorage settings from Supabase if not already set
+    const existing = getLmqSettings();
+    if (!existing['pref-name'] && displayName) {
+      existing['pref-name'] = displayName;
+      existing['pref-email'] = email;
+      setLmqSettings(existing);
+    }
 
     // Show the page
     document.body.classList.add('auth-ready');
