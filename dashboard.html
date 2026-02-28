@@ -1475,6 +1475,10 @@ body {
     <div class="nav-item active" id="nav-brief">
       <span class="nav-icon">◈</span> Morning Brief
     </div>
+    <div class="nav-item" id="nav-ai" style="position:relative;">
+      <span class="nav-icon">✦</span> AI Assistant
+      <span class="nav-badge gold" style="font-size:7px;padding:2px 5px;">AI</span>
+    </div>
     <div class="nav-item" id="nav-agents">
       <span class="nav-icon">⬡</span> Agent Fleet
       <span class="nav-badge green">6</span>
@@ -1524,7 +1528,7 @@ body {
         <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-dim);pointer-events:none;">🔍</span>
         <div id="search-results-anchor" style="position:absolute;top:100%;left:0;width:320px;z-index:100;"></div>
       </div>
-      <button onclick="openAIPanel()" style="padding:6px 14px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border:none;border-radius:6px;color:#0A0C0E;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.2s;white-space:nowrap;" title="Ask AI (⌘K)"><span style="font-size:13px;">✦</span> Ask AI</button>
+      <button onclick="switchView('ai-assistant')" style="padding:6px 14px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border:none;border-radius:6px;color:#0A0C0E;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.2s;white-space:nowrap;" title="Ask AI"><span style="font-size:13px;">✦</span> Ask AI</button>
       <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
       <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
       <div class="icon-btn theme-toggle" id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer;font-size:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;" title="Toggle Light/Dark Mode">🌙</div>
@@ -4510,6 +4514,7 @@ function switchView(viewName) {
 
   const views = {
     'morning-brief': renderMorningBrief,
+    'ai-assistant': renderAIAssistant,
     'agent-fleet': renderAgentFleet,
     'pipeline': renderPipeline,
     'market-intel': renderMarketIntel,
@@ -4535,6 +4540,7 @@ function switchView(viewName) {
 function getViewTitle(view) {
   const titles = {
     'morning-brief': "Today's Morning Brief",
+    'ai-assistant': 'AI Assistant',
     'agent-fleet': 'Agent Fleet',
     'pipeline': 'Deal Pipeline',
     'market-intel': 'Market Intelligence',
@@ -4694,6 +4700,130 @@ function saveSettings() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
   }
+}
+
+// ─── AI ASSISTANT VIEW ───
+let aiPageHistory = [];
+
+function renderAIAssistant() {
+  const s = getLmqSettings();
+  const userName = (s['pref-name'] || 'there').split(' ')[0];
+
+  return `<div style="max-width:900px;margin:0 auto;height:calc(100vh - 140px);display:flex;flex-direction:column;">
+    <div style="text-align:center;padding:20px 0 8px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span style="color:var(--gold);font-size:24px;">✦</span> LandMarq AI
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.12em;margin-top:4px;">INTELLIGENCE ASSISTANT · 6 AGENTS CONNECTED · ALL DATA SOURCES LIVE</div>
+    </div>
+
+    <div id="ai-page-messages" style="flex:1;overflow-y:auto;padding:20px 0;display:flex;flex-direction:column;gap:14px;">
+      <div style="text-align:center;padding:30px 40px;">
+        <div style="font-size:15px;color:var(--cream);margin-bottom:6px;">Good ${new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, ${userName}.</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.6;max-width:500px;margin:0 auto;">I have access to your entire dashboard — 14 active deals worth $218M, vacancy data across ${getUserMarkets().length || 15} submarkets, 31 agent-sourced leads, and all 6 AI agents. Ask me anything.</div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 20px;">
+        <button onclick="sendAIPageMsg('Compare my pipeline with the submarket pulse and rank my top 5 deals')" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;text-align:left;max-width:260px;transition:all 0.2s;line-height:1.4;" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:3px;">📊 Pipeline vs. Markets</div>
+          Compare pipeline with submarket pulse and rank top deals
+        </button>
+        <button onclick="sendAIPageMsg('Which deals are at risk and what should I do about them?')" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;text-align:left;max-width:260px;transition:all 0.2s;line-height:1.4;" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:3px;">⚠️ Risk Assessment</div>
+          Which deals are at risk and what should I do?
+        </button>
+        <button onclick="sendAIPageMsg('Give me a full market overview comparing LA, SF, and Seattle')" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;text-align:left;max-width:260px;transition:all 0.2s;line-height:1.4;" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:3px;">🗺️ Market Overview</div>
+          Full market comparison: LA vs SF vs Seattle
+        </button>
+        <button onclick="sendAIPageMsg('What are my agents doing right now and what have they found today?')" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--cream);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;text-align:left;max-width:260px;transition:all 0.2s;line-height:1.4;" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:3px;">🤖 Agent Activity</div>
+          What are my agents doing and what have they found?
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:12px 0 16px;border-top:1px solid var(--border);">
+      <div style="display:flex;gap:10px;align-items:flex-end;max-width:800px;margin:0 auto;">
+        <textarea id="ai-page-input" rows="1" placeholder="Ask anything about your deals, markets, leads, agents..." style="flex:1;padding:14px 18px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;color:var(--cream);font-family:'Syne',sans-serif;font-size:13px;line-height:1.5;resize:none;outline:none;max-height:150px;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIPageMsg()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,150)+'px'"></textarea>
+        <button onclick="sendAIPageMsg()" style="padding:14px 20px;background:var(--gold);color:#0A0C0E;border:none;border-radius:10px;font-size:16px;cursor:pointer;font-weight:700;min-width:50px;transition:all 0.2s;">→</button>
+      </div>
+      <div style="text-align:center;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.08em;">Powered by Claude · Data from 12 connected sources · ⌘K for quick access anywhere</div>
+    </div>
+  </div>`;
+}
+
+async function sendAIPageMsg(prefill) {
+  const input = document.getElementById('ai-page-input');
+  const msgs = document.getElementById('ai-page-messages');
+  const query = prefill || (input ? input.value.trim() : '');
+  if (!query) return;
+
+  // Clear welcome content on first message
+  if (aiPageHistory.length === 0) {
+    msgs.innerHTML = '';
+  }
+
+  // Add user message
+  msgs.innerHTML += `<div style="display:flex;justify-content:flex-end;padding:0 20px;">
+    <div style="background:var(--gold);color:#0A0C0E;padding:12px 18px;border-radius:14px 14px 4px 14px;max-width:70%;font-size:13px;line-height:1.5;">${query}</div>
+  </div>`;
+  if (input) { input.value = ''; input.style.height = 'auto'; }
+  aiPageHistory.push({ role: 'user', content: query });
+
+  // Typing indicator
+  const typingId = 'ai-page-typing-' + Date.now();
+  msgs.innerHTML += `<div id="${typingId}" style="display:flex;padding:0 20px;">
+    <div style="background:var(--surface);border:1px solid var(--border);padding:14px 18px;border-radius:14px 14px 14px 4px;font-size:13px;color:var(--text-dim);">
+      <span style="display:inline-flex;gap:5px;"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span> Analyzing with 6 agents...
+    </div>
+  </div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Call API
+  let response = '';
+  try {
+    const res = await fetch('/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: query, dashboardContext: gatherDashboardContext() })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      response = data.response;
+    }
+  } catch(e) {
+    console.error('AI page API error:', e);
+  }
+
+  // Fallback to keyword matching
+  if (!response) {
+    const q = query.toLowerCase();
+    for (const [key, val] of Object.entries(agentChatKnowledge)) {
+      if (q.includes(key)) { response = val; break; }
+    }
+    if (!response) response = agentChatKnowledge['pipeline'] || 'I couldn\'t generate a response right now. Please try again.';
+  }
+
+  // Remove typing indicator
+  const typingEl = document.getElementById(typingId);
+  if (typingEl) typingEl.remove();
+
+  aiPageHistory.push({ role: 'assistant', content: response });
+
+  // Generate follow-ups
+  const followUps = generateSmartFollowUps(query);
+
+  // Add AI response
+  msgs.innerHTML += `<div style="display:flex;padding:0 20px;">
+    <div style="background:var(--surface);border:1px solid var(--border);padding:16px 20px;border-radius:14px 14px 14px 4px;max-width:80%;font-size:13px;line-height:1.7;color:var(--cream);">
+      ${response}
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;">
+        ${followUps.map(f => `<button onclick="sendAIPageMsg('${f.replace(/'/g, "\\'")}')" style="padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)'">${f}</button>`).join('')}
+      </div>
+    </div>
+  </div>`;
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
 // ─── MORNING BRIEF VIEW ───
@@ -6217,6 +6347,7 @@ function rebindDashboardEvents() {
   // Sidebar items with IDs — now use view system
   const viewMap = {
     'nav-brief': 'morning-brief',
+    'nav-ai': 'ai-assistant',
     'nav-agents': 'agent-fleet',
     'nav-pipeline': 'pipeline',
     'nav-leads': 'tenant-leads'
