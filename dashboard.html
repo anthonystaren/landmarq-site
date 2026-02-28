@@ -1227,7 +1227,7 @@ body {
         <div class="ob-step-desc">This helps LandMarq personalize your briefings and filter intelligence to what's relevant to your role and focus areas.</div>
         <div class="ob-input-group">
           <label class="ob-label">Your Name</label>
-          <input class="ob-input" id="ob-name" type="text" placeholder="e.g. Mark Sullivan" />
+          <input class="ob-input" id="ob-name" type="text" placeholder="e.g. John Smith" />
         </div>
         <div class="ob-input-group">
           <label class="ob-label">Firm</label>
@@ -2503,6 +2503,76 @@ function shareBrief() {
   );
 }
 
+// ─── DEALS AT RISK MODAL ───
+function showDealsAtRiskModal() {
+  showModal('Risk', 'Deals at Risk — 2 Flagged',
+    `<div style="display:flex;flex-direction:column;gap:12px;">`
+    + `<div style="padding:14px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:6px;cursor:pointer;" onclick="closeModal();switchView('pipeline')">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="font-size:13px;font-weight:600;color:var(--cream);">CloudNine Software</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);padding:2px 8px;background:var(--red-dim);border-radius:2px;">18% PROB</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-mid);margin-bottom:4px;">Playa Vista · 11K SF · $6.8M · Prospect Stage</div>
+        <div style="font-size:11px;color:var(--red);">42 days in stage · stalled — no activity in 3 weeks</div>
+      </div>`
+    + `<div style="padding:14px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-left:3px solid var(--red);border-radius:6px;cursor:pointer;" onclick="closeModal();switchView('pipeline')">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="font-size:13px;font-weight:600;color:var(--cream);">Zenith Healthcare</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);padding:2px 8px;background:var(--red-dim);border-radius:2px;">22% PROB</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-mid);margin-bottom:4px;">Burbank · 7K SF · $3.4M · Prospect Stage</div>
+        <div style="font-size:11px;color:var(--red);">35 days in stage · budget concerns flagged</div>
+      </div>`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;margin-top:12px;">`
+    + `<button onclick="closeModal();switchView('pipeline')" style="flex:1;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">View Full Pipeline</button>`
+    + `<button onclick="closeModal()" style="padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Close</button>`
+    + `</div>`
+  );
+}
+
+// ─── ASK AI FROM MORNING BRIEF ───
+function openBriefAskAI() {
+  showModal('AI Assistant', 'Ask AI Agent',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:12px;">Ask a question about your portfolio, market conditions, or strategic decisions.</div>`
+    + `<input type="text" id="brief-ai-input" placeholder="e.g. What's the status of the Netflix deal?" style="width:100%;padding:12px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--cream);font-family:'Syne',sans-serif;font-size:13px;outline:none;" onkeydown="if(event.key==='Enter')handleBriefAIAsk()" />`
+    + `<button onclick="handleBriefAIAsk()" style="width:100%;margin-top:10px;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Send Question →</button>`
+    + `<div id="brief-ai-response" style="margin-top:12px;display:none;padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.7;"></div>`
+  );
+  setTimeout(() => document.getElementById('brief-ai-input')?.focus(), 100);
+}
+
+function handleBriefAIAsk() {
+  const input = document.getElementById('brief-ai-input');
+  const responseDiv = document.getElementById('brief-ai-response');
+  if (!input || !responseDiv) return;
+  const q = input.value.trim().toLowerCase();
+  if (!q) { input.style.borderColor = 'var(--red)'; input.placeholder = 'Please enter a question'; return; }
+
+  responseDiv.style.display = 'block';
+  responseDiv.innerHTML = '<div style="color:var(--gold);">Analyzing...</div>';
+
+  // Use the same knowledge base as the main AI chat
+  const knowledge = {
+    'netflix': 'Netflix Inc. is in the <strong>Proposal stage</strong> for a 40K SF HQ expansion in Culver City. Deal value: $22M. Probability: 72%. LOI was submitted 12 days ago. Next step: landlord counter-proposal expected within 5 business days.',
+    'snap': 'Snap Inc. is <strong>vacating 42,000 SF</strong> at 2101 Colorado Ave, Santa Monica. Lease expires Q2 2026. Your agents have identified 3 TAMI tenants searching this submarket. First-mover window: ~6 weeks. Priority: <strong style="color:var(--red);">Urgent</strong>.',
+    'pipeline': 'Pipeline value is <strong>$218M</strong> (+12.4% QoQ) with 14 active deals across 8 submarkets. 2 deals are at risk (CloudNine Software, Zenith Healthcare) totaling $10.2M. 3 new deals entered this month. Weighted pipeline: $156.3M.',
+    'vacancy': 'LA metro avg vacancy: <strong>14.2%</strong> (▼0.8% over 90d, improving). SF Financial District: 26.3% (highest in 18 months). Seattle: 10.1% (▼0.8%, recovering). Overall West Coast trend is positive with LA leading recovery.',
+    'apex': 'Apex Capital LOI has <strong>clause mismatches</strong> in Sections 4.2 & 7 — non-standard co-tenancy clause differs from Savills gold template. LOI expiry: Mar 15 (21 days). Priority: High. Recommend immediate review with LOI Agent.',
+    'risk': 'Two deals flagged as at-risk: <strong>CloudNine Software</strong> (18% probability, 42 days in Prospect, stalled) and <strong>Zenith Healthcare</strong> (22% probability, 35 days in Prospect, budget concerns). Combined at-risk value: $10.2M.',
+    'lead': 'Your agents found <strong>31 leads</strong> this month (up from 23). 7 are qualified and ready for outreach. Top signals: TechCo Inc. (40+ job postings, WeWork badge-in +62%), and 3 TAMI tenants matching the Snap vacancy.',
+    'agent': '6 agents are active with 12 tasks completed today. Intel Agent: 4 market updates. Lead Agent: 3 new leads. LOI Agent: 1 document review. Outreach Agent: 1 draft in progress. Permit Agent: 1 zoning alert. Macro Agent: rate watch triggered.',
+  };
+
+  setTimeout(() => {
+    let response = 'I don\'t have specific data on that topic. Try asking about deals, pipeline status, vacancy rates, specific tenants (Netflix, Snap, Apex), leads, agents, or market conditions.';
+    for (const [key, val] of Object.entries(knowledge)) {
+      if (q.includes(key)) { response = val; break; }
+    }
+    responseDiv.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px;">AI RESPONSE</div>` + response;
+  }, 800);
+}
+
 // ─── MORNING BRIEF PRIORITY ACTION HANDLERS ───
 function briefActionSnapOutreach() {
   showModal('Outreach Agent', 'Snap Vacancy — Draft Outreach to 3 Tenants',
@@ -2738,7 +2808,7 @@ function showNotificationsPanel() {
     + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">6h ago</div><button onclick="showDealDetail(2);closeModal();" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">Open →</button></div></div>`
     + `<div data-notif-item data-notif-deal style="padding:12px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;display:flex;justify-content:space-between;align-items:start;cursor:pointer;transition:all 0.2s;">`
     + `<div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div style="width:24px;height:24px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;">📊</div><div><div style="font-size:12px;font-weight:600;color:var(--cream);">New Comp Data — Q4 Rent Survey</div><div style="font-size:10px;color:var(--text-dim);margin-top:1px;">Playa Vista, Culver City, Santa Monica, West LA included</div></div></div></div>`
-    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">8h ago</div><button onclick="closeModal();switchView('reports');" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">View Report →</button></div></div>`
+    + `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div style="font-size:9px;color:var(--text-dim);">8h ago</div><button onclick="closeModal();switchView('west-coast-report');" style="padding:4px 8px;background:var(--gold);color:#0A0C0E;border:none;border-radius:3px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;">View Report →</button></div></div>`
     + `</div>`
     + `<div style="display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px;margin-top:8px;">`
     + `<button onclick="closeModal();showToast('All notifications marked as read')" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Mark All Read</button>`
@@ -3933,27 +4003,27 @@ function renderMorningBrief() {
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;">
-      <div style="padding:16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;cursor:pointer;" onclick="switchView('pipeline')">
+      <div style="padding:16px;background:var(--red-dim);border:1px solid rgba(192,83,58,0.2);border-radius:6px;cursor:pointer;" onclick="showDealsAtRiskModal()">
         <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--red);margin-bottom:8px;font-weight:600;">DEALS AT RISK</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--red);">2</div>
         <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">Total at risk: <strong style="color:var(--red);">$18.5M</strong></div>
       </div>
-      <div style="padding:16px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;cursor:pointer;" onclick="switchView('leads')">
+      <div style="padding:16px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:6px;cursor:pointer;" onclick="switchView('tenant-leads')">
         <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--gold);margin-bottom:8px;font-weight:600;">OPPORTUNITIES</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);">7</div>
         <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">Qualified leads ready</div>
       </div>
-      <div style="padding:16px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;cursor:pointer;" onclick="showAgentFleet()">
+      <div style="padding:16px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;cursor:pointer;" onclick="switchView('agent-fleet')">
         <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.15em;color:var(--green);margin-bottom:8px;font-weight:600;">AGENTS ACTIVE</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--green);">6</div>
-        <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">10 active tasks today</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">12 tasks completed today</div>
       </div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:24px;">
       <button onclick="switchView('pipeline')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">📊 Open Pipeline</button>
-      <button onclick="switchView('leads')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">🎯 Check Leads</button>
+      <button onclick="switchView('tenant-leads')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">🎯 Check Leads</button>
       <button onclick="switchView('market-intel')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">📈 View Reports</button>
-      <button onclick="showModal('AI Assistant','Ask AI Agent','<div style=\"font-size:13px;color:var(--text);line-height:1.6;\">Ask a question about your portfolio, market conditions, or strategic questions.</div><input type=\"text\" placeholder=\"What is the status of the Netflix deal?\" style=\"width:100%;padding:10px;margin-top:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:\\'Syne\\',sans-serif;font-size:12px;\" /><button onclick=\"closeModal();showToast(\\'AI analyzing your question...\\')\" style=\"width:100%;margin-top:12px;padding:10px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:\\'Syne\\',sans-serif;font-size:11px;cursor:pointer;\">Send Question</button>')" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">✨ Ask AI</button>
+      <button onclick="openBriefAskAI()" style="flex:1;padding:10px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;">✨ Ask AI</button>
     </div>
     ${viewSection('Executive Summary')}
     ${viewCard(`<div style="font-size:13px;color:var(--text);line-height:1.8;">
