@@ -36,47 +36,55 @@
 
 /* ─── LIGHT MODE ─── */
 html.light-mode {
-  --bg: #E2DED6;
-  --surface: #EFECE6;
-  --surface-2: #E8E4DC;
-  --surface-3: #DBD6CC;
-  --border: rgba(0,0,0,0.18);
-  --border-gold: rgba(136,100,30,0.4);
-  --gold: #8A6A1E;
-  --gold-dim: rgba(136,100,30,0.12);
-  --gold-bright: #A07A1A;
-  --cream: #1A1A1A;
-  --text: #2C261F;
-  --text-dim: #7A6E60;
-  --text-mid: #5A4F42;
-  --green: #256B42;
-  --green-dim: rgba(37,107,66,0.12);
-  --red: #A03320;
-  --red-dim: rgba(160,51,32,0.12);
-  --blue: #255E80;
-  --blue-dim: rgba(37,94,128,0.12);
-  --amber: #A06420;
+  --bg: #C8C3B8;
+  --surface: #D6D1C7;
+  --surface-2: #CEC9BE;
+  --surface-3: #C0BAB0;
+  --border: rgba(0,0,0,0.22);
+  --border-gold: rgba(100,75,15,0.5);
+  --gold: #6B5010;
+  --gold-dim: rgba(100,75,15,0.15);
+  --gold-bright: #85640A;
+  --cream: #111;
+  --text: #1A1610;
+  --text-dim: #4A4238;
+  --text-mid: #332C22;
+  --green: #1B5533;
+  --green-dim: rgba(27,85,51,0.15);
+  --red: #8B2A18;
+  --red-dim: rgba(139,42,24,0.15);
+  --blue: #1A4E6B;
+  --blue-dim: rgba(26,78,107,0.15);
+  --amber: #8A5510;
 }
 html.light-mode body { background: var(--bg); }
-html.light-mode .sidebar { background: #E8E5DE; border-right: 1px solid var(--border); }
-html.light-mode .topbar { background: #E8E5DE; border-bottom: 1px solid var(--border); }
-html.light-mode .card { box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid var(--border); }
-html.light-mode .kpi-card { box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+html.light-mode .sidebar { background: #CCC7BC; border-right: 1px solid var(--border); }
+html.light-mode .topbar { background: #CCC7BC; border-bottom: 1px solid var(--border); }
+html.light-mode .card { box-shadow: 0 2px 6px rgba(0,0,0,0.1); border: 1px solid var(--border); }
+html.light-mode .kpi-card { box-shadow: 0 2px 6px rgba(0,0,0,0.1); border: 1px solid var(--border); }
 html.light-mode .stage-pill, html.light-mode .market-tag { color: var(--text); }
 html.light-mode .heatmap-cell .heat-market,
 html.light-mode .heatmap-cell .heat-val { color: #fff; }
-html.light-mode .topbar-chip { background: var(--surface-2); border-color: var(--border); }
-html.light-mode .sidebar-nav a.active { background: rgba(136,100,30,0.12); }
-html.light-mode .ob-overlay { background: rgba(0,0,0,0.3); }
-html.light-mode .modal-overlay { background: rgba(0,0,0,0.4); }
+html.light-mode .topbar-chip { background: var(--surface-2); border-color: var(--border); color: var(--text); }
+html.light-mode .sidebar-nav a.active { background: rgba(100,75,15,0.15); color: var(--text); }
+html.light-mode .ob-overlay { background: rgba(0,0,0,0.35); }
+html.light-mode .modal-overlay { background: rgba(0,0,0,0.45); }
 html.light-mode .modal-box { background: var(--surface); border-color: var(--border); }
 html.light-mode #intel-panel { background: var(--surface); }
 html.light-mode .add-intel-btn { background: var(--gold); color: #fff; }
 html.light-mode .theme-toggle { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
 html.light-mode .sidebar-nav a { color: var(--text-mid); }
-html.light-mode .sidebar-nav a:hover { color: var(--text); background: rgba(0,0,0,0.04); }
+html.light-mode .sidebar-nav a:hover { color: var(--text); background: rgba(0,0,0,0.06); }
 html.light-mode .card-title { color: var(--text); }
+html.light-mode .kpi-label { color: var(--text-mid); }
+html.light-mode .kpi-value { color: var(--text); }
+html.light-mode .kpi-sub { color: var(--text-dim); }
 html.light-mode input, html.light-mode textarea, html.light-mode select { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+html.light-mode .pipeline-row td { color: var(--text); }
+html.light-mode .alert-card { border-color: var(--border); }
+html.light-mode .agent-name, html.light-mode .agent-action { color: var(--text); }
+html.light-mode .feed-text { color: var(--text); }
+html.light-mode .feed-meta { color: var(--text-dim); }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
