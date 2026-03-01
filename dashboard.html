@@ -1294,7 +1294,7 @@ body {
     <div class="ob-header">
       <div>
         <div class="ob-logo">Land<span>Marq</span></div>
-        <div class="ob-step-counter" id="ob-counter">Step 1 of 5</div>
+        <div class="ob-step-counter" id="ob-counter">Step 1 of 6</div>
       </div>
     </div>
     <div class="ob-progress"><div class="ob-progress-fill" id="ob-progress" style="width:20%"></div></div>
@@ -1412,18 +1412,54 @@ body {
         </div>
       </div>
 
-      <!-- STEP 5: Ready -->
+      <!-- STEP 5: Add Intelligence -->
       <div class="ob-step" id="ob-step-5">
-        <span class="ob-step-icon" style="font-size:42px;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#B08A3E);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:700;line-height:1;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0A0C0E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>
-        <div class="ob-step-title">You're all set<em id="welcome-name"></em>.</div>
-        <div class="ob-step-desc">Your agents are now running across your selected markets. Your first morning brief will be ready within minutes. As you use the dashboard, click <strong style="color:var(--gold);">+ Add Intelligence</strong> anytime to configure new watches — just tell us in plain English what you want to track.</div>
+        <span class="ob-step-icon">📡</span>
+        <div class="ob-step-title"><em>Add Intelligence</em> — custom watches</div>
+        <div class="ob-step-desc">Click <strong style="color:var(--gold);">+ Add Intelligence</strong> anywhere on your dashboard to set up custom watches. Just describe in plain English what you want to track — LandMarq does the rest.</div>
         <div class="ob-features">
-          <div class="ob-feature"><div class="ob-feature-icon">💬</div><div class="ob-feature-text"><strong>Natural Language</strong>"Show me CRE growth projections in 310 area for tech tenants" — just type it.</div></div>
-          <div class="ob-feature"><div class="ob-feature-icon">🔔</div><div class="ob-feature-text"><strong>Custom Alerts</strong>Set thresholds for vacancy %, interest rate changes, specific submarkets.</div></div>
-          <div class="ob-feature"><div class="ob-feature-icon">📊</div><div class="ob-feature-text"><strong>Daily Brief</strong>Curated to your markets and role. Delivered 6 AM sharp.</div></div>
-          <div class="ob-feature"><div class="ob-feature-icon">🔍</div><div class="ob-feature-text"><strong>Guided Tour</strong>After this, we'll highlight each part of your dashboard.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">💬</div><div class="ob-feature-text"><strong>Natural Language</strong>"Alert me when vacancy drops below 8% in Scottsdale" — just type it.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">🔔</div><div class="ob-feature-text"><strong>Custom Alerts</strong>Set thresholds for vacancy %, rate changes, lease expirations, or deal milestones.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">🏢</div><div class="ob-feature-text"><strong>Tenant Tracking</strong>"Watch for tech companies expanding in my markets" — automatic lead surfacing.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">📊</div><div class="ob-feature-text"><strong>Comp Watches</strong>"Track NNN lease comps above $60 PSF in Century City" — real-time comp alerts.</div></div>
+        </div>
+      </div>
+
+      <!-- STEP 6: Ask AI -->
+      <div class="ob-step" id="ob-step-6">
+        <span class="ob-step-icon">✦</span>
+        <div class="ob-step-title">Ask <em>AI</em> — your CRE copilot<em id="welcome-name"></em></div>
+        <div class="ob-step-desc">LandMarq includes a built-in AI assistant that understands your pipeline, markets, and agents. Ask questions, draft outreach, generate reports — all in real time.</div>
+        <div class="ob-features">
+          <div class="ob-feature"><div class="ob-feature-icon">💬</div><div class="ob-feature-text"><strong>Ask Anything</strong>"Compare vacancy in my markets" or "Which deals are most likely to close?"</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">✉️</div><div class="ob-feature-text"><strong>Draft Outreach</strong>"Write a pitch email for the Apex Capital deal" — ready in seconds.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">📊</div><div class="ob-feature-text"><strong>Market Analysis</strong>"What's happening in Phoenix office market?" — instant intelligence.</div></div>
+          <div class="ob-feature"><div class="ob-feature-icon">📋</div><div class="ob-feature-text"><strong>Shareable Reports</strong>Generate branded market reports for your clients with one click.</div></div>
+        </div>
+        <div style="margin-top:14px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">ENABLE AI FEATURES</div>
+          <div class="ob-agent-grid">
+            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" id="ai-toggle-assistant">
+              <div class="toggle-icon">✦</div>
+              <div class="toggle-info"><div class="toggle-name">AI Assistant</div><div class="toggle-desc">Ask questions, get insights</div></div>
+              <div class="toggle-dot"></div>
+            </div>
+            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" id="ai-toggle-reports">
+              <div class="toggle-icon">📄</div>
+              <div class="toggle-info"><div class="toggle-name">Smart Reports</div><div class="toggle-desc">Auto-generate market reports</div></div>
+              <div class="toggle-dot"></div>
+            </div>
+            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" id="ai-toggle-drafts">
+              <div class="toggle-icon">✉️</div>
+              <div class="toggle-info"><div class="toggle-name">AI Drafting</div><div class="toggle-desc">Outreach emails & LOI summaries</div></div>
+              <div class="toggle-dot"></div>
+            </div>
+            <div class="ob-agent-toggle" onclick="this.classList.toggle('on')" id="ai-toggle-morning">
+              <div class="toggle-icon">☀️</div>
+              <div class="toggle-info"><div class="toggle-name">AI Morning Brief</div><div class="toggle-desc">AI-curated daily summary</div></div>
+              <div class="toggle-dot"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1541,17 +1577,12 @@ body {
 
     <!-- KPI ROW -->
     <div class="kpi-row" id="kpi-row">
-      <div class="kpi-card"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value gold">$218M</div><div class="kpi-delta delta-up">▲ 12.4% <span class="kpi-sub">vs last quarter</span></div></div>
-      <div class="kpi-card"><div class="kpi-label">Active Deals</div><div class="kpi-value">14</div><div class="kpi-delta delta-up">▲ 3 <span class="kpi-sub">this month</span></div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg. LA Office Vacancy</div><div class="kpi-value">14.2%</div><div class="kpi-delta delta-down">▼ 0.8% <span class="kpi-sub">90-day trend</span></div></div>
-      <div class="kpi-card"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value">31</div><div class="kpi-delta delta-up">▲ 8 <span class="kpi-sub">this month</span></div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg. NNN PSF · SF</div><div class="kpi-value">$62</div><div class="kpi-delta delta-up">▲ $1.20 <span class="kpi-sub">MoM</span></div></div>
-      <div class="kpi-card"><div class="kpi-label">Unread Alerts</div><div class="kpi-value">7</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">3 high priority</span></div></div>
+      <!-- Populated dynamically by renderKPICards() -->
     </div>
 
     <!-- HEATMAP -->
     <div class="card heatmap-card" id="heatmap-card">
-      <div class="card-header"><div class="card-title">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;color:var(--gold);">✎ Edit</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
+      <div class="card-header"><div class="card-title">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;color:var(--gold);">✎ Edit</div><div class="card-action" onclick="showShareReportModal()" style="cursor:pointer;color:var(--gold);">↗ Share Report</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
       <div class="heatmap-tabs" id="heatmap-tabs">
         <div class="heatmap-tab active" onclick="switchHeatmapRegion('west-coast',this)">West Coast</div>
         <div class="heatmap-tab" onclick="switchHeatmapRegion('southwest',this)">Southwest</div>
@@ -1593,11 +1624,7 @@ body {
     <div class="card agents-card" id="agent-card">
       <div class="card-header"><div class="card-title">Live Agent Feed</div><div class="card-action" onclick="switchView('agent-fleet')">Full Activity Log →</div></div>
       <div class="agent-stream" id="agentStream">
-        <div class="stream-item"><div class="stream-icon icon-alert">⚡</div><div><div class="stream-text"><strong>Snap Inc.</strong> vacating 42K SF at 2101 Colorado Ave SM — 3 tenants circling.</div><div class="stream-meta"><span class="stream-tag tag-alert">High Priority</span> 2 min ago · Intel Agent</div></div></div>
-        <div class="stream-item"><div class="stream-icon icon-lead">🎯</div><div><div class="stream-text"><strong>TechCo Inc.</strong> (Series C) posted 40+ LA jobs. Office expansion signal.</div><div class="stream-meta"><span class="stream-tag tag-lead">New Lead</span> 14 min ago · Lead Agent</div></div></div>
-        <div class="stream-item"><div class="stream-icon icon-doc">📋</div><div><div class="stream-text"><strong>LOI Agent</strong> flagged non-standard exclusivity clause — Apex Capital draft.</div><div class="stream-meta"><span class="stream-tag tag-doc">Document</span> 31 min ago · LOI Agent</div></div></div>
-        <div class="stream-item"><div class="stream-icon icon-intel">🔍</div><div><div class="stream-text">Zoning variance filed for <strong>1150 S Olive St</strong> — mixed-use conversion.</div><div class="stream-meta"><span class="stream-tag tag-intel">Zoning</span> 1 hr ago · Permit Agent</div></div></div>
-        <div class="stream-item"><div class="stream-icon icon-lead">✉️</div><div><div class="stream-text"><strong>Outreach Agent</strong> drafting personalized pitch for Netflix HQ expansion&nbsp;<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div><div class="stream-meta"><span class="stream-tag tag-lead">In Progress</span> now · Outreach Agent</div></div></div>
+        <!-- Populated dynamically by renderAgentFeed() -->
       </div>
       <!-- AI Bot Chat -->
       <div id="agent-chat" style="border-top:1px solid var(--border);padding:10px 16px 12px;">
@@ -1613,12 +1640,7 @@ body {
     <div class="card alerts-card" id="alerts-card">
       <div class="card-header"><div class="card-title">Priority Alerts</div><div class="card-action">Mark All Read</div></div>
       <div class="alerts-body">
-        <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">Snap vacating 42K SF — Santa Monica</div><div class="alert-body">Lease expires Q2. 3 TAMI tenants in same submarket searching. First-mover window: ~6 weeks.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2m ago</div></div><div class="alert-action-btn">Draft Outreach →</div></div>
-        <div class="alert-item alert-high"><div class="alert-priority">● High Priority</div><div class="alert-title">LOI Clause Mismatch — Apex Capital</div><div class="alert-body">Non-standard "co-tenancy" clause on Sections 4.2 & 7. Differs from LandMarq gold template.</div><div class="alert-footer"><div class="alert-agent">LOI Agent</div><div class="alert-time">31m ago</div></div><div class="alert-action-btn">Review Comparison →</div></div>
-        <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">TechCo Inc. Expansion Signal</div><div class="alert-body">40+ LA job postings. Badge-in at current WeWork up 62%. Likely seeking 15–25K SF.</div><div class="alert-footer"><div class="alert-agent">Lead Agent</div><div class="alert-time">14m ago</div></div><div class="alert-action-btn">View Lead Profile →</div></div>
-        <div class="alert-item alert-med"><div class="alert-priority">◆ Medium</div><div class="alert-title">Interest Rate Watch Triggered</div><div class="alert-body">Fed signals pause. Model projects cap rate compression in industrial by 25bps over 90 days.</div><div class="alert-footer"><div class="alert-agent">Macro Agent</div><div class="alert-time">1h ago</div></div><div class="alert-action-btn">View Impact Report →</div></div>
-        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">Playa Vista Occupancy Up</div><div class="alert-body">Badge-in data: Playa Vista 74% vs. 61% DTLA avg. Tenant preference shifting toward submarket.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">4h ago</div></div><div class="alert-action-btn">View Submarket Data →</div></div>
-        <div class="alert-item alert-low"><div class="alert-priority">▸ Intel Update</div><div class="alert-title">CBRE Deal Closed — Water Garden</div><div class="alert-body">18,500 SF closed. 3 remaining comparable availabilities in SM. Market tightening.</div><div class="alert-footer"><div class="alert-agent">Intel Agent</div><div class="alert-time">2h ago</div></div><div class="alert-action-btn">Update Comp Set →</div></div>
+        <!-- Populated dynamically by renderAlerts() -->
       </div>
     </div>
 
@@ -1626,15 +1648,15 @@ body {
     <div class="sparkline-row">
       <div class="card spark-card" id="spark-deal-value">
         <div class="card-header"><div class="card-title">Deal Value · Q1 2026</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="showSparkDataModal('deal-value')">Edit Data ✎</div></div>
-        <div class="spark-body"><div class="spark-stat"><div class="spark-big" id="spark-deal-big">$218M</div><div class="spark-delta delta-up" id="spark-deal-delta">▲ 12.4%</div></div><div class="spark-main" id="spark-deal-bars"><div class="spark-bar gold-bar" data-val="98" data-label="Mar '25" style="height:45%"></div><div class="spark-bar gold-bar" data-val="131" data-label="Apr '25" style="height:60%"></div><div class="spark-bar gold-bar" data-val="109" data-label="May '25" style="height:50%"></div><div class="spark-bar gold-bar" data-val="153" data-label="Jun '25" style="height:70%"></div><div class="spark-bar gold-bar" data-val="120" data-label="Jul '25" style="height:55%"></div><div class="spark-bar gold-bar" data-val="175" data-label="Aug '25" style="height:80%"></div><div class="spark-bar gold-bar" data-val="142" data-label="Sep '25" style="height:65%"></div><div class="spark-bar gold-bar" data-val="192" data-label="Oct '25" style="height:88%"></div><div class="spark-bar gold-bar" data-val="157" data-label="Nov '25" style="height:72%"></div><div class="spark-bar gold-bar" data-val="197" data-label="Dec '25" style="height:90%"></div><div class="spark-bar gold-bar" data-val="184" data-label="Jan '26" style="height:84%"></div><div class="spark-bar gold-bar current" data-val="218" data-label="Feb '26" style="height:100%"></div></div><div class="spark-labels"><span class="spark-label">Mar '25</span><span class="spark-label">Aug '25</span><span class="spark-label">Feb '26</span></div></div>
+        <div class="spark-body" id="spark-deal-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
       <div class="card spark-card" id="spark-leads">
         <div class="card-header"><div class="card-title">Agent-Sourced Leads · 12mo</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="showSparkDataModal('leads')">Edit Data ✎</div></div>
-        <div class="spark-body"><div class="spark-stat"><div class="spark-big" id="spark-leads-big">31</div><div class="spark-delta delta-up" id="spark-leads-delta">▲ 8 this month</div></div><div class="spark-main" id="spark-leads-bars"><div class="spark-bar green-bar" data-val="9" data-label="Mar '25" style="height:30%"></div><div class="spark-bar green-bar" data-val="12" data-label="Apr '25" style="height:40%"></div><div class="spark-bar green-bar" data-val="11" data-label="May '25" style="height:35%"></div><div class="spark-bar green-bar" data-val="17" data-label="Jun '25" style="height:55%"></div><div class="spark-bar green-bar" data-val="15" data-label="Jul '25" style="height:48%"></div><div class="spark-bar green-bar" data-val="19" data-label="Aug '25" style="height:62%"></div><div class="spark-bar green-bar" data-val="22" data-label="Sep '25" style="height:70%"></div><div class="spark-bar green-bar" data-val="18" data-label="Oct '25" style="height:60%"></div><div class="spark-bar green-bar" data-val="24" data-label="Nov '25" style="height:78%"></div><div class="spark-bar green-bar" data-val="26" data-label="Dec '25" style="height:85%"></div><div class="spark-bar green-bar" data-val="28" data-label="Jan '26" style="height:90%"></div><div class="spark-bar green-bar current" data-val="31" data-label="Feb '26" style="height:100%"></div></div><div class="spark-labels"><span class="spark-label">Mar '25</span><span class="spark-label">Aug '25</span><span class="spark-label">Feb '26</span></div></div>
+        <div class="spark-body" id="spark-leads-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
       <div class="card spark-card" id="spark-vacancy">
         <div class="card-header"><div class="card-title">Vacancy Rate · LA Metro</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="showSparkDataModal('vacancy')">Edit Data ✎</div></div>
-        <div class="spark-body"><div class="spark-stat"><div class="spark-big" id="spark-vacancy-big">14.2%</div><div class="spark-delta delta-down" id="spark-vacancy-delta">▼ 0.8% (90d)</div></div><div class="spark-main" id="spark-vacancy-bars"><div class="spark-bar blue-bar" data-val="17.8" data-label="Mar '25" style="height:100%"></div><div class="spark-bar blue-bar" data-val="17.1" data-label="Apr '25" style="height:96%"></div><div class="spark-bar blue-bar" data-val="16.4" data-label="May '25" style="height:92%"></div><div class="spark-bar blue-bar" data-val="17.5" data-label="Jun '25" style="height:98%"></div><div class="spark-bar blue-bar" data-val="15.7" data-label="Jul '25" style="height:88%"></div><div class="spark-bar blue-bar" data-val="15.2" data-label="Aug '25" style="height:85%"></div><div class="spark-bar blue-bar" data-val="14.6" data-label="Sep '25" style="height:82%"></div><div class="spark-bar blue-bar" data-val="13.9" data-label="Oct '25" style="height:78%"></div><div class="spark-bar blue-bar" data-val="14.3" data-label="Nov '25" style="height:80%"></div><div class="spark-bar blue-bar" data-val="13.2" data-label="Dec '25" style="height:74%"></div><div class="spark-bar blue-bar" data-val="12.5" data-label="Jan '26" style="height:70%"></div><div class="spark-bar blue-bar current" data-val="14.2" data-label="Feb '26" style="height:66%"></div></div><div class="spark-labels"><span class="spark-label">Mar '25</span><span class="spark-label">Aug '25</span><span class="spark-label">Feb '26</span></div></div>
+        <div class="spark-body" id="spark-vacancy-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
     </div>
 
@@ -1645,20 +1667,6 @@ body {
         <table class="pipeline-table" id="dashboard-pipeline-table">
           <thead><tr><th>Tenant</th><th>Market</th><th>SF</th><th>Value</th><th>Stage</th><th>Probability</th><th>Close</th><th></th></tr></thead>
           <tbody id="dashboard-pipeline-tbody">
-            <tr><td><div class="tenant-name">Netflix Inc.</div><div class="tenant-sub">HQ Expansion · TAMI</div></td><td><span class="market-tag">Culver City</span></td><td><span class="size-val">~60K</span></td><td><span class="value-cell">$42M</span></td><td><span class="stage-pill stage-proposal">Proposal</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill green" style="width:72%"></div></div><span class="prob-val">72%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Apr '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Apex Capital Group</div><div class="tenant-sub">Relocation · Financial</div></td><td><span class="market-tag">Century City</span></td><td><span class="size-val">28,500</span></td><td><span class="value-cell">$19M</span></td><td><span class="stage-pill stage-loi">LOI Signed</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill green" style="width:88%"></div></div><span class="prob-val">88%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Mar '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Pinnacle Studios</div><div class="tenant-sub">Expansion · Entertainment</div></td><td><span class="market-tag">Burbank</span></td><td><span class="size-val">45K</span></td><td><span class="value-cell">$30M</span></td><td><span class="stage-pill stage-closing">Closing</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill green" style="width:94%"></div></div><span class="prob-val">94%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Mar '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">TechCo Inc.</div><div class="tenant-sub">New Requirement · SaaS</div></td><td><span class="market-tag">Playa Vista</span></td><td><span class="size-val">~20K</span></td><td><span class="value-cell">$11M</span></td><td><span class="stage-pill stage-qualify">Qualifying</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill amber" style="width:38%"></div></div><span class="prob-val">38%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q3 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">WestShore Media</div><div class="tenant-sub">Expansion · Media</div></td><td><span class="market-tag">Santa Monica</span></td><td><span class="size-val">14,200</span></td><td><span class="value-cell">$8.5M</span></td><td><span class="stage-pill stage-proposal">Proposal</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:61%"></div></div><span class="prob-val">61%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">May '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Meridian Health Partners</div><div class="tenant-sub">New Req. · Healthcare</div></td><td><span class="market-tag">Burbank</span></td><td><span class="size-val">9,000</span></td><td><span class="value-cell">$4.2M</span></td><td><span class="stage-pill stage-prospect">Prospect</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill blue" style="width:24%"></div></div><span class="prob-val">24%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q4 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Summit Legal Group</div><div class="tenant-sub">Expansion · Legal</div></td><td><span class="market-tag">Century City</span></td><td><span class="size-val">18K</span></td><td><span class="value-cell">$16M</span></td><td><span class="stage-pill stage-loi">LOI Signed</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill green" style="width:82%"></div></div><span class="prob-val">82%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Apr '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Horizon Biotech</div><div class="tenant-sub">Expansion · Life Sci</div></td><td><span class="market-tag">El Segundo</span></td><td><span class="size-val">22K</span></td><td><span class="value-cell">$14M</span></td><td><span class="stage-pill stage-qualify">Qualifying</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill amber" style="width:42%"></div></div><span class="prob-val">42%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q3 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Pacific Ventures</div><div class="tenant-sub">Relocation · VC</div></td><td><span class="market-tag">Santa Monica</span></td><td><span class="size-val">12K</span></td><td><span class="value-cell">$7.8M</span></td><td><span class="stage-pill stage-proposal">Proposal</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:55%"></div></div><span class="prob-val">55%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Jun '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Catalyst Media</div><div class="tenant-sub">New Req. · Media</div></td><td><span class="market-tag">Culver City</span></td><td><span class="size-val">8,500</span></td><td><span class="value-cell">$5.1M</span></td><td><span class="stage-pill stage-qualify">Qualifying</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill amber" style="width:35%"></div></div><span class="prob-val">35%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q4 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">CloudNine Software</div><div class="tenant-sub">New Req. · SaaS</div></td><td><span class="market-tag">Playa Vista</span></td><td><span class="size-val">11K</span></td><td><span class="value-cell">$6.8M</span></td><td><span class="stage-pill stage-prospect">Prospect</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill blue" style="width:18%"></div></div><span class="prob-val">18%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">2027</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Verde Architects</div><div class="tenant-sub">Relocation · Design</div></td><td><span class="market-tag">W. Hollywood</span></td><td><span class="size-val">5,500</span></td><td><span class="value-cell">$3.2M</span></td><td><span class="stage-pill stage-proposal">Proposal</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:58%"></div></div><span class="prob-val">58%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">May '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Arclight Partners</div><div class="tenant-sub">Expansion · Finance</div></td><td><span class="market-tag">DTLA</span></td><td><span class="size-val">35K</span></td><td><span class="value-cell">$18M</span></td><td><span class="stage-pill stage-qualify">Qualifying</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill amber" style="width:45%"></div></div><span class="prob-val">45%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q3 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
-            <tr><td><div class="tenant-name">Zenith Healthcare</div><div class="tenant-sub">New Req. · Healthcare</div></td><td><span class="market-tag">Burbank</span></td><td><span class="size-val">7,000</span></td><td><span class="value-cell">$3.4M</span></td><td><span class="stage-pill stage-prospect">Prospect</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill blue" style="width:22%"></div></div><span class="prob-val">22%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">Q4 '26</td><td><div class="action-dots"><span></span><span></span><span></span></div></td></tr>
           </tbody>
         </table>
       </div>
@@ -1863,9 +1871,9 @@ body {
 <script>
 // ─── ONBOARDING ───
 let currentStep = 1;
-const totalSteps = 5;
+const totalSteps = 6;
 
-const stepLabels = ['Get Started', 'Next →', 'Next →', 'Next →', 'Launch Dashboard →'];
+const stepLabels = ['Get Started', 'Next →', 'Next →', 'Next →', 'Next →', 'Launch Dashboard →'];
 
 function nextStep() {
   if (currentStep < totalSteps) {
@@ -1931,14 +1939,26 @@ function finishOnboarding() {
 
   // Save selected agents
   const selectedAgents = [];
-  document.querySelectorAll('.ob-agent-toggle.on .toggle-name').forEach(n => selectedAgents.push(n.textContent.trim()));
+  document.querySelectorAll('#ob-step-4 .ob-agent-toggle.on .toggle-name').forEach(n => selectedAgents.push(n.textContent.trim()));
   if (selectedAgents.length > 0) {
     localStorage.setItem('lmq_agents', JSON.stringify(selectedAgents));
   }
 
+  // Save AI feature preferences
+  const aiFeatures = {};
+  aiFeatures.assistant = document.getElementById('ai-toggle-assistant')?.classList.contains('on') || false;
+  aiFeatures.reports = document.getElementById('ai-toggle-reports')?.classList.contains('on') || false;
+  aiFeatures.drafts = document.getElementById('ai-toggle-drafts')?.classList.contains('on') || false;
+  aiFeatures.morningBrief = document.getElementById('ai-toggle-morning')?.classList.contains('on') || false;
+  localStorage.setItem('lmq_ai_features', JSON.stringify(aiFeatures));
+
   const overlay = document.getElementById('onboarding-overlay');
   overlay.classList.add('hidden');
-  setTimeout(() => { overlay.style.display = 'none'; startTour(); }, 400);
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    initializeDashboard();
+    showDataUploadPrompt();
+  }, 400);
 }
 
 function toggleChip(el) { el.classList.toggle('selected'); }
@@ -1992,6 +2012,18 @@ const tourSteps = [
     title: '+ Add Intelligence',
     desc: 'This is how you tell LandMarq what to watch. Say it in plain English — "track CRE growth in 310 for tech tenants" — and an agent starts immediately.',
     pos: 'bottom'
+  },
+  {
+    target: 'ai-fab',
+    title: 'Ask AI — Your CRE Copilot',
+    desc: 'Click this anytime to ask LandMarq AI a question. "Which deals should I focus on?" "Draft an outreach email." "Compare vacancy across my markets." It knows your entire pipeline and market data.',
+    pos: 'left'
+  },
+  {
+    target: 'nav-ai',
+    title: 'AI Assistant Page',
+    desc: 'For deeper conversations, open the full AI Assistant. It can analyze your deals, draft outreach, generate market reports, and give strategic recommendations — all based on your live data.',
+    pos: 'right'
   }
 ];
 
@@ -3767,32 +3799,77 @@ function askAI(question) {
 // Gather all dashboard data into a context string for the AI
 function gatherDashboardContext() {
   const parts = [];
-  // Pipeline & deals
-  parts.push('PIPELINE: ' + agentChatKnowledge['pipeline']);
-  parts.push('DEALS AT RISK: ' + agentChatKnowledge['risk']);
-  parts.push('CLOSING SOON: ' + agentChatKnowledge['close']);
-  parts.push('REVENUE: ' + agentChatKnowledge['revenue']);
-  parts.push('QoQ COMPARISON: ' + agentChatKnowledge['compare']);
-  // Individual deals
-  ['netflix','apex','arclight','techco','pinnacle','westshore','meridian','summit','horizon','pacific','catalyst','cloudnine','verde','zenith','snap'].forEach(d => {
-    if (agentChatKnowledge[d]) parts.push('DEAL — ' + d.toUpperCase() + ': ' + agentChatKnowledge[d]);
-  });
-  // Markets
-  parts.push('VACANCY OVERVIEW: ' + agentChatKnowledge['vacancy']);
-  parts.push('RENTS: ' + agentChatKnowledge['rent']);
-  parts.push('MARKET OVERVIEW: ' + agentChatKnowledge['market']);
-  parts.push('INTEREST RATES: ' + agentChatKnowledge['interest']);
-  ['dtla','santa monica','culver','playa','sf','seattle'].forEach(m => {
-    if (agentChatKnowledge[m]) parts.push('SUBMARKET — ' + m.toUpperCase() + ': ' + agentChatKnowledge[m]);
-  });
-  // Operations
-  parts.push('LEADS: ' + agentChatKnowledge['leads']);
-  parts.push('AGENTS: ' + agentChatKnowledge['agents']);
-  parts.push('DATA SOURCES: ' + agentChatKnowledge['data']);
-  parts.push('ZONING: ' + agentChatKnowledge['zoning']);
-  parts.push('OUTREACH: ' + agentChatKnowledge['outreach']);
-  parts.push('LOI REVIEWS: ' + agentChatKnowledge['loi']);
-  return parts.join('\n\n');
+  const settings = getLmqSettings();
+  const userName = settings['pref-name'] || 'User';
+  const firmName = settings['pref-firm'] || '';
+
+  parts.push(`USER: ${userName}${firmName ? ' at ' + firmName : ''}`);
+
+  // User's ACTUAL pipeline data from localStorage
+  const deals = getPipelineData();
+  if (deals.length > 0) {
+    const totalVal = deals.reduce((s, d) => s + parseDollarValue(d.value), 0);
+    const avgProb = Math.round(deals.reduce((s, d) => s + (parseInt(d.probability)||0), 0) / deals.length);
+    parts.push(`PIPELINE SUMMARY: ${deals.length} active deals, total value ${formatDollar(totalVal)}, average probability ${avgProb}%`);
+
+    // Individual deal details
+    deals.forEach((d, i) => {
+      parts.push(`DEAL #${i+1}: Tenant="${d.tenant||'Unknown'}", Type="${d.type||''}", Market="${d.market||''}", SF=${d.sf||'?'}, Value=${d.value||'$0'}, Stage="${d.stage||'Prospect'}", Probability=${d.probability||0}%, Close=${d.close||'TBD'}, Contact=${d.contact||'N/A'}`);
+    });
+
+    // Computed insights
+    const highProb = deals.filter(d => (parseInt(d.probability)||0) >= 70);
+    const lowProb = deals.filter(d => (parseInt(d.probability)||0) <= 30 && (parseInt(d.probability)||0) > 0);
+    const byStage = {};
+    deals.forEach(d => { byStage[d.stage||'Other'] = (byStage[d.stage||'Other']||0) + 1; });
+    const weightedVal = deals.reduce((s, d) => s + parseDollarValue(d.value) * ((parseInt(d.probability)||0)/100), 0);
+
+    parts.push(`HIGH PROBABILITY DEALS (70%+): ${highProb.length} deals — ${highProb.map(d => d.tenant + ' (' + d.probability + '%)').join(', ') || 'none'}`);
+    parts.push(`AT-RISK DEALS (30% or below): ${lowProb.length} deals — ${lowProb.map(d => d.tenant + ' (' + d.probability + '%)').join(', ') || 'none'}`);
+    parts.push(`STAGE BREAKDOWN: ${Object.entries(byStage).map(([k,v]) => k + ': ' + v).join(', ')}`);
+    parts.push(`WEIGHTED PIPELINE VALUE (probability-adjusted): ${formatDollar(weightedVal)}`);
+
+    // Best and worst deals
+    const sorted = [...deals].sort((a, b) => parseDollarValue(b.value) - parseDollarValue(a.value));
+    parts.push(`LARGEST DEALS BY VALUE: ${sorted.slice(0, 3).map(d => d.tenant + ' ' + d.value).join(', ')}`);
+    const sortedByProb = [...deals].sort((a, b) => (parseInt(b.probability)||0) - (parseInt(a.probability)||0));
+    parts.push(`BEST DEALS BY PROBABILITY: ${sortedByProb.slice(0, 3).map(d => d.tenant + ' ' + d.probability + '%').join(', ')}`);
+    const worstByProb = [...deals].sort((a, b) => (parseInt(a.probability)||0) - (parseInt(b.probability)||0));
+    parts.push(`WORST DEALS BY PROBABILITY: ${worstByProb.slice(0, 3).map(d => d.tenant + ' ' + d.probability + '%').join(', ')}`);
+  } else {
+    parts.push('PIPELINE: No deals uploaded yet. User has an empty pipeline.');
+  }
+
+  // User's selected markets
+  const userMarkets = getUserMarkets ? getUserMarkets() : [];
+  if (userMarkets.length > 0) {
+    parts.push(`USER'S SELECTED MARKETS: ${userMarkets.join(', ')}`);
+    // Add vacancy data for their markets
+    if (typeof allSubmarketData !== 'undefined') {
+      userMarkets.forEach(m => {
+        const key = m.toLowerCase().replace(/[^a-z0-9]/g, '');
+        Object.keys(allSubmarketData).forEach(k => {
+          if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g, ''))) {
+            const sub = allSubmarketData[k];
+            parts.push(`MARKET DATA — ${sub.name || m}: Vacancy ${sub.vacancy}%`);
+          }
+        });
+      });
+    }
+  }
+
+  // User's active agents
+  const agents = JSON.parse(localStorage.getItem('lmq_agents') || '[]');
+  if (agents.length > 0) {
+    parts.push(`ACTIVE AGENTS: ${agents.join(', ')}`);
+  }
+
+  // Supplementary market intelligence from knowledge base
+  if (agentChatKnowledge['market']) parts.push('MARKET INTELLIGENCE: ' + agentChatKnowledge['market']);
+  if (agentChatKnowledge['interest']) parts.push('RATES: ' + agentChatKnowledge['interest']);
+  if (agentChatKnowledge['rent']) parts.push('RENTS: ' + agentChatKnowledge['rent']);
+
+  return parts.join('\n');
 }
 
 // Chat history for multi-turn context (kept in memory)
@@ -4027,6 +4104,414 @@ function sendAgentChat() {
   msgArea.scrollTop = msgArea.scrollHeight;
 }
 
+// ═══════════════════════════════════════════════════════
+// ─── DYNAMIC DASHBOARD RENDERING (PERSONALIZATION) ────
+// ═══════════════════════════════════════════════════════
+
+function getPipelineData() {
+  try { return JSON.parse(localStorage.getItem('lmq_pipeline_data') || '[]'); }
+  catch(e) { return []; }
+}
+
+function setPipelineData(deals) {
+  localStorage.setItem('lmq_pipeline_data', JSON.stringify(deals));
+}
+
+function formatDollar(val) {
+  if (!val && val !== 0) return '$0';
+  const num = typeof val === 'string' ? parseFloat(val.replace(/[$,KMB]/gi,'')) : val;
+  if (isNaN(num)) return '$0';
+  if (num >= 1000000000) return '$' + (num/1000000000).toFixed(1) + 'B';
+  if (num >= 1000000) return '$' + (num/1000000).toFixed(0) + 'M';
+  if (num >= 1000) return '$' + (num/1000).toFixed(0) + 'K';
+  return '$' + num.toFixed(0);
+}
+
+function parseDollarValue(str) {
+  if (!str) return 0;
+  const s = String(str).replace(/[$,\s]/g,'').toUpperCase();
+  let num = parseFloat(s);
+  if (isNaN(num)) return 0;
+  if (s.includes('B')) num *= 1000000000;
+  else if (s.includes('M')) num *= 1000000;
+  else if (s.includes('K')) num *= 1000;
+  return num;
+}
+
+function getStageClass(stage) {
+  const s = (stage||'').toLowerCase();
+  if (s.includes('closing') || s.includes('closed')) return 'stage-closing';
+  if (s.includes('loi')) return 'stage-loi';
+  if (s.includes('proposal')) return 'stage-proposal';
+  if (s.includes('qualify') || s.includes('qualifying')) return 'stage-qualify';
+  if (s.includes('prospect')) return 'stage-prospect';
+  return 'stage-qualify';
+}
+
+function getProbColor(prob) {
+  const p = parseInt(prob) || 0;
+  if (p >= 70) return 'green';
+  if (p >= 30) return 'amber';
+  return 'blue';
+}
+
+function renderKPICards(deals) {
+  const row = document.getElementById('kpi-row');
+  if (!row) return;
+
+  const userMarkets = getUserMarkets ? getUserMarkets() : [];
+  const marketLabel = userMarkets.length > 0 ? userMarkets[0] : 'My Markets';
+
+  if (!deals || deals.length === 0) {
+    row.innerHTML = `
+      <div class="kpi-card"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value" style="color:var(--text-dim);">$0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Upload deals to track</div></div>
+      <div class="kpi-card"><div class="kpi-label">Active Deals</div><div class="kpi-value" style="color:var(--text-dim);">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">No deals yet</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg. Vacancy · ${marketLabel}</div><div class="kpi-value" style="color:var(--text-dim);">—</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Select markets to track</div></div>
+      <div class="kpi-card"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value" style="color:var(--text-dim);">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Activate agents to start</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg. Asking Rate PSF</div><div class="kpi-value" style="color:var(--text-dim);">—</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Add market data</div></div>
+      <div class="kpi-card"><div class="kpi-label">Unread Alerts</div><div class="kpi-value" style="color:var(--text-dim);">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">No alerts yet</div></div>
+    `;
+    return;
+  }
+
+  const totalValue = deals.reduce((sum, d) => sum + parseDollarValue(d.value), 0);
+  const dealCount = deals.length;
+  const avgProb = Math.round(deals.reduce((sum, d) => sum + (parseInt(d.probability) || 0), 0) / dealCount);
+  const highProbDeals = deals.filter(d => (parseInt(d.probability)||0) >= 70).length;
+
+  // Calculate vacancy from user markets if available
+  let vacancyLabel = marketLabel;
+  let vacancyVal = '—';
+  if (userMarkets.length > 0 && typeof allSubmarketData !== 'undefined') {
+    let vacTotal = 0, vacCount = 0;
+    userMarkets.forEach(m => {
+      const key = m.toLowerCase().replace(/[^a-z0-9]/g,'');
+      Object.keys(allSubmarketData).forEach(k => {
+        if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) {
+          vacTotal += allSubmarketData[k].vacancy;
+          vacCount++;
+        }
+      });
+    });
+    if (vacCount > 0) vacancyVal = (vacTotal / vacCount).toFixed(1) + '%';
+  }
+
+  row.innerHTML = `
+    <div class="kpi-card"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value gold">${formatDollar(totalValue)}</div><div class="kpi-delta delta-up">▲ ${dealCount} active deals</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Deals</div><div class="kpi-value">${dealCount}</div><div class="kpi-delta delta-up">${highProbDeals} high probability</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg. Vacancy · ${vacancyLabel}</div><div class="kpi-value">${vacancyVal}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">from selected markets</span></div></div>
+    <div class="kpi-card"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Agents scanning your markets</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg. Probability</div><div class="kpi-value">${avgProb}%</div><div class="kpi-delta ${avgProb >= 50 ? 'delta-up' : 'delta-down'}">${avgProb >= 50 ? '▲' : '▼'} pipeline health</div></div>
+    <div class="kpi-card"><div class="kpi-label">Weighted Value</div><div class="kpi-value gold">${formatDollar(deals.reduce((s,d) => s + parseDollarValue(d.value) * ((parseInt(d.probability)||0)/100), 0))}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">probability-adjusted</span></div></div>
+  `;
+}
+
+function renderPipelineTable(deals) {
+  const tbody = document.getElementById('dashboard-pipeline-tbody');
+  if (!tbody) return;
+
+  if (!deals || deals.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px 20px;">
+      <div style="font-size:16px;margin-bottom:8px;color:var(--text-dim);">No deals in your pipeline yet</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px;">Import your deals from a CSV file or add them manually.</div>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button onclick="showPipelineImport()" style="padding:10px 20px;background:var(--gold);color:#0A0C0E;border:none;border-radius:6px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Import CSV ↑</button>
+        <button onclick="openAddDealModal()" style="padding:10px 20px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">+ Add Deal</button>
+      </div>
+    </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = deals.map((d, i) => {
+    const stageClass = getStageClass(d.stage);
+    const probColor = getProbColor(d.probability);
+    const prob = parseInt(d.probability) || 0;
+    return `<tr><td><div class="tenant-name">${d.tenant || 'Unknown'}</div><div class="tenant-sub">${d.type || ''}</div></td><td><span class="market-tag">${d.market || '—'}</span></td><td><span class="size-val">${d.sf || '—'}</span></td><td><span class="value-cell">${d.value || '$0'}</span></td><td><span class="stage-pill ${stageClass}">${d.stage || 'Prospect'}</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill ${probColor}" style="width:${prob}%"></div></div><span class="prob-val">${prob}%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">${d.close || '—'}</td><td><div class="action-dots" onclick="showDealActions(${i})" style="cursor:pointer"><span></span><span></span><span></span></div></td></tr>`;
+  }).join('');
+}
+
+function showDealActions(index) {
+  const deals = getPipelineData();
+  const d = deals[index];
+  if (!d) return;
+  showModal('Deal Actions', d.tenant || 'Deal',
+    `<div style="display:flex;flex-direction:column;gap:8px;">
+      <button onclick="editPipelineDeal(${index})" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">📝 Edit Deal</button>
+      <button onclick="removePipelineDeal(${index})" style="padding:12px;background:rgba(192,83,58,0.1);border:1px solid rgba(192,83,58,0.2);border-radius:6px;color:#C0533A;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">🗑 Remove Deal</button>
+    </div>`
+  );
+}
+
+function editPipelineDeal(index) {
+  const deals = getPipelineData();
+  const d = deals[index];
+  if (!d) return;
+  closeModal();
+  showModal('Edit Deal', d.tenant,
+    `<div style="display:flex;flex-direction:column;gap:10px;">
+      <input id="edit-tenant" class="ob-input" value="${d.tenant||''}" placeholder="Tenant name" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      <input id="edit-type" class="ob-input" value="${d.type||''}" placeholder="Type (e.g. HQ Expansion)" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      <input id="edit-market" class="ob-input" value="${d.market||''}" placeholder="Market" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      <div style="display:flex;gap:8px;">
+        <input id="edit-sf" class="ob-input" value="${d.sf||''}" placeholder="SF" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+        <input id="edit-value" class="ob-input" value="${d.value||''}" placeholder="Value (e.g. $5M)" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      </div>
+      <div style="display:flex;gap:8px;">
+        <select id="edit-stage" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;">
+          <option ${d.stage==='Prospect'?'selected':''}>Prospect</option>
+          <option ${d.stage==='Qualifying'?'selected':''}>Qualifying</option>
+          <option ${d.stage==='Proposal'?'selected':''}>Proposal</option>
+          <option ${d.stage==='LOI Signed'?'selected':''}>LOI Signed</option>
+          <option ${d.stage==='Closing'?'selected':''}>Closing</option>
+          <option ${d.stage==='Closed'?'selected':''}>Closed</option>
+        </select>
+        <input id="edit-prob" class="ob-input" value="${d.probability||''}" placeholder="Prob %" type="number" min="0" max="100" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      </div>
+      <input id="edit-close" class="ob-input" value="${d.close||''}" placeholder="Close date (e.g. Q3 '26)" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      <input id="edit-contact" class="ob-input" value="${d.contact||''}" placeholder="Contact name" style="padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;" />
+      <button onclick="savePipelineDealEdit(${index})" style="padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:6px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;">Save Changes</button>
+    </div>`
+  );
+}
+
+function savePipelineDealEdit(index) {
+  const deals = getPipelineData();
+  deals[index] = {
+    tenant: document.getElementById('edit-tenant').value.trim(),
+    type: document.getElementById('edit-type').value.trim(),
+    market: document.getElementById('edit-market').value.trim(),
+    sf: document.getElementById('edit-sf').value.trim(),
+    value: document.getElementById('edit-value').value.trim(),
+    stage: document.getElementById('edit-stage').value,
+    probability: document.getElementById('edit-prob').value.trim(),
+    close: document.getElementById('edit-close').value.trim(),
+    contact: document.getElementById('edit-contact').value.trim()
+  };
+  setPipelineData(deals);
+  closeModal();
+  refreshAllDashboardSections();
+  showToast('Deal updated');
+}
+
+function removePipelineDeal(index) {
+  const deals = getPipelineData();
+  deals.splice(index, 1);
+  setPipelineData(deals);
+  closeModal();
+  refreshAllDashboardSections();
+  showToast('Deal removed');
+}
+
+function renderAlerts(deals) {
+  const body = document.querySelector('#alerts-card .alerts-body');
+  if (!body) return;
+
+  const userMarkets = getUserMarkets ? getUserMarkets() : [];
+  const agents = JSON.parse(localStorage.getItem('lmq_agents') || '[]');
+
+  if ((!deals || deals.length === 0) && userMarkets.length === 0) {
+    body.innerHTML = `<div style="text-align:center;padding:32px 16px;">
+      <div style="font-size:24px;margin-bottom:10px;">🔔</div>
+      <div style="font-size:13px;color:var(--text-dim);margin-bottom:6px;">No alerts yet</div>
+      <div style="font-size:11px;color:var(--text-dim);">Alerts will appear as your agents monitor your markets and deals.</div>
+    </div>`;
+    return;
+  }
+
+  // Generate contextual alerts from deals + markets
+  let alerts = [];
+
+  // Deal-based alerts
+  if (deals && deals.length > 0) {
+    // High probability deals closing soon
+    deals.filter(d => (parseInt(d.probability)||0) >= 80).forEach(d => {
+      alerts.push({priority:'high', title:`${d.tenant} — High Probability`, body:`${d.stage} stage at ${d.probability}% probability. ${d.value} deal in ${d.market}. Target close: ${d.close||'TBD'}.`, agent:'Pipeline Agent', time:'now', action:'View Deal →'});
+    });
+    // Low probability deals needing attention
+    deals.filter(d => (parseInt(d.probability)||0) <= 25 && (parseInt(d.probability)||0) > 0).forEach(d => {
+      alerts.push({priority:'med', title:`${d.tenant} — Needs Attention`, body:`Only ${d.probability}% probability. Consider outreach or re-qualifying this ${d.value} deal.`, agent:'Pipeline Agent', time:'now', action:'Review Deal →'});
+    });
+  }
+
+  // Market-based alerts
+  if (userMarkets.length > 0) {
+    alerts.push({priority:'low', title:`Monitoring ${userMarkets.length} Market${userMarkets.length>1?'s':''}`, body:`Your agents are tracking: ${userMarkets.slice(0,5).join(', ')}${userMarkets.length>5?' + '+(userMarkets.length-5)+' more':''}. Alerts will appear when significant changes are detected.`, agent:'Market Agent', time:'active', action:'View Markets →'});
+  }
+
+  // Agent-based alerts
+  if (agents.length > 0) {
+    alerts.push({priority:'low', title:`${agents.length} Agent${agents.length>1?'s':''} Active`, body:`Running: ${agents.join(', ')}. These agents are scanning for opportunities in your selected markets.`, agent:'System', time:'active', action:'View Agents →'});
+  }
+
+  if (alerts.length === 0) {
+    body.innerHTML = `<div style="text-align:center;padding:32px 16px;">
+      <div style="font-size:24px;margin-bottom:10px;">✓</div>
+      <div style="font-size:13px;color:var(--text-dim);">All clear — no urgent alerts</div>
+    </div>`;
+    return;
+  }
+
+  body.innerHTML = alerts.slice(0, 6).map(a => {
+    const cls = a.priority === 'high' ? 'alert-high' : a.priority === 'med' ? 'alert-med' : 'alert-low';
+    const icon = a.priority === 'high' ? '● High Priority' : a.priority === 'med' ? '◆ Medium' : '▸ Info';
+    return `<div class="alert-item ${cls}"><div class="alert-priority">${icon}</div><div class="alert-title">${a.title}</div><div class="alert-body">${a.body}</div><div class="alert-footer"><div class="alert-agent">${a.agent}</div><div class="alert-time">${a.time}</div></div><div class="alert-action-btn">${a.action}</div></div>`;
+  }).join('');
+}
+
+function renderAgentFeed(deals) {
+  const stream = document.getElementById('agentStream');
+  if (!stream) return;
+
+  const agents = JSON.parse(localStorage.getItem('lmq_agents') || '[]');
+  const userMarkets = getUserMarkets ? getUserMarkets() : [];
+
+  if (agents.length === 0) {
+    stream.innerHTML = `<div style="text-align:center;padding:24px 16px;">
+      <div style="font-size:20px;margin-bottom:8px;">🤖</div>
+      <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">No agents activated</div>
+      <div style="font-size:11px;color:var(--text-dim);">Enable agents in Settings to start receiving intel.</div>
+    </div>`;
+    return;
+  }
+
+  // Generate feed items based on selected agents and markets
+  let items = [];
+
+  if (agents.some(a => a.toLowerCase().includes('intel'))) {
+    if (userMarkets.length > 0) {
+      items.push({icon:'⚡', iconClass:'icon-alert', text:`<strong>Intel Agent</strong> monitoring ${userMarkets.length} submarket${userMarkets.length>1?'s':''}. Tracking vacancy changes, new listings, and tenant movements.`, tag:'Active', tagClass:'tag-alert', time:'now', agent:'Intel Agent'});
+    }
+  }
+
+  if (agents.some(a => a.toLowerCase().includes('lead'))) {
+    items.push({icon:'🎯', iconClass:'icon-lead', text:`<strong>Lead Agent</strong> scanning job postings and expansion signals in your markets.`, tag:'Scanning', tagClass:'tag-lead', time:'active', agent:'Lead Agent'});
+  }
+
+  if (agents.some(a => a.toLowerCase().includes('outreach'))) {
+    const dealCount = deals ? deals.length : 0;
+    items.push({icon:'✉️', iconClass:'icon-lead', text:`<strong>Outreach Agent</strong> ready to draft personalized outreach${dealCount > 0 ? ' for your '+dealCount+' active deals' : ''}.`, tag:'Ready', tagClass:'tag-lead', time:'standby', agent:'Outreach Agent'});
+  }
+
+  if (agents.some(a => a.toLowerCase().includes('loi') || a.toLowerCase().includes('document'))) {
+    items.push({icon:'📋', iconClass:'icon-doc', text:`<strong>LOI Agent</strong> watching for document submissions and clause anomalies.`, tag:'Monitoring', tagClass:'tag-doc', time:'active', agent:'LOI Agent'});
+  }
+
+  if (agents.some(a => a.toLowerCase().includes('permit') || a.toLowerCase().includes('zoning'))) {
+    items.push({icon:'🔍', iconClass:'icon-intel', text:`<strong>Permit Agent</strong> tracking zoning filings and permit activity${userMarkets.length > 0 ? ' in '+userMarkets[0] : ''}.`, tag:'Tracking', tagClass:'tag-intel', time:'active', agent:'Permit Agent'});
+  }
+
+  if (agents.some(a => a.toLowerCase().includes('comp') || a.toLowerCase().includes('market'))) {
+    items.push({icon:'📊', iconClass:'icon-intel', text:`<strong>Comp Agent</strong> analyzing recent comparable transactions${userMarkets.length > 0 ? ' in your selected markets' : ''}.`, tag:'Analyzing', tagClass:'tag-intel', time:'active', agent:'Comp Agent'});
+  }
+
+  if (items.length === 0) {
+    items.push({icon:'🤖', iconClass:'icon-intel', text:`<strong>${agents.length} agent${agents.length>1?'s':''}</strong> activated and scanning. Feed items will appear as they find intel.`, tag:'Active', tagClass:'tag-intel', time:'now', agent:'System'});
+  }
+
+  stream.innerHTML = items.map(it => `<div class="stream-item"><div class="stream-icon ${it.iconClass}">${it.icon}</div><div><div class="stream-text">${it.text}</div><div class="stream-meta"><span class="stream-tag ${it.tagClass}">${it.tag}</span> ${it.time} · ${it.agent}</div></div></div>`).join('');
+}
+
+function renderSparkCards(deals) {
+  // Deal Value spark
+  const dealBody = document.getElementById('spark-deal-body');
+  if (dealBody) {
+    if (!deals || deals.length === 0) {
+      dealBody.innerHTML = `<div class="spark-stat"><div class="spark-big" style="color:var(--text-dim);">$0</div><div class="spark-delta" style="font-size:8px;color:var(--text-dim);">Upload deals to track</div></div><div class="spark-main" style="display:flex;align-items:flex-end;gap:3px;height:50px;">${Array(12).fill('<div class="spark-bar gold-bar" style="height:4px;opacity:0.2;"></div>').join('')}</div>`;
+    } else {
+      const total = deals.reduce((s,d) => s + parseDollarValue(d.value), 0);
+      dealBody.innerHTML = `<div class="spark-stat"><div class="spark-big" id="spark-deal-big">${formatDollar(total)}</div><div class="spark-delta delta-up" id="spark-deal-delta">▲ ${deals.length} deals</div></div><div class="spark-main" id="spark-deal-bars" style="display:flex;align-items:flex-end;gap:3px;height:50px;">${deals.slice(-12).map((d,i) => {const v=parseDollarValue(d.value);const max=Math.max(...deals.slice(-12).map(x=>parseDollarValue(x.value)),1);return `<div class="spark-bar gold-bar${i===deals.slice(-12).length-1?' current':''}" data-val="${v}" style="height:${Math.max(8,(v/max)*100)}%;flex:1;"></div>`;}).join('')}</div><div class="spark-labels"><span class="spark-label">${deals.length} deals</span><span class="spark-label">Total: ${formatDollar(total)}</span></div>`;
+    }
+  }
+
+  // Leads spark
+  const leadsBody = document.getElementById('spark-leads-body');
+  if (leadsBody) {
+    leadsBody.innerHTML = `<div class="spark-stat"><div class="spark-big" style="color:var(--text-dim);">0</div><div class="spark-delta" style="font-size:8px;color:var(--text-dim);">Agent leads will appear here</div></div><div class="spark-main" style="display:flex;align-items:flex-end;gap:3px;height:50px;">${Array(12).fill('<div class="spark-bar green-bar" style="height:4px;opacity:0.2;"></div>').join('')}</div>`;
+  }
+
+  // Vacancy spark
+  const vacBody = document.getElementById('spark-vacancy-body');
+  if (vacBody) {
+    const userMarkets = getUserMarkets ? getUserMarkets() : [];
+    const label = userMarkets.length > 0 ? userMarkets[0] : 'My Markets';
+    let vacVal = '—';
+    if (userMarkets.length > 0 && typeof allSubmarketData !== 'undefined') {
+      let vt=0, vc=0;
+      userMarkets.forEach(m => {
+        const key = m.toLowerCase().replace(/[^a-z0-9]/g,'');
+        Object.keys(allSubmarketData).forEach(k => {
+          if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) { vt+=allSubmarketData[k].vacancy; vc++; }
+        });
+      });
+      if (vc > 0) vacVal = (vt/vc).toFixed(1)+'%';
+    }
+    // Update the card title
+    const vacCard = document.getElementById('spark-vacancy');
+    if (vacCard) {
+      const titleEl = vacCard.querySelector('.card-title');
+      if (titleEl) titleEl.textContent = 'Vacancy Rate · ' + label;
+    }
+    vacBody.innerHTML = `<div class="spark-stat"><div class="spark-big">${vacVal}</div><div class="spark-delta delta-neutral">⬤ <span class="kpi-sub">${userMarkets.length > 0 ? 'from selected markets' : 'select markets to track'}</span></div></div><div class="spark-main" style="display:flex;align-items:flex-end;gap:3px;height:50px;">${Array(12).fill('<div class="spark-bar blue-bar" style="height:4px;opacity:0.2;"></div>').join('')}</div>`;
+  }
+}
+
+function refreshAllDashboardSections() {
+  const deals = getPipelineData();
+  renderKPICards(deals);
+  renderPipelineTable(deals);
+  renderAlerts(deals);
+  renderAgentFeed(deals);
+  renderSparkCards(deals);
+}
+
+function initializeDashboard() {
+  refreshAllDashboardSections();
+}
+
+// ─── GENERATE EXAMPLE DATA ───
+function generateExampleDeals() {
+  const userMarkets = getUserMarkets ? getUserMarkets() : ['Downtown'];
+  const market = (m) => userMarkets[Math.floor(Math.random() * userMarkets.length)] || m;
+  const examples = [
+    {tenant:'Horizon Tech Solutions',type:'HQ Expansion · SaaS',market:market('Downtown'),sf:'35,000',value:'$22M',stage:'Proposal',probability:'65',close:"Q3 '26",contact:'Sarah Chen'},
+    {tenant:'Pacific Ventures Group',type:'Relocation · Finance',market:market('Midtown'),sf:'18,500',value:'$14M',stage:'LOI Signed',probability:'82',close:"Apr '26",contact:'Mike Reynolds'},
+    {tenant:'Meridian Health Partners',type:'New Req. · Healthcare',market:market('Westside'),sf:'12,000',value:'$7.5M',stage:'Qualifying',probability:'40',close:"Q4 '26",contact:'Dr. Lisa Park'},
+    {tenant:'Atlas Creative Studios',type:'Expansion · Media',market:market('Arts District'),sf:'28,000',value:'$16M',stage:'Closing',probability:'92',close:"Mar '26",contact:'James Ortiz'},
+    {tenant:'Summit Legal Group',type:'Expansion · Legal',market:market('Financial District'),sf:'9,200',value:'$8.8M',stage:'Prospect',probability:'22',close:"2027",contact:'Amanda Foster'},
+  ];
+  setPipelineData(examples);
+  refreshAllDashboardSections();
+  closeModal();
+  showToast('5 example deals generated for your markets');
+}
+
+// ─── POST-ONBOARDING DATA UPLOAD PROMPT ───
+function showDataUploadPrompt() {
+  showModal('Welcome to LandMarq', 'Connect Your Data',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Great setup! Now let's populate your dashboard with real data. You can import your deals from a CSV file, add them manually, or start with example data.</div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;">`
+    + `<label style="padding:14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:6px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:center;display:block;">
+        📁 Upload CSV / Excel <input type="file" accept=".csv,.xlsx,.xls" onchange="importPipelineCSV(event)" style="display:none;" />
+      </label>`
+    + `<button onclick="downloadCSVTemplate()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">📋 Download CSV Template</button>`
+    + `<button onclick="generateExampleDeals()" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">✦ Generate Example Data (Demo)</button>`
+    + `<button onclick="closeModal();showToast('You can import data anytime from the pipeline section')" style="padding:10px;background:transparent;border:none;color:var(--text-dim);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Skip for now →</button>`
+    + `</div>`
+    + `<div style="margin-top:12px;font-size:10px;color:var(--text-dim);">Supported: .csv, .xlsx, .xls — up to 500 deals per import.</div>`
+  );
+}
+
+function downloadCSVTemplate() {
+  const template = 'Tenant,Type,Market,SF,Value,Stage,Probability,Close,Contact\nAcme Corp,HQ Expansion,Downtown,"25,000",$15M,Proposal,65,Q3 2026,John Smith\n';
+  const blob = new Blob([template], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'landmarq-pipeline-template.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Template downloaded — fill it in and upload!');
+}
+
 // ─── PIPELINE IMPORT ───
 function showPipelineImport() {
   showModal('Import Data', 'Pipeline Import',
@@ -4037,7 +4522,7 @@ function showPipelineImport() {
       <label style="flex:1;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;text-align:center;">
         Upload CSV / Excel <input type="file" accept=".csv,.xlsx,.xls" onchange="importPipelineCSV(event)" style="display:none;" />
       </label>
-      <button onclick="closeModal();showToast('AI-generated example deals loaded into pipeline')" style="flex:1;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate AI Examples ✦</button>
+      <button onclick="generateExampleDeals()" style="flex:1;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate AI Examples ✦</button>
     </div>`
     + `<div style="margin-top:12px;font-size:11px;color:var(--text-dim);">Supported formats: .csv, .xlsx, .xls. Max 500 deals per import.</div>`
   );
@@ -4050,12 +4535,275 @@ function importPipelineCSV(event) {
   reader.onload = function(e) {
     const lines = e.target.result.split('\n').filter(l => l.trim());
     if (lines.length < 2) { showToast('File appears empty or invalid'); return; }
-    const count = lines.length - 1; // minus header
+
+    // Parse header
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[^a-z]/g,''));
+    const deals = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      // Handle CSV with quoted fields containing commas
+      const row = [];
+      let current = '';
+      let inQuotes = false;
+      for (const ch of lines[i]) {
+        if (ch === '"') { inQuotes = !inQuotes; }
+        else if (ch === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+        else { current += ch; }
+      }
+      row.push(current.trim());
+
+      if (row.length < 2) continue; // skip mostly-empty rows
+
+      const deal = {};
+      // Map columns flexibly
+      headers.forEach((h, idx) => {
+        const val = row[idx] || '';
+        if (h.includes('tenant') || h.includes('name') || h.includes('company')) deal.tenant = val;
+        else if (h.includes('type') || h.includes('category')) deal.type = val;
+        else if (h.includes('market') || h.includes('submarket') || h.includes('location')) deal.market = val;
+        else if (h === 'sf' || h.includes('sqft') || h.includes('squarefeet') || h.includes('size')) deal.sf = val;
+        else if (h.includes('value') || h.includes('amount') || h.includes('price') || h.includes('revenue')) deal.value = val;
+        else if (h.includes('stage') || h.includes('status') || h.includes('phase')) deal.stage = val;
+        else if (h.includes('prob') || h.includes('likelihood') || h.includes('chance')) deal.probability = val;
+        else if (h.includes('close') || h.includes('date') || h.includes('deadline') || h.includes('target')) deal.close = val;
+        else if (h.includes('contact') || h.includes('person') || h.includes('rep')) deal.contact = val;
+      });
+
+      // At minimum need a tenant name
+      if (deal.tenant) deals.push(deal);
+    }
+
+    if (deals.length === 0) {
+      showToast('No valid deals found. Check CSV format.');
+      return;
+    }
+
+    // Merge with existing or replace
+    const existing = getPipelineData();
+    const merged = existing.concat(deals);
+    setPipelineData(merged);
+
     closeModal();
-    showToast(`${count} deal${count > 1 ? 's' : ''} imported from ${file.name}`);
+    refreshAllDashboardSections();
+    showToast(`${deals.length} deal${deals.length > 1 ? 's' : ''} imported from ${file.name}`);
   };
   reader.readAsText(file);
 }
+
+// ═══════════════════════════════════════════════════════
+// ─── SHAREABLE MARKET REPORT ──────────────────────────
+// ═══════════════════════════════════════════════════════
+
+function showShareReportModal() {
+  const userMarkets = getUserMarkets ? getUserMarkets() : [];
+  const deals = getPipelineData();
+  const settings = getLmqSettings();
+  const firmName = settings['pref-firm'] || settings['pref-name'] || 'LandMarq';
+
+  showModal('Share Market Report', 'Generate Client Report',
+    `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Generate a clean, branded market snapshot your clients can view. Choose what to include:</div>`
+    + `<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">`
+    + `<label style="display:flex;align-items:center;gap:10px;cursor:pointer;"><input type="checkbox" id="rpt-vacancy" checked style="accent-color:var(--gold);width:16px;height:16px;" /><span style="font-size:13px;color:var(--text);">Submarket Vacancy Data (${userMarkets.length} market${userMarkets.length!==1?'s':''})</span></label>`
+    + `<label style="display:flex;align-items:center;gap:10px;cursor:pointer;"><input type="checkbox" id="rpt-pipeline" ${deals.length > 0 ? 'checked' : ''} style="accent-color:var(--gold);width:16px;height:16px;" /><span style="font-size:13px;color:var(--text);">Pipeline Summary (${deals.length} deal${deals.length!==1?'s':''}) — anonymized</span></label>`
+    + `<label style="display:flex;align-items:center;gap:10px;cursor:pointer;"><input type="checkbox" id="rpt-trends" checked style="accent-color:var(--gold);width:16px;height:16px;" /><span style="font-size:13px;color:var(--text);">Market Trends & Insights</span></label>`
+    + `</div>`
+    + `<div style="margin-bottom:12px;">`
+    + `<div style="font-size:10px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:6px;">RECIPIENT NAME (OPTIONAL)</div>`
+    + `<input id="rpt-recipient" placeholder="e.g. Mark Sullivan, Savills" style="width:100%;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;box-sizing:border-box;" />`
+    + `</div>`
+    + `<div style="display:flex;gap:8px;">`
+    + `<button onclick="generateMarketReport()" style="flex:1;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:6px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate & Open Report ↗</button>`
+    + `</div>`
+    + `<div style="margin-top:10px;font-size:10px;color:var(--text-dim);">Report opens in a new tab. You can save as PDF or share the link.</div>`
+  );
+}
+
+function generateMarketReport() {
+  const includeVacancy = document.getElementById('rpt-vacancy')?.checked;
+  const includePipeline = document.getElementById('rpt-pipeline')?.checked;
+  const includeTrends = document.getElementById('rpt-trends')?.checked;
+  const recipient = document.getElementById('rpt-recipient')?.value.trim() || '';
+
+  const userMarkets = getUserMarkets ? getUserMarkets() : [];
+  const deals = getPipelineData();
+  const settings = getLmqSettings();
+  const firmName = settings['pref-firm'] || 'LandMarq Intelligence';
+  const userName = settings['pref-name'] || '';
+  const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+  // Gather submarket vacancy data
+  let marketRows = '';
+  if (includeVacancy && userMarkets.length > 0) {
+    const resolved = [];
+    userMarkets.forEach(m => {
+      if (typeof metroSubmarkets !== 'undefined' && metroSubmarkets[m]) {
+        metroSubmarkets[m].forEach(sub => resolved.push(sub));
+      } else if (typeof allSubmarketData !== 'undefined') {
+        const key = m.toLowerCase().replace(/[^a-z0-9]/g,'');
+        Object.keys(allSubmarketData).forEach(k => {
+          if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) {
+            resolved.push(allSubmarketData[k]);
+          }
+        });
+        if (!resolved.find(r => r.name && r.name.toLowerCase().includes(key))) {
+          resolved.push({ name: m, vacancy: null });
+        }
+      } else {
+        resolved.push({ name: m, vacancy: null });
+      }
+    });
+
+    // Deduplicate
+    const seen = new Set();
+    const unique = resolved.filter(r => {
+      const k = (r.name || r.market || '').toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+
+    marketRows = unique.map(sub => {
+      const name = sub.name || sub.market || '—';
+      const vac = sub.vacancy != null ? sub.vacancy.toFixed(1) + '%' : '—';
+      const vacNum = sub.vacancy || 0;
+      const color = vacNum > 20 ? '#C0533A' : vacNum > 15 ? '#C49E54' : vacNum > 10 ? '#4A7FA5' : '#4A9B6F';
+      return `<tr><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:13px;color:#1A1610;">${name}</td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;text-align:center;"><span style="display:inline-block;padding:3px 10px;border-radius:4px;background:${color}22;color:${color};font-weight:600;font-size:12px;font-family:'JetBrains Mono',monospace;">${vac}</span></td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:11px;color:#5C5347;">${vacNum < 10 ? 'Tight' : vacNum < 15 ? 'Moderate' : vacNum < 20 ? 'Elevated' : 'High Vacancy'}</td></tr>`;
+    }).join('');
+  }
+
+  // Pipeline summary (anonymized)
+  let pipelineSection = '';
+  if (includePipeline && deals.length > 0) {
+    const totalVal = deals.reduce((s, d) => s + parseDollarValue(d.value), 0);
+    const avgProb = Math.round(deals.reduce((s, d) => s + (parseInt(d.probability)||0), 0) / deals.length);
+    const byStage = {};
+    deals.forEach(d => { const st = d.stage || 'Other'; byStage[st] = (byStage[st]||0) + 1; });
+    const stageBreakdown = Object.entries(byStage).map(([k,v]) => `<span style="display:inline-block;padding:4px 12px;background:#F0EDE7;border-radius:4px;font-size:11px;color:#3D352A;margin:2px;">${k}: ${v}</span>`).join(' ');
+
+    const byMarket = {};
+    deals.forEach(d => { const mk = d.market || 'Other'; byMarket[mk] = (byMarket[mk]||0) + 1; });
+    const marketBreakdown = Object.entries(byMarket).map(([k,v]) => `<span style="display:inline-block;padding:4px 12px;background:#F0EDE7;border-radius:4px;font-size:11px;color:#3D352A;margin:2px;">${k}: ${v}</span>`).join(' ');
+
+    pipelineSection = `
+      <div style="margin-top:32px;">
+        <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C49E54;padding-bottom:8px;margin-bottom:16px;">Pipeline Overview</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
+          <div style="background:#F7F5F1;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:4px;">TOTAL VALUE</div><div style="font-size:22px;font-weight:700;color:#7A5C14;">${formatDollar(totalVal)}</div></div>
+          <div style="background:#F7F5F1;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:4px;">ACTIVE DEALS</div><div style="font-size:22px;font-weight:700;color:#1A1610;">${deals.length}</div></div>
+          <div style="background:#F7F5F1;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:4px;">AVG PROBABILITY</div><div style="font-size:22px;font-weight:700;color:#1A1610;">${avgProb}%</div></div>
+        </div>
+        <div style="margin-bottom:10px;"><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:6px;">BY STAGE</div>${stageBreakdown}</div>
+        <div><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:6px;">BY MARKET</div>${marketBreakdown}</div>
+      </div>`;
+  }
+
+  // Market trends section
+  let trendsSection = '';
+  if (includeTrends) {
+    trendsSection = `
+      <div style="margin-top:32px;">
+        <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C49E54;padding-bottom:8px;margin-bottom:16px;">Market Trends & Insights</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="background:#F7F5F1;border-radius:8px;padding:16px;">
+            <div style="font-weight:600;color:#1A1610;margin-bottom:4px;">Vacancy Trend</div>
+            <div style="font-size:13px;color:#3D352A;line-height:1.6;">Office vacancy rates across selected markets show ${userMarkets.length > 0 ? 'varied conditions' : 'national trends'}. Markets with vacancy below 10% are considered tight, favoring landlord pricing power. Markets above 15% suggest tenant-favorable conditions with room for concessions.</div>
+          </div>
+          <div style="background:#F7F5F1;border-radius:8px;padding:16px;">
+            <div style="font-weight:600;color:#1A1610;margin-bottom:4px;">Leasing Activity</div>
+            <div style="font-size:13px;color:#3D352A;line-height:1.6;">TAMI and healthcare sectors continue to drive leasing demand. Suburban submarkets are seeing increased interest as companies seek value relative to CBD locations. Watch for expansion signals in markets with rising badge-in rates.</div>
+          </div>
+          <div style="background:#F7F5F1;border-radius:8px;padding:16px;">
+            <div style="font-weight:600;color:#1A1610;margin-bottom:4px;">Rate Environment</div>
+            <div style="font-size:13px;color:#3D352A;line-height:1.6;">Interest rate stabilization is compressing cap rates in select industrial and multifamily submarkets. CRE transaction volume is gradually recovering, with best-in-class assets trading at pre-2023 valuations in tight markets.</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // Build the full report HTML
+  const reportHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Market Report — ${firmName} | ${today}</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Syne',sans-serif; background:#FFFFFF; color:#1A1610; }
+  .report-wrap { max-width:800px; margin:0 auto; padding:48px 40px; }
+  @media print {
+    body { background:#fff; }
+    .report-wrap { padding:20px; }
+    .no-print { display:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="report-wrap">
+  <!-- Header -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:3px solid #C49E54;">
+    <div>
+      <div style="font-size:10px;letter-spacing:0.2em;color:#7A5C14;font-weight:600;margin-bottom:4px;">MARKET INTELLIGENCE REPORT</div>
+      <div style="font-size:24px;font-weight:700;color:#1A1610;">${firmName}</div>
+      ${recipient ? `<div style="font-size:13px;color:#5C5347;margin-top:4px;">Prepared for: ${recipient}</div>` : ''}
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:11px;color:#5C5347;">${today}</div>
+      ${userName ? `<div style="font-size:11px;color:#5C5347;margin-top:2px;">By: ${userName}</div>` : ''}
+      <div style="margin-top:8px;font-size:9px;letter-spacing:0.15em;color:#7A5C14;font-weight:600;">LANDMARQ.AI</div>
+    </div>
+  </div>
+
+  ${recipient ? `<div style="font-size:14px;color:#3D352A;line-height:1.6;margin-bottom:24px;">Hi ${recipient.split(',')[0].split(' ')[0]}, here's the latest market intelligence for the submarkets we're tracking. This report includes real-time vacancy data and market insights to support your space search.</div>` : ''}
+
+  <!-- Vacancy Table -->
+  ${includeVacancy && marketRows ? `
+  <div>
+    <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C49E54;padding-bottom:8px;margin-bottom:16px;">Submarket Vacancy Overview</h2>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead><tr>
+        <th style="padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">SUBMARKET</th>
+        <th style="padding:10px 14px;text-align:center;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">VACANCY</th>
+        <th style="padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">CONDITIONS</th>
+      </tr></thead>
+      <tbody>${marketRows}</tbody>
+    </table>
+    <div style="margin-top:12px;display:flex;gap:16px;font-size:10px;color:#5C5347;">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4A9B6F33;margin-right:4px;"></span>Tight (&lt;10%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4A7FA533;margin-right:4px;"></span>Moderate (10-15%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C49E5433;margin-right:4px;"></span>Elevated (15-20%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C0533A33;margin-right:4px;"></span>High (&gt;20%)</span>
+    </div>
+  </div>` : ''}
+
+  ${pipelineSection}
+  ${trendsSection}
+
+  <!-- Footer -->
+  <div style="margin-top:48px;padding-top:16px;border-top:1px solid #E8E4DD;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-size:10px;color:#5C5347;">Generated by <strong style="color:#7A5C14;">LandMarq</strong> — AI-powered CRE intelligence</div>
+    <div style="font-size:10px;color:#5C5347;">landmarq.ai</div>
+  </div>
+
+  <!-- Print/Save buttons -->
+  <div class="no-print" style="margin-top:24px;display:flex;gap:10px;justify-content:center;">
+    <button onclick="window.print()" style="padding:10px 24px;background:#7A5C14;color:#fff;border:none;border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Save as PDF (Print)</button>
+    <button onclick="navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))" style="padding:10px 24px;background:#F0EDE7;color:#1A1610;border:1px solid #E8E4DD;border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Copy Link</button>
+  </div>
+</div>
+</body>
+</html>`;
+
+  // Open in new tab
+  const blob = new Blob([reportHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  closeModal();
+  showToast('Market report opened in new tab — save as PDF to share');
+}
+
+// ─── END SHAREABLE MARKET REPORT ───
 
 // ─── ACTION DOTS (⋯) ON PIPELINE ───
 document.querySelectorAll('.action-dots').forEach((dots, i) => {
@@ -4436,25 +5184,19 @@ function buildUserHeatmapTab() {
   if (userCells.length === 0) return;
   // Update heatmapRegions
   heatmapRegions['my-markets'] = userCells;
-  // Ensure "My Markets" tab exists and is first
+  // Ensure "My Markets" tab exists and is first — remove ALL duplicates first
   const tabsEl = document.getElementById('heatmap-tabs');
   if (!tabsEl) return;
-  let myTab = tabsEl.querySelector('[data-region="my-markets"]');
-  if (!myTab) {
-    tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
-    myTab = document.createElement('div');
-    myTab.className = 'heatmap-tab active';
-    myTab.dataset.region = 'my-markets';
-    myTab.textContent = 'My Markets';
-    myTab.onclick = function() { switchHeatmapRegion('my-markets', this); };
-    // Add edit button
-    const editBtn = document.createElement('span');
-    editBtn.textContent = ' ✎';
-    editBtn.style.cssText = 'cursor:pointer;opacity:0.6;font-size:10px;';
-    editBtn.onclick = function(e) { e.stopPropagation(); showManageMarketsModal(); };
-    myTab.appendChild(editBtn);
-    tabsEl.prepend(myTab);
-  }
+  // Remove any existing My Markets tabs to prevent duplicates
+  tabsEl.querySelectorAll('[data-region="my-markets"]').forEach(t => t.remove());
+  // Create fresh My Markets tab
+  tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
+  const myTab = document.createElement('div');
+  myTab.className = 'heatmap-tab active';
+  myTab.dataset.region = 'my-markets';
+  myTab.textContent = 'My Markets';
+  myTab.onclick = function() { switchHeatmapRegion('my-markets', this); };
+  tabsEl.prepend(myTab);
   // Switch to My Markets view
   tabsEl.querySelectorAll('.heatmap-tab').forEach(t => t.classList.remove('active'));
   myTab.classList.add('active');
@@ -6517,6 +7259,9 @@ if (streamEl) {
 
     // Load user's market selections into Submarket Pulse
     buildUserHeatmapTab();
+
+    // Initialize personalized dashboard sections
+    initializeDashboard();
   } catch (err) {
     console.error('LandMarq auth error:', err);
     window.location.href = '/login?returnTo=/dashboard';
