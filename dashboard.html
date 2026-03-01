@@ -2175,6 +2175,8 @@ function finishOnboarding() {
   aiFeatures.morningBrief = document.getElementById('ai-toggle-morning')?.classList.contains('on') || false;
   localStorage.setItem('lmq_ai_features', JSON.stringify(aiFeatures));
 
+  localStorage.setItem('lmq_onboarded', 'true');
+  localStorage.setItem('lmq_needs_tour', 'true');
   const overlay = document.getElementById('onboarding-overlay');
   overlay.classList.add('hidden');
   setTimeout(() => {
@@ -2285,6 +2287,7 @@ let tourKeyListener = null;
 function startTour() {
   tourActive = true;
   tourIdx = 0;
+  console.log('Tour starting with', tourSteps.length, 'steps:', tourSteps.map(s => s.target));
 
   // Add keyboard navigation
   tourKeyListener = (e) => {
@@ -2319,7 +2322,13 @@ function showTourStep() {
   if (!step) { endTour(); return; }
 
   const target = document.getElementById(step.target);
-  if (!target) { endTour(); return; }
+  if (!target) {
+    // Skip missing targets instead of ending tour
+    console.warn('Tour: target not found:', step.target);
+    tourIdx++;
+    if (tourIdx < tourSteps.length) { showTourStep(); } else { endTour(); }
+    return;
+  }
 
   // Auto-scroll target into view
   target.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2679,7 +2688,14 @@ function showModal(badge, title, bodyHTML) {
   document.getElementById('modal-body').innerHTML = bodyHTML;
   modalOverlay.style.display = 'flex';
 }
-function closeModal() { modalOverlay.style.display = 'none'; }
+function closeModal() {
+  modalOverlay.style.display = 'none';
+  // Start guided tour after data upload prompt is dismissed
+  if (localStorage.getItem('lmq_needs_tour') === 'true') {
+    localStorage.removeItem('lmq_needs_tour');
+    setTimeout(() => { startTour(); }, 500);
+  }
+}
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
 // Helper for detail rows
@@ -7616,6 +7632,12 @@ if (streamEl) {
 
     // Show the page
     document.body.classList.add('auth-ready');
+
+    // Hide onboarding if already completed
+    if (localStorage.getItem('lmq_onboarded') === 'true') {
+      const obOverlay = document.getElementById('onboarding-overlay');
+      if (obOverlay) { obOverlay.classList.add('hidden'); obOverlay.style.display = 'none'; }
+    }
 
     // Load user's market selections into Submarket Pulse
     buildUserHeatmapTab();
