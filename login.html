@@ -9,6 +9,7 @@
 <title>Sign In — LandMarq</title>
 <meta name="description" content="Sign in to your LandMarq executive intelligence dashboard.">
 <meta name="author" content="Anthony Staren">
+<meta name="robots" content="noindex">
 <style>
 :root {
   --bg: #0A0C0E;
@@ -79,7 +80,7 @@ body::before {
 
 .login-card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-gold);
   border-radius: 12px;
   padding: 40px 36px;
 }
@@ -156,6 +157,43 @@ body::before {
 }
 .form-input::placeholder {
   color: var(--text-dim);
+}
+.form-input.error {
+  border-color: var(--red);
+  background: rgba(192,83,58,0.05);
+}
+.form-input.error:focus {
+  border-color: var(--red);
+}
+
+/* Password field wrapper for show/hide toggle */
+.password-field-wrapper {
+  position: relative;
+}
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+.password-toggle:hover {
+  color: var(--gold);
+}
+
+.form-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 6px;
+  display: none;
+}
+.form-error.visible {
+  display: block;
 }
 
 /* Buttons */
@@ -273,11 +311,54 @@ body::before {
 /* Password field */
 .password-group { display: none; }
 .password-group.visible { display: block; }
+
+.password-hint {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  display: none;
+}
+
+.password-hint.visible {
+  display: block;
+}
+
+.forgot-password-link {
+  font-size: 12px;
+  color: var(--gold);
+  text-decoration: none;
+  display: none;
+  margin-top: 8px;
+}
+
+.forgot-password-link.visible {
+  display: block;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for accessibility */
+.btn-primary:focus-visible, .btn-google:focus-visible, .auth-tab:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
 
-<div class="login-container">
+<div class="login-container" id="main-content">
   <div class="login-logo">
     <a href="/">Land<span>Marq</span></a>
   </div>
@@ -286,10 +367,10 @@ body::before {
     <h1 class="login-title">Welcome back</h1>
     <p class="login-subtitle">Sign in to your executive intelligence dashboard</p>
 
-    <div id="message" class="msg"></div>
+    <div id="message" class="msg" role="alert" aria-live="polite"></div>
 
     <!-- Google OAuth -->
-    <button class="btn-google" onclick="signInGoogle()">
+    <button class="btn-google" onclick="signInGoogle()" aria-label="Sign in with Google">
       <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Continue with Google
     </button>
@@ -297,20 +378,27 @@ body::before {
     <div class="divider">or</div>
 
     <!-- Auth Tabs -->
-    <div class="auth-tabs">
-      <button class="auth-tab active" data-mode="magic" onclick="switchMode('magic')">Magic Link</button>
-      <button class="auth-tab" data-mode="password" onclick="switchMode('password')">Password</button>
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab active" data-mode="magic" onclick="switchMode('magic')" role="tab" aria-selected="true">Magic Link</button>
+      <button class="auth-tab" data-mode="password" onclick="switchMode('password')" role="tab" aria-selected="false">Password</button>
     </div>
 
     <form id="authForm" onsubmit="handleSubmit(event)">
       <div class="form-group">
         <label class="form-label" for="email">Email Address</label>
-        <input class="form-input" type="email" id="email" name="email" placeholder="you@firm.com" required autocomplete="email">
+        <input class="form-input" type="email" id="email" name="email" placeholder="you@firm.com" required autocomplete="email" aria-label="Email address">
+        <div class="form-error" id="email-error" role="alert"></div>
       </div>
 
       <div class="form-group password-group" id="passwordGroup">
         <label class="form-label" for="password">Password</label>
-        <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" minlength="8" autocomplete="current-password">
+        <div class="password-field-wrapper">
+          <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" minlength="8" autocomplete="current-password" aria-label="Password">
+          <button type="button" class="password-toggle" id="passwordToggle" onclick="togglePasswordVisibility()" aria-label="Show password">Show</button>
+        </div>
+        <div class="password-hint" id="pw-hint">Minimum 8 characters</div>
+        <div class="form-error" id="password-error" role="alert"></div>
+        <a href="#" onclick="forgotPassword(event)" class="forgot-password-link" id="forgot-pw-link">Forgot password?</a>
       </div>
 
       <button type="submit" class="btn-primary" id="submitBtn">
@@ -324,7 +412,7 @@ body::before {
   </div>
 
   <div class="login-footer" style="margin-top: 32px;">
-    <a href="/">← Back to LandMarq</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a>
+    <a href="/">← Back to LandMarq</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a>
   </div>
 </div>
 
@@ -335,22 +423,74 @@ body::before {
 let authMode = 'magic'; // 'magic' or 'password'
 let isSignUp = false;
 
+function togglePasswordVisibility() {
+  const pwInput = document.getElementById('password');
+  const toggleBtn = document.getElementById('passwordToggle');
+  if (pwInput.type === 'password') {
+    pwInput.type = 'text';
+    toggleBtn.textContent = 'Hide';
+    toggleBtn.setAttribute('aria-label', 'Hide password');
+  } else {
+    pwInput.type = 'password';
+    toggleBtn.textContent = 'Show';
+    toggleBtn.setAttribute('aria-label', 'Show password');
+  }
+}
+
+function setInputError(inputId, errorMessage) {
+  const input = document.getElementById(inputId);
+  const errorEl = document.getElementById(`${inputId}-error`);
+  if (errorMessage) {
+    input.classList.add('error');
+    if (errorEl) {
+      errorEl.textContent = errorMessage;
+      errorEl.classList.add('visible');
+    }
+  } else {
+    input.classList.remove('error');
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.remove('visible');
+    }
+  }
+}
+
+function clearInputErrors() {
+  document.querySelectorAll('.form-input.error').forEach(input => {
+    input.classList.remove('error');
+  });
+  document.querySelectorAll('.form-error.visible').forEach(error => {
+    error.classList.remove('visible');
+    error.textContent = '';
+  });
+}
+
 function switchMode(mode) {
   authMode = mode;
-  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-tab').forEach((t, idx) => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', mode === t.dataset.mode ? 'true' : 'false');
+  });
   document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+  document.querySelector(`[data-mode="${mode}"]`).setAttribute('aria-selected', 'true');
 
   const pwGroup = document.getElementById('passwordGroup');
+  const pwHint = document.getElementById('pw-hint');
+  const forgotLink = document.getElementById('forgot-pw-link');
   const submitBtn = document.getElementById('submitBtn');
   const toggleText = document.getElementById('toggleText');
 
   if (mode === 'password') {
     pwGroup.classList.add('visible');
+    pwHint.classList.add('visible');
+    forgotLink.classList.add('visible');
     document.getElementById('password').required = true;
     submitBtn.textContent = 'Sign In';
     toggleText.innerHTML = 'Need an account? <a href="#" onclick="toggleSignUp(); return false;">Create one</a>';
   } else {
     pwGroup.classList.remove('visible');
+    pwHint.classList.remove('visible');
+    forgotLink.classList.remove('visible');
     document.getElementById('password').required = false;
     submitBtn.textContent = 'Send Magic Link';
     toggleText.innerHTML = 'Prefer a password? <a href="#" onclick="switchMode(\'password\'); return false;">Sign in with password</a>';
@@ -369,6 +509,11 @@ function toggleSignUp() {
     submitBtn.textContent = 'Sign In';
     toggleText.innerHTML = 'Need an account? <a href="#" onclick="toggleSignUp(); return false;">Create one</a>';
   }
+}
+
+function forgotPassword(event) {
+  event.preventDefault();
+  showMessage('Password reset link would be sent to your email.', 'success');
 }
 
 function showMessage(text, type) {
@@ -392,6 +537,7 @@ async function handleSubmit(e) {
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner"></span> Working...';
   clearMessage();
+  clearInputErrors();
 
   try {
     if (authMode === 'magic') {

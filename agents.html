@@ -25,7 +25,7 @@
   --gold-pale: rgba(196,158,84,0.06);
   --cream: #F0EAD6;
   --text: #C8C0AD;
-  --text-dim: #5C564E;
+  --text-dim: #7A7368;
   --text-mid: #8A8070;
   --green: #4A9B6F;
   --green-dim: rgba(74,155,111,0.15);
@@ -279,7 +279,7 @@ body::after {
 .agents-full { padding: 80px 72px; }
 .agent-full-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; transition: border-color 0.2s; }
 .agent-full-card:hover { border-color: var(--border-gold); }
-.agent-full-header { padding: 32px 36px; display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: flex-start; cursor: pointer; }
+.agent-full-header { padding: 32px 36px; display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: flex-start; }
 .agent-full-icon { font-size: 36px; }
 .agent-full-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--cream); margin-bottom: 6px; }
 .agent-full-sub { font-size: 13px; color: var(--text-mid); line-height: 1.55; max-width: 600px; }
@@ -376,10 +376,23 @@ body::after {
     display: flex;
   }
 }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal.visible { transform: none; }
+  .agent-full-card:hover, .nav-cta:hover, .btn-primary:hover, .btn-outline:hover { transform: none; }
+  @keyframes livePulse { 0%,100% { box-shadow: none; } 50% { box-shadow: none; } }
+}
 </style>
 </head>
 <body>
-<nav class="nav">
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
+<nav class="nav" aria-label="Main navigation">
   <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
   <ul class="nav-links">
     <li><a href="agents.html" class="active">Agents</a></li>
@@ -418,11 +431,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div class="page">
-  <section class="agents-hero">
+  <section class="agents-hero" id="main-content">
     <div class="agents-hero-inner">
       <div>
         <div class="eyebrow">The Agent Fleet</div>
-        <h1 class="section-title">Six AI associates.<br>Running <em>24/7.</em></h1>
+        <h1 class="section-title" id="main">Six AI associates.<br>Running <em>24/7.</em></h1>
         <p class="section-sub">Each agent is purpose-built, continuously running, and calibrated to your markets, role, and deal focus. Together they replace the work of multiple full-time research and admin staff.</p>
         <br>
         <a href="dashboard.html" class="btn-primary">Launch Dashboard →</a>
@@ -443,15 +456,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <section class="agents-full">
 
-    <div class="agent-full-card reveal">
+    <div class="agent-full-card reveal" role="article">
       <div class="agent-full-header">
         <div class="agent-full-icon">🌐</div>
         <div>
           <div class="agent-num-badge">Agent 01 / 06</div>
-          <div class="agent-full-title">Market Intelligence Agent</div>
+          <h2 class="agent-full-title">Market Intelligence Agent</h2>
           <div class="agent-full-sub">Continuously monitors vacancy rates, rental trends, permit filings, competitor deal flow, and local news across every submarket you care about. Delivers a curated morning brief before you sit down — so your first move each day is already informed.</div>
         </div>
-        <div class="agent-full-status">Live · Running</div>
+        <div class="agent-full-status" aria-label="Status: Live and running">Live · Running</div>
       </div>
       <div class="agent-full-body">
         <div class="agent-full-grid">
@@ -483,15 +496,15 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <div class="agent-full-card reveal">
+    <div class="agent-full-card reveal" role="article">
       <div class="agent-full-header">
         <div class="agent-full-icon">🎯</div>
         <div>
           <div class="agent-num-badge">Agent 02 / 06</div>
-          <div class="agent-full-title">Tenant Lead Engine</div>
+          <h2 class="agent-full-title">Tenant Lead Engine</h2>
           <div class="agent-full-sub">Mines LLC registrations, job posting velocity, badge-in data, and commercial lease expiration databases to surface companies likely to need space — months before they issue an RFP. You show up as a trusted advisor, not a vendor responding to a bid.</div>
         </div>
-        <div class="agent-full-status">Live · Running</div>
+        <div class="agent-full-status" aria-label="Status: Live and running">Live · Running</div>
       </div>
       <div class="agent-full-body">
         <div class="agent-full-grid">
@@ -523,15 +536,15 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <div class="agent-full-card reveal">
+    <div class="agent-full-card reveal" role="article">
       <div class="agent-full-header">
         <div class="agent-full-icon">📋</div>
         <div>
           <div class="agent-num-badge">Agent 03 / 06</div>
-          <div class="agent-full-title">LOI Review Agent</div>
+          <h2 class="agent-full-title">LOI Review Agent</h2>
           <div class="agent-full-sub">Reviews letters of intent, NDAs, and lease abstractions in real-time. Flags non-standard clauses against your firm's gold-standard template library — section by section. Reduces document review time from hours to seconds.</div>
         </div>
-        <div class="agent-full-status" style="color:var(--gold)">Alert · Review Needed</div>
+        <div class="agent-full-status">Live · Monitoring</div>
       </div>
       <div class="agent-full-body">
         <div class="agent-full-grid">
@@ -563,15 +576,15 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <div class="agent-full-card reveal">
+    <div class="agent-full-card reveal" role="article">
       <div class="agent-full-header">
         <div class="agent-full-icon">✉️</div>
         <div>
           <div class="agent-num-badge">Agent 04 / 06</div>
-          <div class="agent-full-title">Outreach Personalization Agent</div>
+          <h2 class="agent-full-title">Outreach Personalization Agent</h2>
           <div class="agent-full-sub">Generates bespoke pitch decks and emails for each prospect, pulling in their real-time workforce data, transit scores, competitor moves, and relevant market conditions. Every message lands like it took a day to write — because it used to.</div>
         </div>
-        <div class="agent-full-status">Live · Drafting</div>
+        <div class="agent-full-status" aria-label="Status: Live and drafting">Live · Drafting</div>
       </div>
       <div class="agent-full-body">
         <div class="agent-full-grid">
@@ -603,15 +616,15 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <div class="agent-full-card reveal">
+    <div class="agent-full-card reveal" role="article">
       <div class="agent-full-header">
         <div class="agent-full-icon">🏛️</div>
         <div>
           <div class="agent-num-badge">Agent 05 / 06</div>
-          <div class="agent-full-title">Portfolio Strategist Agent</div>
+          <h2 class="agent-full-title">Portfolio Strategist Agent</h2>
           <div class="agent-full-sub">Delivers autonomous hold/sell analysis for institutional clients using cap rate trends, debt coverage ratios, and macro indicators. Monitors interest rate movements and models their differential impact across office, industrial, and retail assets.</div>
         </div>
-        <div class="agent-full-status">Live · Complete</div>
+        <div class="agent-full-status" aria-label="Status: Live and complete">Live · Complete</div>
       </div>
       <div class="agent-full-body">
         <div class="agent-full-grid">
@@ -643,15 +656,15 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <div class="agent-full-card reveal">
+    <div class="agent-full-card reveal" role="article">
       <div class="agent-full-header">
         <div class="agent-full-icon">📡</div>
         <div>
           <div class="agent-num-badge">Agent 06 / 06</div>
-          <div class="agent-full-title">Zoning & Permit Monitor</div>
+          <h2 class="agent-full-title">Zoning & Permit Monitor</h2>
           <div class="agent-full-sub">Watches local government portals for zoning variances, entitlement hearings, and permit approvals across every parcel in your target markets. The moment a status changes, your team knows — before the market does.</div>
         </div>
-        <div class="agent-full-status">Live · 2 new filings</div>
+        <div class="agent-full-status" aria-label="Status: Live with 2 new filings">Live · 2 new filings</div>
       </div>
       <div class="agent-full-body">
         <div class="agent-full-grid">
@@ -699,7 +712,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="footer-grid">
     <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p></div>
     <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="mailto:hello@landmarq.ai">Contact</a></li></ul></div>
     <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>

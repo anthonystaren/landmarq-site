@@ -34,7 +34,7 @@
   --gold-pale: rgba(196,158,84,0.06);
   --cream: #F0EAD6;
   --text: #C8C0AD;
-  --text-dim: #5C564E;
+  --text-dim: #7A7368;
   --text-mid: #8A8070;
   --green: #4A9B6F;
   --green-dim: rgba(74,155,111,0.15);
@@ -303,6 +303,17 @@ body::after {
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
 
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal.visible { transform: none; }
+  .card:hover, .value-card:hover, .team-card:hover, .problem-card:hover, .nav-cta:hover, .btn-primary:hover, .btn-outline:hover { transform: none; }
+}
+
 </style>
 <style>
 .about-hero { padding: 120px 72px 80px; }
@@ -395,7 +406,8 @@ nav.nav { display:flex!important; align-items:center!important; justify-content:
 </script>
 </head>
 <body>
-<nav class="nav">
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
+<nav class="nav" aria-label="Main navigation">
   <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
   <ul class="nav-links">
     <li><a href="agents.html">Agents</a></li>
@@ -422,11 +434,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div class="page">
-  <section class="about-hero">
+  <section class="about-hero" id="main-content">
     <div class="about-hero-inner">
       <div>
         <div class="eyebrow">Our Story</div>
-        <h1 class="section-title">Built by people who<br>know the <em>market.</em></h1>
+        <h1 class="section-title" id="main">Built by people who<br>know the <em>market.</em></h1>
         <p class="section-sub">LandMarq was founded on a simple observation: the most successful CRE professionals win on information timing — not just relationships. We built the platform we always wished existed.</p>
       </div>
       <div class="about-stat-grid reveal">
@@ -482,19 +494,19 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="eyebrow">Our Principles</div>
     <h2 class="section-title">What we believe.</h2>
     <div class="values-grid">
-      <div class="value-card reveal"><div class="value-icon">⚡</div><div class="value-title">Action over dashboards</div><div class="value-desc">Data that sits in a report doesn't win deals. LandMarq agents perform work — they don't just display it. Every insight comes with a clear next action.</div></div>
-      <div class="value-card reveal reveal-delay-1"><div class="value-icon">🎯</div><div class="value-title">First-mover or nothing</div><div class="value-desc">In CRE, timing is the product. We optimize every agent, every alert, and every delivery to put you in the room first — not second.</div></div>
-      <div class="value-card reveal reveal-delay-2"><div class="value-icon">🔒</div><div class="value-title">Your data stays yours</div><div class="value-desc">We never use your deal data to train models or share with other clients. What happens on your dashboard stays on your dashboard.</div></div>
-      <div class="value-card reveal"><div class="value-icon">🛠️</div><div class="value-title">Built for practitioners</div><div class="value-desc">Every feature was designed with active brokers and managing directors — not theorists. If it doesn't help close deals, it doesn't ship.</div></div>
-      <div class="value-card reveal reveal-delay-1"><div class="value-icon">📡</div><div class="value-title">Always on, never missed</div><div class="value-desc">Markets don't wait for office hours. Our agents run 24/7 and surface what matters — from overnight permit filings to Sunday morning news.</div></div>
-      <div class="value-card reveal reveal-delay-2"><div class="value-icon">🗣️</div><div class="value-title">Plain language first</div><div class="value-desc">Add intelligence in plain English. "Track tech tenants expanding in the 310" — not a dropdown menu. Natural language is the interface.</div></div>
+      <div class="value-card reveal" aria-label="Action over dashboards"><div class="value-icon">⚡</div><div class="value-title">Action over dashboards</div><div class="value-desc">Data that sits in a report doesn't win deals. LandMarq agents perform work — they don't just display it. Every insight comes with a clear next action.</div></div>
+      <div class="value-card reveal reveal-delay-1" aria-label="First-mover or nothing"><div class="value-icon">🎯</div><div class="value-title">First-mover or nothing</div><div class="value-desc">In CRE, timing is the product. We optimize every agent, every alert, and every delivery to put you in the room first — not second.</div></div>
+      <div class="value-card reveal reveal-delay-2" aria-label="Your data stays yours"><div class="value-icon">🔒</div><div class="value-title">Your data stays yours</div><div class="value-desc">We never use your deal data to train models or share with other clients. What happens on your dashboard stays on your dashboard.</div></div>
+      <div class="value-card reveal" aria-label="Built for practitioners"><div class="value-icon">🛠️</div><div class="value-title">Built for practitioners</div><div class="value-desc">Every feature was designed with active brokers and managing directors — not theorists. If it doesn't help close deals, it doesn't ship.</div></div>
+      <div class="value-card reveal reveal-delay-1" aria-label="Always on, never missed"><div class="value-icon">📡</div><div class="value-title">Always on, never missed</div><div class="value-desc">Markets don't wait for office hours. Our agents run 24/7 and surface what matters — from overnight permit filings to Sunday morning news.</div></div>
+      <div class="value-card reveal reveal-delay-2" aria-label="Plain language first"><div class="value-icon">🗣️</div><div class="value-title">Plain language first</div><div class="value-desc">Add intelligence in plain English. "Track tech tenants expanding in the 310" — not a dropdown menu. Natural language is the interface.</div></div>
     </div>
   </section>
 
   <section class="team-section" id="founder">
     <div class="eyebrow">From the Founder</div>
     <h2 class="section-title">A letter from <em>our founder.</em></h2>
-    <div class="reveal" style="max-width:700px;margin:0 auto 56px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+    <div class="reveal" role="article" style="max-width:700px;margin:0 auto 56px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
       <p style="font-size:15px;color:var(--text);line-height:1.9;margin-bottom:16px;">I started my career in management consulting at Ernst &amp; Young, then spent over a decade in B2B data analytics and technology business development. Along the way I built AppFirms, a software development firm, and learned what it takes to ship products that actually move the needle for clients. Today I work as an M&amp;A advisor and investor — and I kept seeing the same gap everywhere I looked.</p>
       <p style="font-size:15px;color:var(--text);line-height:1.9;margin-bottom:16px;">Commercial real estate was the widest gap of all. Brokers managing $200M+ pipelines were still toggling between CoStar tabs, permit portal PDFs, and spreadsheet trackers. The intelligence existed — it just wasn't connected, curated, or actionable.</p>
       <p style="font-size:15px;color:var(--text);line-height:1.9;margin-bottom:16px;">LandMarq is my answer to that problem. Six AI agents that never sleep, monitoring every signal across your markets and delivering what matters to a single dashboard every morning. No more missed leads. No more surprise vacancies. No more LOI clauses slipping through.</p>
@@ -531,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="footer-grid">
     <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p></div>
     <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="mailto:hello@landmarq.ai">Contact</a></li></ul></div>
     <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>

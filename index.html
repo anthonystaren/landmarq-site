@@ -10,15 +10,18 @@
 <meta name="description" content="LandMarq deploys a fleet of AI agents that continuously monitor CRE markets, surface tenant leads, and flag opportunities — delivered to a single executive dashboard every morning.">
 <meta name="author" content="Anthony Staren">
 <meta name="keywords" content="Anthony Staren, Tony Staren, LandMarq, commercial real estate AI, CRE intelligence, AI agents real estate">
+<meta name="robots" content="index, follow">
 <link rel="canonical" href="https://landmarq.ai/">
 <meta property="og:title" content="LandMarq — AI Intelligence for Commercial Real Estate">
 <meta property="og:description" content="Founded by Anthony Staren. LandMarq deploys AI agents that monitor CRE markets, surface tenant leads, and flag opportunities.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://landmarq.ai/">
 <meta property="og:site_name" content="LandMarq">
+<meta property="og:image" content="https://landmarq.ai/og-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LandMarq — AI Intelligence for Commercial Real Estate">
 <meta name="twitter:description" content="Founded by Anthony Staren. AI-powered commercial real estate intelligence platform.">
+<meta name="twitter:image" content="https://landmarq.ai/og-preview.png">
 <style>
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
@@ -35,7 +38,7 @@
   --gold-pale: rgba(196,158,84,0.06);
   --cream: #F0EAD6;
   --text: #C8C0AD;
-  --text-dim: #5C564E;
+  --text-dim: #7A7368;
   --text-mid: #8A8070;
   --green: #4A9B6F;
   --green-dim: rgba(74,155,111,0.15);
@@ -94,7 +97,7 @@ body::after {
 }
 
 .nav-links a {
-  font-size: 13px; font-weight: 500;
+  font-size: 14px; font-weight: 500;
   color: var(--text-mid); text-decoration: none;
   letter-spacing: 0.02em;
   transition: color 0.2s;
@@ -413,6 +416,14 @@ body::after {
 
   .cases-tabs button {
     scroll-snap-align: start;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -983,11 +994,13 @@ body::after {
 </script>
 </head>
 <body>
+<a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:#0A0C0E;padding:8px 16px;z-index:10000;font-family:'Syne',sans-serif;transition:top 0.3s;" onfocus="this.style.top='0';" onblur="this.style.top='-40px';">Skip to content</a>
 
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav" aria-label="Main navigation">
   <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
   <ul class="nav-links">
+    <li><a href="index.html" aria-current="page">Home</a></li>
     <li><a href="agents.html">Agents</a></li>
     <li><a href="index.html#how">How It Works</a></li>
     <li><a href="index.html#cases">Use Cases</a></li>
@@ -1025,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- HERO -->
-<section class="hero">
+<section id="main" class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid-overlay"></div>
 
@@ -1513,10 +1526,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="eyebrow" style="justify-content:center;" class="reveal">Early Access</div>
   <h2 class="cta-title reveal">Ready to wake up<br>ahead of the <em>market?</em></h2>
   <p class="cta-sub reveal">Join the waitlist. We're onboarding CRE executives and brokerage teams now.</p>
-  <div class="cta-form reveal">
-    <input class="cta-input" type="email" placeholder="your@firm.com" />
-    <button class="btn-primary" onclick="handleWaitlist()">Request Access →</button>
-  </div>
+  <form class="cta-form reveal" onsubmit="event.preventDefault(); handleWaitlist()">
+    <input class="cta-input" type="email" placeholder="your@firm.com" required aria-label="Email address for early access" autocomplete="email" />
+    <button type="submit" class="btn-primary">Request Access →</button>
+  </form>
   <div class="cta-note reveal">No spam. No pitch deck. Just early access.</div>
 </section>
 
@@ -1527,9 +1540,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <a href="index.html" class="footer-logo">Land<span>Marq</span></a>
       <p class="footer-desc">Agentic intelligence for commercial real estate executives. Built for brokers who compete on information.</p>
     </div>
-    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="/dashboard">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="#">Integrations</a></li><li><a href="#">Security</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
-    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
+    <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="/dashboard">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="javascript:void(0)" title="Coming soon">Integrations</a></li><li><a href="javascript:void(0)" title="Coming soon">Security</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="javascript:void(0)" title="Coming soon">Blog</a></li><li><a href="javascript:void(0)" title="Coming soon">Careers</a></li><li><a href="javascript:void(0)" title="Coming soon">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="javascript:void(0)" title="Coming soon">Cookie Policy</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai · All rights reserved</div>
@@ -1577,11 +1590,18 @@ function switchCase(tab, idx) {
 // Waitlist
 function handleWaitlist() {
   const input = document.querySelector('.cta-input');
+  const button = document.querySelector('.cta-form button');
   if (input.value && input.value.includes('@')) {
-    input.value = '';
-    input.placeholder = '✓ You\'re on the list — we\'ll be in touch soon';
-    input.style.borderColor = 'var(--green)';
-    input.style.color = 'var(--green)';
+    button.textContent = 'Joining...';
+    button.disabled = true;
+    setTimeout(() => {
+      input.value = '';
+      input.placeholder = '✓ You\'re on the list — we\'ll be in touch soon';
+      input.style.borderColor = 'var(--green)';
+      input.style.color = 'var(--green)';
+      button.textContent = "You're in!";
+      button.disabled = false;
+    }, 800);
   }
 }
 </script>

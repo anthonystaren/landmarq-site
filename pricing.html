@@ -25,7 +25,7 @@
   --gold-pale: rgba(196,158,84,0.06);
   --cream: #F0EAD6;
   --text: #C8C0AD;
-  --text-dim: #5C564E;
+  --text-dim: #7A7368;
   --text-mid: #8A8070;
   --green: #4A9B6F;
   --green-dim: rgba(74,155,111,0.15);
@@ -285,6 +285,17 @@ body::after {
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
 
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal.visible { transform: none; }
+  .pc:hover, .card:hover, .nav-cta:hover, .btn-primary:hover, .btn-outline:hover, .faq-item:hover { transform: none; }
+}
+
 </style>
 <style>
 .pricing-hero { padding: 120px 72px 72px; text-align: center; }
@@ -354,7 +365,8 @@ body::after {
 </style>
 </head>
 <body>
-<nav class="nav">
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
+<nav class="nav" aria-label="Main navigation">
   <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
   <ul class="nav-links">
     <li><a href="agents.html">Agents</a></li>
@@ -381,23 +393,23 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div class="page">
-  <section class="pricing-hero">
+  <section class="pricing-hero" id="main-content">
     <div class="eyebrow" style="justify-content:center;">Simple Pricing</div>
     <h1 class="section-title">Invest in intelligence,<br>not headcount.</h1>
     <p class="section-sub" style="margin:0 auto 32px;">All plans include a 14-day free trial. No credit card required. Cancel anytime.</p>
-    <div class="pricing-toggle">
-      <button class="toggle-btn active" onclick="setBilling('monthly',this)">Monthly</button>
-      <button class="toggle-btn" onclick="setBilling('annual',this)">Annual <span class="save-badge">Save 20%</span></button>
+    <div class="pricing-toggle" role="tablist" aria-label="Billing period">
+      <button class="toggle-btn active" onclick="setBilling('monthly',this)" aria-pressed="true">Monthly</button>
+      <button class="toggle-btn" onclick="setBilling('annual',this)" aria-pressed="false">Annual <span class="save-badge">Save 20%</span></button>
     </div>
 
     <div class="pricing-cards">
       <div class="pc reveal">
         <div class="pc-tier">Broker</div>
-        <div class="pc-name">Solo</div>
+        <h2 class="pc-name">Solo</h2>
         <div class="pc-price"><sup>$</sup><span class="price-monthly">199</span><span class="price-annual" style="display:none">159</span></div>
         <div class="pc-period">per month · billed <span class="billing-label">monthly</span></div>
         <div class="pc-divider"></div>
-        <ul class="pc-features">
+        <ul class="pc-features" role="list">
           <li class="pc-feature"><span class="pc-feature-check">✓</span> 3 AI Agents of your choice</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> 2 focus submarkets</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> Daily morning brief</li>
@@ -407,17 +419,17 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="pc-feature dim"><span class="pc-feature-x">–</span> Team dashboard</li>
           <li class="pc-feature dim"><span class="pc-feature-x">–</span> Custom document templates</li>
         </ul>
-        <a href="dashboard.html" class="pc-btn pc-btn-outline">Start Free Trial</a>
+        <a href="dashboard.html" class="pc-btn pc-btn-outline">Get Started with Solo</a>
       </div>
 
-      <div class="pc featured reveal reveal-delay-1">
+      <div class="pc featured reveal reveal-delay-1" aria-label="Recommended plan">
         <div class="pc-badge">Most Popular</div>
         <div class="pc-tier">Team</div>
-        <div class="pc-name">Pro</div>
+        <h2 class="pc-name">Pro</h2>
         <div class="pc-price"><sup>$</sup><span class="price-monthly">449</span><span class="price-annual" style="display:none">359</span></div>
         <div class="pc-period">per seat · min 3 seats · billed <span class="billing-label">monthly</span></div>
         <div class="pc-divider"></div>
-        <ul class="pc-features">
+        <ul class="pc-features" role="list">
           <li class="pc-feature"><span class="pc-feature-check">✓</span> All 6 AI Agents</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> Unlimited submarkets</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> Hourly intelligence updates</li>
@@ -427,16 +439,16 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="pc-feature"><span class="pc-feature-check">✓</span> LOI review + NDA drafting</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> Priority support</li>
         </ul>
-        <a href="dashboard.html" class="pc-btn pc-btn-gold">Start Free Trial</a>
+        <a href="dashboard.html" class="pc-btn pc-btn-gold">Get Started with Pro</a>
       </div>
 
       <div class="pc reveal reveal-delay-2">
         <div class="pc-tier">Firm</div>
-        <div class="pc-name">Enterprise</div>
-        <div class="pc-price" style="font-size:38px;line-height:1.2;padding-top:8px;">Custom</div>
+        <h2 class="pc-name">Enterprise</h2>
+        <div class="pc-price">Custom</div>
         <div class="pc-period">Tailored to your firm's needs</div>
         <div class="pc-divider"></div>
-        <ul class="pc-features">
+        <ul class="pc-features" role="list">
           <li class="pc-feature"><span class="pc-feature-check">✓</span> Everything in Pro</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> White-label option</li>
           <li class="pc-feature"><span class="pc-feature-check">✓</span> Custom API integrations</li>
@@ -453,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <!-- COMPARISON TABLE -->
   <section class="compare-section">
-    <div class="compare-title">Full Feature Comparison</div>
+    <h2 class="compare-title">Full Feature Comparison</h2>
     <table class="compare-table">
       <thead>
         <tr>
@@ -493,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- FAQ -->
   <section class="faq-section">
     <div class="eyebrow">FAQ</div>
-    <h2 class="section-title">Common questions.</h2>
+    <h3 class="section-title">Common questions.</h3>
     <div class="faq-grid">
       <div class="faq-item reveal"><div class="faq-q">How quickly can I get started?</div><div class="faq-a">Most users are fully configured and live within 10 minutes. The onboarding flow walks you through selecting your markets, activating agents, and setting your first intelligence watches.</div></div>
       <div class="faq-item reveal reveal-delay-1"><div class="faq-q">Does LandMarq integrate with our existing tools?</div><div class="faq-a">Pro and Enterprise plans include native integrations with Salesforce, HubSpot, Slack, and email. Enterprise clients can connect to proprietary systems via our API.</div></div>
@@ -521,10 +533,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="enterprise-right">
       <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream);margin-bottom:6px;">Schedule a Demo</div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;">We'll respond within one business day</div>
-      <div class="enterprise-field"><label class="enterprise-label">Your Name</label><input class="enterprise-input" type="text" placeholder="Mark Sullivan" /></div>
-      <div class="enterprise-field"><label class="enterprise-label">Firm</label><input class="enterprise-input" type="text" placeholder="Savills North America" /></div>
-      <div class="enterprise-field"><label class="enterprise-label">Work Email</label><input class="enterprise-input" type="email" placeholder="mark@savills.com" /></div>
-      <div class="enterprise-field"><label class="enterprise-label">Team Size</label><input class="enterprise-input" type="text" placeholder="e.g. 50 brokers across 4 offices" /></div>
+      <div class="enterprise-field"><label class="enterprise-label" for="demo-name">Your Name</label><input class="enterprise-input" id="demo-name" type="text" placeholder="Mark Sullivan" aria-label="Your Name" /></div>
+      <div class="enterprise-field"><label class="enterprise-label" for="demo-firm">Firm</label><input class="enterprise-input" id="demo-firm" type="text" placeholder="Savills North America" aria-label="Firm" /></div>
+      <div class="enterprise-field"><label class="enterprise-label" for="demo-email">Work Email</label><input class="enterprise-input" id="demo-email" type="email" placeholder="mark@savills.com" aria-label="Work Email" /></div>
+      <div class="enterprise-field"><label class="enterprise-label" for="demo-team">Team Size</label><input class="enterprise-input" id="demo-team" type="text" placeholder="e.g. 50 brokers across 4 offices" aria-label="Team Size" /></div>
       <button class="btn-primary" style="width:100%;justify-content:center;margin-top:4px;" onclick="submitDemo()">Request Enterprise Demo →</button>
     </div>
   </section>
@@ -534,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="footer-grid">
     <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives.</p></div>
     <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Executive Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
-    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="mailto:hello@landmarq.ai">Contact</a></li></ul></div>
     <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2026 LandMarq AI, Inc. · landmarq.ai</div><div class="footer-badge">6 Agents Active</div></div>
@@ -545,8 +557,12 @@ const observer = new IntersectionObserver(entries => { entries.forEach(e => { if
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 function setBilling(type, btn) {
-  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
   const monthly = type === 'monthly';
   document.querySelectorAll('.price-monthly').forEach(el => el.style.display = monthly ? 'inline' : 'none');
   document.querySelectorAll('.price-annual').forEach(el => el.style.display = monthly ? 'none' : 'inline');
