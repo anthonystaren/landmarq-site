@@ -2059,6 +2059,8 @@ body {
 </style>
 
 <script>
+// LandMarq Dashboard v2026.03.01
+console.log('LandMarq Dashboard v2026.03.01 — 6-step onboarding, 7-step tour');
 // ─── ONBOARDING ───
 let currentStep = 1;
 const totalSteps = 6;
@@ -2235,6 +2237,7 @@ function addMarketChip() {
 }
 
 // ─── DASHBOARD TOUR ───
+// TOUR v3 — 7 steps including AI (2026-03-01)
 const tourSteps = [
   {
     target: 'kpi-row',
@@ -2322,37 +2325,40 @@ function showTourStep() {
   if (!step) { endTour(); return; }
 
   const target = document.getElementById(step.target);
-  if (!target) {
-    // Skip missing targets instead of ending tour
-    console.warn('Tour: target not found:', step.target);
-    tourIdx++;
-    if (tourIdx < tourSteps.length) { showTourStep(); } else { endTour(); }
-    return;
+  const hasTarget = !!target;
+
+  // Scroll target into view if it exists
+  if (hasTarget) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // Auto-scroll target into view
-  target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-  // Wait a moment for scroll to complete before showing spotlight
   setTimeout(() => {
-    const rect = target.getBoundingClientRect();
+    let rect;
     const pad = 8;
 
-    ring.style.top = (rect.top - pad) + 'px';
-    ring.style.left = (rect.left - pad) + 'px';
-    ring.style.width = (rect.width + pad * 2) + 'px';
-    ring.style.height = (rect.height + pad * 2) + 'px';
-    ring.classList.add('visible');
+    if (hasTarget) {
+      rect = target.getBoundingClientRect();
+      ring.style.top = (rect.top - pad) + 'px';
+      ring.style.left = (rect.left - pad) + 'px';
+      ring.style.width = (rect.width + pad * 2) + 'px';
+      ring.style.height = (rect.height + pad * 2) + 'px';
+      ring.classList.add('visible');
+    } else {
+      // No target found — hide ring, show tooltip centered
+      ring.classList.remove('visible');
+      rect = { top: window.innerHeight / 2 - 100, bottom: window.innerHeight / 2, left: window.innerWidth / 2 - 140, right: window.innerWidth / 2 + 140 };
+    }
 
     // Update step counter and progress dots
     const stepNum = tourIdx + 1;
-    document.getElementById('progress-text').textContent = `Tour · ${stepNum} of ${tourSteps.length}`;
+    const progressEl = document.getElementById('progress-text');
+    if (progressEl) progressEl.textContent = `Tour · ${stepNum} of ${tourSteps.length}`;
     updateProgressDots(stepNum);
 
     document.getElementById('tt-title').textContent = step.title;
     document.getElementById('tt-desc').textContent = step.desc;
 
-    // Add animated typing demo for step 5 (Add Intelligence)
+    // Add animated typing demo for Add Intelligence step
     if (tourIdx === 4) {
       const descEl = document.getElementById('tt-desc');
       descEl.innerHTML = step.desc + '<div style="margin-top: 10px; padding: 8px; background: rgba(196,158,84,0.1); border-radius: 4px; font-family: \'JetBrains Mono\', monospace; font-size: 10px; color: var(--gold); border-left: 2px solid var(--gold);"><span id="typing-demo"></span><span style="animation: blink 0.8s infinite;">|</span></div>';
@@ -2361,7 +2367,7 @@ function showTourStep() {
 
     // Update back button visibility
     const backBtn = document.getElementById('tt-back-btn');
-    backBtn.style.display = tourIdx > 0 ? 'block' : 'none';
+    if (backBtn) backBtn.style.display = tourIdx > 0 ? 'block' : 'none';
 
     // Update next/done button
     const nextBtn = document.getElementById('tt-next-btn');
@@ -2378,7 +2384,11 @@ function showTourStep() {
     let top, left;
     const pos = step.pos;
 
-    if (pos === 'bottom') {
+    if (!hasTarget) {
+      // Center tooltip on screen when no target
+      top = (window.innerHeight - tipH) / 2;
+      left = (window.innerWidth - tipW) / 2;
+    } else if (pos === 'bottom') {
       top = rect.bottom + pad + 14;
       left = rect.left;
     } else if (pos === 'left') {
@@ -2400,14 +2410,13 @@ function showTourStep() {
 
     tip.style.top = top + 'px';
     tip.style.left = left + 'px';
-    tip.setAttribute('data-pos', pos);
+    tip.setAttribute('data-pos', hasTarget ? pos : 'bottom');
 
-    // Add animation class
     tip.classList.remove('exiting');
     if (!tip.classList.contains('visible')) {
       tip.classList.add('visible');
     }
-  }, 300); // Allow scroll animation to settle
+  }, 300);
 }
 
 function updateProgressDots(currentStep) {
