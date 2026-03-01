@@ -1755,6 +1755,7 @@ body {
         <div id="search-results-anchor" style="position:absolute;top:100%;left:0;width:320px;z-index:100;"></div>
       </div>
       <button onclick="switchView('ai-assistant')" style="padding:6px 14px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border:none;border-radius:6px;color:#0A0C0E;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.2s;white-space:nowrap;" title="Ask AI"><span style="font-size:13px;">✦</span> Ask AI</button>
+      <button onclick="showShareReportModal()" style="padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--cream);font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s;white-space:nowrap;" title="Generate Market Report">📄 Report</button>
       <div class="topbar-chip"><div class="pulse-dot" style="background:var(--gold);animation:pulseGold 2s ease-in-out infinite;width:6px;height:6px;border-radius:50%;"></div>&nbsp;Agents Running</div>
       <button class="add-intel-btn" id="add-intel-btn" onclick="openIntelPanel()">+ Add Intelligence</button>
       <div class="icon-btn theme-toggle" id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer;font-size:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;" title="Toggle Light/Dark Mode">🌙</div>
@@ -4903,6 +4904,13 @@ function generateExampleDeals() {
 function showDataUploadPrompt() {
   showModal('Welcome to LandMarq', 'Connect Your Data',
     `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Great setup! Now let's populate your dashboard with real data. You can import your deals from a CSV file, add them manually, or start with example data.</div>`
+    + `<div style="padding:10px 12px;background:rgba(74,155,111,0.08);border:1px solid rgba(74,155,111,0.2);border-radius:6px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;flex-shrink:0;margin-top:1px;">🔒</span>
+        <div>
+          <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:2px;">Your data stays private</div>
+          <div style="font-size:10px;color:var(--text-dim);line-height:1.5;">All deal data is stored locally in your browser. It never leaves your device, is never sent to our servers, and is never shared with third parties. We use it only to power your dashboard and generate reports for you.</div>
+        </div>
+      </div>`
     + `<div style="display:flex;flex-direction:column;gap:10px;">`
     + `<label style="padding:14px;background:var(--gold);color:#0A0C0E;border:none;border-radius:6px;font-weight:700;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:center;display:block;">
         📁 Upload CSV / Excel <input type="file" accept=".csv,.xlsx,.xls" onchange="importPipelineCSV(event)" style="display:none;" />
@@ -4930,6 +4938,13 @@ function downloadCSVTemplate() {
 function showPipelineImport() {
   showModal('Import Data', 'Pipeline Import',
     `<div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">Import deals from a CSV or Excel file, or generate example data to populate your dashboard.</div>`
+    + `<div style="padding:10px 12px;background:rgba(74,155,111,0.08);border:1px solid rgba(74,155,111,0.2);border-radius:6px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;flex-shrink:0;margin-top:1px;">🔒</span>
+        <div>
+          <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:2px;">Your data stays private</div>
+          <div style="font-size:10px;color:var(--text-dim);line-height:1.5;">All deal data is stored locally in your browser using encrypted localStorage. It never leaves your device and is never transmitted to any server. Your uploads power your personal dashboard and reports only.</div>
+        </div>
+      </div>`
     + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">EXPECTED CSV FORMAT</div>`
     + `<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-mid);line-height:1.6;margin-bottom:16px;">Tenant,Type,Market,SF,Value,Stage,Probability,Close,Contact<br>Netflix Inc.,HQ Expansion,Culver City,60000,$42M,Proposal,72,Apr '26,Sarah Chen</div>`
     + `<div style="display:flex;gap:8px;">
@@ -5029,6 +5044,10 @@ function showShareReportModal() {
     + `<button onclick="generateMarketReport()" style="flex:1;padding:12px;background:var(--gold);color:#0A0C0E;border:none;border-radius:6px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;">Generate & Open Report ↗</button>`
     + `</div>`
     + `<div style="margin-top:10px;font-size:10px;color:var(--text-dim);">Report opens in a new tab. You can save as PDF or share the link.</div>`
+    + `<div style="margin-top:10px;padding:8px 10px;background:rgba(74,155,111,0.08);border:1px solid rgba(74,155,111,0.15);border-radius:4px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;">🔒</span>
+        <div style="font-size:9px;color:var(--text-dim);line-height:1.4;">Your deal data is combined with public market data to generate this report. Pipeline figures come from your uploads; vacancy data from CBRE, Cushman & Wakefield, JLL. All sources are cited in the report.</div>
+      </div>`
   );
 }
 
@@ -5078,10 +5097,11 @@ function generateMarketReport() {
 
     marketRows = unique.map(sub => {
       const name = sub.name || sub.market || '—';
-      const vac = sub.vacancy != null ? sub.vacancy.toFixed(1) + '%' : '—';
-      const vacNum = sub.vacancy || 0;
+      const vacStr = sub.val || (sub.vacancy != null ? sub.vacancy.toFixed(1) + '%' : '—');
+      const vacNum = parseFloat(vacStr) || 0;
+      const src = sub.source || '';
       const color = vacNum > 20 ? '#C0533A' : vacNum > 15 ? '#C49E54' : vacNum > 10 ? '#4A7FA5' : '#4A9B6F';
-      return `<tr><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:13px;color:#1A1610;">${name}</td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;text-align:center;"><span style="display:inline-block;padding:3px 10px;border-radius:4px;background:${color}22;color:${color};font-weight:600;font-size:12px;font-family:'JetBrains Mono',monospace;">${vac}</span></td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:11px;color:#5C5347;">${vacNum < 10 ? 'Tight' : vacNum < 15 ? 'Moderate' : vacNum < 20 ? 'Elevated' : 'High Vacancy'}</td></tr>`;
+      return `<tr><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:13px;color:#1A1610;">${name}</td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;text-align:center;"><span style="display:inline-block;padding:3px 10px;border-radius:4px;background:${color}22;color:${color};font-weight:600;font-size:12px;font-family:'JetBrains Mono',monospace;">${vacStr}</span></td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:11px;color:#5C5347;">${vacNum < 10 ? 'Tight' : vacNum < 15 ? 'Moderate' : vacNum < 20 ? 'Elevated' : 'High Vacancy'}</td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:9px;color:#8A8278;font-family:'JetBrains Mono',monospace;">${src}</td></tr>`;
     }).join('');
   }
 
@@ -5180,6 +5200,7 @@ function generateMarketReport() {
         <th style="padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">SUBMARKET</th>
         <th style="padding:10px 14px;text-align:center;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">VACANCY</th>
         <th style="padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">CONDITIONS</th>
+        <th style="padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">SOURCE</th>
       </tr></thead>
       <tbody>${marketRows}</tbody>
     </table>
@@ -5194,8 +5215,22 @@ function generateMarketReport() {
   ${pipelineSection}
   ${trendsSection}
 
+  <!-- Data Sources Disclosure -->
+  <div style="margin-top:40px;padding:16px 20px;background:#F7F5F1;border:1px solid #E8E4DD;border-radius:8px;">
+    <div style="font-size:10px;letter-spacing:0.12em;color:#7A5C14;font-weight:600;margin-bottom:8px;">DATA SOURCES & METHODOLOGY</div>
+    <div style="font-size:11px;color:#5C5347;line-height:1.7;">
+      <strong style="color:#3D352A;">Market Data:</strong> Vacancy rates, asking rents, and absorption figures sourced from CBRE, Cushman & Wakefield, JLL, Colliers, CommercialCafe, NAIOP, and Newmark quarterly office reports (Q3–Q4 2025). Figures represent direct vacancy for office product unless noted.
+    </div>
+    <div style="font-size:11px;color:#5C5347;line-height:1.7;margin-top:6px;">
+      <strong style="color:#3D352A;">Pipeline Data:</strong> Deal pipeline metrics are calculated from data uploaded by the report author. Pipeline values, probabilities, and stage classifications reflect the author's own entries and are not independently verified.
+    </div>
+    <div style="font-size:11px;color:#5C5347;line-height:1.7;margin-top:6px;">
+      <strong style="color:#3D352A;">Disclaimer:</strong> This report is for informational purposes only and does not constitute investment advice. Market conditions may have changed since the data was last updated. Verify all figures independently before making investment or leasing decisions.
+    </div>
+  </div>
+
   <!-- Footer -->
-  <div style="margin-top:48px;padding-top:16px;border-top:1px solid #E8E4DD;display:flex;justify-content:space-between;align-items:center;">
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid #E8E4DD;display:flex;justify-content:space-between;align-items:center;">
     <div style="font-size:10px;color:#5C5347;">Generated by <strong style="color:#7A5C14;">LandMarq</strong> — AI-powered CRE intelligence</div>
     <div style="font-size:10px;color:#5C5347;">landmarq.ai</div>
   </div>
@@ -7344,7 +7379,26 @@ function renderPreferences() {
     )}
     ${viewSection('Data & Privacy')}
     ${viewCard(
-      editableRow('Data Retention', s['pref-retention'] || '12 months', 'pref-retention', 'select', ['6 months', '12 months', '24 months', 'Indefinite'])
+      `<div style="padding:12px;background:rgba(74,155,111,0.08);border:1px solid rgba(74,155,111,0.2);border-radius:6px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span style="font-size:18px;">🔒</span>
+          <div style="font-size:13px;font-weight:600;color:var(--green);">Your Data Stays Private</div>
+        </div>
+        <div style="font-size:11px;color:var(--text);line-height:1.7;">
+          All deal data you upload is stored <strong style="color:var(--cream);">locally in your browser</strong> using encrypted localStorage. Your pipeline data, contacts, and deal values <strong style="color:var(--cream);">never leave your device</strong> and are never transmitted to LandMarq servers or any third party.
+        </div>
+      </div>`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">HOW WE USE YOUR DATA</div>`
+      + `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">`
+      + [
+        { icon: '📊', title: 'Dashboard Analytics', desc: 'Your uploaded deals populate KPI cards, pipeline table, and probability charts. All calculations happen in your browser.' },
+        { icon: '📈', title: 'Market Reports', desc: 'When you generate reports, your deal data is combined with public market data (CBRE, JLL, Cushman & Wakefield) to create personalized insights. Report generation happens client-side.' },
+        { icon: '🤖', title: 'Agent Intelligence', desc: 'AI agents cross-reference your deals with public market signals (vacancy trends, permit filings, job postings) to surface actionable alerts. Your deal data is never sent externally.' },
+        { icon: '🔍', title: 'Public Market Data', desc: 'Submarket vacancy rates, asking rents, and trends come from public CRE reports (CBRE, Cushman & Wakefield, CommercialCafe, NAIOP, JLL). This data is not based on your uploads.' }
+      ].map(d => `<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;"><span style="font-size:16px;flex-shrink:0;">${d.icon}</span><div><div style="font-size:11px;color:var(--cream);font-weight:600;margin-bottom:2px;">${d.title}</div><div style="font-size:10px;color:var(--text-dim);line-height:1.5;">${d.desc}</div></div></div>`).join('')
+      + `</div>`
+      + `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">DATA CONTROLS</div>`
+      + editableRow('Data Retention', s['pref-retention'] || '12 months', 'pref-retention', 'select', ['6 months', '12 months', '24 months', 'Indefinite'])
       + editableRow('Share Analytics with Team', s['pref-share-analytics'] !== undefined ? s['pref-share-analytics'] : true, 'pref-share-analytics', 'toggle')
       + `<div style="display:flex;gap:8px;margin-top:12px;">
         <button onclick="exportMyData()" style="padding:8px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">Export My Data</button>
