@@ -1707,18 +1707,18 @@ body {
     </div>
     <div class="nav-item" id="nav-agents">
       <span class="nav-icon">⬡</span> Agent Fleet
-      <span class="nav-badge green">6</span>
+      <span class="nav-badge green" title="Source: System — 6 configured agents" onclick="event.stopPropagation();showSourceInfo('Agent Fleet',[{label:'Active Agents',value:'6',source:'System configuration — agents enabled during onboarding',note:'Agents pull from CBRE, JLL, Cushman & Wakefield, CommercialCafe, NAIOP, public records'}])">6</span>
     </div>
     <div class="nav-item" id="nav-pipeline">
       <span class="nav-icon">◎</span> Deal Pipeline
-      <span class="nav-badge gold">14</span>
+      <span class="nav-badge gold" title="Source: User-uploaded deals" onclick="event.stopPropagation();showSourceInfo('Deal Pipeline',[{label:'Active Deals',value:'14',source:'User-uploaded deal data (CSV import or manual entry)',note:'Deal count from your pipeline imports and manual entries'}])">14</span>
     </div>
     <div class="nav-item">
       <span class="nav-icon">△</span> Market Intel
     </div>
     <div class="nav-item" id="nav-leads">
       <span class="nav-icon">◻</span> Tenant Leads
-      <span class="nav-badge">3</span>
+      <span class="nav-badge" title="Source: Lead Finder Agent" onclick="event.stopPropagation();showSourceInfo('Tenant Leads',[{label:'Active Leads',value:'3',source:'Lead Finder Agent — Indeed, LinkedIn, Secretary of State, SEC/EDGAR',note:'Cross-referenced employment signals and corporate filings'}])">3</span>
     </div>
   </div>
 
@@ -1772,7 +1772,7 @@ body {
 
     <!-- HEATMAP -->
     <div class="card heatmap-card" id="heatmap-card">
-      <div class="card-header"><div class="card-title">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;color:var(--gold);">✎ Edit</div><div class="card-action" onclick="showShareReportModal()" style="cursor:pointer;color:var(--gold);">↗ Share Report</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
+      <div class="card-header"><div class="card-title" style="cursor:pointer" onclick="showSourceInfo('Submarket Pulse',[{label:'Vacancy Rates',value:'~50 submarkets',source:'CBRE, Cushman & Wakefield, Colliers, JLL — Q3–Q4 2025 Office Reports'},{label:'Asking Rents',value:'PSF/yr',source:'CommercialCafe, CBRE Q4 2025'},{label:'Tenant Activity',value:'Lease signings',source:'Public filings, NAIOP, Newmark Q4 2025'},{label:'Absorption & Trends',value:'90-day',source:'CBRE, Avison Young, Partners RE quarterly reports'}])">Submarket Pulse</div><div style="display:flex;gap:12px;align-items:center;"><div class="card-action" onclick="showManageMarketsModal()" style="cursor:pointer;color:var(--gold);">✎ Edit</div><div class="card-action" onclick="showShareReportModal()" style="cursor:pointer;color:var(--gold);">↗ Share Report</div><div class="card-action" id="heatmap-full-map">Full Map →</div></div></div>
       <div class="heatmap-tabs" id="heatmap-tabs">
         <div class="heatmap-tab active" onclick="switchHeatmapRegion('west-coast',this)">West Coast</div>
         <div class="heatmap-tab" onclick="switchHeatmapRegion('southwest',this)">Southwest</div>
@@ -1812,7 +1812,7 @@ body {
 
     <!-- AGENT FEED -->
     <div class="card agents-card" id="agent-card">
-      <div class="card-header"><div class="card-title">Live Agent Feed</div><div class="card-action" onclick="switchView('agent-fleet')">Full Activity Log →</div></div>
+      <div class="card-header"><div class="card-title" style="cursor:pointer" onclick="showSourceInfo('Live Agent Feed',[{label:'Intel Agent',value:'Active',source:'CBRE, Cushman & Wakefield, CommercialCafe, NAIOP'},{label:'Lead Agent',value:'Scanning',source:'Indeed, LinkedIn, Secretary of State, SEC/EDGAR'},{label:'Comp Agent',value:'Analyzing',source:'JLL, Colliers, Newmark Q4 2025'},{label:'Permit Agent',value:'Tracking',source:'Municipal planning portals, Building & Safety'}])">Live Agent Feed</div><div class="card-action" onclick="switchView('agent-fleet')">Full Activity Log →</div></div>
       <div class="agent-stream" id="agentStream">
         <!-- Populated dynamically by renderAgentFeed() -->
       </div>
@@ -1828,7 +1828,7 @@ body {
 
     <!-- ALERTS (right column spans rows) -->
     <div class="card alerts-card" id="alerts-card">
-      <div class="card-header"><div class="card-title">Priority Alerts</div><div class="card-action">Mark All Read</div></div>
+      <div class="card-header"><div class="card-title" style="cursor:pointer" onclick="showSourceInfo('Priority Alerts',[{label:'Deal Alerts',value:'Pipeline Agent',source:'User-uploaded deal data — probability & stage thresholds'},{label:'Market Alerts',value:'Market Agent',source:'CBRE, Cushman & Wakefield, CommercialCafe Q4 2025'},{label:'System Alerts',value:'System',source:'Agent configuration and activity monitoring'}])">Priority Alerts</div><div class="card-action">Mark All Read</div></div>
       <div class="alerts-body">
         <!-- Populated dynamically by renderAlerts() -->
       </div>
@@ -1836,16 +1836,16 @@ body {
 
     <!-- SPARKLINES -->
     <div class="sparkline-row">
-      <div class="card spark-card" id="spark-deal-value">
-        <div class="card-header"><div class="card-title">Deal Value · Q1 2026</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="showSparkDataModal('deal-value')">Edit Data ✎</div></div>
+      <div class="card spark-card" id="spark-deal-value" style="cursor:pointer" onclick="showSourceInfo('Deal Value · Q1 2026',[{label:'Pipeline Value',value:'See chart',source:'User-uploaded deal data (CSV import or manual entry)',note:'12-month trend from your deal pipeline entries'}])">
+        <div class="card-header"><div class="card-title">Deal Value · Q1 2026</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="event.stopPropagation();showSparkDataModal('deal-value')">Edit Data ✎</div></div>
         <div class="spark-body" id="spark-deal-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
-      <div class="card spark-card" id="spark-leads">
-        <div class="card-header"><div class="card-title">Agent-Sourced Leads · 12mo</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="showSparkDataModal('leads')">Edit Data ✎</div></div>
+      <div class="card spark-card" id="spark-leads" style="cursor:pointer" onclick="showSourceInfo('Agent-Sourced Leads',[{label:'Lead Signals',value:'0',source:'Lead Finder Agent — Indeed, LinkedIn, Secretary of State, SEC/EDGAR',note:'Cross-referenced employment and corporate filing databases'}])">
+        <div class="card-header"><div class="card-title">Agent-Sourced Leads · 12mo</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="event.stopPropagation();showSparkDataModal('leads')">Edit Data ✎</div></div>
         <div class="spark-body" id="spark-leads-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
-      <div class="card spark-card" id="spark-vacancy">
-        <div class="card-header"><div class="card-title">Vacancy Rate · LA Metro</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="showSparkDataModal('vacancy')">Edit Data ✎</div></div>
+      <div class="card spark-card" id="spark-vacancy" style="cursor:pointer" onclick="showSourceInfo('Vacancy Rate',[{label:'Vacancy Data',value:'See chart',source:'CBRE, Cushman & Wakefield, CommercialCafe — Q4 2025 reports',note:'Averaged across your selected market submarkets from public CRE reports'}])">
+        <div class="card-header"><div class="card-title">Vacancy Rate · LA Metro</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="event.stopPropagation();showSparkDataModal('vacancy')">Edit Data ✎</div></div>
         <div class="spark-body" id="spark-vacancy-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
     </div>
@@ -4592,13 +4592,14 @@ function renderKPICards(deals) {
   }
   const vacSourceStr = vacSources.size > 0 ? Array.from(vacSources).slice(0,2).join(', ') : '';
 
+  const weightedVal = formatDollar(deals.reduce((s,d) => s + parseDollarValue(d.value) * ((parseInt(d.probability)||0)/100), 0));
   row.innerHTML = `
-    <div class="kpi-card"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value gold">${formatDollar(totalValue)}</div><div class="kpi-delta delta-up">▲ ${dealCount} active deals</div></div>
-    <div class="kpi-card"><div class="kpi-label">Active Deals</div><div class="kpi-value">${dealCount}</div><div class="kpi-delta delta-up">${highProbDeals} high probability</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. Vacancy · ${vacancyLabel}</div><div class="kpi-value">${vacancyVal}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">${vacSourceStr || 'from selected markets'}</span></div></div>
-    <div class="kpi-card"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Agents scanning your markets</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. Probability</div><div class="kpi-value">${avgProb}%</div><div class="kpi-delta ${avgProb >= 50 ? 'delta-up' : 'delta-down'}">${avgProb >= 50 ? '▲' : '▼'} pipeline health</div></div>
-    <div class="kpi-card"><div class="kpi-label">Weighted Value</div><div class="kpi-value gold">${formatDollar(deals.reduce((s,d) => s + parseDollarValue(d.value) * ((parseInt(d.probability)||0)/100), 0))}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">probability-adjusted</span></div></div>
+    <div class="kpi-card" style="cursor:pointer" onclick="showSourceInfo('Total Pipeline Value',[{label:'Pipeline Value',value:'${formatDollar(totalValue)}',source:'User-uploaded deal data (CSV import or manual entry)',note:'Calculated from ${dealCount} active deals in your pipeline'}])"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value gold">${formatDollar(totalValue)}</div><div class="kpi-delta delta-up">▲ ${dealCount} active deals</div></div>
+    <div class="kpi-card" style="cursor:pointer" onclick="showSourceInfo('Active Deals',[{label:'Deal Count',value:'${dealCount}',source:'User-uploaded deal data (CSV import or manual entry)',note:'${highProbDeals} deals at 70%+ probability'}])"><div class="kpi-label">Active Deals</div><div class="kpi-value">${dealCount}</div><div class="kpi-delta delta-up">${highProbDeals} high probability</div></div>
+    <div class="kpi-card" style="cursor:pointer" onclick="showSourceInfo('Avg. Vacancy · ${vacancyLabel}',[{label:'Vacancy Rate',value:'${vacancyVal}',source:'${vacSourceStr || 'No market data available'}',note:'Averaged across ${vacancyLabel} submarkets from public CRE reports'}])"><div class="kpi-label">Avg. Vacancy · ${vacancyLabel}</div><div class="kpi-value">${vacancyVal}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">${vacSourceStr || 'from selected markets'}</span></div></div>
+    <div class="kpi-card" style="cursor:pointer" onclick="showSourceInfo('Agent-Sourced Leads',[{label:'Leads (30d)',value:'0',source:'Lead Finder Agent — scanning Indeed, LinkedIn, Secretary of State, SEC/EDGAR',note:'Agents are actively scanning your selected markets'}])"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Agents scanning your markets</div></div>
+    <div class="kpi-card" style="cursor:pointer" onclick="showSourceInfo('Avg. Probability',[{label:'Pipeline Probability',value:'${avgProb}%',source:'User-uploaded deal data (CSV import or manual entry)',note:'Weighted average of probability across all active deals'}])"><div class="kpi-label">Avg. Probability</div><div class="kpi-value">${avgProb}%</div><div class="kpi-delta ${avgProb >= 50 ? 'delta-up' : 'delta-down'}">${avgProb >= 50 ? '▲' : '▼'} pipeline health</div></div>
+    <div class="kpi-card" style="cursor:pointer" onclick="showSourceInfo('Weighted Value',[{label:'Probability-Adjusted Value',value:'${weightedVal}',source:'Calculated from user deal data × probability',note:'Each deal value multiplied by its probability percentage'}])"><div class="kpi-label">Weighted Value</div><div class="kpi-value gold">${weightedVal}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">probability-adjusted</span></div></div>
   `;
 }
 
@@ -4622,7 +4623,7 @@ function renderPipelineTable(deals) {
     const stageClass = getStageClass(d.stage);
     const probColor = getProbColor(d.probability);
     const prob = parseInt(d.probability) || 0;
-    return `<tr><td><div class="tenant-name">${d.tenant || 'Unknown'}</div><div class="tenant-sub">${d.type || ''}</div></td><td><span class="market-tag">${d.market || '—'}</span></td><td><span class="size-val">${d.sf || '—'}</span></td><td><span class="value-cell">${d.value || '$0'}</span></td><td><span class="stage-pill ${stageClass}">${d.stage || 'Prospect'}</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill ${probColor}" style="width:${prob}%"></div></div><span class="prob-val">${prob}%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">${d.close || '—'}</td><td><div class="action-dots" onclick="showDealActions(${i})" style="cursor:pointer"><span></span><span></span><span></span></div></td></tr>`;
+    return `<tr style="cursor:pointer" onclick="showSourceInfo('${(d.tenant||'Deal').replace(/'/g,"\\'")}', [{label:'Tenant',value:'${(d.tenant||'').replace(/'/g,"\\'")}',source:'User-uploaded deal data (CSV import or manual entry)'},{label:'Market',value:'${(d.market||'').replace(/'/g,"\\'")}',source:'User-entered'},{label:'Value',value:'${(d.value||'').replace(/'/g,"\\'")}',source:'User-entered'},{label:'Stage',value:'${(d.stage||'').replace(/'/g,"\\'")}',source:'User-entered',note:'All pipeline data comes from your CSV uploads or manual deal entries'}])"><td><div class="tenant-name">${d.tenant || 'Unknown'}</div><div class="tenant-sub">${d.type || ''}</div></td><td><span class="market-tag">${d.market || '—'}</span></td><td><span class="size-val">${d.sf || '—'}</span></td><td><span class="value-cell">${d.value || '$0'}</span></td><td><span class="stage-pill ${stageClass}">${d.stage || 'Prospect'}</span></td><td><div class="prob-bar-wrap"><div class="prob-bar-bg"><div class="prob-bar-fill ${probColor}" style="width:${prob}%"></div></div><span class="prob-val">${prob}%</span></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-mid)">${d.close || '—'}</td><td><div class="action-dots" onclick="event.stopPropagation();showDealActions(${i})" style="cursor:pointer"><span></span><span></span><span></span></div></td></tr>`;
   }).join('');
 }
 
@@ -4750,7 +4751,8 @@ function renderAlerts(deals) {
   body.innerHTML = alerts.slice(0, 6).map(a => {
     const cls = a.priority === 'high' ? 'alert-high' : a.priority === 'med' ? 'alert-med' : 'alert-low';
     const icon = a.priority === 'high' ? '● High Priority' : a.priority === 'med' ? '◆ Medium' : '▸ Info';
-    return `<div class="alert-item ${cls}"><div class="alert-priority">${icon}</div><div class="alert-title">${a.title}</div><div class="alert-body">${a.body}</div><div class="alert-footer"><div class="alert-agent">${a.agent}</div><div class="alert-time">${a.time}</div></div><div class="alert-action-btn">${a.action}</div></div>`;
+    const srcText = a.agent === 'Pipeline Agent' ? 'User-uploaded deal data' : a.agent === 'Market Agent' ? 'CBRE, Cushman & Wakefield, CommercialCafe Q4 2025' : a.agent + ' — system generated';
+    return `<div class="alert-item ${cls}" style="cursor:pointer" onclick="showSourceInfo('${a.title.replace(/'/g,"\\'")}', [{label:'Alert Source',value:'${a.agent}',source:'${srcText}',note:'Generated by ${a.agent} based on your configured thresholds'}])"><div class="alert-priority">${icon}</div><div class="alert-title">${a.title}</div><div class="alert-body">${a.body}</div><div class="alert-footer"><div class="alert-agent">${a.agent}</div><div class="alert-time">${a.time}</div></div><div class="alert-action-btn">${a.action}</div></div>`;
   }).join('');
 }
 
@@ -4804,7 +4806,10 @@ function renderAgentFeed(deals) {
     items.push({icon:'🤖', iconClass:'icon-intel', text:`<strong>${agents.length} agent${agents.length>1?'s':''}</strong> activated and scanning. Feed items will appear as they find intel.`, tag:'Active', tagClass:'tag-intel', time:'now', agent:'System'});
   }
 
-  stream.innerHTML = items.map(it => `<div class="stream-item"><div class="stream-icon ${it.iconClass}">${it.icon}</div><div><div class="stream-text">${it.text}</div><div class="stream-meta"><span class="stream-tag ${it.tagClass}">${it.tag}</span> ${it.time} · ${it.agent}</div></div></div>`).join('');
+  stream.innerHTML = items.map(it => {
+    const feedSrc = it.agent === 'Intel Agent' ? 'CBRE, Cushman & Wakefield, CommercialCafe, NAIOP' : it.agent === 'Comp Agent' ? 'JLL, Colliers, Newmark Q4 2025 reports' : it.agent === 'Lead Agent' ? 'Indeed, LinkedIn, Secretary of State, SEC/EDGAR' : it.agent === 'Permit Agent' ? 'Municipal planning portals, Building & Safety dept.' : it.agent;
+    return `<div class="stream-item" style="cursor:pointer" onclick="showSourceInfo('${it.agent.replace(/'/g,"\\'")}', [{label:'Agent',value:'${it.tag}',source:'${feedSrc}',note:'Feeds updated in real-time from connected data sources'}])"><div class="stream-icon ${it.iconClass}">${it.icon}</div><div><div class="stream-text">${it.text}</div><div class="stream-meta"><span class="stream-tag ${it.tagClass}">${it.tag}</span> ${it.time} · ${it.agent}</div></div></div>`;
+  }).join('');
 }
 
 function renderSparkCards(deals) {
@@ -5602,6 +5607,25 @@ function sourceTag(src) {
   return `<div style="font-size:8px;color:var(--text-dim);margin:-2px 0 6px 0;font-family:'JetBrains Mono',monospace;letter-spacing:0.03em;opacity:0.7;">📊 ${src}</div>`;
 }
 
+function showSourceInfo(title, sources) {
+  // sources = [{label, value, source, url?}]
+  const rows = sources.map(s =>
+    `<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <span style="font-size:12px;color:var(--cream);font-weight:600;">${s.label}</span>
+        <span style="font-size:12px;color:var(--gold);font-family:'JetBrains Mono',monospace;">${s.value || ''}</span>
+      </div>
+      <div style="font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;letter-spacing:0.03em;">📊 Source: ${s.source}</div>
+      ${s.url ? '<a href="'+s.url+'" target="_blank" style="font-size:9px;color:var(--gold);text-decoration:none;font-family:\'JetBrains Mono\',monospace;">↗ View report</a>' : ''}
+      ${s.note ? '<div style="font-size:9px;color:var(--text-dim);margin-top:2px;">'+s.note+'</div>' : ''}
+    </div>`
+  ).join('');
+  showModal('Data Source', title,
+    rows
+    + `<div style="margin-top:12px;padding:8px;background:var(--surface-3);border-radius:4px;font-size:8px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-align:center;letter-spacing:0.05em;">All data compiled from public industry reports · <span style="cursor:pointer;color:var(--gold);text-decoration:underline;" onclick="showDataSourcesPanel()">Manage data sources</span></div>`
+  );
+}
+
 function showHeatmapDetail(market) {
   const d = heatmapDetail[market];
   if (!d) {
@@ -6235,7 +6259,7 @@ function renderAgentFleet() {
       <button onclick="showDataSourcesPanel()" style="padding:8px 16px;background:var(--gold);color:#0A0C0E;border:none;border-radius:4px;font-weight:600;font-family:'Syne',sans-serif;font-size:11px;cursor:pointer;">+ Connect Data Source</button>
     </div>
     ${agents.map(a => viewCard(`
-      <div style="display:flex;gap:16px;align-items:flex-start;">
+      <div style="display:flex;gap:16px;align-items:flex-start;cursor:pointer;" onclick="showSourceInfo('${a.name}', ${JSON.stringify(a.sources.map(s => ({label: s.name, value: s.status === 'connected' ? '● Connected' : '○ Available', source: s.type + ' data provider', note: s.desc}))).replace(/"/g,'&quot;')})">
         <div style="width:44px;height:44px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">${a.icon}</div>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
