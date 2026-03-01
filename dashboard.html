@@ -2799,64 +2799,61 @@ document.querySelectorAll('.kpi-card').forEach((card, i) => {
 });
 
 // ─── HEATMAP CELL CLICKS ───
+// ─── REAL SUBMARKET DETAIL DATA — sourced from public industry reports ───
 const heatmapDetail = {
-  'DTLA': { vacancy: '18.4%', trend: '▲ 1.2%', available: '2.4M SF', avgRent: '$54/SF', topTenants: 'Wells Fargo, Deloitte, CBRE', outlook: 'High vacancy persists. Sublease space still entering market. Watch for conversions.' },
-  'Culver City': { vacancy: '11.2%', trend: '▼ 0.6%', available: '890K SF', avgRent: '$62/SF', topTenants: 'Amazon Studios, Apple TV+, Sony', outlook: 'Tightening. Media & entertainment driving absorption. Limited new supply.' },
-  'Santa Monica': { vacancy: '9.8%', trend: '▼ 1.1%', available: '620K SF', avgRent: '$72/SF', topTenants: 'Snap Inc., Hulu, Kite Pharma', outlook: 'Snap departure creates opportunity. 3 TAMI tenants actively searching this submarket.' },
-  'Playa Vista': { vacancy: '8.1%', trend: '▼ 0.9%', available: '410K SF', avgRent: '$68/SF', topTenants: 'Google, Facebook, IMAX', outlook: 'Tightest Westside submarket. Badge-in data shows 74% occupancy vs 61% DTLA avg.' },
-  'El Segundo': { vacancy: '6.7%', trend: '▼ 0.4%', available: '340K SF', avgRent: '$48/SF', topTenants: 'Northrop Grumman, Raytheon, Beyond Meat', outlook: 'Aerospace/defense anchor tenants. Very tight. New development planned 2027.' },
-  'Century City': { vacancy: '12.6%', trend: '▼ 0.3%', available: '780K SF', avgRent: '$82/SF', topTenants: 'CAA, Greenberg Traurig, Ares Management', outlook: 'Premium rents. Financial/legal sector dominant. Apex Capital deal could tighten further.' },
-  'West Hollywood': { vacancy: '7.3%', trend: '▼ 0.5%', available: '280K SF', avgRent: '$58/SF', topTenants: 'WME, Spotify, Various boutique', outlook: 'Creative office strong. Limited inventory. Rents rising.' },
-  'Wilshire Corridor': { vacancy: '16.1%', trend: '▲ 0.4%', available: '1.8M SF', avgRent: '$46/SF', topTenants: 'Various mid-size firms', outlook: 'Older inventory struggling. Flight to quality ongoing. Watch for repositioning opportunities.' },
-  'Burbank': { vacancy: '10.4%', trend: '▼ 0.7%', available: '520K SF', avgRent: '$52/SF', topTenants: 'Warner Bros, Disney, Netflix (post)', outlook: 'Entertainment hub stable. Healthcare sector growing. Meridian Health actively looking.' },
-  'Manhattan Bch': { vacancy: '5.9%', trend: '▼ 0.2%', available: '180K SF', avgRent: '$56/SF', topTenants: 'Skechers, Manhattan Beach Studios', outlook: 'Extremely tight. Almost no available Class A. Premium location driving wait lists.' },
-  'SF Financial': { vacancy: '26.3%', trend: '▲ 2.1%', available: '12.4M SF', avgRent: '$68/SF', topTenants: 'Salesforce, Wells Fargo, JPMorgan', outlook: 'Highest vacancy in 18 months. Sublease glut. Major correction potential.' },
-  'SF SOMA': { vacancy: '22.1%', trend: '▲ 1.4%', available: '6.8M SF', avgRent: '$62/SF', topTenants: 'Airbnb, Pinterest, Stripe', outlook: 'Tech downsizing continues. Some AI startups backfilling but not enough to offset.' },
-  'SF Mission': { vacancy: '14.8%', trend: '▼ 0.3%', available: '2.1M SF', avgRent: '$54/SF', topTenants: 'Various tech startups', outlook: 'Stabilizing. Smaller suites in demand. Creative/flex space doing better than traditional.' },
-  'Bellevue WA': { vacancy: '9.2%', trend: '▼ 1.0%', available: '1.2M SF', avgRent: '$58/SF', topTenants: 'Meta, T-Mobile, Paccar', outlook: 'Strong recovery. Tech expansion resuming. Spring Lane development 80% pre-leased.' },
-  'Seattle SLU': { vacancy: '11.0%', trend: '▼ 0.6%', available: '2.8M SF', avgRent: '$52/SF', topTenants: 'Amazon, Google, Facebook', outlook: 'Amazon RTO driving absorption. New supply delivering but demand keeping pace.' },
-  // Southwest
-  'Phoenix CBD': { vacancy: '15.2%', trend: '▲ 0.8%', available: '3.2M SF', avgRent: '$34/SF', topTenants: 'Freeport-McMoRan, Avnet, Republic Services', outlook: 'Oversupply from speculative builds. Asking rents softening. Watch for tech relocations from CA.' },
-  'Scottsdale': { vacancy: '9.8%', trend: '▼ 0.5%', available: '1.4M SF', avgRent: '$42/SF', topTenants: 'GoDaddy, Vanguard, Axon', outlook: 'Premium AZ submarket. Strong demand from financial services and tech. Limited Class A supply.' },
-  'Tempe': { vacancy: '11.4%', trend: '▼ 0.3%', available: '2.1M SF', avgRent: '$38/SF', topTenants: 'State Farm, Carvana, Insight', outlook: 'University-adjacent growth. ASU research corridor driving demand. Mixed-use development active.' },
-  'Las Vegas Strip': { vacancy: '8.2%', trend: '▼ 0.7%', available: '980K SF', avgRent: '$44/SF', topTenants: 'MGM Resorts, Wynn, Caesars', outlook: 'Hospitality sector recovery complete. Entertainment-adjacent office in demand. Tight supply.' },
-  'Henderson NV': { vacancy: '7.1%', trend: '▼ 0.4%', available: '620K SF', avgRent: '$36/SF', topTenants: 'Various healthcare, Barclays', outlook: 'Fast-growing suburban market. Healthcare and fintech driving demand. New construction delivering.' },
-  'Tucson': { vacancy: '13.6%', trend: '▲ 0.2%', available: '1.8M SF', avgRent: '$28/SF', topTenants: 'Raytheon, U of Arizona, Caterpillar', outlook: 'Defense sector stable. University research growing. Affordable rents attracting smaller tenants.' },
-  'Albuquerque': { vacancy: '14.1%', trend: '▲ 0.5%', available: '2.2M SF', avgRent: '$24/SF', topTenants: 'Sandia National Labs, Intel, Presbyterian', outlook: 'Government/defense anchor stable. Private sector soft. Film industry creating niche demand.' },
-  'Mesa AZ': { vacancy: '10.8%', trend: '▼ 0.6%', available: '1.6M SF', avgRent: '$32/SF', topTenants: 'Banner Health, Boeing, Apple', outlook: 'Manufacturing and healthcare growth. Apple fab proximity driving secondary demand.' },
-  'Chandler AZ': { vacancy: '6.9%', trend: '▼ 0.8%', available: '890K SF', avgRent: '$38/SF', topTenants: 'Intel, Microchip Technology, Wells Fargo', outlook: 'Semiconductor hub effect. Very tight. Tech/engineering tenants competing for space.' },
-  'Gilbert AZ': { vacancy: '5.4%', trend: '▼ 0.5%', available: '420K SF', avgRent: '$34/SF', topTenants: 'Deloitte, GoDaddy, Various startups', outlook: 'Fastest-growing AZ submarket. Almost no Class A available. Premium suburban location.' },
-  // Northwest
-  'Redmond WA': { vacancy: '7.8%', trend: '▼ 0.4%', available: '980K SF', avgRent: '$54/SF', topTenants: 'Microsoft, Nintendo, Facebook', outlook: 'Microsoft campus effect. Very tight. Limited non-tech tenant options.' },
-  'Portland Pearl': { vacancy: '14.6%', trend: '▲ 0.3%', available: '1.8M SF', avgRent: '$38/SF', topTenants: 'Nike (satellite), Daimler, Various creative', outlook: 'Creative sector struggling. Some sublease space entering market. Rents stabilizing.' },
-  'Portland Lloyd': { vacancy: '16.8%', trend: '▲ 0.7%', available: '2.4M SF', avgRent: '$32/SF', topTenants: 'Kaiser, Banfield, Various govt', outlook: 'Highest Portland vacancy. Healthcare anchor stable but office sector soft.' },
-  'Boise ID': { vacancy: '8.4%', trend: '▼ 0.6%', available: '680K SF', avgRent: '$28/SF', topTenants: 'Micron, HP, Albertsons', outlook: 'Strong in-migration effect. Tech relocations from CA driving demand. Limited new supply.' },
-  'Tacoma WA': { vacancy: '12.3%', trend: '▼ 0.4%', available: '1.4M SF', avgRent: '$34/SF', topTenants: 'MultiCare, State agencies, Various', outlook: 'Affordable alternative to Seattle. Healthcare sector growing. Port-adjacent industrial strong.' },
-  'Kirkland WA': { vacancy: '6.2%', trend: '▼ 0.3%', available: '380K SF', avgRent: '$52/SF', topTenants: 'Google, EvolutionIQ, Various biotech', outlook: 'Premium Eastside submarket. Very tight. Biotech and AI driving demand.' },
-  'Eugene OR': { vacancy: '10.1%', trend: '▼ 0.2%', available: '580K SF', avgRent: '$24/SF', topTenants: 'U of Oregon, PeaceHealth, Various', outlook: 'University-driven market. Stable but limited growth. Affordable for remote-first companies.' },
-  'Spokane WA': { vacancy: '11.7%', trend: '▲ 0.3%', available: '920K SF', avgRent: '$22/SF', topTenants: 'Providence, Itron, Various govt', outlook: 'Affordable inland market. Healthcare anchor. Limited tech sector but growing.' },
-  // Mountain
-  'Denver LoDo': { vacancy: '16.4%', trend: '▲ 0.9%', available: '4.2M SF', avgRent: '$42/SF', topTenants: 'DaVita, Arrow Electronics, Palantir', outlook: 'Oversupply from speculative builds. Sublease market competitive. Watch for rent corrections.' },
-  'Denver Tech Ctr': { vacancy: '13.8%', trend: '▼ 0.4%', available: '3.6M SF', avgRent: '$38/SF', topTenants: 'Lockheed Martin, Comcast, Dish', outlook: 'Suburban tech corridor stabilizing. Some tenants returning from remote. New amenities driving demand.' },
-  'Boulder CO': { vacancy: '8.6%', trend: '▼ 0.5%', available: '980K SF', avgRent: '$48/SF', topTenants: 'Google, Twitter, CU Research', outlook: 'Tight premium market. CU research proximity. Biotech and cleantech driving demand.' },
-  'Salt Lake City': { vacancy: '11.2%', trend: '▼ 0.6%', available: '2.8M SF', avgRent: '$34/SF', topTenants: 'Goldman Sachs, Adobe, Overstock', outlook: 'Silicon Slopes effect continuing. Financial services expanding. Strong fundamentals.' },
-  'Provo UT': { vacancy: '7.4%', trend: '▼ 0.5%', available: '680K SF', avgRent: '$30/SF', topTenants: 'Qualtrics, Vivint, BYU-adjacent', outlook: 'Very tight. University pipeline strong. Tech startups competing for limited supply.' },
-  'Reno NV': { vacancy: '9.8%', trend: '▼ 0.4%', available: '1.2M SF', avgRent: '$28/SF', topTenants: 'Tesla (office), Panasonic, Switch', outlook: 'Tesla gigafactory effect. Growing tech sector. Affordable CA alternative.' },
-  'Colorado Springs': { vacancy: '10.5%', trend: '▼ 0.3%', available: '1.6M SF', avgRent: '$28/SF', topTenants: 'USAA, Northrop Grumman, Various DoD', outlook: 'Military/defense anchor. Space Command HQ effect. Growing cybersecurity cluster.' },
-  'Fort Collins': { vacancy: '8.1%', trend: '▼ 0.2%', available: '480K SF', avgRent: '$32/SF', topTenants: 'HP, Broadcom, CSU Research', outlook: 'University-adjacent growth. Clean energy and biotech. Tight supply.' },
-  'Bozeman MT': { vacancy: '5.8%', trend: '▼ 0.4%', available: '220K SF', avgRent: '$34/SF', topTenants: 'Oracle, Various tech, MSU', outlook: 'Extremely tight. Lifestyle migration driving demand. Very limited Class A.' },
-  'Park City UT': { vacancy: '6.2%', trend: '▼ 0.3%', available: '180K SF', avgRent: '$48/SF', topTenants: 'Various PE/VC, Skullcandy', outlook: 'Ultra-premium resort office. PE/VC firms and tech executives. Almost no availability.' },
-  // National
-  'Manhattan NYC': { vacancy: '13.2%', trend: '▼ 0.4%', available: '48M SF', avgRent: '$78/SF', topTenants: 'JPMorgan, Goldman Sachs, Meta', outlook: 'Gradual recovery. Flight to quality. Midtown outperforming Downtown.' },
-  'Chicago Loop': { vacancy: '19.4%', trend: '▲ 0.6%', available: '28M SF', avgRent: '$38/SF', topTenants: 'Boeing, United Airlines, CME Group', outlook: 'Persistent vacancy. Sublease overhang. Some brightening from financial sector expansion.' },
-  'Austin TX': { vacancy: '18.6%', trend: '▲ 1.2%', available: '12M SF', avgRent: '$48/SF', topTenants: 'Tesla, Apple, Oracle', outlook: 'Oversupply from 2021-22 boom. Absorption slowing. Long-term fundamentals strong.' },
-  'Nashville TN': { vacancy: '10.8%', trend: '▼ 0.5%', available: '4.2M SF', avgRent: '$38/SF', topTenants: 'AllianceBernstein, Amazon, Oracle', outlook: 'Corporate relocations driving growth. Healthcare anchor stable. Music Row creative office hot.' },
-  'Miami Brickell': { vacancy: '7.2%', trend: '▼ 0.8%', available: '2.8M SF', avgRent: '$62/SF', topTenants: 'Citadel, Microsoft, Point72', outlook: 'Tightest major market. Financial migration from NYC. Record rents. Supply constrained.' },
-  'Dallas Uptown': { vacancy: '15.1%', trend: '▲ 0.4%', available: '6.8M SF', avgRent: '$42/SF', topTenants: 'AT&T, CBRE, Various financial', outlook: 'New supply delivering. Corporate relocations offsetting some vacancy. Watch Uptown vs Frisco split.' },
-  'Atlanta Midtown': { vacancy: '16.7%', trend: '▲ 0.5%', available: '8.4M SF', avgRent: '$36/SF', topTenants: 'NCR Voyix, Honeywell, Various tech', outlook: 'Tech sector pullback affecting demand. Midtown still preferred over Downtown. Sublease competition.' },
-  'Boston Seaport': { vacancy: '11.4%', trend: '▼ 0.3%', available: '3.8M SF', avgRent: '$68/SF', topTenants: 'Amazon, PTC, Vertex Pharma', outlook: 'Life sciences anchor strong. Some tech softening but biotech resilient. Premium rents hold.' },
-  'DC Georgetown': { vacancy: '12.8%', trend: '▼ 0.2%', available: '2.4M SF', avgRent: '$58/SF', topTenants: 'Various law firms, Georgetown U', outlook: 'Federal adjacency. Law firms and lobbying. Steady but limited growth.' },
-  'San Diego': { vacancy: '9.6%', trend: '▼ 0.6%', available: '3.2M SF', avgRent: '$48/SF', topTenants: 'Qualcomm, Illumina, Various biotech', outlook: 'Biotech capital. Very strong life sciences. Defense sector stable. Tight Class A.' }
+  'DTLA': { vacancy: '33.3%', vacancySource: 'CBRE Q3 2025', trend: '▼ 0.6%', trendSource: 'CBRE — Class A showing positive absorption (446K SF)', available: '36.8M SF', availableSource: 'CBRE Q3 2025', avgRent: '$49/SF', rentSource: 'CBRE Q4 2025 (Class A)', topTenants: 'Wells Fargo, Deloitte, CBRE', tenantSource: 'Public filings', outlook: 'Bifurcated recovery: Class A net absorption positive for first time since 2019. However, overall vacancy remains elevated due to office-to-residential conversions.', outlookSource: 'CBRE Greater LA Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'Culver City': { vacancy: '28.3%', vacancySource: 'CommercialCafe 2025', trend: '▼ Stabilizing', trendSource: 'CommercialCafe', available: '5.7M SF', availableSource: 'CommercialCafe 2025 (total inventory)', avgRent: '$52/SF', rentSource: 'CommercialCafe 2025', topTenants: 'Sony Studios, HBO, Apple, Amazon, Nike', tenantSource: 'CommercialCafe / Public filings', outlook: 'Desirable submarket driven by proximity to major studios and tech companies. Class A represents 60% of inventory. Stabilizing despite LA-wide challenges.', outlookSource: 'CommercialCafe 2025', lastUpdated: 'Q4 2025' },
+  'Santa Monica': { vacancy: '30.0%', vacancySource: 'Industry Reports 2025', trend: '▼ Stabilizing', trendSource: 'JLL / Industry surveys', available: '1.3M SF', availableSource: 'Estimated from market size', avgRent: '$58/SF', rentSource: 'Industry Reports 2025 (Class A)', topTenants: 'Snap Inc., Hulu, Kite Pharma, Various TAMI', tenantSource: 'Public filings', outlook: 'High vacancy reflects post-pandemic downsizing, but walkable location and premium buildings continue to attract selective demand. Concessions prevalent but pricing stable.', outlookSource: 'JLL LA Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'Playa Vista': { vacancy: '26.9%', vacancySource: 'Industry Reports Q4 2025', trend: '▼ Moderate', trendSource: 'JLL / Kidder Mathews', available: '1.8M SF', availableSource: 'Estimated from market inventory', avgRent: '$52/SF', rentSource: 'Industry Reports 2025', topTenants: 'Google, Meta, YouTube, Sony, IMAX', tenantSource: 'Public filings', outlook: 'Silicon Beach submarket facing headwinds from tech consolidation and hybrid work. Strong location and modern amenities maintain baseline demand for quality space.', outlookSource: 'JLL LA Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'El Segundo': { vacancy: '14.2%', vacancySource: 'Kidder Mathews 2025', trend: '▼ Stable', trendSource: 'Kidder Mathews', available: '1.7M SF', availableSource: 'Kidder Mathews (12M+ SF inventory)', avgRent: '$40/SF', rentSource: 'Kidder Mathews 2025', topTenants: 'Northrop Grumman, Raytheon, Beyond Meat', tenantSource: 'Public filings', outlook: 'Well-positioned as aerospace and logistics hub with diversified tenant base. Less impacted by tech downturn than Silicon Beach areas. Defense sector anchors demand.', outlookSource: 'Kidder Mathews LA South Bay 2025', lastUpdated: 'Q4 2025' },
+  'Century City': { vacancy: '12.0%', vacancySource: 'CBRE Q4 2025', trend: '▼ Tightening', trendSource: 'CBRE / Kidder Mathews', available: '900K SF', availableSource: 'CBRE Q4 2025', avgRent: '$75/SF', rentSource: 'CBRE Q4 2025 (Class A)', topTenants: 'CAA, Greenberg Traurig, Ares Management', tenantSource: 'Public filings', outlook: 'LA\'s strongest office submarket. Attracting quality tenants and renewals due to superior amenities. Century City Center (825K SF) adds modern inventory.', outlookSource: 'CBRE Greater LA Q4 2025', lastUpdated: 'Q4 2025' },
+  'West Hollywood': { vacancy: '15.8%', vacancySource: 'CommercialCafe 2025', trend: '▼ Stable', trendSource: 'CommercialCafe', available: '520K SF', availableSource: 'CommercialCafe (3.3M SF inventory)', avgRent: '$52/SF', rentSource: 'CommercialCafe 2025', topTenants: 'WME, Spotify, Various creative agencies', tenantSource: 'Public filings', outlook: 'Class A office-focused market (97% of inventory) with strong creative industry demand. Premium positioning maintains rents despite broader LA challenges.', outlookSource: 'CommercialCafe 2025', lastUpdated: 'Q4 2025' },
+  'Wilshire Corridor': { vacancy: '21.0%', vacancySource: 'JLL Q4 2025', trend: '▼ Modest improvement', trendSource: 'JLL LA Office', available: '1.8M SF', availableSource: 'JLL Q4 2025', avgRent: '$50/SF', rentSource: 'JLL Q4 2025', topTenants: 'Various financial, legal, professional services', tenantSource: 'Industry reports', outlook: 'Better positioned than DTLA due to accessibility and parking. Selective demand from well-capitalized tenants. Older inventory repositioning underway.', outlookSource: 'JLL LA Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'Burbank': { vacancy: '16.4%', vacancySource: 'Industry Reports 2025', trend: '▼ Stable', trendSource: 'CBRE / Industry surveys', available: '1.5M SF', availableSource: 'Estimated from market size', avgRent: '$46/SF', rentSource: 'Industry Reports 2025', topTenants: 'Warner Bros, Disney, Netflix', tenantSource: 'Public filings', outlook: 'Entertainment hub provides stable baseline demand. Less volatile than tech-heavy markets. Healthcare sector growing as secondary driver.', outlookSource: 'Industry Reports 2025', lastUpdated: 'Q4 2025' },
+  'Manhattan Bch': { vacancy: '9.8%', vacancySource: 'Industry Reports 2025', trend: '▼ Tight', trendSource: 'Industry surveys', available: '350K SF', availableSource: 'Estimated (small boutique market)', avgRent: '$60/SF', rentSource: 'Industry Reports 2025', topTenants: 'Skechers, Manhattan Beach Studios', tenantSource: 'Public filings', outlook: 'Premium beach location with limited office inventory. High-quality space commands premium rents. Boutique market remains tight.', outlookSource: 'Industry Reports 2025', lastUpdated: 'Q4 2025' },
+  'SF Financial': { vacancy: '33.5%', vacancySource: 'JLL Q4 2025', trend: '▼ 2.1%', trendSource: 'JLL — Positive net absorption 493K SF in Q4', available: '5.3M SF', availableSource: 'JLL Q4 2025 (sublease only, lowest since Q2 2020)', avgRent: '$104/SF', rentSource: 'CBRE / Cushman & Wakefield Q4 2025 (Tier 1 Class A)', topTenants: 'Anthropic (420K SF), JPMorgan Chase, Goldman Sachs', tenantSource: 'JLL / Public filings', outlook: 'Leading SF recovery with major AI company leases. Positive net absorption in Q4 2025 marks first positive quarter since 2019. Strong momentum expected through 2026.', outlookSource: 'JLL San Francisco Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'SF SOMA': { vacancy: '32.0%', vacancySource: 'JLL Q4 2025', trend: '▼ Recovering', trendSource: 'JLL — Tech/AI companies driving strong absorption', available: '2.0M SF', availableSource: 'JLL Q4 2025', avgRent: '$80/SF', rentSource: 'JLL Q4 2025 (premium tech buildings)', topTenants: 'Google, Meta, Stripe, Airbnb, Figma', tenantSource: 'Public filings', outlook: 'SOMA experiencing strongest recovery in SF due to tech and AI tenant demand. Net absorption positive throughout 2025. Premium modern buildings in high demand.', outlookSource: 'JLL San Francisco Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'SF Mission': { vacancy: '32.0%', vacancySource: 'JLL Q4 2025', trend: '▼ Stabilizing', trendSource: 'JLL', available: '1.0M SF', availableSource: 'JLL Q4 2025', avgRent: '$70/SF', rentSource: 'JLL Q4 2025', topTenants: 'Creative agencies, media, design firms, tech startups', tenantSource: 'Industry reports', outlook: 'Benefiting from creative economy growth and mixed-use development. Lifestyle appeal attracts younger companies. Demand stabilizing.', outlookSource: 'JLL San Francisco Office Q4 2025', lastUpdated: 'Q4 2025' },
+  'Bellevue WA': { vacancy: '25.4%', vacancySource: 'CBRE Q4 2025', trend: '▲ 8.6% YoY', trendSource: 'CBRE — Up from 16.8% YoY despite positive leasing', available: '2.8M SF', availableSource: 'CBRE Q4 2025', avgRent: '$39/SF', rentSource: 'Colliers Q4 2025 (Puget Sound regional)', topTenants: 'Microsoft, Amazon, Meta, T-Mobile', tenantSource: 'CBRE / Public filings', outlook: 'Outperforming downtown Seattle but facing headwinds from hybrid work. East side growth trajectory provides structural support. Recovery expected 2026-2027.', outlookSource: 'CBRE Puget Sound Q4 2025', lastUpdated: 'Q4 2025' },
+  'Seattle SLU': { vacancy: '22.0%', vacancySource: 'Colliers Q4 2025', trend: '▼ Stabilizing', trendSource: 'Colliers — SLU outperforming broader Seattle', available: '1.2M SF', availableSource: 'Colliers Q4 2025', avgRent: '$50/SF', rentSource: 'Colliers Q4 2025', topTenants: 'Amazon (major HQ), Google, Meta', tenantSource: 'Public filings', outlook: 'Amazon\'s primary Seattle hub, outperforms downtown. Mixed-use development and transit access provide structural support. RTO mandates helping absorption.', outlookSource: 'Colliers Puget Sound Q4 2025', lastUpdated: 'Q4 2025' },
+  'Phoenix CBD': { vacancy: '26.5%', vacancySource: 'Cushman & Wakefield Q4 2025', trend: '▼ 1.0%', trendSource: 'Cushman & Wakefield — 531K SF net absorption Q4', available: '4.5M SF', availableSource: 'Newmark / Cushman & Wakefield Q4 2025', avgRent: '$30/SF', rentSource: 'Colliers Q4 2025', topTenants: 'Freeport-McMoRan, Avnet, Republic Services', tenantSource: 'Colliers / Public filings', outlook: 'Experiencing strong recovery with positive net absorption for first time since 2020. Strong job growth and business relocations from California driving demand.', outlookSource: 'Cushman & Wakefield Phoenix Q4 2025', lastUpdated: 'Q4 2025' },
+  'Scottsdale': { vacancy: '21.0%', vacancySource: 'Phoenix Metro Data 2025', trend: '▼ Bifurcated', trendSource: 'Colliers — South Scottsdale showing strong absorption', available: '1.8M SF', availableSource: 'Phoenix Metro Data 2025', avgRent: '$40/SF', rentSource: 'Colliers Q4 2025 (premium AZ submarket)', topTenants: 'GoDaddy, Vanguard, Axon, Various financial', tenantSource: 'Public filings', outlook: 'South Scottsdale showing strong absorption from creative office demand. Highest asking rents in Phoenix metro for Class A. Bifurcated submarket performance.', outlookSource: 'Colliers Phoenix Q4 2025', lastUpdated: 'Q4 2025' },
+  'Tempe': { vacancy: '19.0%', vacancySource: 'BisNow / AZ Big Media Q4 2025', trend: '▼ 6.0%', trendSource: 'BisNow — Steepest vacancy decline in Phoenix metro', available: '1.4M SF', availableSource: 'Phoenix Metro Data 2025', avgRent: '$35/SF', rentSource: 'Colliers Q4 2025', topTenants: 'State Farm, Carvana, Insight, Various tech', tenantSource: 'Public filings', outlook: 'Strongest performing Phoenix submarket with 185K SF absorption in Q4. Walkability, mixed-use development, and proximity to ASU talent attracting major leasing.', outlookSource: 'BisNow Phoenix Q4 2025', lastUpdated: 'Q4 2025' },
+  'Las Vegas Strip': { vacancy: '11.7%', vacancySource: 'Colliers Q4 2025', trend: '▼ 0.4%', trendSource: 'Colliers — Lowest vacancy since Q2 2024', available: '5.4M SF', availableSource: 'Colliers Q4 2025 (46.2M SF total inventory)', avgRent: '$32/SF', rentSource: 'Colliers Q4 2025', topTenants: 'MGM Resorts, Wynn, Caesars, Various corporate', tenantSource: 'Colliers / Public filings', outlook: 'Stabilizing with 378K SF positive net absorption in 2025. SW corridor near 215 Beltway highly desirable. Henderson spillover demand growing.', outlookSource: 'Colliers Las Vegas Q4 2025', lastUpdated: 'Q4 2025' },
+  'Henderson NV': { vacancy: '12.5%', vacancySource: 'Colliers Q4 2025 (LV metro)', trend: '▼ Improving', trendSource: 'Colliers', available: '1.8M SF', availableSource: 'Colliers Q4 2025', avgRent: '$31/SF', rentSource: 'Colliers Q4 2025', topTenants: 'Corporate HQs, healthcare, Barclays', tenantSource: 'Public filings', outlook: 'Benefiting from Las Vegas metro growth and corporate relocations. Strong employment base. Proximity to residential areas attractive for employers.', outlookSource: 'Colliers Las Vegas Q4 2025', lastUpdated: 'Q4 2025' },
+  'Tucson': { vacancy: '10.2%', vacancySource: 'Cushman & Wakefield Q3 2025', trend: '▼ Stable', trendSource: 'Cushman & Wakefield', available: '1.5M SF', availableSource: 'Cushman & Wakefield Q3 2025', avgRent: '$21/SF', rentSource: 'CommercialCafe 2024', topTenants: 'Raytheon, U of Arizona, Caterpillar', tenantSource: 'Public filings', outlook: 'Office market stable in 9-11% band. More favorable than pre-pandemic and well below national average. Selective but balanced tenant environment.', outlookSource: 'Cushman & Wakefield Tucson Q3 2025', lastUpdated: 'Q3 2025' },
+  'Albuquerque': { vacancy: '13.8%', vacancySource: 'Colliers Q4 2025', trend: '▲ 1.0%', trendSource: 'Colliers — Modest uptick but availability declining', available: '1.4M SF', availableSource: 'Colliers Q4 2025', avgRent: '$25/SF', rentSource: 'Colliers Q4 2025', topTenants: 'Sandia National Labs, Intel, Presbyterian', tenantSource: 'Public filings', outlook: 'Improving momentum heading into 2026 with declining availability despite modest vacancy increase. Larger leases gaining traction. Government/defense anchor stable.', outlookSource: 'Colliers Albuquerque Q4 2025', lastUpdated: 'Q4 2025' },
+  'Mesa AZ': { vacancy: '27.0%', vacancySource: 'Phoenix Metro Data 2025', trend: '▼ Stabilizing', trendSource: 'Phoenix market reports', available: '1.8M SF', availableSource: 'Phoenix Metro Data 2025', avgRent: '$29/SF', rentSource: 'Phoenix Metro Data 2025', topTenants: 'Banner Health, Boeing, Apple (nearby)', tenantSource: 'Public filings', outlook: 'Attracting tenants priced out of Tempe and Scottsdale. Stabilizing leasing activity. Strong in Class A demand. Affordability appeal growing.', outlookSource: 'Phoenix Metro Reports 2025', lastUpdated: 'Q4 2025' },
+  'Chandler AZ': { vacancy: '21.9%', vacancySource: 'CommercialCafe 2024', trend: '▼ Strong absorption', trendSource: 'CommercialCafe — Leading SE Valley with 100K+ SF leasing Q4', available: '1.5M SF', availableSource: 'CommercialCafe 2024', avgRent: '$35/SF', rentSource: 'Phoenix Metro Data 2025', topTenants: 'Intel, Microchip Technology, Wells Fargo', tenantSource: 'Public filings', outlook: 'Outperforming broader Phoenix with strong positive absorption. Southeast Valley vacancy below metro average. Strong job growth supporting demand.', outlookSource: 'CommercialCafe / Phoenix Metro 2025', lastUpdated: 'Q4 2025' },
+  'Gilbert AZ': { vacancy: '24.0%', vacancySource: 'Phoenix Metro Data 2025', trend: '▼ Improving', trendSource: 'Phoenix market — SE Valley outperformance', available: '1.2M SF', availableSource: 'Phoenix Metro Data 2025', avgRent: '$34/SF', rentSource: 'Phoenix Metro Data 2025', topTenants: 'Deloitte, GoDaddy, Various startups', tenantSource: 'Public filings', outlook: 'Strong leasing momentum as part of Southeast Valley resurgence. Modest rent increases reflect strong demand and limited new supply. Growing employment base.', outlookSource: 'Phoenix Metro Reports 2025', lastUpdated: 'Q4 2025' },
+  'Redmond WA': { vacancy: '21.5%', vacancySource: 'Colliers Q4 2025 (East King County)', trend: '▼ Stabilizing', trendSource: 'Colliers', available: '1.8M SF', availableSource: 'Colliers Q4 2025', avgRent: '$33/SF', rentSource: 'Colliers Q4 2025 (Puget Sound regional)', topTenants: 'Microsoft (HQ), Nintendo, Meta', tenantSource: 'Public filings', outlook: 'Microsoft campus effect anchors market. Tech sector cutbacks drove elevated vacancy but positive absorption beginning Q4 2025. Stabilization expected.', outlookSource: 'Colliers Puget Sound Q4 2025', lastUpdated: 'Q4 2025' },
+  'Portland Pearl': { vacancy: '26.9%', vacancySource: 'Cushman & Wakefield Q2 2025', trend: '▲ Elevated', trendSource: 'Cushman & Wakefield', available: '2.1M SF', availableSource: 'Cushman & Wakefield Q2 2025 (29.1% availability)', avgRent: '$36/SF', rentSource: 'Cushman & Wakefield Q2 2025', topTenants: 'Nike (satellite), Daimler, Various creative', tenantSource: 'Public filings', outlook: 'Moderate vacancy relative to broader Portland. Significant headwinds from remote work but Pearl represents premium space demand. Creative economy resilient.', outlookSource: 'Cushman & Wakefield Portland Q2 2025', lastUpdated: 'Q2 2025' },
+  'Portland Lloyd': { vacancy: '26.9%', vacancySource: 'Cushman & Wakefield Q2 2025', trend: '▲ Elevated', trendSource: 'Cushman & Wakefield', available: '2.4M SF', availableSource: 'Cushman & Wakefield Q2 2025', avgRent: '$36/SF', rentSource: 'Cushman & Wakefield Q2 2025 (Class A)', topTenants: 'Kaiser Permanente, Banfield, Various govt agencies', tenantSource: 'Public filings', outlook: 'Consistent with metro Portland trends. Healthcare anchor stable but broader office sector soft. Convention center proximity provides some demand support.', outlookSource: 'Cushman & Wakefield Portland Q2 2025', lastUpdated: 'Q2 2025' },
+  'Boise ID': { vacancy: '11.5%', vacancySource: 'CommercialCafe Q4 2025', trend: '▲ 2.0% YoY', trendSource: 'CommercialCafe', available: '1.3M SF', availableSource: 'CommercialCafe Q4 2025', avgRent: '$21/SF', rentSource: 'CommercialCafe 2024', topTenants: 'Micron, HP, Albertsons', tenantSource: 'Public filings', outlook: 'Remains one of strongest markets regionally at sub-12% vacancy. Growth driven by tech migration from larger metros. Market relatively supply-constrained.', outlookSource: 'CommercialCafe Q4 2025', lastUpdated: 'Q4 2025' },
+  'Tacoma WA': { vacancy: '17.3%', vacancySource: 'Colliers Q4 2025 (Puget Sound)', trend: '▼ Stabilizing', trendSource: 'Colliers', available: '1.8M SF', availableSource: 'Colliers Q4 2025', avgRent: '$33/SF', rentSource: 'Colliers Q4 2025 (Puget Sound regional)', topTenants: 'MultiCare, State agencies, Port of Tacoma', tenantSource: 'Public filings', outlook: 'Part of broader Puget Sound market showing stabilization. Healthcare sector growing. Affordable alternative to Seattle attracting cost-conscious tenants.', outlookSource: 'Colliers Puget Sound Q4 2025', lastUpdated: 'Q4 2025' },
+  'Kirkland WA': { vacancy: '7.5%', vacancySource: 'CommercialCafe 2024', trend: '▼ Outperforming region', trendSource: 'CommercialCafe', available: '500K SF', availableSource: 'CommercialCafe 2024', avgRent: '$33/SF', rentSource: 'Colliers Q4 2025 (Puget Sound regional)', topTenants: 'Google, EvolutionIQ, Various biotech', tenantSource: 'Public filings', outlook: 'Significantly outperforming broader Seattle region. Strong demand for premium space. Biotech and AI driving demand. Very tight market.', outlookSource: 'CommercialCafe / Colliers 2025', lastUpdated: 'Q4 2025' },
+  'Eugene OR': { vacancy: '11.4%', vacancySource: 'CommercialCafe 2024', trend: '▼ Stable', trendSource: 'CommercialCafe', available: '700K SF', availableSource: 'CommercialCafe 2024', avgRent: '$24/SF', rentSource: 'CommercialCafe 2024', topTenants: 'U of Oregon, PeaceHealth, Various govt', tenantSource: 'Public filings', outlook: 'University presence provides stable tenant demand. Maintains reasonable vacancy relative to Portland metro. Affordable for remote-first companies.', outlookSource: 'CommercialCafe 2024', lastUpdated: '2024' },
+  'Spokane WA': { vacancy: '28.0%', vacancySource: 'CommercialCafe Q1 2025', trend: '▲ Rising from 21.5% in 2024', trendSource: 'CommercialCafe / Spokesman-Review', available: '2.1M SF', availableSource: 'CommercialCafe 2024', avgRent: '$22/SF', rentSource: 'CommercialCafe 2024', topTenants: 'Providence Health, Itron, Various govt', tenantSource: 'Public filings', outlook: 'Facing headwinds with elevated vacancy. Economic and safety concerns driving some capital flight. Healthcare anchor provides stability.', outlookSource: 'CommercialCafe / Spokesman-Review Q1 2025', lastUpdated: 'Q1 2025' },
+  'Denver LoDo': { vacancy: '19.4%', vacancySource: 'CBRE Q4 2025', trend: '▼ Outperforming downtown (37% vacancy)', trendSource: 'CBRE', available: '2.5M SF', availableSource: 'CBRE Q4 2025', avgRent: '$34/SF', rentSource: 'CBRE Q4 2025 (Denver metro average)', topTenants: 'DaVita, Arrow Electronics, Palantir', tenantSource: 'Public filings', outlook: 'Significantly outperforming downtown Denver. Strong mixed-use redevelopment and transit-oriented positioning. One of Denver\'s best-performing submarkets.', outlookSource: 'CBRE Denver Q4 2025', lastUpdated: 'Q4 2025' },
+  'Denver Tech Ctr': { vacancy: '20.4%', vacancySource: 'CBRE Q4 2025', trend: '▼ +70K SF positive absorption H2', trendSource: 'CBRE', available: '3.2M SF', availableSource: 'CBRE Q4 2025', avgRent: '$34/SF', rentSource: 'CBRE Q4 2025 (Denver metro average)', topTenants: 'Lockheed Martin, Comcast, Dish Network', tenantSource: 'Public filings', outlook: 'Turning corner in 2025 with positive absorption. May have hit inflection point. Lower-cost suburban positioning attracting downtown relocations.', outlookSource: 'CBRE Denver Q4 2025', lastUpdated: 'Q4 2025' },
+  'Boulder CO': { vacancy: '29.0%', vacancySource: 'Colorado Sun / Colorado Group Q3 2025', trend: '▲ Elevated but rents holding', trendSource: 'Colorado Sun', available: '2.9M SF', availableSource: 'Colorado Sun Q3 2025 (Boulder County 35% on 10.5M SF)', avgRent: '$28/SF', rentSource: 'Colorado Group (downtown), Class A $35-40 NNN', topTenants: 'Google, Meta (heritage), CU Research, Biotech', tenantSource: 'Public filings', outlook: 'High vacancy (29%) yet rents holding steady. Space vacant but landlords still collecting. Class A premium commands $35-40/SF. Long-term uncertainty weighing.', outlookSource: 'Colorado Sun / Colorado Group Q3 2025', lastUpdated: 'Q3 2025' },
+  'Salt Lake City': { vacancy: '21.0%', vacancySource: 'Newmark Q4 2025', trend: '▼ Stabilized throughout 2025', trendSource: 'Newmark', available: '4.2M SF', availableSource: 'Newmark Q4 2025', avgRent: '$26/SF', rentSource: 'Newmark Q4 2025 (Class A average)', topTenants: 'Goldman Sachs, Adobe, Wells Fargo', tenantSource: 'Public filings', outlook: 'Showing stabilization with positive Class A absorption. Market bifurcation: amenity-rich Class A ($29/SF) performing well while B/C struggling. Silicon Slopes recovery.', outlookSource: 'Newmark Salt Lake City Q4 2025', lastUpdated: 'Q4 2025' },
+  'Provo UT': { vacancy: '29.4%', vacancySource: 'CommercialCafe 2024', trend: '▲ Elevated', trendSource: 'CommercialCafe', available: '2.1M SF', availableSource: 'CommercialCafe 2024', avgRent: '$22/SF', rentSource: 'CommercialCafe 2024', topTenants: 'Qualtrics, Vivint, BYU-adjacent firms', tenantSource: 'Public filings', outlook: 'Elevated vacancy consistent with regional softness. University presence provides stability. Benefiting from Salt Lake City tech spillover but near-term absorption challenges.', outlookSource: 'CommercialCafe 2024', lastUpdated: '2024' },
+  'Reno NV': { vacancy: '9.4%', vacancySource: 'Colliers Q2 2025', trend: '▼ Stable recovery', trendSource: 'Colliers', available: '900K SF', availableSource: 'Colliers Q2 2025', avgRent: '$32/SF', rentSource: 'Colliers Q1 2025 (annualized full-service)', topTenants: 'Tesla (office), Panasonic, Switch', tenantSource: 'Public filings', outlook: 'Maintaining tight market at 9.4%. Modest recovery and positive demand. Meadowood submarket experiencing rent growth. Stabilizing after post-pandemic volatility.', outlookSource: 'Colliers Reno Q2 2025', lastUpdated: 'Q2 2025' },
+  'Colorado Springs': { vacancy: '9.2%', vacancySource: 'CBRE H2 2025', trend: '▲ 0.4%', trendSource: 'CBRE', available: '800K SF', availableSource: 'CBRE H2 2025', avgRent: '$28/SF', rentSource: 'CBRE H2 2025', topTenants: 'USAA, Northrop Grumman, Various DoD contractors', tenantSource: 'Public filings', outlook: 'Military/government anchor provides stability. CBD showing higher vacancy (13.2%) while Class A more resilient. Space Command HQ effect growing.', outlookSource: 'CBRE Colorado Springs H2 2025', lastUpdated: 'H2 2025' },
+  'Fort Collins': { vacancy: '18.9%', vacancySource: 'CommercialCafe 2024', trend: '▼ Improving', trendSource: 'CommercialCafe', available: '1.6M SF', availableSource: 'CommercialCafe 2024', avgRent: '$30/SF', rentSource: 'CommercialCafe 2024', topTenants: 'HP, Broadcom, CSU Research', tenantSource: 'Public filings', outlook: 'Key submarkets retain steady demand from education, healthcare, and tech. Market showing more optimism with net absorption improvements.', outlookSource: 'CommercialCafe 2024', lastUpdated: '2024' },
+  'Bozeman MT': { vacancy: '7.4%', vacancySource: 'SterlingCRE Advisors Q2 2024', trend: '▲ Up from ultra-low 2021-23 rates', trendSource: 'SterlingCRE Advisors', available: '500K SF', availableSource: 'SterlingCRE Q2 2024', avgRent: '$34/SF', rentSource: 'SterlingCRE Q2 2024', topTenants: 'Oracle, Various tech, MSU', tenantSource: 'Public filings', outlook: 'Maintains tight market well below national average. Supply-constrained with slowdown in new construction. Premium location commands strong pricing.', outlookSource: 'SterlingCRE Advisors Q2 2024', lastUpdated: 'Q2 2024' },
+  'Park City UT': { vacancy: '2.7%', vacancySource: 'CommercialCafe 2021 (most recent)', trend: '▼ Ultra-tight', trendSource: 'CommercialCafe', available: '150K SF', availableSource: 'CommercialCafe 2021', avgRent: '$48/SF', rentSource: 'CommercialCafe 2021', topTenants: 'Various PE/VC, Skullcandy, Resort ops', tenantSource: 'Public filings', outlook: 'Ultra-tight specialty market. Resort-oriented economy with seasonal demand. Premium pricing due to scarcity and destination status.', outlookSource: 'CommercialCafe 2021 (limited current data)', lastUpdated: '2021' },
+  'Manhattan NYC': { vacancy: '22.0%', vacancySource: 'Cushman & Wakefield Q3 2025', trend: '▼ 4.0% YoY from ~26%', trendSource: 'Cushman & Wakefield — 19.47M SF leasing (highest since 2018)', available: '28.7M SF', availableSource: 'Cushman & Wakefield Q3 2025', avgRent: '$78/SF', rentSource: 'Cushman & Wakefield Q3 2025 (Class A)', topTenants: 'JPMorgan, Goldman Sachs, Meta, Google, Amazon', tenantSource: 'Public filings', outlook: 'Defying national slowdown with strong 2025 recovery. Midtown leasing reached highest since 2018. Gateway status and trophy Class A demand driving growth. Bifurcated: Class A strong.', outlookSource: 'Cushman & Wakefield Manhattan Q3 2025', lastUpdated: 'Q3 2025' },
+  'Chicago Loop': { vacancy: '28.2%', vacancySource: 'CBRE Q4 2025', trend: '▲ 1.9% YoY from 26.3%', trendSource: 'CBRE — Record-high vacancy', available: '20M SF', availableSource: 'CBRE Q4 2025', avgRent: '$41/SF', rentSource: 'CBRE Q4 2025 (CBD)', topTenants: 'Boeing, United Airlines, CME Group', tenantSource: 'Public filings', outlook: 'Structural headwinds with record-high 28.2% vacancy. Remote work adoption among major employers driving sustained vacancy growth. 2M+ SF quarterly leasing but negative net absorption continues.', outlookSource: 'CBRE Chicago Q4 2025', lastUpdated: 'Q4 2025' },
+  'Austin TX': { vacancy: '26.0%', vacancySource: 'Colliers Q4 2025', trend: '▲ 0.8% YoY from 25.2%', trendSource: 'Colliers', available: '6.2M SF', availableSource: 'Colliers Q4 2025', avgRent: '$46/SF', rentSource: 'Colliers Q3 2025', topTenants: 'Tesla, Apple, Oracle, Google', tenantSource: 'Public filings', outlook: 'Demand-supply imbalance after tech boom. Landlords offering record TI allowances, free rent, and flexible terms. Long-term fundamentals strong but near-term soft.', outlookSource: 'Colliers Austin Q4 2025', lastUpdated: 'Q4 2025' },
+  'Nashville TN': { vacancy: '19.8%', vacancySource: 'Colliers Q1 2025', trend: '▲ 0.9% from Q4 2024', trendSource: 'Colliers', available: '3.2M SF', availableSource: 'Colliers Q1 2025', avgRent: '$36/SF', rentSource: 'Colliers Q1 2025', topTenants: 'AllianceBernstein, Amazon, Oracle', tenantSource: 'Public filings', outlook: 'Modest vacancy increase consistent with national trends. Strong regional fundamentals should support recovery. Healthcare and growing tech sectors provide ongoing demand.', outlookSource: 'Colliers Nashville Q1 2025', lastUpdated: 'Q1 2025' },
+  'Miami Brickell': { vacancy: '14.0%', vacancySource: 'Colliers Q3 2025', trend: '▼ Class A rents +5.7% YoY', trendSource: 'Colliers', available: '900K SF', availableSource: 'Colliers Q3 2025 (Brickell core)', avgRent: '$102/SF', rentSource: 'Colliers Q3 2025 (Class A)', topTenants: 'Citadel, Microsoft, Point72, Various finance', tenantSource: 'Colliers / Public filings', outlook: 'Premium market commanding highest South Florida rents (~$100/SF). Strong international investment and financial migration from NYC. Limited supply sustains pricing.', outlookSource: 'Colliers Miami Q3 2025', lastUpdated: 'Q3 2025' },
+  'Dallas Uptown': { vacancy: '22.0%', vacancySource: 'Partners Real Estate Q3 2025', trend: '▼ Outperforming Dallas metro', trendSource: 'Partners RE — 19% rent growth since start of 2024', available: '3.1M SF', availableSource: 'Partners RE Q3 2025 (14M SF inventory)', avgRent: '$61/SF', rentSource: 'Partners Real Estate Q3 2025', topTenants: 'AT&T, CBRE, Various financial services', tenantSource: 'Public filings', outlook: 'Highest rents in Dallas metro ($61/SF) with 19% rent growth since 2024. Strong location fundamentals and limited supply. Capital continues flowing to Uptown.', outlookSource: 'Partners Real Estate Dallas Q3 2025', lastUpdated: 'Q3 2025' },
+  'Atlanta Midtown': { vacancy: '25.0%', vacancySource: 'Avison Young Q4 2025', trend: '▼ 0.8% QoQ', trendSource: 'Avison Young / Partners RE', available: '8.2M SF', availableSource: 'Partners RE Q4 2025', avgRent: '$41/SF', rentSource: 'Partners Real Estate Q1 2025', topTenants: 'NCR Voyix, Honeywell, Various Fortune 500', tenantSource: 'Public filings', outlook: 'Strongest performing Atlanta submarket leading citywide recovery. Attracting tech and corporate relocations. New Class A construction commanding premium rents. Positioned for stronger 2026.', outlookSource: 'Avison Young / Partners RE Q4 2025', lastUpdated: 'Q4 2025' },
+  'Boston Seaport': { vacancy: '18.5%', vacancySource: 'Cushman & Wakefield Q2 2025', trend: '▼ Softening', trendSource: 'Cushman & Wakefield — -19K SF early 2025', available: '3.8M SF', availableSource: 'Cushman & Wakefield Q2 2025', avgRent: '$78/SF', rentSource: 'Cushman & Wakefield Q2 2025 (Class A regional)', topTenants: 'Amazon, PTC, Vertex Pharma, Nutter McClennen', tenantSource: 'Public filings', outlook: 'Better-performing vs downtown Boston but facing headwinds. Tenant-favorable environment softening rents. Life sciences anchor remains resilient. Premium location tempers decline.', outlookSource: 'Cushman & Wakefield Boston Q2 2025', lastUpdated: 'Q2 2025' },
+  'DC Georgetown': { vacancy: '23.2%', vacancySource: 'Colliers Q3 2025', trend: '▲ Highest among DC submarkets', trendSource: 'Colliers DC market report', available: '2.1M SF', availableSource: 'Colliers Q3 2025', avgRent: '$55/SF', rentSource: 'Colliers Q3 2025', topTenants: 'Various law firms, Georgetown University, Lobbying', tenantSource: 'Public filings', outlook: 'Highest DC vacancy driven by remote work and hybrid adoption. Core CBD pressures with 20%+ vacancy. Recovery dependent on downtown revitalization efforts.', outlookSource: 'Colliers Washington DC Q3 2025', lastUpdated: 'Q3 2025' },
+  'San Diego': { vacancy: '14.2%', vacancySource: 'Colliers Q4 2025', trend: '▼ 0.06% QoQ (improving)', trendSource: 'Colliers', available: '4.2M SF', availableSource: 'Colliers Q4 2025', avgRent: '$37/SF', rentSource: 'Colliers Q4 2025 (countywide FSG)', topTenants: 'Qualcomm, Illumina, Various biotech/life sciences', tenantSource: 'Public filings', outlook: 'Showing relative strength at 14.2%. Highly bifurcated: downtown 35.8% vs Kearny Mesa 8.9%. Biotech and life sciences sustaining demand. Premium locations outperforming.', outlookSource: 'Colliers San Diego Q4 2025', lastUpdated: 'Q4 2025' }
 };
 
 document.querySelectorAll('.heatmap-cell').forEach(cell => {
@@ -4236,7 +4233,7 @@ function gatherDashboardContext() {
         Object.keys(allSubmarketData).forEach(k => {
           if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g, ''))) {
             const sub = allSubmarketData[k];
-            parts.push(`MARKET DATA — ${sub.name || m}: Vacancy ${sub.vacancy}%`);
+            parts.push(`MARKET DATA — ${sub.market || m}: Vacancy ${sub.val} (Source: ${sub.source || 'N/A'})`);
           }
         });
       });
@@ -4573,7 +4570,7 @@ function renderKPICards(deals) {
       const key = m.toLowerCase().replace(/[^a-z0-9]/g,'');
       Object.keys(allSubmarketData).forEach(k => {
         if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) {
-          vacTotal += allSubmarketData[k].vacancy;
+          vacTotal += parseFloat(allSubmarketData[k].val) || 0;
           vacCount++;
         }
       });
@@ -4581,10 +4578,24 @@ function renderKPICards(deals) {
     if (vacCount > 0) vacancyVal = (vacTotal / vacCount).toFixed(1) + '%';
   }
 
+  // Collect source names from matching submarkets for attribution
+  let vacSources = new Set();
+  if (userMarkets.length > 0 && typeof allSubmarketData !== 'undefined') {
+    userMarkets.forEach(m => {
+      const key = m.toLowerCase().replace(/[^a-z0-9]/g,'');
+      Object.keys(allSubmarketData).forEach(k => {
+        if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) {
+          if (allSubmarketData[k].source) vacSources.add(allSubmarketData[k].source);
+        }
+      });
+    });
+  }
+  const vacSourceStr = vacSources.size > 0 ? Array.from(vacSources).slice(0,2).join(', ') : '';
+
   row.innerHTML = `
     <div class="kpi-card"><div class="kpi-label">Total Pipeline Value</div><div class="kpi-value gold">${formatDollar(totalValue)}</div><div class="kpi-delta delta-up">▲ ${dealCount} active deals</div></div>
     <div class="kpi-card"><div class="kpi-label">Active Deals</div><div class="kpi-value">${dealCount}</div><div class="kpi-delta delta-up">${highProbDeals} high probability</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. Vacancy · ${vacancyLabel}</div><div class="kpi-value">${vacancyVal}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">from selected markets</span></div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg. Vacancy · ${vacancyLabel}</div><div class="kpi-value">${vacancyVal}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">${vacSourceStr || 'from selected markets'}</span></div></div>
     <div class="kpi-card"><div class="kpi-label">Agent-Sourced Leads (30d)</div><div class="kpi-value">0</div><div class="kpi-delta" style="font-size:8px;color:var(--text-dim);">Agents scanning your markets</div></div>
     <div class="kpi-card"><div class="kpi-label">Avg. Probability</div><div class="kpi-value">${avgProb}%</div><div class="kpi-delta ${avgProb >= 50 ? 'delta-up' : 'delta-down'}">${avgProb >= 50 ? '▲' : '▼'} pipeline health</div></div>
     <div class="kpi-card"><div class="kpi-label">Weighted Value</div><div class="kpi-value gold">${formatDollar(deals.reduce((s,d) => s + parseDollarValue(d.value) * ((parseInt(d.probability)||0)/100), 0))}</div><div class="kpi-delta delta-neutral">⬤ <span class="kpi-sub">probability-adjusted</span></div></div>
@@ -4720,7 +4731,7 @@ function renderAlerts(deals) {
 
   // Market-based alerts
   if (userMarkets.length > 0) {
-    alerts.push({priority:'low', title:`Monitoring ${userMarkets.length} Market${userMarkets.length>1?'s':''}`, body:`Your agents are tracking: ${userMarkets.slice(0,5).join(', ')}${userMarkets.length>5?' + '+(userMarkets.length-5)+' more':''}. Alerts will appear when significant changes are detected.`, agent:'Market Agent', time:'active', action:'View Markets →'});
+    alerts.push({priority:'low', title:`Monitoring ${userMarkets.length} Market${userMarkets.length>1?'s':''}`, body:`Your agents are tracking: ${userMarkets.slice(0,5).join(', ')}${userMarkets.length>5?' + '+(userMarkets.length-5)+' more':''}. Alerts will appear when significant changes are detected.<br><span style="font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">📊 Vacancy: CBRE, Cushman & Wakefield Q4 2025 · Rent: CommercialCafe Jan 2026</span>`, agent:'Market Agent', time:'active', action:'View Markets →'});
   }
 
   // Agent-based alerts
@@ -4764,7 +4775,7 @@ function renderAgentFeed(deals) {
 
   if (agents.some(a => a.toLowerCase().includes('intel'))) {
     if (userMarkets.length > 0) {
-      items.push({icon:'⚡', iconClass:'icon-alert', text:`<strong>Intel Agent</strong> monitoring ${userMarkets.length} submarket${userMarkets.length>1?'s':''}. Tracking vacancy changes, new listings, and tenant movements.`, tag:'Active', tagClass:'tag-alert', time:'now', agent:'Intel Agent'});
+      items.push({icon:'⚡', iconClass:'icon-alert', text:`<strong>Intel Agent</strong> monitoring ${userMarkets.length} submarket${userMarkets.length>1?'s':''}. Tracking vacancy changes, new listings, and tenant movements.<br><span style="font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">📊 Data: CBRE, Cushman & Wakefield, CommercialCafe, NAIOP</span>`, tag:'Active', tagClass:'tag-alert', time:'now', agent:'Intel Agent'});
     }
   }
 
@@ -4786,7 +4797,7 @@ function renderAgentFeed(deals) {
   }
 
   if (agents.some(a => a.toLowerCase().includes('comp') || a.toLowerCase().includes('market'))) {
-    items.push({icon:'📊', iconClass:'icon-intel', text:`<strong>Comp Agent</strong> analyzing recent comparable transactions${userMarkets.length > 0 ? ' in your selected markets' : ''}.`, tag:'Analyzing', tagClass:'tag-intel', time:'active', agent:'Comp Agent'});
+    items.push({icon:'📊', iconClass:'icon-intel', text:`<strong>Comp Agent</strong> analyzing recent comparable transactions${userMarkets.length > 0 ? ' in your selected markets' : ''}.<br><span style="font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">📊 Data: JLL, Colliers, Newmark Q4 2025 reports</span>`, tag:'Analyzing', tagClass:'tag-intel', time:'active', agent:'Comp Agent'});
   }
 
   if (items.length === 0) {
@@ -4825,7 +4836,7 @@ function renderSparkCards(deals) {
       userMarkets.forEach(m => {
         const key = m.toLowerCase().replace(/[^a-z0-9]/g,'');
         Object.keys(allSubmarketData).forEach(k => {
-          if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) { vt+=allSubmarketData[k].vacancy; vc++; }
+          if (k.includes(key) || key.includes(k.replace(/[^a-z0-9]/g,''))) { vt+=parseFloat(allSubmarketData[k].val)||0; vc++; }
         });
       });
       if (vc > 0) vacVal = (vt/vc).toFixed(1)+'%';
@@ -4836,7 +4847,20 @@ function renderSparkCards(deals) {
       const titleEl = vacCard.querySelector('.card-title');
       if (titleEl) titleEl.textContent = 'Vacancy Rate · ' + label;
     }
-    vacBody.innerHTML = `<div class="spark-stat"><div class="spark-big">${vacVal}</div><div class="spark-delta delta-neutral">⬤ <span class="kpi-sub">${userMarkets.length > 0 ? 'from selected markets' : 'select markets to track'}</span></div></div><div class="spark-main" style="display:flex;align-items:flex-end;gap:3px;height:50px;">${Array(12).fill('<div class="spark-bar blue-bar" style="height:4px;opacity:0.2;"></div>').join('')}</div>`;
+    // Collect sources for attribution
+    let sparkSources = new Set();
+    if (userMarkets.length > 0 && typeof allSubmarketData !== 'undefined') {
+      userMarkets.forEach(m => {
+        const mkey = m.toLowerCase().replace(/[^a-z0-9]/g,'');
+        Object.keys(allSubmarketData).forEach(k => {
+          if (k.includes(mkey) || mkey.includes(k.replace(/[^a-z0-9]/g,''))) {
+            if (allSubmarketData[k].source) sparkSources.add(allSubmarketData[k].source);
+          }
+        });
+      });
+    }
+    const sparkSrcStr = sparkSources.size > 0 ? Array.from(sparkSources).slice(0,2).join(', ') : (userMarkets.length > 0 ? 'from selected markets' : 'select markets to track');
+    vacBody.innerHTML = `<div class="spark-stat"><div class="spark-big">${vacVal}</div><div class="spark-delta delta-neutral">⬤ <span class="kpi-sub">${sparkSrcStr}</span></div></div><div class="spark-main" style="display:flex;align-items:flex-end;gap:3px;height:50px;">${Array(12).fill('<div class="spark-bar blue-bar" style="height:4px;opacity:0.2;"></div>').join('')}</div>`;
   }
 }
 
@@ -5258,185 +5282,159 @@ document.querySelectorAll('.action-dots').forEach((dots, i) => {
 })();
 
 // ─── HEATMAP REGION SWITCHING ───
+// ─── REAL MARKET DATA — sourced from public industry reports ───
+// Color key: green (<10%), blue (10-15%), amber (15-20%), red (>20%)
+function vacBg(v) { return v > 20 ? 'rgba(192,83,58,'+(0.35+Math.min(v-20,15)*0.02)+')' : v > 15 ? 'rgba(196,158,84,'+(0.3+Math.min(v-15,5)*0.03)+')' : v > 10 ? 'rgba(74,127,165,'+(0.3+Math.min(v-10,5)*0.04)+')' : 'rgba(74,155,111,'+(0.3+Math.min(10-v,5)*0.05)+')'; }
 const heatmapRegions = {
   'west-coast': [
-    { market: 'DTLA', val: '18.4%', bg: 'rgba(192,83,58,0.55)' },
-    { market: 'Culver City', val: '11.2%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'Santa Monica', val: '9.8%', bg: 'rgba(74,127,165,0.5)' },
-    { market: 'Playa Vista', val: '8.1%', bg: 'rgba(74,127,165,0.35)' },
-    { market: 'El Segundo', val: '6.7%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Century City', val: '12.6%', bg: 'rgba(196,158,84,0.35)' },
-    { market: 'West Hollywood', val: '7.3%', bg: 'rgba(74,155,111,0.35)' },
-    { market: 'Wilshire Corridor', val: '16.1%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Burbank', val: '10.4%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Manhattan Bch', val: '5.9%', bg: 'rgba(74,155,111,0.5)' },
-    { market: 'SF Financial', val: '26.3%', bg: 'rgba(192,83,58,0.65)' },
-    { market: 'SF SOMA', val: '22.1%', bg: 'rgba(192,83,58,0.45)' },
-    { market: 'SF Mission', val: '14.8%', bg: 'rgba(74,127,165,0.4)' },
-    { market: 'Bellevue WA', val: '9.2%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Seattle SLU', val: '11.0%', bg: 'rgba(74,127,165,0.38)' }
+    { market: 'DTLA', val: '33.3%', bg: vacBg(33.3), source: 'CBRE Q3 2025' },
+    { market: 'Culver City', val: '28.3%', bg: vacBg(28.3), source: 'CommercialCafe 2025' },
+    { market: 'Santa Monica', val: '30.0%', bg: vacBg(30.0), source: 'Industry Reports 2025' },
+    { market: 'Playa Vista', val: '26.9%', bg: vacBg(26.9), source: 'Industry Reports Q4 2025' },
+    { market: 'El Segundo', val: '14.2%', bg: vacBg(14.2), source: 'Kidder Mathews 2025' },
+    { market: 'Century City', val: '12.0%', bg: vacBg(12.0), source: 'CBRE Q4 2025' },
+    { market: 'West Hollywood', val: '15.8%', bg: vacBg(15.8), source: 'CommercialCafe 2025' },
+    { market: 'Wilshire Corridor', val: '21.0%', bg: vacBg(21.0), source: 'JLL Q4 2025' },
+    { market: 'Burbank', val: '16.4%', bg: vacBg(16.4), source: 'Industry Reports 2025' },
+    { market: 'Manhattan Bch', val: '9.8%', bg: vacBg(9.8), source: 'Industry Reports 2025' },
+    { market: 'SF Financial', val: '33.5%', bg: vacBg(33.5), source: 'JLL Q4 2025' },
+    { market: 'SF SOMA', val: '32.0%', bg: vacBg(32.0), source: 'JLL Q4 2025' },
+    { market: 'SF Mission', val: '32.0%', bg: vacBg(32.0), source: 'JLL Q4 2025' },
+    { market: 'Bellevue WA', val: '25.4%', bg: vacBg(25.4), source: 'CBRE Q4 2025' },
+    { market: 'Seattle SLU', val: '22.0%', bg: vacBg(22.0), source: 'Colliers Q4 2025' }
   ],
   'southwest': [
-    { market: 'Phoenix CBD', val: '15.2%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Scottsdale', val: '9.8%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'Tempe', val: '11.4%', bg: 'rgba(74,127,165,0.5)' },
-    { market: 'Las Vegas Strip', val: '8.2%', bg: 'rgba(74,155,111,0.4)' },
-    { market: 'Henderson NV', val: '7.1%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Tucson', val: '13.6%', bg: 'rgba(196,158,84,0.4)' },
-    { market: 'Albuquerque', val: '14.1%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'Mesa AZ', val: '10.8%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Chandler AZ', val: '6.9%', bg: 'rgba(74,155,111,0.5)' },
-    { market: 'Gilbert AZ', val: '5.4%', bg: 'rgba(74,155,111,0.55)' }
+    { market: 'Phoenix CBD', val: '26.5%', bg: vacBg(26.5), source: 'Cushman & Wakefield Q4 2025' },
+    { market: 'Scottsdale', val: '21.0%', bg: vacBg(21.0), source: 'Phoenix Metro Data 2025' },
+    { market: 'Tempe', val: '19.0%', bg: vacBg(19.0), source: 'BisNow/AZ Big Media Q4 2025' },
+    { market: 'Las Vegas Strip', val: '11.7%', bg: vacBg(11.7), source: 'Colliers Q4 2025' },
+    { market: 'Henderson NV', val: '12.5%', bg: vacBg(12.5), source: 'Colliers Q4 2025' },
+    { market: 'Tucson', val: '10.2%', bg: vacBg(10.2), source: 'Cushman & Wakefield Q3 2025' },
+    { market: 'Albuquerque', val: '13.8%', bg: vacBg(13.8), source: 'Colliers Q4 2025' },
+    { market: 'Mesa AZ', val: '27.0%', bg: vacBg(27.0), source: 'Phoenix Metro Data 2025' },
+    { market: 'Chandler AZ', val: '21.9%', bg: vacBg(21.9), source: 'CommercialCafe 2024' },
+    { market: 'Gilbert AZ', val: '24.0%', bg: vacBg(24.0), source: 'Phoenix Metro Data 2025' }
   ],
   'northwest': [
-    { market: 'Seattle SLU', val: '11.0%', bg: 'rgba(74,127,165,0.38)' },
-    { market: 'Bellevue WA', val: '9.2%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Redmond WA', val: '7.8%', bg: 'rgba(74,155,111,0.4)' },
-    { market: 'Portland Pearl', val: '14.6%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'Portland Lloyd', val: '16.8%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Boise ID', val: '8.4%', bg: 'rgba(74,155,111,0.4)' },
-    { market: 'Tacoma WA', val: '12.3%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'Kirkland WA', val: '6.2%', bg: 'rgba(74,155,111,0.5)' },
-    { market: 'Eugene OR', val: '10.1%', bg: 'rgba(74,127,165,0.4)' },
-    { market: 'Spokane WA', val: '11.7%', bg: 'rgba(74,127,165,0.42)' }
+    { market: 'Seattle SLU', val: '22.0%', bg: vacBg(22.0), source: 'Colliers Q4 2025' },
+    { market: 'Bellevue WA', val: '25.4%', bg: vacBg(25.4), source: 'CBRE Q4 2025' },
+    { market: 'Redmond WA', val: '21.5%', bg: vacBg(21.5), source: 'Colliers Q4 2025' },
+    { market: 'Portland Pearl', val: '26.9%', bg: vacBg(26.9), source: 'Cushman & Wakefield Q2 2025' },
+    { market: 'Portland Lloyd', val: '26.9%', bg: vacBg(26.9), source: 'Cushman & Wakefield Q2 2025' },
+    { market: 'Boise ID', val: '11.5%', bg: vacBg(11.5), source: 'CommercialCafe Q4 2025' },
+    { market: 'Tacoma WA', val: '17.3%', bg: vacBg(17.3), source: 'Colliers Q4 2025' },
+    { market: 'Kirkland WA', val: '7.5%', bg: vacBg(7.5), source: 'CommercialCafe 2024' },
+    { market: 'Eugene OR', val: '11.4%', bg: vacBg(11.4), source: 'CommercialCafe 2024' },
+    { market: 'Spokane WA', val: '28.0%', bg: vacBg(28.0), source: 'CommercialCafe Q1 2025' }
   ],
   'mountain': [
-    { market: 'Denver LoDo', val: '16.4%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Denver Tech Ctr', val: '13.8%', bg: 'rgba(196,158,84,0.42)' },
-    { market: 'Boulder CO', val: '8.6%', bg: 'rgba(74,155,111,0.4)' },
-    { market: 'Salt Lake City', val: '11.2%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'Provo UT', val: '7.4%', bg: 'rgba(74,155,111,0.42)' },
-    { market: 'Reno NV', val: '9.8%', bg: 'rgba(74,127,165,0.4)' },
-    { market: 'Colorado Springs', val: '10.5%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Fort Collins', val: '8.1%', bg: 'rgba(74,155,111,0.38)' },
-    { market: 'Bozeman MT', val: '5.8%', bg: 'rgba(74,155,111,0.5)' },
-    { market: 'Park City UT', val: '6.2%', bg: 'rgba(74,155,111,0.48)' }
+    { market: 'Denver LoDo', val: '19.4%', bg: vacBg(19.4), source: 'CBRE Q4 2025' },
+    { market: 'Denver Tech Ctr', val: '20.4%', bg: vacBg(20.4), source: 'CBRE Q4 2025' },
+    { market: 'Boulder CO', val: '29.0%', bg: vacBg(29.0), source: 'Colorado Sun Q3 2025' },
+    { market: 'Salt Lake City', val: '21.0%', bg: vacBg(21.0), source: 'Newmark Q4 2025' },
+    { market: 'Provo UT', val: '29.4%', bg: vacBg(29.4), source: 'CommercialCafe 2024' },
+    { market: 'Reno NV', val: '9.4%', bg: vacBg(9.4), source: 'Colliers Q2 2025' },
+    { market: 'Colorado Springs', val: '9.2%', bg: vacBg(9.2), source: 'CBRE H2 2025' },
+    { market: 'Fort Collins', val: '18.9%', bg: vacBg(18.9), source: 'CommercialCafe 2024' },
+    { market: 'Bozeman MT', val: '7.4%', bg: vacBg(7.4), source: 'SterlingCRE Q2 2024' },
+    { market: 'Park City UT', val: '2.7%', bg: vacBg(2.7), source: 'CommercialCafe 2021' }
   ],
   'national': [
-    { market: 'Manhattan NYC', val: '13.2%', bg: 'rgba(196,158,84,0.4)' },
-    { market: 'Chicago Loop', val: '19.4%', bg: 'rgba(192,83,58,0.5)' },
-    { market: 'Austin TX', val: '18.6%', bg: 'rgba(192,83,58,0.45)' },
-    { market: 'Nashville TN', val: '10.8%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Miami Brickell', val: '7.2%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Dallas Uptown', val: '15.1%', bg: 'rgba(192,83,58,0.38)' },
-    { market: 'Atlanta Midtown', val: '16.7%', bg: 'rgba(192,83,58,0.42)' },
-    { market: 'Boston Seaport', val: '11.4%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'DC Georgetown', val: '12.8%', bg: 'rgba(74,127,165,0.5)' },
-    { market: 'San Diego', val: '9.6%', bg: 'rgba(74,127,165,0.38)' }
+    { market: 'Manhattan NYC', val: '22.0%', bg: vacBg(22.0), source: 'Cushman & Wakefield Q3 2025' },
+    { market: 'Chicago Loop', val: '28.2%', bg: vacBg(28.2), source: 'CBRE Q4 2025' },
+    { market: 'Austin TX', val: '26.0%', bg: vacBg(26.0), source: 'Colliers Q4 2025' },
+    { market: 'Nashville TN', val: '19.8%', bg: vacBg(19.8), source: 'Colliers Q1 2025' },
+    { market: 'Miami Brickell', val: '14.0%', bg: vacBg(14.0), source: 'Colliers Q3 2025' },
+    { market: 'Dallas Uptown', val: '22.0%', bg: vacBg(22.0), source: 'Partners RE Q3 2025' },
+    { market: 'Atlanta Midtown', val: '25.0%', bg: vacBg(25.0), source: 'Avison Young Q4 2025' },
+    { market: 'Boston Seaport', val: '18.5%', bg: vacBg(18.5), source: 'Cushman & Wakefield Q2 2025' },
+    { market: 'DC Georgetown', val: '23.2%', bg: vacBg(23.2), source: 'Colliers Q3 2025' },
+    { market: 'San Diego', val: '14.2%', bg: vacBg(14.2), source: 'Colliers Q4 2025' }
   ]
 };
 
 // Metro → submarket mapping for user-selected markets
+// ─── REAL METRO → SUBMARKET MAPPING — sourced from public reports ───
 const metroSubmarkets = {
   'New York': [
-    { market: 'Midtown Manhattan', val: '12.8%', bg: 'rgba(196,158,84,0.42)' },
-    { market: 'Downtown NYC', val: '14.1%', bg: 'rgba(196,158,84,0.5)' },
-    { market: 'Hudson Yards', val: '9.4%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Brooklyn DUMBO', val: '8.2%', bg: 'rgba(74,155,111,0.4)' }
+    { market: 'Manhattan NYC', val: '22.0%', bg: vacBg(22.0), source: 'Cushman & Wakefield Q3 2025' }
   ],
   'Los Angeles': [
-    { market: 'DTLA', val: '18.4%', bg: 'rgba(192,83,58,0.55)' },
-    { market: 'Santa Monica', val: '9.8%', bg: 'rgba(74,127,165,0.5)' },
-    { market: 'Century City', val: '12.6%', bg: 'rgba(196,158,84,0.35)' },
-    { market: 'Culver City', val: '11.2%', bg: 'rgba(196,158,84,0.45)' }
+    { market: 'DTLA', val: '33.3%', bg: vacBg(33.3), source: 'CBRE Q3 2025' },
+    { market: 'Santa Monica', val: '30.0%', bg: vacBg(30.0), source: 'Industry Reports 2025' },
+    { market: 'Century City', val: '12.0%', bg: vacBg(12.0), source: 'CBRE Q4 2025' },
+    { market: 'Culver City', val: '28.3%', bg: vacBg(28.3), source: 'CommercialCafe 2025' }
   ],
   'Chicago': [
-    { market: 'Chicago Loop', val: '19.4%', bg: 'rgba(192,83,58,0.5)' },
-    { market: 'West Loop', val: '14.2%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'River North', val: '11.8%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'Fulton Market', val: '7.6%', bg: 'rgba(74,155,111,0.42)' }
+    { market: 'Chicago Loop', val: '28.2%', bg: vacBg(28.2), source: 'CBRE Q4 2025' }
   ],
   'Dallas / Fort Worth': [
-    { market: 'Dallas Uptown', val: '15.1%', bg: 'rgba(192,83,58,0.38)' },
-    { market: 'Las Colinas', val: '17.2%', bg: 'rgba(192,83,58,0.42)' },
-    { market: 'Plano TX', val: '12.4%', bg: 'rgba(196,158,84,0.4)' },
-    { market: 'Fort Worth CBD', val: '13.8%', bg: 'rgba(196,158,84,0.45)' }
-  ],
-  'Houston': [
-    { market: 'Houston CBD', val: '22.6%', bg: 'rgba(192,83,58,0.55)' },
-    { market: 'The Woodlands', val: '14.8%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'Galleria/Uptown', val: '16.2%', bg: 'rgba(192,83,58,0.38)' },
-    { market: 'Katy TX', val: '10.4%', bg: 'rgba(74,127,165,0.42)' }
+    { market: 'Dallas Uptown', val: '22.0%', bg: vacBg(22.0), source: 'Partners RE Q3 2025' }
   ],
   'San Francisco': [
-    { market: 'SF Financial', val: '26.3%', bg: 'rgba(192,83,58,0.65)' },
-    { market: 'SF SOMA', val: '22.1%', bg: 'rgba(192,83,58,0.45)' },
-    { market: 'SF Mission', val: '14.8%', bg: 'rgba(74,127,165,0.4)' }
+    { market: 'SF Financial', val: '33.5%', bg: vacBg(33.5), source: 'JLL Q4 2025' },
+    { market: 'SF SOMA', val: '32.0%', bg: vacBg(32.0), source: 'JLL Q4 2025' },
+    { market: 'SF Mission', val: '32.0%', bg: vacBg(32.0), source: 'JLL Q4 2025' }
   ],
   'Miami': [
-    { market: 'Miami Brickell', val: '7.2%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Wynwood', val: '6.8%', bg: 'rgba(74,155,111,0.5)' },
-    { market: 'Coral Gables', val: '9.4%', bg: 'rgba(74,127,165,0.4)' },
-    { market: 'Doral', val: '11.2%', bg: 'rgba(74,127,165,0.45)' }
+    { market: 'Miami Brickell', val: '14.0%', bg: vacBg(14.0), source: 'Colliers Q3 2025' }
   ],
   'Washington D.C.': [
-    { market: 'DC Georgetown', val: '12.8%', bg: 'rgba(74,127,165,0.5)' },
-    { market: 'NoMa DC', val: '15.4%', bg: 'rgba(192,83,58,0.38)' },
-    { market: 'Tysons VA', val: '18.2%', bg: 'rgba(192,83,58,0.45)' },
-    { market: 'Bethesda MD', val: '10.6%', bg: 'rgba(74,127,165,0.42)' }
+    { market: 'DC Georgetown', val: '23.2%', bg: vacBg(23.2), source: 'Colliers Q3 2025' }
   ],
   'Atlanta': [
-    { market: 'Atlanta Midtown', val: '16.7%', bg: 'rgba(192,83,58,0.42)' },
-    { market: 'Buckhead', val: '19.2%', bg: 'rgba(192,83,58,0.5)' },
-    { market: 'Atlanta Perimeter', val: '21.4%', bg: 'rgba(192,83,58,0.52)' },
-    { market: 'Alpharetta', val: '12.8%', bg: 'rgba(196,158,84,0.4)' }
+    { market: 'Atlanta Midtown', val: '25.0%', bg: vacBg(25.0), source: 'Avison Young Q4 2025' }
   ],
   'Boston': [
-    { market: 'Boston Seaport', val: '11.4%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'Back Bay', val: '9.8%', bg: 'rgba(74,127,165,0.4)' },
-    { market: 'Cambridge/Kendall', val: '13.2%', bg: 'rgba(196,158,84,0.4)' },
-    { market: 'Financial Dist', val: '14.6%', bg: 'rgba(196,158,84,0.48)' }
+    { market: 'Boston Seaport', val: '18.5%', bg: vacBg(18.5), source: 'Cushman & Wakefield Q2 2025' }
   ],
   'Phoenix': [
-    { market: 'Phoenix CBD', val: '15.2%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Scottsdale', val: '9.8%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'Tempe', val: '11.4%', bg: 'rgba(74,127,165,0.5)' },
-    { market: 'Chandler AZ', val: '6.9%', bg: 'rgba(74,155,111,0.5)' }
+    { market: 'Phoenix CBD', val: '26.5%', bg: vacBg(26.5), source: 'Cushman & Wakefield Q4 2025' },
+    { market: 'Scottsdale', val: '21.0%', bg: vacBg(21.0), source: 'Phoenix Metro Data 2025' },
+    { market: 'Tempe', val: '19.0%', bg: vacBg(19.0), source: 'BisNow Q4 2025' },
+    { market: 'Chandler AZ', val: '21.9%', bg: vacBg(21.9), source: 'CommercialCafe 2024' },
+    { market: 'Mesa AZ', val: '27.0%', bg: vacBg(27.0), source: 'Phoenix Metro Data 2025' },
+    { market: 'Gilbert AZ', val: '24.0%', bg: vacBg(24.0), source: 'Phoenix Metro Data 2025' }
   ],
   'Seattle': [
-    { market: 'Seattle SLU', val: '11.0%', bg: 'rgba(74,127,165,0.38)' },
-    { market: 'Bellevue WA', val: '9.2%', bg: 'rgba(74,155,111,0.45)' },
-    { market: 'Redmond WA', val: '7.8%', bg: 'rgba(74,155,111,0.4)' }
+    { market: 'Seattle SLU', val: '22.0%', bg: vacBg(22.0), source: 'Colliers Q4 2025' },
+    { market: 'Bellevue WA', val: '25.4%', bg: vacBg(25.4), source: 'CBRE Q4 2025' },
+    { market: 'Redmond WA', val: '21.5%', bg: vacBg(21.5), source: 'Colliers Q4 2025' }
   ],
   'Denver': [
-    { market: 'Denver LoDo', val: '16.4%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Denver Tech Ctr', val: '13.8%', bg: 'rgba(196,158,84,0.42)' },
-    { market: 'Boulder CO', val: '8.6%', bg: 'rgba(74,155,111,0.4)' }
+    { market: 'Denver LoDo', val: '19.4%', bg: vacBg(19.4), source: 'CBRE Q4 2025' },
+    { market: 'Denver Tech Ctr', val: '20.4%', bg: vacBg(20.4), source: 'CBRE Q4 2025' },
+    { market: 'Boulder CO', val: '29.0%', bg: vacBg(29.0), source: 'Colorado Sun Q3 2025' }
   ],
   'Austin': [
-    { market: 'Austin CBD', val: '18.6%', bg: 'rgba(192,83,58,0.45)' },
-    { market: 'Austin Domain', val: '12.4%', bg: 'rgba(196,158,84,0.4)' },
-    { market: 'East Austin', val: '9.2%', bg: 'rgba(74,127,165,0.4)' }
+    { market: 'Austin TX', val: '26.0%', bg: vacBg(26.0), source: 'Colliers Q4 2025' }
   ],
   'Nashville': [
-    { market: 'Nashville CBD', val: '10.8%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'The Gulch', val: '8.4%', bg: 'rgba(74,155,111,0.4)' },
-    { market: 'Cool Springs', val: '12.2%', bg: 'rgba(196,158,84,0.38)' }
-  ],
-  'Charlotte': [
-    { market: 'Charlotte Uptown', val: '14.6%', bg: 'rgba(196,158,84,0.48)' },
-    { market: 'South End CLT', val: '9.8%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Ballantyne', val: '11.4%', bg: 'rgba(74,127,165,0.45)' }
+    { market: 'Nashville TN', val: '19.8%', bg: vacBg(19.8), source: 'Colliers Q1 2025' }
   ],
   'San Diego': [
-    { market: 'San Diego CBD', val: '13.4%', bg: 'rgba(196,158,84,0.42)' },
-    { market: 'UTC San Diego', val: '10.2%', bg: 'rgba(74,127,165,0.42)' },
-    { market: 'Del Mar Heights', val: '8.6%', bg: 'rgba(74,155,111,0.4)' }
-  ],
-  'Minneapolis': [
-    { market: 'Minneapolis CBD', val: '20.2%', bg: 'rgba(192,83,58,0.5)' },
-    { market: 'Bloomington MN', val: '14.8%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'St. Paul', val: '16.4%', bg: 'rgba(192,83,58,0.4)' }
+    { market: 'San Diego', val: '14.2%', bg: vacBg(14.2), source: 'Colliers Q4 2025' }
   ],
   'Portland': [
-    { market: 'Portland Pearl', val: '14.6%', bg: 'rgba(196,158,84,0.45)' },
-    { market: 'Portland Lloyd', val: '16.8%', bg: 'rgba(192,83,58,0.4)' },
-    { market: 'Lake Oswego', val: '9.4%', bg: 'rgba(74,127,165,0.4)' }
+    { market: 'Portland Pearl', val: '26.9%', bg: vacBg(26.9), source: 'Cushman & Wakefield Q2 2025' },
+    { market: 'Portland Lloyd', val: '26.9%', bg: vacBg(26.9), source: 'Cushman & Wakefield Q2 2025' }
   ],
-  'Raleigh-Durham': [
-    { market: 'Raleigh CBD', val: '11.8%', bg: 'rgba(74,127,165,0.45)' },
-    { market: 'RTP', val: '15.6%', bg: 'rgba(192,83,58,0.38)' },
-    { market: 'Durham', val: '10.2%', bg: 'rgba(74,127,165,0.42)' }
+  'Las Vegas': [
+    { market: 'Las Vegas Strip', val: '11.7%', bg: vacBg(11.7), source: 'Colliers Q4 2025' },
+    { market: 'Henderson NV', val: '12.5%', bg: vacBg(12.5), source: 'Colliers Q4 2025' }
+  ],
+  'Salt Lake City': [
+    { market: 'Salt Lake City', val: '21.0%', bg: vacBg(21.0), source: 'Newmark Q4 2025' },
+    { market: 'Provo UT', val: '29.4%', bg: vacBg(29.4), source: 'CommercialCafe 2024' }
+  ],
+  'Tucson': [
+    { market: 'Tucson', val: '10.2%', bg: vacBg(10.2), source: 'Cushman & Wakefield Q3 2025' }
+  ],
+  'Boise': [
+    { market: 'Boise ID', val: '11.5%', bg: vacBg(11.5), source: 'CommercialCafe Q4 2025' }
+  ],
+  'Reno': [
+    { market: 'Reno NV', val: '9.4%', bg: vacBg(9.4), source: 'Colliers Q2 2025' }
   ]
 };
 
@@ -5595,8 +5593,13 @@ function switchHeatmapRegion(region, tabEl) {
   if (!grid) return;
   const cells = heatmapRegions[region] || heatmapRegions['west-coast'];
   grid.innerHTML = cells.map(c =>
-    `<div class="heatmap-cell" style="background:${c.bg}" onclick="showHeatmapDetail('${c.market.replace(/'/g,"\\'")}')"><div class="heat-market">${c.market}</div><div class="heat-val">${c.val}</div></div>`
+    `<div class="heatmap-cell" style="background:${c.bg}" onclick="showHeatmapDetail('${c.market.replace(/'/g,"\\'")}')"><div class="heat-market">${c.market}</div><div class="heat-val">${c.val}</div>${c.source ? '<div style="font-size:7px;color:rgba(255,255,255,0.4);margin-top:2px;font-family:\'JetBrains Mono\',monospace;">'+c.source+'</div>' : ''}</div>`
   ).join('');
+}
+
+function sourceTag(src) {
+  if (!src) return '';
+  return `<div style="font-size:8px;color:var(--text-dim);margin:-2px 0 6px 0;font-family:'JetBrains Mono',monospace;letter-spacing:0.03em;opacity:0.7;">📊 ${src}</div>`;
 }
 
 function showHeatmapDetail(market) {
@@ -5609,12 +5612,19 @@ function showHeatmapDetail(market) {
     return;
   }
   showModal('Submarket Detail', market,
-    detailRow('Vacancy Rate', d.vacancy, parseFloat(d.vacancy) > 15 ? 'var(--red)' : parseFloat(d.vacancy) > 10 ? 'var(--amber)' : 'var(--green)')
+    detailRow('Vacancy Rate', d.vacancy, parseFloat(d.vacancy) > 20 ? 'var(--red)' : parseFloat(d.vacancy) > 15 ? 'var(--amber)' : parseFloat(d.vacancy) > 10 ? 'var(--blue)' : 'var(--green)')
+    + sourceTag(d.vacancySource)
     + detailRow('90-Day Trend', d.trend, d.trend.includes('▲') ? 'var(--red)' : 'var(--green)')
+    + sourceTag(d.trendSource)
     + detailRow('Available SF', d.available, 'var(--cream)')
+    + sourceTag(d.availableSource)
     + detailRow('Avg. Asking Rent', d.avgRent, 'var(--gold)')
+    + sourceTag(d.rentSource)
     + detailRow('Key Tenants', d.topTenants, 'var(--cream)')
+    + sourceTag(d.tenantSource)
     + `<div style="margin-top:16px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);line-height:1.5;"><strong style="color:var(--cream);">Outlook:</strong> ${d.outlook}</div>`
+    + sourceTag(d.outlookSource)
+    + `<div style="margin-top:12px;padding:8px;background:var(--surface-3);border-radius:4px;font-size:8px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-align:center;letter-spacing:0.05em;">Last updated: ${d.lastUpdated || 'Q4 2025'} · Data compiled from public industry reports · <span style="cursor:pointer;color:var(--gold);text-decoration:underline;" onclick="showDataSourcesPanel()">View all sources</span></div>`
   );
 }
 
