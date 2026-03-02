@@ -2128,7 +2128,7 @@ body {
     </div>
 
     <!-- EDGAR FILINGS -->
-    <div class="card" style="grid-column:1/3;">
+    <div class="card" style="grid-column:1/3;overflow:auto;min-height:200px;">
       <div class="card-header"><div class="card-title" style="cursor:pointer" onclick="showSourceInfo('REIT Intelligence',[{label:'Data Source',value:'SEC EDGAR',source:'U.S. Securities and Exchange Commission — EDGAR Full-Text Search',note:'Real-time 8-K, 10-K, 10-Q filings from publicly traded CRE REITs'},{label:'Companies Tracked',value:'8 REITs',source:'Prologis, Simon Property, Realty Income, Digital Realty, CBRE, BXP, JLL, Vornado'}])">SEC EDGAR Filings</div><div style="display:flex;gap:8px;align-items:center;"><div class="card-action" style="font-size:8px;cursor:pointer;color:var(--gold);" onclick="fetchEdgarFilings()">↻ Refresh</div></div></div>
       <div style="padding:0 14px 14px;max-height:280px;overflow-y:auto;" id="edgar-filings-body">
         <div style="text-align:center;padding:20px;color:var(--text-dim);font-size:11px;">Loading SEC EDGAR filings...</div>
@@ -2136,7 +2136,7 @@ body {
     </div>
 
     <!-- LLC OWNERSHIP TRACER -->
-    <div class="card" style="grid-column:3/-1;">
+    <div class="card" style="grid-column:3/-1;overflow:auto;min-height:200px;">
       <div class="card-header"><div class="card-title" style="cursor:pointer" onclick="showSourceInfo('Entity Tracer',[{label:'Data Sources',value:'Multiple',source:'State Secretary of State records, SEC EDGAR, County Assessor public records',note:'Cross-references entity registrations with property ownership and SEC filings'}])">LLC Ownership Tracer</div></div>
       <div style="padding:0 14px 14px;">
         <div style="position:relative;margin-bottom:10px;">
