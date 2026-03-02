@@ -2183,6 +2183,99 @@ body {
       </div>
     </div>
 
+    <!-- SECTION: TREASURY YIELD CURVE + REIT TRACKER -->
+    <div class="dash-section-header" style="grid-column:1/2;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Treasury Yields</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">US Treasury</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+    <div class="dash-section-header" style="grid-column:2/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">REIT Tracker</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Live REIT stock performance</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+
+    <div class="card" style="grid-column:1/2;overflow:auto;min-height:160px;">
+      <div class="card-header"><div class="card-title">Yield Curve</div><div class="card-action" style="cursor:pointer;" onclick="fetchTreasuryData()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;" id="treasury-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading Treasury data...</div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:2/4;overflow:auto;min-height:160px;">
+      <div class="card-header"><div class="card-title">REIT Performance</div><div class="card-action" style="cursor:pointer;" onclick="fetchREITQuotes()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;" id="reit-quotes-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading REIT quotes...</div>
+      </div>
+    </div>
+
+    <!-- SECTION: PREDICTION MARKETS -->
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Prediction Markets</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Polymarket + Kalshi — crowd-sourced economic probabilities</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="pulse-dot" style="width:5px;height:5px;background:var(--gold);border-radius:50%;animation:pulseGold 2s infinite;"></div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--gold);">LIVE</span>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:1/2;overflow:auto;min-height:180px;">
+      <div class="card-header"><div class="card-title">Polymarket</div><div class="card-action" style="cursor:pointer;" onclick="fetchPolymarket()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;max-height:240px;overflow-y:auto;" id="polymarket-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading prediction markets...</div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:2/4;overflow:auto;min-height:180px;">
+      <div class="card-header"><div class="card-title">Kalshi (CFTC Regulated)</div><div class="card-action" style="cursor:pointer;" onclick="fetchKalshi()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;max-height:240px;overflow-y:auto;" id="kalshi-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading Kalshi markets...</div>
+      </div>
+    </div>
+
+    <!-- SECTION: RISK INTELLIGENCE -->
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Risk Intelligence</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">FEMA disaster declarations, USGS seismic activity, EPA environmental</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+
+    <div class="card" style="grid-column:1/2;overflow:auto;min-height:160px;">
+      <div class="card-header"><div class="card-title">FEMA Disasters</div><div class="card-action" style="cursor:pointer;" onclick="fetchFEMA()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;max-height:220px;overflow-y:auto;" id="fema-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading FEMA data...</div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:2/3;overflow:auto;min-height:160px;">
+      <div class="card-header"><div class="card-title">Seismic Activity</div><div class="card-action" style="cursor:pointer;" onclick="fetchEarthquakes()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;max-height:220px;overflow-y:auto;" id="earthquake-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading USGS data...</div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:3/4;overflow:auto;min-height:160px;">
+      <div class="card-header"><div class="card-title">EPA Facilities</div><div class="card-action" style="cursor:pointer;" onclick="fetchEPA()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;max-height:220px;overflow-y:auto;" id="epa-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading EPA data...</div>
+      </div>
+    </div>
+
+    <!-- SECTION: CRE NEWS FEED -->
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">CRE News Feed</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Latest commercial real estate headlines</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+
+    <div class="card" style="grid-column:1/4;overflow:auto;min-height:120px;">
+      <div class="card-header"><div class="card-title">Headlines</div><div class="card-action" style="cursor:pointer;" onclick="fetchCRENews()">↻ Refresh</div></div>
+      <div style="padding:0 14px 14px;max-height:260px;overflow-y:auto;" id="news-body">
+        <div style="text-align:center;padding:16px;color:var(--text-dim);font-size:11px;">Loading CRE news...</div>
+      </div>
+    </div>
+
     <!-- SECTION: DEAL PIPELINE -->
     <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Deal Pipeline</div>
@@ -5518,11 +5611,208 @@ function refreshAllDashboardSections() {
   renderSparkCards(deals);
 }
 
+// ─── TREASURY YIELD CURVE ───
+async function fetchTreasuryData() {
+  const body = document.getElementById('treasury-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=treasury');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const records = data.records || [];
+    if (records.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No Treasury data available</div>'; return; }
+    body.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'
+      + records.slice(0, 8).map(r => `<div style="padding:6px 8px;background:var(--surface-2);border-radius:4px;border-left:2px solid var(--gold);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">${r.security_desc || r.src_line_nbr || 'Bond'}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream);">${r.avg_interest_rate_amt ? parseFloat(r.avg_interest_rate_amt).toFixed(2) + '%' : '—'}</div>
+      </div>`).join('') + '</div>'
+      + `<div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: US Treasury Fiscal Data · ${data.fetched ? new Date(data.fetched).toLocaleDateString() : ''}</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">Treasury error: ${e.message}</div>`; }
+}
+
+// ─── REIT STOCK QUOTES ───
+async function fetchREITQuotes() {
+  const body = document.getElementById('reit-quotes-body');
+  if (!body) return;
+  const tickers = ['PLD', 'SPG', 'O', 'DLR', 'CBRE', 'BXP'];
+  const tickerNames = { PLD: 'Prologis', SPG: 'Simon Property', O: 'Realty Income', DLR: 'Digital Realty', CBRE: 'CBRE Group', BXP: 'BXP Inc' };
+  body.innerHTML = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;" id="reit-grid">'
+    + tickers.map(t => `<div style="padding:8px;background:var(--surface-2);border-radius:4px;border-left:2px solid var(--blue);" id="reit-${t}">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);font-weight:600;">${t}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:8px;color:var(--text-dim);">${tickerNames[t]}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream);margin-top:2px;">—</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Loading...</div>
+    </div>`).join('') + '</div>';
+  // Fetch one at a time to respect rate limits
+  for (const t of tickers) {
+    try {
+      const resp = await fetch(`/api/market-data?source=reit_quote&symbol=${t}`);
+      const data = await resp.json();
+      const el = document.getElementById(`reit-${t}`);
+      if (!el) continue;
+      const q = data.quote || {};
+      const price = q['05. price'] || q.price;
+      const change = q['09. change'] || q.change;
+      const pct = q['10. change percent'] || q.changePercent || '';
+      const isUp = parseFloat(change) >= 0;
+      if (price) {
+        el.querySelector('div:nth-child(3)').textContent = '$' + parseFloat(price).toFixed(2);
+        el.querySelector('div:nth-child(4)').innerHTML = `<span style="color:${isUp ? 'var(--green)' : 'var(--red)'}">${isUp ? '▲' : '▼'} ${change ? parseFloat(change).toFixed(2) : ''} (${pct.replace('%','')}%)</span>`;
+        el.style.borderLeftColor = isUp ? 'var(--green)' : 'var(--red)';
+      }
+    } catch (e) { /* skip failed quote */ }
+    await new Promise(r => setTimeout(r, 1500)); // Rate limit: 5/min for Alpha Vantage
+  }
+}
+
+// ─── POLYMARKET PREDICTION MARKETS ───
+async function fetchPolymarket() {
+  const body = document.getElementById('polymarket-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=polymarket');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const markets = data.markets || [];
+    if (markets.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No active markets found</div>'; return; }
+    body.innerHTML = markets.slice(0, 8).map(m => {
+      const prob = m.outcomePrices ? JSON.parse(m.outcomePrices)[0] : null;
+      const pct = prob ? (parseFloat(prob) * 100).toFixed(0) : '—';
+      return `<div style="padding:8px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <div style="flex:1;font-family:'Syne',sans-serif;font-size:11px;color:var(--text);line-height:1.3;">${m.question || m.title || 'Market'}</div>
+        <div style="min-width:50px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:${parseInt(pct) > 60 ? 'var(--green)' : parseInt(pct) < 40 ? 'var(--red)' : 'var(--gold)'};">${pct}%</div>
+      </div>`;
+    }).join('')
+    + `<div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: Polymarket · ${new Date().toLocaleDateString()}</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">Polymarket error: ${e.message}</div>`; }
+}
+
+// ─── KALSHI PREDICTION MARKETS ───
+async function fetchKalshi() {
+  const body = document.getElementById('kalshi-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=kalshi');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const markets = data.markets || [];
+    if (markets.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No active Kalshi markets found</div>'; return; }
+    body.innerHTML = markets.slice(0, 10).map(m => {
+      const yes = m.yes_ask || m.last_price || m.yes_bid || 0;
+      const pct = (yes * 100).toFixed(0);
+      return `<div style="padding:7px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px;">
+        <div style="flex:1;font-family:'Syne',sans-serif;font-size:10px;color:var(--text);line-height:1.3;">${m.title || m.ticker || 'Contract'}</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:40px;height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${parseInt(pct) > 60 ? 'var(--green)' : parseInt(pct) < 40 ? 'var(--red)' : 'var(--gold)'};border-radius:2px;"></div></div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--cream);">${pct}¢</span>
+        </div>
+      </div>`;
+    }).join('')
+    + `<div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: Kalshi (CFTC Regulated) · ${new Date().toLocaleDateString()}</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">Kalshi error: ${e.message}</div>`; }
+}
+
+// ─── FEMA DISASTER DECLARATIONS ───
+async function fetchFEMA() {
+  const body = document.getElementById('fema-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=fema');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const declarations = data.declarations || [];
+    if (declarations.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No recent declarations</div>'; return; }
+    body.innerHTML = declarations.slice(0, 8).map(d => {
+      const type = (d.incidentType || '').toLowerCase();
+      const color = type.includes('fire') ? 'var(--red)' : type.includes('flood') ? 'var(--blue)' : type.includes('hurricane') || type.includes('storm') ? 'var(--amber)' : 'var(--text-dim)';
+      return `<div style="padding:6px 8px;border-bottom:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:'Syne',sans-serif;font-size:10px;color:var(--cream);">${d.state || ''} — ${d.incidentType || ''}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:7px;padding:2px 6px;background:${color};color:#fff;border-radius:3px;">${d.declarationType || ''}</span>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:9px;color:var(--text-dim);margin-top:2px;">${d.declarationTitle || ''}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);margin-top:2px;">${d.declarationDate ? new Date(d.declarationDate).toLocaleDateString() : ''}</div>
+      </div>`;
+    }).join('')
+    + `<div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: OpenFEMA</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">FEMA error: ${e.message}</div>`; }
+}
+
+// ─── USGS EARTHQUAKE DATA ───
+async function fetchEarthquakes() {
+  const body = document.getElementById('earthquake-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=earthquake');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const quakes = data.earthquakes || [];
+    if (quakes.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No significant earthquakes (past 30 days)</div>'; return; }
+    body.innerHTML = quakes.slice(0, 8).map(q => {
+      const mag = q.mag || 0;
+      const color = mag >= 6 ? 'var(--red)' : mag >= 5 ? 'var(--amber)' : 'var(--text-dim)';
+      return `<div style="padding:5px 8px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;">
+        <div style="min-width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--surface-3);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:${color};">${mag.toFixed(1)}</div>
+        <div style="flex:1;">
+          <div style="font-family:'Syne',sans-serif;font-size:9px;color:var(--cream);line-height:1.3;">${q.place || 'Unknown'}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">${q.time ? new Date(q.time).toLocaleDateString() : ''}</div>
+        </div>
+      </div>`;
+    }).join('')
+    + `<div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: USGS Earthquake Hazards</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">USGS error: ${e.message}</div>`; }
+}
+
+// ─── EPA FACILITY DATA ───
+async function fetchEPA() {
+  const body = document.getElementById('epa-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=epa');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const facilities = data.facilities || [];
+    if (facilities.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No EPA data available</div>'; return; }
+    body.innerHTML = facilities.slice(0, 6).map(f => `<div style="padding:5px 8px;border-bottom:1px solid var(--border);">
+        <div style="font-family:'Syne',sans-serif;font-size:9px;color:var(--cream);">${f.FACILITY_NAME || f.facility_name || 'Facility'}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">${f.STREET_ADDRESS || f.street_address || ''}, ${f.CITY_NAME || f.city_name || ''} ${f.STATE_ABBR || f.state_abbr || ''}</div>
+      </div>`).join('')
+    + `<div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: EPA Envirofacts TRI</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">EPA error: ${e.message}</div>`; }
+}
+
+// ─── CRE NEWS FEED ───
+async function fetchCRENews() {
+  const body = document.getElementById('news-body');
+  if (!body) return;
+  try {
+    const resp = await fetch('/api/market-data?source=news');
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    const articles = data.articles || [];
+    if (articles.length === 0) { body.innerHTML = '<div style="padding:10px;color:var(--text-dim);font-size:11px;">No CRE news available</div>'; return; }
+    body.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+      + articles.slice(0, 6).map(a => `<a href="${a.url}" target="_blank" style="text-decoration:none;padding:10px;background:var(--surface-2);border-radius:4px;border:1px solid var(--border);transition:border-color 0.2s;display:block;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;color:var(--cream);line-height:1.4;margin-bottom:4px;">${a.title || ''}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">${a.source?.name || ''} · ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString() : ''}</div>
+      </a>`).join('') + '</div>'
+    + `<div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--text-dim);">Source: News API · ${new Date().toLocaleDateString()}</div>`;
+  } catch (e) { body.innerHTML = `<div style="padding:10px;color:var(--red);font-size:10px;">News error: ${e.message}</div>`; }
+}
+
 function initializeDashboard() {
   refreshAllDashboardSections();
   // Boot real data intelligence layer
   fetchMarketSignals();
   fetchEdgarFilings();
+  fetchTreasuryData();
+  fetchREITQuotes();
+  fetchPolymarket();
+  fetchKalshi();
+  fetchFEMA();
+  fetchEarthquakes();
+  fetchEPA();
+  fetchCRENews();
   startAgentSimulation();
 }
 
