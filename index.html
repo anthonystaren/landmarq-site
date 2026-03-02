@@ -600,12 +600,7 @@ html.dark-mode .nav {
     0 40px 100px rgba(0,0,0,0.5),
     0 0 0 1px rgba(196,158,84,0.1),
     inset 0 1px 0 rgba(255,255,255,0.05);
-  animation: floatDash 7s ease-in-out infinite;
-}
-
-@keyframes floatDash {
-  0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  animation: none;
 }
 
 .dp-bar {
@@ -665,7 +660,7 @@ html.dark-mode .nav {
   background: var(--gold);
   padding: 11px 0; overflow: hidden; white-space: nowrap;
 }
-.ticker-track { display: inline-block; animation: tickerMove 35s linear infinite; }
+.ticker-track { display: inline-block; animation: tickerMove 90s linear infinite; }
 @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 .ticker-item {
   display: inline-block;
