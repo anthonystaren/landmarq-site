@@ -1007,7 +1007,7 @@ body {
 @keyframes typeDot { 0%,60%,100% { transform:translateY(0);opacity:0.3; } 30% { transform:translateY(-4px);opacity:1; } }
 
 /* ─── ALERTS (right column) ─── */
-.alerts-card { grid-column: 4/5; grid-row: 2/6; align-self: start; }
+.alerts-card { grid-column: 4/5; grid-row: 2/20; align-self: start; }
 .alerts-body { padding: 0 13px 14px; display: flex; flex-direction: column; gap: 7px; max-height: 660px; overflow-y: auto; }
 .alerts-body::-webkit-scrollbar { width: 2px; }
 .alerts-body::-webkit-scrollbar-thumb { background: var(--border); }
@@ -2073,7 +2073,7 @@ body {
     </div>
 
     <!-- SECTION: TRENDS -->
-    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Trends</div>
       <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Deal value, leads & vacancy over time</div>
       <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
@@ -2096,7 +2096,7 @@ body {
     </div>
 
     <!-- SECTION: MACRO INTELLIGENCE -->
-    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Macro Intelligence</div>
       <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Live economic indicators from FRED & BLS — updated daily</div>
       <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
@@ -2104,7 +2104,7 @@ body {
     </div>
 
     <!-- ECONOMIC SIGNALS GRID -->
-    <div style="grid-column:1/-1;">
+    <div style="grid-column:1/4;">
       <div class="signals-grid" id="signals-grid">
         <div class="signal-card"><div class="signal-label">30-Yr Mortgage Rate</div><div class="signal-value" style="color:var(--text-dim);">Loading...</div><div class="signal-source">FRED · Federal Reserve</div></div>
         <div class="signal-card"><div class="signal-label">Fed Funds Rate</div><div class="signal-value" style="color:var(--text-dim);">Loading...</div><div class="signal-source">FRED · Federal Reserve</div></div>
@@ -2155,7 +2155,7 @@ body {
     </div>
 
     <!-- SECTION: LIVE AGENT TERMINAL -->
-    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Live Agent Terminal</div>
       <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Real-time agent activity log</div>
       <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
@@ -2165,7 +2165,7 @@ body {
       </div>
     </div>
 
-    <div style="grid-column:1/-1;">
+    <div style="grid-column:1/4;">
       <div class="card" style="padding:0;">
         <div style="padding:8px 14px 4px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);">
           <div style="display:flex;align-items:center;gap:8px;">
@@ -2184,7 +2184,7 @@ body {
     </div>
 
     <!-- SECTION: DEAL PIPELINE -->
-    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Deal Pipeline</div>
       <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Active opportunities & stage tracking</div>
       <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
