@@ -25,7 +25,35 @@
 <style>
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
+/* Light Mode (Default) */
 :root {
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --surface-2: #F5F3EF;
+  --surface-3: #EDE9E3;
+  --border: rgba(0,0,0,0.08);
+  --border-gold: rgba(140,105,30,0.3);
+  --gold: #8A6A1E;
+  --gold-dim: rgba(140,105,30,0.08);
+  --gold-bright: #6B5018;
+  --gold-pale: rgba(140,105,30,0.04);
+  --cream: #1A1814;
+  --text: #3D3830;
+  --text-dim: #8A8078;
+  --text-mid: #5C5448;
+  --green: #2D7A4E;
+  --green-dim: rgba(45,122,78,0.12);
+  --red: #B04030;
+  --red-dim: rgba(176,64,48,0.12);
+  --blue: #2E6C8F;
+  --blue-dim: rgba(46,108,143,0.12);
+  --amber: #A06520;
+  --radius: 6px;
+  --nav-h: 64px;
+}
+
+/* Dark Mode */
+html.dark-mode {
   --bg: #0A0C0E;
   --surface: #111418;
   --surface-2: #181C22;
@@ -47,8 +75,6 @@
   --blue: #4A7FA5;
   --blue-dim: rgba(74,127,165,0.15);
   --amber: #D4883A;
-  --radius: 6px;
-  --nav-h: 64px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -72,16 +98,25 @@ body::after {
   z-index: 9999;
 }
 
+/* Reduce grain in light mode */
+html:not(.dark-mode) body::after {
+  opacity: 0.02;
+}
+
 /* ── NAV ── */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: var(--nav-h);
   display: flex; align-items: center; padding: 0 48px;
   justify-content: space-between;
-  background: rgba(10,12,14,0.88);
+  background: rgba(250,250,248,0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+html.dark-mode .nav {
+  background: rgba(10,12,14,0.88);
 }
 
 .nav-logo {
@@ -116,6 +151,28 @@ body::after {
   transition: all 0.2s !important;
 }
 .nav-cta:hover { background: var(--gold-bright) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(196,158,84,0.25) !important; }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+  color: var(--text-mid);
+  margin-left: 12px;
+}
+
+.theme-toggle:hover {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
 
 /* ── FOOTER ── */
 .footer {
@@ -1007,6 +1064,7 @@ body::after {
     <li><a href="pricing.html">Pricing</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="/dashboard" class="nav-cta">View Dashboard →</a></li>
+    <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀️</button></li>
   </ul>
   <button class="nav-hamburger" aria-label="Toggle menu">
     <span></span>
@@ -1032,6 +1090,30 @@ document.addEventListener('DOMContentLoaded', function() {
         hamburger.classList.remove('active');
         navLinks.classList.remove('active');
       });
+    });
+  }
+
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+
+  // Initialize theme from localStorage or default to light mode
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') {
+    html.classList.add('dark-mode');
+    themeToggle.textContent = '🌙';
+  } else {
+    html.classList.remove('dark-mode');
+    themeToggle.textContent = '☀️';
+  }
+
+  // Theme toggle click handler
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      html.classList.toggle('dark-mode');
+      const isDarkMode = html.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
     });
   }
 });
@@ -1273,7 +1355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="stats-section">
   <div class="stat-cell reveal"><div class="stat-num">24/7</div><div class="stat-desc">Market Monitoring</div></div>
   <div class="stat-cell reveal reveal-delay-1"><div class="stat-num">25+</div><div class="stat-desc">Live Data Sources</div></div>
-  <div class="stat-cell reveal reveal-delay-2"><div class="stat-num">6</div><div class="stat-desc">AI Agent Fleet</div></div>
+  <div class="stat-cell reveal reveal-delay-2"><div class="stat-num">10</div><div class="stat-desc">AI Agent Fleet</div></div>
   <div class="stat-cell reveal reveal-delay-3"><div class="stat-num">Real-time</div><div class="stat-desc">Market Intelligence</div></div>
 </div>
 
@@ -1282,17 +1364,17 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="agents-intro">
     <div>
       <div class="eyebrow">The Agent Fleet</div>
-      <h2 class="section-title">Six AI associates<br>working before<br>you sit down.</h2>
+      <h2 class="section-title">Ten AI associates<br>working before<br>you sit down.</h2>
       <p class="section-sub">Each agent is purpose-built for a specific function. Together, they replace hours of research, admin, and monitoring — so your brokers do what they do best.</p>
       <br>
-      <a href="agents.html" class="btn-ghost">Explore all agents →</a>
+      <a href="agents.html" class="btn-ghost">Explore all 10 agents →</a>
     </div>
     <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:28px;">
       <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">● Live Agent Status</div>
       <div style="display:flex;flex-direction:column;gap:10px;">
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
           <span style="font-size:16px;">🌐</span>
-          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Market Intelligence</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Last run: 2 min ago · 25+ sources</div></div>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Market Intelligence Agent</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Last run: 2 min ago · 25+ sources</div></div>
           <div style="width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(74,155,111,0.6);"></div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
@@ -1307,12 +1389,12 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
           <span style="font-size:16px;">✉️</span>
-          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Outreach Agent</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Drafting Netflix pitch now...</div></div>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Outreach Personalization</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Drafting Netflix pitch now...</div></div>
           <div style="width:7px;height:7px;background:var(--green);border-radius:50%;animation:livePulse 2s ease-in-out infinite;"></div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
           <span style="font-size:16px;">📡</span>
-          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Zoning Monitor</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">2 variances filed overnight</div></div>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Zoning & Permit Monitor</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">2 variances filed overnight</div></div>
           <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
@@ -1320,9 +1402,24 @@ document.addEventListener('DOMContentLoaded', function() {
           <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Portfolio Strategist</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Analysis complete · 3 assets</div></div>
           <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
         </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">🎨</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Pitch Builder</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">5 decks generated · 12 hrs to completion</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">🏢</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Stacking Plan Optimizer</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">8 floor plans analyzed · Active</div></div>
+          <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:16px;">📅</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Renewal Tracker</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">24 renewals within 90 days</div></div>
+          <div style="width:7px;height:7px;background:var(--gold);border-radius:50%;"></div>
+        </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
-          <span style="font-size:16px;">📊</span>
-          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Data Intelligence</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">FRED, Treasury, BLS, SEC EDGAR · Live</div></div>
+          <span style="font-size:16px;">📰</span>
+          <div style="flex:1;"><div style="font-size:12px;color:var(--cream);font-weight:600;">Market Reporter</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">Weekly report · Ready for delivery</div></div>
           <div style="width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(74,155,111,0.6);"></div>
         </div>
       </div>
@@ -1330,12 +1427,16 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 
   <div class="agents-grid">
-    <div class="agent-cell reveal"><div class="agent-num">01 / 06</div><span class="agent-icon">🌐</span><div class="agent-name">Market Intelligence Agent</div><div class="agent-desc">Continuously monitors vacancy rates, rents, permit filings, and competitor deal flow across your focus submarkets. Delivers a curated morning brief before your first coffee.</div><div class="agent-tags"><span class="agent-tag">FRED</span><span class="agent-tag">BLS</span><span class="agent-tag">Treasury</span></div></div>
-    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">02 / 06</div><span class="agent-icon">🎯</span><div class="agent-name">Tenant Lead Engine</div><div class="agent-desc">Mines LLC registrations, job postings, badge-in data, and lease expiration databases. Flags companies before they issue an RFP — giving you first-mover advantage.</div><div class="agent-tags"><span class="agent-tag">LLC Filings</span><span class="agent-tag">Job Trends</span><span class="agent-tag">Expiry DB</span></div></div>
-    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">03 / 06</div><span class="agent-icon">📋</span><div class="agent-name">LOI Review Agent</div><div class="agent-desc">Reviews letters of intent and NDAs in real-time, flagging non-standard clauses against your firm's gold-standard templates. Turns hours of review into seconds.</div><div class="agent-tags"><span class="agent-tag">LOI Review</span><span class="agent-tag">NDA Drafting</span><span class="agent-tag">Clause AI</span></div></div>
-    <div class="agent-cell reveal"><div class="agent-num">04 / 06</div><span class="agent-icon">✉️</span><div class="agent-name">Outreach Personalization</div><div class="agent-desc">Generates bespoke pitch decks and emails for each prospect, pulling real-time workforce data, transit scores, and competitor moves. Every message lands like it took a day to write.</div><div class="agent-tags"><span class="agent-tag">Pitch Decks</span><span class="agent-tag">Auto-personalize</span></div></div>
-    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">05 / 06</div><span class="agent-icon">🏛️</span><div class="agent-name">Portfolio Strategist</div><div class="agent-desc">Autonomous hold/sell analysis using cap rate trends, debt coverage ratios, and macro indicators. Turns months of analyst work into an on-demand institutional report.</div><div class="agent-tags"><span class="agent-tag">REIT Data</span><span class="agent-tag">FRED Rates</span><span class="agent-tag">SEC XBRL</span></div></div>
-    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">06 / 06</div><span class="agent-icon">📡</span><div class="agent-name">Zoning & Permit Monitor</div><div class="agent-desc">Watches local government portals for zoning variances, entitlement hearings, and permit approvals. The moment a parcel status changes, your team knows — before the market does.</div><div class="agent-tags"><span class="agent-tag">Gov Portals</span><span class="agent-tag">Real-time</span></div></div>
+    <div class="agent-cell reveal"><div class="agent-num">01 / 10</div><span class="agent-icon">🌐</span><div class="agent-name">Market Intelligence Agent</div><div class="agent-desc">Continuously monitors vacancy rates, rents, permit filings, and competitor deal flow across your focus submarkets. Delivers a curated morning brief before your first coffee.</div><div class="agent-tags"><span class="agent-tag">FRED</span><span class="agent-tag">BLS</span><span class="agent-tag">Treasury</span></div></div>
+    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">02 / 10</div><span class="agent-icon">🎯</span><div class="agent-name">Tenant Lead Engine</div><div class="agent-desc">Mines LLC registrations, job postings, badge-in data, and lease expiration databases. Flags companies before they issue an RFP — giving you first-mover advantage.</div><div class="agent-tags"><span class="agent-tag">LLC Filings</span><span class="agent-tag">Job Trends</span><span class="agent-tag">Expiry DB</span></div></div>
+    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">03 / 10</div><span class="agent-icon">📋</span><div class="agent-name">LOI Review Agent</div><div class="agent-desc">Reviews letters of intent and NDAs in real-time, flagging non-standard clauses against your firm's gold-standard templates. Turns hours of review into seconds.</div><div class="agent-tags"><span class="agent-tag">LOI Review</span><span class="agent-tag">NDA Drafting</span><span class="agent-tag">Clause AI</span></div></div>
+    <div class="agent-cell reveal"><div class="agent-num">04 / 10</div><span class="agent-icon">✉️</span><div class="agent-name">Outreach Personalization</div><div class="agent-desc">Generates bespoke pitch decks and emails for each prospect, pulling real-time workforce data, transit scores, and competitor moves. Every message lands like it took a day to write.</div><div class="agent-tags"><span class="agent-tag">Pitch Decks</span><span class="agent-tag">Auto-personalize</span></div></div>
+    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">05 / 10</div><span class="agent-icon">🏛️</span><div class="agent-name">Portfolio Strategist</div><div class="agent-desc">Autonomous hold/sell analysis using cap rate trends, debt coverage ratios, and macro indicators. Turns months of analyst work into an on-demand institutional report.</div><div class="agent-tags"><span class="agent-tag">REIT Data</span><span class="agent-tag">FRED Rates</span><span class="agent-tag">SEC XBRL</span></div></div>
+    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">06 / 10</div><span class="agent-icon">📡</span><div class="agent-name">Zoning & Permit Monitor</div><div class="agent-desc">Watches local government portals for zoning variances, entitlement hearings, and permit approvals. The moment a parcel status changes, your team knows — before the market does.</div><div class="agent-tags"><span class="agent-tag">Gov Portals</span><span class="agent-tag">Real-time</span></div></div>
+    <div class="agent-cell reveal"><div class="agent-num">07 / 10</div><span class="agent-icon">🎨</span><div class="agent-name">Pitch Builder</div><div class="agent-desc">Generates polished deal presentations with live market data, tenant profiles, and comp analysis. Every pitch deck lands like it was custom-built by your best analyst.</div><div class="agent-tags"><span class="agent-tag">Deal Decks</span><span class="agent-tag">Auto-Format</span><span class="agent-tag">Market Data</span></div></div>
+    <div class="agent-cell reveal reveal-delay-1"><div class="agent-num">08 / 10</div><span class="agent-icon">🏢</span><div class="agent-name">Stacking Plan Optimizer</div><div class="agent-desc">Analyzes building floor plans against tenant demand signals. Recommends optimal space allocation, split scenarios, and spec suite configurations.</div><div class="agent-tags"><span class="agent-tag">Space Planning</span><span class="agent-tag">Floor Analysis</span><span class="agent-tag">Optimization</span></div></div>
+    <div class="agent-cell reveal reveal-delay-2"><div class="agent-num">09 / 10</div><span class="agent-icon">📅</span><div class="agent-name">Renewal Tracker</div><div class="agent-desc">Monitors lease expirations across your portfolio and flags upcoming renewals with tenant health signals. Proactive outreach triggers 90 days before expiry.</div><div class="agent-tags"><span class="agent-tag">Lease Expiry</span><span class="agent-tag">Auto-Alerts</span><span class="agent-tag">Portfolio</span></div></div>
+    <div class="agent-cell reveal"><div class="agent-num">10 / 10</div><span class="agent-icon">📰</span><div class="agent-name">Market Reporter</div><div class="agent-desc">Compiles weekly market intelligence reports from all data sources. Auto-generates executive summaries with trend analysis and submarket comparisons.</div><div class="agent-tags"><span class="agent-tag">Weekly Reports</span><span class="agent-tag">Auto-Generate</span><span class="agent-tag">Trends</span></div></div>
   </div>
 </section>
 

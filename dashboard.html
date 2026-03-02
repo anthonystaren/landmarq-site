@@ -1835,68 +1835,19 @@ body {
         </div>
       </div>
 
-      <!-- STEP 6: Your Command Center -->
+      <!-- STEP 6: Launch -->
       <div class="ob-step" id="ob-step-6">
-        <div style="position: relative; margin-bottom: 20px;">
-          <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; background: radial-gradient(circle, rgba(245,230,200,0.2) 0%, transparent 70%); border-radius: 50%; animation: shimmer 2s ease-in-out infinite;"></div>
-          <span class="ob-step-icon" style="position: relative; animation: float 3s ease-in-out infinite;">🎯</span>
-        </div>
-        <div class="ob-step-title">Your command center is ready<em id="welcome-name" style="color: var(--gold);"></em></div>
-        <div class="ob-step-desc">Everything is configured. Your dashboard is live with all your markets, agents, and AI copilot ready to work.</div>
+        <span class="ob-step-icon" style="animation: float 3s ease-in-out infinite;">🚀</span>
+        <div class="ob-step-title">You're all set<em id="welcome-name" style="color: var(--gold);"></em></div>
+        <div class="ob-step-desc">Your dashboard is configured and ready. Your agents will begin scanning your selected markets immediately.</div>
 
-        <div style="margin: 18px 0; padding: 14px; background: rgba(196,158,84,0.1); border-left: 3px solid var(--gold); border-radius: 4px;">
-          <div style="font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.05em;">YOUR SETUP</div>
-          <div style="display: flex; gap: 12px; font-size: 12px; color: var(--text-dim);">
-            <div><span id="stat-markets" style="color: var(--gold); font-weight: 600;">3</span> markets</div>
-            <div>·</div>
-            <div><span id="stat-agents" style="color: var(--gold); font-weight: 600;">10</span> agents</div>
-            <div>·</div>
-            <div><span style="color: var(--gold); font-weight: 600;">AI</span> active</div>
-          </div>
-        </div>
-
-        <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div style="padding: 10px; background: var(--surface-2); border-radius: 6px; border-left: 2px solid rgba(74,155,111,0.5);">
-            <div style="font-size: 14px; color: var(--cream); font-weight: 600;">📊</div>
-            <div style="font-size: 9px; color: var(--text-dim); margin-top: 4px;">Live heatmaps & KPIs</div>
-          </div>
-          <div style="padding: 10px; background: var(--surface-2); border-radius: 6px; border-left: 2px solid rgba(196,158,84,0.5);">
-            <div style="font-size: 14px; color: var(--cream); font-weight: 600;">🤖</div>
-            <div style="font-size: 9px; color: var(--text-dim); margin-top: 4px;">AI assistant ready</div>
-          </div>
-          <div style="padding: 10px; background: var(--surface-2); border-radius: 6px; border-left: 2px solid rgba(100,180,230,0.5);">
-            <div style="font-size: 14px; color: var(--cream); font-weight: 600;">🔔</div>
-            <div style="font-size: 9px; color: var(--text-dim); margin-top: 4px;">Real-time alerts</div>
-          </div>
-          <div style="padding: 10px; background: var(--surface-2); border-radius: 6px; border-left: 2px solid rgba(255,182,193,0.5);">
-            <div style="font-size: 14px; color: var(--cream); font-weight: 600;">✉️</div>
-            <div style="font-size: 9px; color: var(--text-dim); margin-top: 4px;">Automated outreach</div>
-          </div>
-        </div>
-
-        <div style="margin-top: 16px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:8px;">AI FEATURES ENABLED</div>
-          <div class="ob-agent-grid">
-            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('on')}" id="ai-toggle-assistant" tabindex="0" role="switch" aria-checked="true">
-              <div class="toggle-icon">✦</div>
-              <div class="toggle-info"><div class="toggle-name">AI Assistant</div><div class="toggle-desc">Ask questions, get insights</div></div>
-              <div class="toggle-dot"></div>
-            </div>
-            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('on')}" id="ai-toggle-reports" tabindex="0" role="switch" aria-checked="true">
-              <div class="toggle-icon">📄</div>
-              <div class="toggle-info"><div class="toggle-name">Smart Reports</div><div class="toggle-desc">Auto-generate market reports</div></div>
-              <div class="toggle-dot"></div>
-            </div>
-            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('on')}" id="ai-toggle-drafts" tabindex="0" role="switch" aria-checked="true">
-              <div class="toggle-icon">✉️</div>
-              <div class="toggle-info"><div class="toggle-name">AI Drafting</div><div class="toggle-desc">Outreach emails & LOI summaries</div></div>
-              <div class="toggle-dot"></div>
-            </div>
-            <div class="ob-agent-toggle on" onclick="this.classList.toggle('on')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('on')}" id="ai-toggle-morning" tabindex="0" role="switch" aria-checked="true">
-              <div class="toggle-icon">☀️</div>
-              <div class="toggle-info"><div class="toggle-name">AI Morning Brief</div><div class="toggle-desc">AI-curated daily summary</div></div>
-              <div class="toggle-dot"></div>
-            </div>
+        <div style="margin: 24px 0; padding: 16px; background: rgba(196,158,84,0.08); border: 1px solid var(--border-gold); border-radius: 8px;">
+          <div style="display: flex; gap: 20px; justify-content: center; font-size: 13px; color: var(--text);">
+            <div style="text-align:center;"><div style="font-size: 22px; font-weight: 700; color: var(--gold);" id="stat-markets">3</div><div style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">Markets</div></div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="text-align:center;"><div style="font-size: 22px; font-weight: 700; color: var(--gold);" id="stat-agents">10</div><div style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">Agents Active</div></div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="text-align:center;"><div style="font-size: 22px; font-weight: 700; color: var(--gold);">25+</div><div style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">Data Sources</div></div>
           </div>
         </div>
       </div>
@@ -2001,11 +1952,10 @@ body {
 <!-- ══ MAIN ══ -->
 <div class="main">
   <div class="topbar" id="topbar">
-    <div style="display:flex;flex-direction:column;">
-      <div class="breadcrumb"><a href="/dashboard">Home</a><span class="sep">›</span><a href="/dashboard">Overview</a><span class="sep">›</span><span style="color:var(--cream);">Intelligence Dashboard</span></div>
+    <div style="display:flex;align-items:baseline;gap:12px;">
       <div class="topbar-title">Morning Brief</div>
+      <div class="topbar-date" id="topbar-date"></div>
     </div>
-    <div class="topbar-date" id="topbar-date"></div>
     <div class="topbar-right">
       <div style="position:relative;" id="global-search-wrap">
         <input type="text" id="global-search" placeholder="Search deals, leads, markets..." style="width:200px;padding:6px 12px 6px 28px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--cream);font-family:'Syne',sans-serif;font-size:11px;outline:none;transition:all 0.2s;" onfocus="this.style.width='280px';this.style.borderColor='var(--gold)'" onblur="setTimeout(()=>{this.style.width='200px';this.style.borderColor='var(--border)';document.getElementById('search-results')?.remove()},200)" oninput="handleGlobalSearch(this.value)" onkeydown="if(event.key==='Escape'){this.blur();document.getElementById('search-results')?.remove()}" />
@@ -2034,17 +1984,6 @@ body {
     <!-- KPI ROW -->
     <div class="kpi-row" id="kpi-row">
       <!-- Populated dynamically by renderKPICards() -->
-    </div>
-
-    <!-- SECTION: MARKET INTELLIGENCE -->
-    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Market Intelligence</div>
-      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Live vacancy data, agent feeds & alerts</div>
-      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
-    </div>
-    <div style="grid-column:4/5;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Alerts</div>
-      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
     </div>
 
     <!-- HEATMAP -->
@@ -6284,7 +6223,7 @@ document.querySelectorAll('.action-dots').forEach((dots, i) => {
   const el = document.getElementById('topbar-date');
   if (!el) return;
   const now = new Date();
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const h = now.getHours(), m = now.getMinutes();
   const ampm = h >= 12 ? 'PM' : 'AM';
