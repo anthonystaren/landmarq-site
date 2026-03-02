@@ -724,11 +724,11 @@ body {
 }
 
 .card-title {
-  font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
-  letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim);
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.02em; color: var(--cream);
   display: flex; align-items: center; gap: 7px;
 }
-.card-title::before { content: ''; width: 3px; height: 3px; background: var(--gold); border-radius: 50%; }
+.card-title::before { content: ''; width: 3px; height: 12px; background: var(--gold); border-radius: 1px; }
 
 .card-action { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; color: var(--text-dim); cursor: pointer; transition: color 0.15s; text-transform: uppercase; }
 .card-action:hover { color: var(--gold); }
@@ -748,7 +748,7 @@ body {
 .kpi-card:hover::after { transform: scaleX(1); }
 .kpi-card:hover { border-color: var(--border-gold); }
 
-.kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+.kpi-label { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-mid); margin-bottom: 8px; }
 .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--cream); line-height: 1; letter-spacing: -0.01em; }
 .kpi-value.gold { color: var(--gold); }
 .kpi-delta { display: flex; align-items: center; gap: 4px; margin-top: 5px; font-family: 'JetBrains Mono', monospace; font-size: 8.5px; }
@@ -1333,7 +1333,7 @@ body {
   }
 
   .kpi-label {
-    font-size: 6px;
+    font-size: 9px;
   }
 
   .kpi-value {
@@ -1349,7 +1349,15 @@ body {
   }
 
   .card-title {
-    font-size: 8px;
+    font-size: 11px;
+  }
+
+  .dash-section-header div:first-child {
+    font-size: 15px !important;
+  }
+
+  .dash-section-header div:nth-child(2) {
+    font-size: 9px !important;
   }
 
   .topbar {
@@ -1766,9 +1774,27 @@ body {
 
   <div class="content">
 
+    <!-- SECTION: KEY METRICS -->
+    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:2px 0 6px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Key Metrics</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Pipeline performance at a glance</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+
     <!-- KPI ROW -->
     <div class="kpi-row" id="kpi-row">
       <!-- Populated dynamically by renderKPICards() -->
+    </div>
+
+    <!-- SECTION: MARKET INTELLIGENCE -->
+    <div class="dash-section-header" style="grid-column:1/4;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Market Intelligence</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Live vacancy data, agent feeds & alerts</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+    <div style="grid-column:4/5;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Alerts</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
     </div>
 
     <!-- HEATMAP -->
@@ -1835,6 +1861,13 @@ body {
       </div>
     </div>
 
+    <!-- SECTION: TRENDS -->
+    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Trends</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Deal value, leads & vacancy over time</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
+    </div>
+
     <!-- SPARKLINES -->
     <div class="sparkline-row">
       <div class="card spark-card" id="spark-deal-value" style="cursor:pointer" onclick="showSourceInfo('Deal Value · Q1 2026',[{label:'Pipeline Value',value:'See chart',source:'User-uploaded deal data (CSV import or manual entry)',note:'12-month trend from your deal pipeline entries'}])">
@@ -1849,6 +1882,13 @@ body {
         <div class="card-header"><div class="card-title">Vacancy Rate · LA Metro</div><div class="card-action" style="font-size:8px;cursor:pointer;" onclick="event.stopPropagation();showSparkDataModal('vacancy')">Edit Data ✎</div></div>
         <div class="spark-body" id="spark-vacancy-body"><!-- Rendered by renderSparkCards() --></div>
       </div>
+    </div>
+
+    <!-- SECTION: DEAL PIPELINE -->
+    <div class="dash-section-header" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:8px 0 4px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);">Deal Pipeline</div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:'Syne',sans-serif;">Your active deals and their status</div>
+      <div style="flex:1;height:1px;background:var(--border);margin-left:8px;"></div>
     </div>
 
     <!-- PIPELINE TABLE -->
