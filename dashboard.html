@@ -866,8 +866,8 @@ body {
   flex-shrink: 0; background: var(--surface);
 }
 
-.topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; }
-.topbar-date { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+.topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; white-space: nowrap; }
+.topbar-date { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
 
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 
@@ -6231,7 +6231,7 @@ document.querySelectorAll('.action-dots').forEach((dots, i) => {
   const mm = m < 10 ? '0' + m : m;
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const tzAbbr = now.toLocaleTimeString('en-US', {timeZoneName:'short'}).split(' ').pop();
-  el.textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} · ${h12}:${mm} ${ampm} ${tzAbbr}`;
+  el.textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} · ${h12}:${mm} ${ampm} ${tzAbbr}`;
 })();
 
 // ─── HEATMAP REGION SWITCHING ───
