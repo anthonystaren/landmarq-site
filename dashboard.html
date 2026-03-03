@@ -2473,7 +2473,7 @@ body {
 
 <script>
 // LandMarq Dashboard v2026.03.01
-console.log('LandMarq Dashboard v2026.03.01 — 6-step onboarding, 7-step tour');
+// LandMarq Dashboard initialized
 // ─── ONBOARDING ───
 let currentStep = 1;
 const totalSteps = 6;
@@ -2705,7 +2705,6 @@ let tourKeyListener = null;
 function startTour() {
   tourActive = true;
   tourIdx = 0;
-  console.log('Tour starting with', tourSteps.length, 'steps:', tourSteps.map(s => s.target));
 
   // Add keyboard navigation
   tourKeyListener = (e) => {
