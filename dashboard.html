@@ -6643,7 +6643,9 @@ function switchView(viewName) {
     'submarket-tracker': renderSubmarketTracker,
     'portfolio-analysis': renderPortfolioAnalysis,
     'preferences': renderPreferences,
-    'brief-schedule': renderBriefSchedule
+    'brief-schedule': renderBriefSchedule,
+    'underwriting': renderUnderwriting,
+    'data-sources': renderDataSources
   };
 
   const renderer = views[viewName];
@@ -6669,7 +6671,9 @@ function getViewTitle(view) {
     'submarket-tracker': 'Submarket Tracker',
     'portfolio-analysis': 'Portfolio Analysis',
     'preferences': 'Settings & Preferences',
-    'brief-schedule': 'Brief Schedule'
+    'brief-schedule': 'Brief Schedule',
+    'underwriting': 'Underwriting',
+    'data-sources': 'Data Sources'
   };
   return titles[view] || 'Dashboard';
 }
@@ -8481,6 +8485,129 @@ function rebindDashboardEvents() {
   });
 }
 
+// ─── UNDERWRITING VIEW ───
+function renderUnderwriting() {
+  const deals = getDealData();
+  const topDeals = deals.slice(0, 5);
+  let rows = topDeals.map(d => `
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;">
+      <div style="font-weight:600;color:var(--cream);">${d.name}</div>
+      <div style="color:var(--text);">${d.submarket || 'N/A'}</div>
+      <div style="color:var(--text);">$${(d.price/1e6).toFixed(1)}M</div>
+      <div style="color:var(--text);">${d.capRate || '5.2%'}</div>
+      <div><span style="padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;background:${d.stage==='LOI'?'var(--gold-dim)':d.stage==='Due Diligence'?'rgba(100,200,130,0.15)':'var(--surface-2)'};color:${d.stage==='LOI'?'var(--gold)':d.stage==='Due Diligence'?'#4CAF50':'var(--text)'};">${d.stage}</span></div>
+    </div>
+  `).join('');
+
+  return `<div style="max-width:900px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);margin-bottom:4px;">Underwriting</div>
+    <div style="font-size:12px;color:var(--text-dim);margin-bottom:24px;">AI-assisted deal underwriting & risk analysis</div>
+
+    ${viewSection('Quick Analysis')}
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:8px;">Avg Cap Rate</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);">5.4%</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Across active deals</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:8px;">Avg Hold Period</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--cream);">7.2 yr</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Target investment horizon</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:8px;">Risk Score</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#4CAF50;">Low</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Portfolio weighted average</div>
+      </div>
+    </div>
+
+    ${viewSection('Active Deals')}
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:10px 16px;background:var(--surface-2);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-dim);font-weight:600;">
+        <div>Property</div><div>Submarket</div><div>Price</div><div>Cap Rate</div><div>Stage</div>
+      </div>
+      ${rows}
+    </div>
+
+    <div style="margin-top:20px;padding:16px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:8px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:18px;color:var(--gold);">✦</span>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--cream);">AI Underwriting Assistant</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Upload a deal memo or property listing to get instant cap rate analysis, rent comps, and risk scoring.</div>
+      </div>
+      <button onclick="switchView('ai-assistant')" style="margin-left:auto;padding:8px 16px;background:var(--gold);border:none;border-radius:6px;color:#0A0C0E;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">Ask AI</button>
+    </div>
+  </div>`;
+}
+
+// ─── DATA SOURCES VIEW ───
+function renderDataSources() {
+  const sources = [
+    { name: 'CoStar Group', type: 'Premium', status: 'Connected', items: 'Vacancy rates, rent comps, listings', lastSync: '2 min ago', color: '#4CAF50' },
+    { name: 'LoopNet', type: 'Premium', status: 'Connected', items: 'Property listings, lease data', lastSync: '5 min ago', color: '#4CAF50' },
+    { name: 'County Recorder', type: 'Public', status: 'Connected', items: 'Deed transfers, liens, tax records', lastSync: '1 hr ago', color: '#4CAF50' },
+    { name: 'Census / BLS', type: 'Public', status: 'Connected', items: 'Demographics, employment, population', lastSync: '24 hr ago', color: '#4CAF50' },
+    { name: 'SEC EDGAR', type: 'Public', status: 'Connected', items: 'Corporate filings, 10-K, 8-K reports', lastSync: '6 hr ago', color: '#4CAF50' },
+    { name: 'FRED (St. Louis Fed)', type: 'Public', status: 'Connected', items: 'Treasury yields, CPI, GDP, interest rates', lastSync: '12 hr ago', color: '#4CAF50' },
+    { name: 'State SOS Records', type: 'Public', status: 'Connected', items: 'LLC formations, entity registrations', lastSync: '3 hr ago', color: '#4CAF50' },
+    { name: 'Indeed / LinkedIn', type: 'Aggregated', status: 'Connected', items: 'Job postings, hiring signals', lastSync: '14 min ago', color: '#4CAF50' },
+    { name: 'FEMA / USGS', type: 'Public', status: 'Connected', items: 'Disaster declarations, seismic data', lastSync: '2 hr ago', color: '#4CAF50' },
+    { name: 'Polymarket / Kalshi', type: 'Public', status: 'Connected', items: 'Prediction markets, economic probabilities', lastSync: '30 min ago', color: '#4CAF50' },
+    { name: 'WeWork Occupancy API', type: 'Premium', status: 'Pending', items: 'Flex-space occupancy, pricing trends', lastSync: 'Awaiting key', color: '#FFC107' },
+    { name: 'CommercialCafe', type: 'Public', status: 'Connected', items: 'Office rent reports, national trends', lastSync: '24 hr ago', color: '#4CAF50' },
+    { name: 'CBRE Research', type: 'Public', status: 'Connected', items: 'Quarterly market reports, vacancy data', lastSync: '7 days ago', color: '#4CAF50' }
+  ];
+
+  const connected = sources.filter(s => s.status === 'Connected').length;
+
+  let sourceRows = sources.map(s => `
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 2fr 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;">
+      <div style="font-weight:600;color:var(--cream);">${s.name}</div>
+      <div><span style="padding:2px 8px;border-radius:3px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;background:${s.type==='Premium'?'var(--gold-dim)':'var(--surface-2)'};color:${s.type==='Premium'?'var(--gold)':'var(--text-dim)'};">${s.type}</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:${s.color};"></span><span style="color:var(--text);">${s.status}</span></div>
+      <div style="color:var(--text-dim);font-size:11px;">${s.items}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);">${s.lastSync}</div>
+    </div>
+  `).join('');
+
+  return `<div style="max-width:1000px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);margin-bottom:4px;">Data Sources</div>
+    <div style="font-size:12px;color:var(--text-dim);margin-bottom:24px;">Connected feeds powering your intelligence agents</div>
+
+    ${viewSection('Overview')}
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:8px;">Connected</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);">${connected}</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Active data feeds</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:8px;">Pending</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#FFC107;">${sources.length - connected}</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Awaiting configuration</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:8px;">Data Points / Day</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--cream);">14.2K</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Average daily ingestion</div>
+      </div>
+    </div>
+
+    ${viewSection('All Sources')}
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 2fr 1fr;gap:12px;padding:10px 16px;background:var(--surface-2);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-dim);font-weight:600;">
+        <div>Source</div><div>Type</div><div>Status</div><div>Data</div><div>Last Sync</div>
+      </div>
+      ${sourceRows}
+    </div>
+
+    <div style="margin-top:20px;text-align:center;">
+      <button style="padding:10px 24px;background:var(--gold);border:none;border-radius:6px;color:#0A0C0E;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">+ Connect New Data Source</button>
+    </div>
+  </div>`;
+}
+
 // ─── SIDEBAR NAV CLICK HANDLERS ───
 (function() {
   // Sidebar items with IDs — now use view system
@@ -8509,12 +8636,14 @@ function rebindDashboardEvents() {
   document.querySelectorAll('.nav-item').forEach(item => {
     const text = item.textContent.trim();
     let viewName = null;
-    if (text.includes('Market Intel')) viewName = 'market-intel';
+    if (text.includes('Market Intel') || text.includes('Market Map')) viewName = 'market-intel';
     else if (text.includes('West Coast Markets')) viewName = 'west-coast-report';
     else if (text.includes('Submarket Tracker')) viewName = 'submarket-tracker';
     else if (text.includes('Portfolio Analysis')) viewName = 'portfolio-analysis';
-    else if (text.includes('Preferences')) viewName = 'preferences';
+    else if (text.includes('Preferences') || text.includes('Settings')) viewName = 'preferences';
     else if (text.includes('Brief Schedule')) viewName = 'brief-schedule';
+    else if (text.includes('Underwriting')) viewName = 'underwriting';
+    else if (text.includes('Data Sources')) viewName = 'data-sources';
 
     if (viewName) {
       item.style.cursor = 'pointer';
