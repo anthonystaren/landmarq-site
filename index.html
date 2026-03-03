@@ -331,43 +331,6 @@ nav {
   background: #F0EDE7;
 }
 
-.demo-cta-overlay {
-  position: absolute;
-  top: 16px;
-  right: 36px;
-  background: rgba(26, 22, 16, 0.85);
-  backdrop-filter: blur(12px);
-  color: #F0EDE7;
-  padding: 10px 20px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  z-index: 10;
-  letter-spacing: 0.3px;
-}
-
-.demo-cta-overlay button {
-  background: var(--gold-warm);
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 6px;
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: background 0.2s;
-}
-
-.demo-cta-overlay button:hover {
-  background: #8B6A1E;
-}
-
 .demo-stats-bar {
   display: flex;
   justify-content: center;
@@ -1241,12 +1204,6 @@ footer {
     height: 500px;
   }
 
-  .demo-cta-overlay {
-    font-size: 11px;
-    padding: 8px 14px;
-    gap: 10px;
-  }
-
   .demo-stats-bar {
     gap: 24px;
   }
@@ -1375,13 +1332,6 @@ footer {
     height: 400px;
   }
 
-  .demo-cta-overlay {
-    position: static;
-    justify-content: center;
-    margin-top: 12px;
-    background: rgba(26, 22, 16, 0.9);
-  }
-
   .demo-stats-bar {
     flex-wrap: wrap;
     gap: 16px;
@@ -1460,10 +1410,6 @@ footer {
   </div>
   <div class="demo-dashboard-frame">
     <iframe src="/demo-dashboard" title="LandMarq Interactive Dashboard Demo" loading="lazy" allow=""></iframe>
-    <div class="demo-cta-overlay">
-      Explore the live dashboard
-      <button onclick="window.location.href='/dashboard'">Start Free Trial →</button>
-    </div>
     <div class="demo-stats-bar">
       <div class="demo-stat">
         <div class="demo-stat-number">25+</div>
