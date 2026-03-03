@@ -21,6 +21,7 @@
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/login", "destination": "/login.html" },
-    { "source": "/api/market-data", "destination": "/api/market-data.js" }
+    { "source": "/api/market-data", "destination": "/api/market-data.js" },
+    { "source": "/api/ai", "destination": "/api/ai.js" }
   ]
 }
