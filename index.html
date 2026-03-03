@@ -231,6 +231,57 @@ nav {
   transform: translateY(-2px);
 }
 
+/* ── HAMBURGER MENU ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 5px;
+  padding: 8px;
+  z-index: 101;
+}
+
+.nav-hamburger span {
+  width: 24px;
+  height: 2px;
+  background: var(--text-dark);
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.nav-hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(11px);
+}
+
+.nav-hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-11px);
+}
+
+.nav-links-cta {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-links-cta {
+    display: block;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-warm);
+  }
+
+  .nav-links-cta .nav-cta {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+  }
+}
+
 /* ── HERO SECTION ── */
 .hero {
   padding: 60px 0 40px;
@@ -322,13 +373,21 @@ nav {
   position: relative;
 }
 
-.demo-dashboard-frame iframe {
-  width: 100%;
-  height: 700px;
-  border: 1px solid var(--border-warm);
+.demo-iframe-wrapper {
+  position: relative;
+  overflow: hidden;
   border-radius: 12px;
+  border: 1px solid var(--border-warm);
   box-shadow: 0 25px 60px rgba(26, 24, 20, 0.12), 0 8px 20px rgba(26, 24, 20, 0.06);
   background: #F0EDE7;
+  height: 700px;
+}
+
+.demo-dashboard-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
 
 .demo-stats-bar {
@@ -1180,20 +1239,62 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
   .nav-links {
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: rgba(255, 253, 248, 0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-warm);
+    gap: 0;
+    padding: 24px 20px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 99;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links li {
+    width: 100%;
   }
 
   .nav-links a {
-    font-size: 12px;
+    display: block;
+    padding: 12px 8px;
+    font-size: 14px;
   }
 
   .hero h1 {
-    font-size: 48px;
+    font-size: 42px;
   }
 
   .hero-subtitle {
     font-size: 16px;
+  }
+
+  .demo-iframe-wrapper {
+    height: 450px;
+  }
+
+  .demo-dashboard-frame iframe {
+    width: 166.67%;
+    height: 750px;
+    transform: scale(0.6);
+    transform-origin: top left;
   }
 
   .hero-image-wrapper {
@@ -1303,33 +1404,23 @@ footer {
 }
 
 @media (max-width: 480px) {
-  nav {
-    height: auto;
-    padding: 12px 0;
-  }
-
-  .nav-container {
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
-
   .hero h1 {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .hero-subtitle {
     font-size: 14px;
   }
 
+  .demo-iframe-wrapper {
+    height: 380px;
+  }
+
   .demo-dashboard-frame iframe {
-    height: 400px;
+    width: 200%;
+    height: 760px;
+    transform: scale(0.5);
+    transform-origin: top left;
   }
 
   .demo-stats-bar {
@@ -1392,10 +1483,35 @@ footer {
       <li><a href="/agents">Agents</a></li>
       <li><a href="/pricing">Pricing</a></li>
       <li><a href="/about">About</a></li>
+      <li class="nav-links-cta"><a href="/dashboard" class="nav-cta">View Dashboard →</a></li>
     </ul>
     <button class="nav-cta" onclick="window.location.href='/dashboard'">View Dashboard →</button>
+    <button class="nav-hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const hamburger = document.querySelector('.nav-hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function() {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+});
+</script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- HERO -->
@@ -1409,7 +1525,9 @@ footer {
     <p class="hero-subtext">No credit card required · 14-day free trial</p>
   </div>
   <div class="demo-dashboard-frame">
-    <iframe src="/demo-dashboard" title="LandMarq Interactive Dashboard Demo" loading="lazy" allow=""></iframe>
+    <div class="demo-iframe-wrapper">
+      <iframe src="/demo-dashboard" title="LandMarq Interactive Dashboard Demo" loading="lazy" allow=""></iframe>
+    </div>
     <div class="demo-stats-bar">
       <div class="demo-stat">
         <div class="demo-stat-number">25+</div>
