@@ -8487,15 +8487,15 @@ function rebindDashboardEvents() {
 
 // ─── UNDERWRITING VIEW ───
 function renderUnderwriting() {
-  const deals = getDealData();
+  const deals = getPipelineData();
   const topDeals = deals.slice(0, 5);
   let rows = topDeals.map(d => `
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;">
-      <div style="font-weight:600;color:var(--cream);">${d.name}</div>
-      <div style="color:var(--text);">${d.submarket || 'N/A'}</div>
-      <div style="color:var(--text);">$${(d.price/1e6).toFixed(1)}M</div>
-      <div style="color:var(--text);">${d.capRate || '5.2%'}</div>
-      <div><span style="padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;background:${d.stage==='LOI'?'var(--gold-dim)':d.stage==='Due Diligence'?'rgba(100,200,130,0.15)':'var(--surface-2)'};color:${d.stage==='LOI'?'var(--gold)':d.stage==='Due Diligence'?'#4CAF50':'var(--text)'};">${d.stage}</span></div>
+      <div style="font-weight:600;color:var(--cream);">${d.tenant}</div>
+      <div style="color:var(--text);">${d.market || 'N/A'}</div>
+      <div style="color:var(--text);">${d.value}</div>
+      <div style="color:var(--text);">${d.sf} SF</div>
+      <div><span style="padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;background:${d.stage==='LOI Signed'?'var(--gold-dim)':d.stage==='Due Diligence'?'rgba(100,200,130,0.15)':'var(--surface-2)'};color:${d.stage==='LOI Signed'?'var(--gold)':d.stage==='Due Diligence'?'#4CAF50':'var(--text)'};">${d.stage}</span></div>
     </div>
   `).join('');
 
@@ -8525,7 +8525,7 @@ function renderUnderwriting() {
     ${viewSection('Active Deals')}
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
       <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:10px 16px;background:var(--surface-2);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-dim);font-weight:600;">
-        <div>Property</div><div>Submarket</div><div>Price</div><div>Cap Rate</div><div>Stage</div>
+        <div>Tenant</div><div>Market</div><div>Value</div><div>Size</div><div>Stage</div>
       </div>
       ${rows}
     </div>
