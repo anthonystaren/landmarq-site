@@ -313,6 +313,90 @@ nav {
   border: 1px solid var(--border-warm);
 }
 
+/* ── DEMO DASHBOARD IFRAME ── */
+.demo-dashboard-frame {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 0 20px;
+  animation: heroFadeIn 1s ease-out 0.3s both;
+  position: relative;
+}
+
+.demo-dashboard-frame iframe {
+  width: 100%;
+  height: 700px;
+  border: 1px solid var(--border-warm);
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(26, 24, 20, 0.12), 0 8px 20px rgba(26, 24, 20, 0.06);
+  background: #F0EDE7;
+}
+
+.demo-cta-overlay {
+  position: absolute;
+  top: 16px;
+  right: 36px;
+  background: rgba(26, 22, 16, 0.85);
+  backdrop-filter: blur(12px);
+  color: #F0EDE7;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 10;
+  letter-spacing: 0.3px;
+}
+
+.demo-cta-overlay button {
+  background: var(--gold-warm);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+
+.demo-cta-overlay button:hover {
+  background: #8B6A1E;
+}
+
+.demo-stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.demo-stat {
+  text-align: center;
+}
+
+.demo-stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.1;
+}
+
+.demo-stat-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+
 @keyframes heroFadeIn {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1153,6 +1237,24 @@ footer {
     margin-top: 40px;
   }
 
+  .demo-dashboard-frame iframe {
+    height: 500px;
+  }
+
+  .demo-cta-overlay {
+    font-size: 11px;
+    padding: 8px 14px;
+    gap: 10px;
+  }
+
+  .demo-stats-bar {
+    gap: 24px;
+  }
+
+  .demo-stat-number {
+    font-size: 22px;
+  }
+
   .section-title {
     font-size: 36px;
   }
@@ -1269,6 +1371,22 @@ footer {
     font-size: 14px;
   }
 
+  .demo-dashboard-frame iframe {
+    height: 400px;
+  }
+
+  .demo-cta-overlay {
+    position: static;
+    justify-content: center;
+    margin-top: 12px;
+    background: rgba(26, 22, 16, 0.9);
+  }
+
+  .demo-stats-bar {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
   .section-title {
     font-size: 28px;
   }
@@ -1340,157 +1458,30 @@ footer {
     <button class="hero-cta" onclick="window.location.href='/dashboard'">View Dashboard →</button>
     <p class="hero-subtext">No credit card required · 14-day free trial</p>
   </div>
-  <div class="hero-image-wrapper">
-    <img src="/dashboard-hero.png" alt="LandMarq Executive Intelligence Dashboard showing KPI metrics, market heatmap, AI agent feed, and priority alerts" class="hero-image" loading="eager" width="1260" height="810">
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- PRODUCT SCREENSHOT SECTION -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="screenshot-section">
-  <div class="container">
-    <div class="screenshot-container">
-      <div class="browser-frame">
-        <div class="browser-header">
-          <div class="browser-dots">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-          <div class="browser-url">landmarq.ai/dashboard</div>
-        </div>
-        <div class="dashboard-mockup">
-          <!-- Sidebar -->
-          <div class="dashboard-sidebar">
-            <div class="sidebar-item active">Dashboard</div>
-            <div class="sidebar-item">Pipeline <span class="sidebar-badge">14</span></div>
-            <div class="sidebar-item">Market Map</div>
-            <div class="sidebar-item">Agent Fleet <span class="sidebar-badge">6</span></div>
-            <div class="sidebar-item">Underwriting</div>
-            <div class="sidebar-item">Data Sources</div>
-            <div class="sidebar-item">Entity Tracer <span class="sidebar-badge">LLC</span></div>
-            <div class="sidebar-item">AI Assistant <span class="sidebar-badge">AI</span></div>
-            <div class="sidebar-item">Settings</div>
-            <div class="sidebar-item">Sign Out</div>
-          </div>
-
-          <!-- Main Content -->
-          <div class="dashboard-main">
-            <div class="dashboard-header">
-              <div class="dashboard-title">Morning Brief</div>
-              <div class="dashboard-date">March 3, 2026</div>
-            </div>
-
-            <!-- KPI Cards -->
-            <div class="kpi-grid">
-              <div class="kpi-card">
-                <div class="kpi-label">Pipeline Value</div>
-                <div class="kpi-value">$68M</div>
-                <div class="kpi-change">↑ 12%</div>
-              </div>
-              <div class="kpi-card">
-                <div class="kpi-label">Active Targets</div>
-                <div class="kpi-value">5</div>
-                <div class="kpi-change">hot prospects</div>
-              </div>
-              <div class="kpi-card">
-                <div class="kpi-label">Avg Vacancy Chicago</div>
-                <div class="kpi-value">24.0%</div>
-                <div class="kpi-change">↓ 0.3%</div>
-              </div>
-            </div>
-
-            <!-- Second Row KPI -->
-            <div class="kpi-grid">
-              <div class="kpi-card">
-                <div class="kpi-label">Avg Confidence</div>
-                <div class="kpi-value">60%</div>
-                <div class="kpi-change">AI-scored</div>
-              </div>
-              <div class="kpi-card">
-                <div class="kpi-label">Agent-Sourced Leads</div>
-                <div class="kpi-value">0</div>
-                <div class="kpi-change">this week</div>
-              </div>
-              <div class="kpi-card">
-                <div class="kpi-label">Weighted Value</div>
-                <div class="kpi-value">$45M</div>
-                <div class="kpi-change">↑ 8%</div>
-              </div>
-            </div>
-
-            <!-- Submarket Pulse -->
-            <div class="submarket-section">
-              <div class="submarket-label">Submarket Pulse</div>
-              <div class="submarket-tabs">
-                <button class="submarket-tab active">Chicago CBD</button>
-                <button class="submarket-tab">River North</button>
-                <button class="submarket-tab">West Loop</button>
-              </div>
-              <div class="vacancy-bars">
-                <div class="vacancy-item">
-                  <div class="vacancy-label">Office Vacancy</div>
-                  <div class="vacancy-bar"><div class="vacancy-fill" style="width: 35%;"></div></div>
-                  <div class="vacancy-value">14.2%</div>
-                </div>
-                <div class="vacancy-item">
-                  <div class="vacancy-label">Retail Vacancy</div>
-                  <div class="vacancy-bar"><div class="vacancy-fill" style="width: 18%;"></div></div>
-                  <div class="vacancy-value">8.7%</div>
-                </div>
-                <div class="vacancy-item">
-                  <div class="vacancy-label">Industrial Vacancy</div>
-                  <div class="vacancy-bar"><div class="vacancy-fill" style="width: 24%;"></div></div>
-                  <div class="vacancy-value">3.2%</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Live Agent Feed -->
-            <div class="live-feed">
-              <div class="feed-header">Live Agent Feed</div>
-              <div class="feed-items">
-                <div class="feed-item">
-                  <div>Market Intel: Manhattan office vacancy ↓ 0.5% (new low)</div>
-                  <div class="feed-time">2 hours ago</div>
-                </div>
-                <div class="feed-item">
-                  <div>Tenant Leads: 3 new expansion signals flagged for Midtown</div>
-                  <div class="feed-time">45 min ago</div>
-                </div>
-                <div class="feed-item">
-                  <div>Zoning: New permit filed for 745 5th Ave (retail conversion)</div>
-                  <div class="feed-time">28 min ago</div>
-                </div>
-                <div class="feed-item">
-                  <div>Portfolio: Recommend renewal pricing increase 5-8% for Q2</div>
-                  <div class="feed-time">12 min ago</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="demo-dashboard-frame">
+    <iframe src="/demo-dashboard" title="LandMarq Interactive Dashboard Demo" loading="lazy" allow=""></iframe>
+    <div class="demo-cta-overlay">
+      Explore the live dashboard
+      <button onclick="window.location.href='/dashboard'">Start Free Trial →</button>
+    </div>
+    <div class="demo-stats-bar">
+      <div class="demo-stat">
+        <div class="demo-stat-number">25+</div>
+        <div class="demo-stat-label">Live Data Sources</div>
       </div>
-
-      <!-- Stats Below Screenshot -->
-      <div class="screenshot-stats">
-        <div class="stat-badge">
-          <div class="stat-number">25+</div>
-          <div class="stat-label">Live Data Sources</div>
-        </div>
-        <div class="stat-badge">
-          <div class="stat-number">10</div>
-          <div class="stat-label">AI Agents</div>
-        </div>
-        <div class="stat-badge">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Real-time Intelligence</div>
-        </div>
+      <div class="demo-stat">
+        <div class="demo-stat-number">10</div>
+        <div class="demo-stat-label">AI Agents</div>
+      </div>
+      <div class="demo-stat">
+        <div class="demo-stat-number">24/7</div>
+        <div class="demo-stat-label">Real-time Intelligence</div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Product screenshot section replaced by live interactive demo in hero -->
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- FEATURES SECTION -->

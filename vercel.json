@@ -7,13 +7,14 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
   ],
   "rewrites": [
+    { "source": "/demo-dashboard", "destination": "/demo-dashboard.html" },
     { "source": "/dashboard", "destination": "/dashboard.html" },
     { "source": "/agents", "destination": "/agents.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
