@@ -652,9 +652,15 @@ nav {
 }
 
 .feature-icon {
-  font-size: 40px;
-  margin-bottom: 16px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: rgba(196, 158, 84, 0.08);
+  border: 1px solid rgba(196, 158, 84, 0.15);
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 .feature-title {
@@ -864,6 +870,16 @@ nav {
   font-size: 11px;
 }
 
+.fleet-db-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
 /* ── USE CASES SECTION ── */
 .use-cases-section {
   background: var(--bg-warm);
@@ -890,9 +906,15 @@ nav {
 }
 
 .usecase-icon {
-  font-size: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(196, 158, 84, 0.08);
+  border: 1px solid rgba(196, 158, 84, 0.15);
+  border-radius: 10px;
   margin-bottom: 16px;
-  display: block;
 }
 
 .usecase-title {
@@ -1400,19 +1422,19 @@ footer {
               <div class="feed-header">Live Agent Feed</div>
               <div class="feed-items">
                 <div class="feed-item">
-                  <div>🤖 Market Intel: Manhattan office vacancy ↓ 0.5% (new low)</div>
+                  <div>Market Intel: Manhattan office vacancy ↓ 0.5% (new low)</div>
                   <div class="feed-time">2 hours ago</div>
                 </div>
                 <div class="feed-item">
-                  <div>📧 Tenant Leads: 3 new expansion signals flagged for Midtown</div>
+                  <div>Tenant Leads: 3 new expansion signals flagged for Midtown</div>
                   <div class="feed-time">45 min ago</div>
                 </div>
                 <div class="feed-item">
-                  <div>⚡ Zoning: New permit filed for 745 5th Ave (retail conversion)</div>
+                  <div>Zoning: New permit filed for 745 5th Ave (retail conversion)</div>
                   <div class="feed-time">28 min ago</div>
                 </div>
                 <div class="feed-item">
-                  <div>📊 Portfolio: Recommend renewal pricing increase 5-8% for Q2</div>
+                  <div>Portfolio: Recommend renewal pricing increase 5-8% for Q2</div>
                   <div class="feed-time">12 min ago</div>
                 </div>
               </div>
@@ -1451,19 +1473,19 @@ footer {
 
     <div class="features-grid">
       <div class="feature-card">
-        <span class="feature-icon">📊</span>
+        <span class="feature-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9"/><rect x="10" y="7" width="4" height="14"/><rect x="17" y="3" width="4" height="18"/></svg></span>
         <h3 class="feature-title">Market Intelligence</h3>
         <p class="feature-desc">Live vacancy data, rent trends, submarket analytics, and economic indicators from 25+ sources including FRED, Treasury, Census Bureau, and CBRE. Updated continuously.</p>
       </div>
 
       <div class="feature-card">
-        <span class="feature-icon">🤖</span>
+        <span class="feature-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg></span>
         <h3 class="feature-title">AI Agent Fleet</h3>
         <p class="feature-desc">10 purpose-built agents that find tenant leads, review LOIs, draft outreach, track permits, manage renewals, and monitor your portfolio — working 24/7.</p>
       </div>
 
       <div class="feature-card">
-        <span class="feature-icon">🔮</span>
+        <span class="feature-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></span>
         <h3 class="feature-title">Data Intelligence</h3>
         <p class="feature-desc">Prediction markets, REIT performance, SEC filings, risk intelligence, CRE news feeds, and proprietary models — all unified in one executive dashboard.</p>
       </div>
@@ -1634,23 +1656,23 @@ footer {
           <div class="fleet-db-header">Agent Activity (Last 24h)</div>
           <div class="fleet-db-items">
             <div class="fleet-db-item">
-              <div class="fleet-db-item-title">🤖 Market Intelligence</div>
+              <div class="fleet-db-item-title"><span class="fleet-db-dot"></span>Market Intelligence</div>
               <div class="fleet-db-item-meta">Chicago CBD vacancy: 14.2% (monthly low)</div>
             </div>
             <div class="fleet-db-item">
-              <div class="fleet-db-item-title">📧 Tenant Lead Engine</div>
+              <div class="fleet-db-item-title"><span class="fleet-db-dot"></span>Tenant Lead Engine</div>
               <div class="fleet-db-item-meta">5 new prospects in tech & finance sectors</div>
             </div>
             <div class="fleet-db-item">
-              <div class="fleet-db-item-title">✅ LOI Review</div>
+              <div class="fleet-db-item-title"><span class="fleet-db-dot"></span>LOI Review</div>
               <div class="fleet-db-item-meta">Flagged 2 renewal terms requiring attention</div>
             </div>
             <div class="fleet-db-item">
-              <div class="fleet-db-item-title">⚡ Zoning Monitor</div>
+              <div class="fleet-db-item-title"><span class="fleet-db-dot"></span>Zoning Monitor</div>
               <div class="fleet-db-item-meta">New commercial permit filed near assets</div>
             </div>
             <div class="fleet-db-item">
-              <div class="fleet-db-item-title">📊 Portfolio Analyst</div>
+              <div class="fleet-db-item-title"><span class="fleet-db-dot"></span>Portfolio Analyst</div>
               <div class="fleet-db-item-meta">Hold-sell analysis updated for Q1 2026</div>
             </div>
           </div>
@@ -1670,7 +1692,7 @@ footer {
 
     <div class="usecases-grid">
       <div class="usecase-card">
-        <span class="usecase-icon">🏢</span>
+        <span class="usecase-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><line x1="9" y1="18" x2="15" y2="18"/></svg></span>
         <h3 class="usecase-title">Brokers & Agents</h3>
         <p class="usecase-desc">Surface tenant leads before your competitors. Track expansion triggers in real-time. Close deals faster with AI-powered market intelligence.</p>
         <div class="usecase-bullets">
@@ -1681,7 +1703,7 @@ footer {
       </div>
 
       <div class="usecase-card">
-        <span class="usecase-icon">💼</span>
+        <span class="usecase-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/></svg></span>
         <h3 class="usecase-title">Investors & Asset Managers</h3>
         <p class="usecase-desc">Monitor portfolios 24/7. Get early warnings on market shifts. Make data-driven investment decisions with proprietary intelligence.</p>
         <div class="usecase-bullets">
@@ -1692,7 +1714,7 @@ footer {
       </div>
 
       <div class="usecase-card">
-        <span class="usecase-icon">🎯</span>
+        <span class="usecase-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C49E54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
         <h3 class="usecase-title">Corporate Real Estate</h3>
         <p class="usecase-desc">Optimize your real estate strategy with AI insights. Monitor lease renewals. Negotiate from strength with market data.</p>
         <div class="usecase-bullets">

@@ -12,20 +12,20 @@
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
 :root {
-  --bg: #0A0C0E;
-  --surface: #111418;
-  --surface-2: #181C22;
-  --surface-3: #1E242C;
-  --border: rgba(255,255,255,0.07);
-  --border-gold: rgba(196,158,84,0.3);
+  --bg: #F8F5F0;
+  --surface: #FFFDF8;
+  --surface-2: #F5F0E8;
+  --surface-3: #EDE8DE;
+  --border: rgba(167, 145, 113, 0.15);
+  --border-gold: rgba(196,158,84,0.25);
   --gold: #C49E54;
   --gold-dim: rgba(196,158,84,0.12);
   --gold-bright: #E8C97A;
   --gold-pale: rgba(196,158,84,0.06);
-  --cream: #F0EAD6;
-  --text: #C8C0AD;
-  --text-dim: #5C564E;
-  --text-mid: #8A8070;
+  --cream: #1A1814;
+  --text: #4A4540;
+  --text-dim: #8A8070;
+  --text-mid: #6B6560;
   --green: #4A9B6F;
   --green-dim: rgba(74,155,111,0.15);
   --red: #C0533A;
@@ -53,9 +53,9 @@ body {
 body::after {
   content: '';
   position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(196, 158, 84, 0.02) 2px, rgba(196, 158, 84, 0.02) 4px);
   pointer-events: none;
-  z-index: 9999;
+  z-index: -1;
 }
 
 /* ── NAV ── */
@@ -64,7 +64,7 @@ body::after {
   height: var(--nav-h);
   display: flex; align-items: center; padding: 0 48px;
   justify-content: space-between;
-  background: rgba(10,12,14,0.88);
+  background: rgba(255,253,248,0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   transition: border-color 0.3s;
@@ -84,7 +84,7 @@ body::after {
 
 .nav-links a {
   font-size: 13px; font-weight: 500;
-  color: var(--text-mid); text-decoration: none;
+  color: #8A7F77; text-decoration: none;
   letter-spacing: 0.02em;
   transition: color 0.2s;
 }
@@ -105,7 +105,7 @@ body::after {
 
 /* ── FOOTER ── */
 .footer {
-  background: #070809;
+  background: #1A1814;
   border-top: 1px solid var(--border);
   padding: 64px 72px 32px;
 }
@@ -120,13 +120,13 @@ body::after {
 .footer-brand {}
 .footer-logo {
   font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
-  font-size: 24px; font-weight: 600; color: var(--cream);
+  font-size: 24px; font-weight: 600; color: #F0EAD6;
   margin-bottom: 12px;
   display: block;
   text-decoration: none;
 }
 .footer-logo span { color: var(--gold); }
-.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 260px; }
+.footer-desc { font-size: 13px; color: #C8C0AD; line-height: 1.7; max-width: 260px; }
 
 .footer-col-title {
   font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
@@ -136,9 +136,9 @@ body::after {
 
 .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .footer-links a {
-  font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s;
+  font-size: 13px; color: #C8C0AD; text-decoration: none; transition: color 0.2s;
 }
-.footer-links a:hover { color: var(--cream); }
+.footer-links a:hover { color: #F0EAD6; }
 
 .footer-bottom {
   border-top: 1px solid var(--border);
@@ -148,7 +148,7 @@ body::after {
 
 .footer-copy {
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-  font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em;
+  font-size: 9.5px; color: #C8C0AD; letter-spacing: 0.08em;
 }
 
 .footer-badge {
@@ -200,9 +200,9 @@ body::after {
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: var(--cream);
+  background: transparent; color: #4A4540;
   padding: 13px 32px; border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(196,158,84,0.3);
   font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
   font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
   text-decoration: none; cursor: pointer;
@@ -254,7 +254,7 @@ body::after {
   display: none; flex-direction: column; background: none; border: none;
   cursor: pointer; gap: 5px; padding: 8px; z-index: 101;
 }
-.nav-hamburger span { width: 24px; height: 2px; background: var(--cream); border-radius: 1px; transition: all 0.3s ease; }
+.nav-hamburger span { width: 24px; height: 2px; background: #1A1814; border-radius: 1px; transition: all 0.3s ease; }
 .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(11px); }
 .nav-hamburger.active span:nth-child(2) { opacity: 0; }
 .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-11px); }
@@ -264,7 +264,7 @@ body::after {
   .nav-links {
     display: flex; flex-direction: column; position: fixed;
     top: var(--nav-h); left: 0; right: 0;
-    background: rgba(10,12,14,0.98); backdrop-filter: blur(16px);
+    background: rgba(255,253,248,0.98); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     gap: 0; padding: 24px 20px;
     transform: translateX(-100%); transition: transform 0.3s ease; z-index: 99;
@@ -307,9 +307,9 @@ body::after {
 .ls-body a:hover { text-decoration: underline; }
 .legal-highlight { background: var(--gold-dim); border: 1px solid var(--border-gold); border-radius: 6px; padding: 18px 20px; margin-bottom: 16px; font-size: 13.5px; color: var(--cream); line-height: 1.65; }
 .data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
-.data-table th { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; text-align: left; background: var(--surface-2); border: 1px solid var(--border); }
+.data-table th { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; text-align: left; background: #F5F0E8; border: 1px solid var(--border); }
 .data-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text-mid); vertical-align: top; line-height: 1.5; }
-.data-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+.data-table tr:nth-child(even) td { background: rgba(196, 158, 84, 0.05); }
 @media (max-width: 900px) {
   .legal-page { padding: 100px 24px 60px; grid-template-columns: 1fr; }
   .legal-toc { display: none; }
@@ -323,7 +323,7 @@ nav.nav { display:flex!important; align-items:center!important; justify-content:
 </head>
 <body>
 <nav class="nav">
-  <a href="index.html" class="nav-logo">Land<span class="lm-marq">Marq</span></a>
+  <a href="index.html" class="nav-logo">✦ Land<span class="lm-marq">Marq</span></a>
   <ul class="nav-links">
     <li><a href="agents.html">Agents</a></li>
     <li><a href="pricing.html">Pricing</a></li>
@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand"><a href="index.html" class="footer-logo">Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives.</p></div>
+    <div class="footer-brand"><a href="index.html" class="footer-logo">✦ Land<span>Marq</span></a><p class="footer-desc">Agentic intelligence for commercial real estate executives.</p></div>
     <div><div class="footer-col-title">Platform</div><ul class="footer-links"><li><a href="agents.html">The Agent Fleet</a></li><li><a href="dashboard.html">Dashboard</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
     <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li></ul></div>
     <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
