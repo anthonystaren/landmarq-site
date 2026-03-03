@@ -13,24 +13,25 @@
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
 :root {
-  --bg: #FAFAF8;
-  --surface: #FFFFFF;
-  --surface-2: #F5F3EF;
+  --bg: #F8F5F0;
+  --surface: #FFFDF8;
+  --surface-2: #F8F5F0;
   --surface-3: #EDE9E3;
-  --border: rgba(0,0,0,0.06);
-  --accent: #1B4D3E;
-  --accent-hover: #245F4D;
-  --accent-light: #E8F0ED;
+  --border: rgba(167,145,113,0.15);
+  --accent: #C49E54;
+  --accent-hover: #B08A42;
+  --accent-light: #F5EFE5;
   --cream: #1A1814;
   --text: #1A1814;
   --text-dim: #6B6560;
   --text-mid: #4A453F;
-  --green: #1B4D3E;
+  --text-secondary: #6B6560;
+  --green: #C49E54;
   --red: #B04030;
   --blue: #2E6C8F;
-  --gold: #1B4D3E;
-  --gold-bright: #245F4D;
-  --gold-dim: rgba(27,77,62,0.08);
+  --gold: #C49E54;
+  --gold-bright: #B08A42;
+  --gold-dim: rgba(196,158,84,0.08);
   --radius: 8px;
   --nav-h: 64px;
 }
@@ -169,9 +170,9 @@ nav {
 }
 .footer-badge::before {
   content: '';
-  width: 6px; height: 6px; background: var(--green);
+  width: 6px; height: 6px; background: var(--gold);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(74,155,111,0.5);
+  box-shadow: 0 0 8px rgba(196,158,84,0.5);
 }
 
 /* ── SHARED COMPONENTS ── */
@@ -312,7 +313,7 @@ nav {
 .pricing-toggle { display: inline-flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 4px; gap: 4px; margin-bottom: 56px; }
 .toggle-btn { padding: 8px 22px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; color: var(--text-dim); border: none; background: none; transition: all 0.2s; }
 .toggle-btn.active { background: var(--accent); color: white; font-weight: 600; }
-.save-badge { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,155,111,0.3); border-radius: 20px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 8px; }
+.save-badge { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(196,158,84,0.3); border-radius: 20px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 8px; }
 
 .pricing-cards { display: grid; grid-template-columns: 1fr 1.08fr 1fr; gap: 20px; max-width: 980px; margin: 0 auto 80px; }
 .pc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 40px 32px; position: relative; transition: all 0.2s; }
@@ -327,7 +328,7 @@ nav {
 .pc-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
 .pc-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
 .pc-feature { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text); line-height: 1.45; }
-.pc-feature-check { color: var(--green); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+.pc-feature-check { color: var(--gold); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
 .pc-feature-x { color: var(--text-dim); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
 .pc-feature.dim { color: var(--text-dim); }
 .pc-btn { display: block; width: 100%; text-align: center; padding: 13px; border-radius: 5px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
@@ -345,10 +346,10 @@ nav {
 .compare-table td:not(:first-child) { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
 .compare-table tr:hover td { background: rgba(255,255,255,0.015); }
 .compare-table .section-row td { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 8px 16px; }
-.check-y { color: var(--green); font-size: 14px; }
+.check-y { color: var(--gold); font-size: 14px; }
 .check-n { color: var(--text-dim); font-size: 14px; }
 .check-val { color: var(--text); }
-.featured-col { background: var(--accent-light); border-left: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+.featured-col { background: #F5EFE5; border-left: 1px solid var(--accent); border-right: 1px solid var(--accent); }
 
 .faq-section { padding: 80px 72px; background: var(--surface); }
 .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
@@ -378,7 +379,7 @@ nav {
 <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#0A0C0E;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
 <nav>
   <div class="nav-container">
-    <div class="nav-logo">LandMarq</div>
+    <div class="nav-logo">✦ LandMarq</div>
     <ul class="nav-links">
       <li><a href="index.html#platform">Platform</a></li>
       <li><a href="agents.html">Agents</a></li>
@@ -576,7 +577,7 @@ function setBilling(type, btn) {
 function submitDemo() {
   const btn = event.target;
   btn.textContent = '✓ Request received — we\'ll be in touch';
-  btn.style.background = 'var(--green)';
+  btn.style.background = 'var(--gold)';
 }
 </script>
 

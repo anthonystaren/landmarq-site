@@ -25,14 +25,13 @@
 <style>
 /* ── DESIGN SYSTEM ── */
 :root {
-  --bg: #FAFAF8;
-  --text: #1A1814;
+  --bg-warm: #F8F5F0;
+  --card-warm: #FFFDF8;
+  --accent-gold: #C49E54;
+  --accent-forest: #1B4D3E;
+  --text-dark: #1A1814;
   --text-secondary: #6B6560;
-  --accent: #1B4D3E;
-  --accent-hover: #245F4D;
-  --accent-light-bg: #E8F0ED;
-  --border: rgba(0,0,0,0.06);
-  --card-bg: #FFFFFF;
+  --border-warm: rgba(167, 145, 113, 0.15);
   --nav-height: 64px;
   --max-width: 1200px;
   --section-padding: 120px;
@@ -51,10 +50,30 @@ html {
 
 body {
   font-family: 'Syne', 'DM Sans', 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--bg-warm);
+  color: var(--text-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(196, 158, 84, 0.02) 2px,
+      rgba(196, 158, 84, 0.02) 4px
+    );
+  pointer-events: none;
+  z-index: -1;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -91,13 +110,56 @@ button {
   text-align: center;
 }
 
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--accent-gold);
+  margin: 24px auto 0;
+  border: none;
+}
+
+/* ── DATA SOURCE TICKER ── */
+.ticker-bar {
+  background: linear-gradient(90deg, var(--card-warm), rgba(196, 158, 84, 0.08));
+  border-bottom: 1px solid var(--border-warm);
+  padding: 12px 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.ticker-content {
+  display: flex;
+  gap: 32px;
+  animation: scroll 60s linear infinite;
+  white-space: nowrap;
+  padding: 0 24px;
+}
+
+.ticker-content span {
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-content:hover {
+  animation-play-state: paused;
+}
+
 /* ── NAV ── */
 nav {
   position: sticky;
-  top: 0;
+  top: 44px;
   z-index: 100;
-  background: #FFFFFF;
-  border-bottom: 1px solid var(--border);
+  background: var(--card-warm);
+  border-bottom: 1px solid var(--border-warm);
   height: var(--nav-height);
   display: flex;
   align-items: center;
@@ -118,8 +180,17 @@ nav {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.5px;
-  color: var(--text);
+  color: var(--text-dark);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo::before {
+  content: '✦';
+  color: var(--accent-gold);
+  font-size: 18px;
 }
 
 .nav-links {
@@ -132,16 +203,16 @@ nav {
 .nav-links a {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text);
+  color: var(--text-dark);
   transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-  color: var(--accent);
+  color: var(--accent-gold);
 }
 
 .nav-cta {
-  background: var(--accent);
+  background: var(--accent-gold);
   color: white;
   padding: 10px 20px;
   border-radius: 6px;
@@ -149,24 +220,25 @@ nav {
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
 }
 
 .nav-cta:hover {
-  background: var(--accent-hover);
+  background: #B5914A;
+  transform: translateY(-2px);
 }
 
 /* ── HERO SECTION ── */
 .hero {
-  padding: 120px 0;
+  padding: 100px 0 80px;
   text-align: center;
 }
 
 .hero-badge {
   display: inline-block;
-  background: var(--accent-light-bg);
-  color: var(--accent);
+  background: rgba(196, 158, 84, 0.1);
+  color: var(--accent-gold);
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 12px;
@@ -174,13 +246,14 @@ nav {
   letter-spacing: 0.5px;
   margin-bottom: 24px;
   text-transform: uppercase;
+  border: 1px solid var(--border-warm);
 }
 
 .hero h1 {
   font-size: 72px;
   font-weight: 600;
   line-height: 1.1;
-  color: var(--text);
+  color: var(--text-dark);
   margin-bottom: 24px;
   max-width: 900px;
   margin-left: auto;
@@ -191,13 +264,13 @@ nav {
   font-size: 18px;
   color: var(--text-secondary);
   line-height: 1.7;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto 40px;
   font-weight: 400;
 }
 
 .hero-cta {
-  background: var(--accent);
+  background: var(--accent-gold);
   color: white;
   padding: 14px 32px;
   border-radius: 6px;
@@ -205,13 +278,15 @@ nav {
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   display: inline-block;
   margin-bottom: 20px;
 }
 
 .hero-cta:hover {
-  background: var(--accent-hover);
+  background: #B5914A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(196, 158, 84, 0.3);
 }
 
 .hero-subtext {
@@ -222,7 +297,7 @@ nav {
 
 /* ── PRODUCT SCREENSHOT SECTION ── */
 .screenshot-section {
-  background: var(--bg);
+  background: var(--bg-warm);
 }
 
 .screenshot-container {
@@ -231,17 +306,17 @@ nav {
 }
 
 .browser-frame {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
+  background: var(--card-warm);
+  border: 1px solid var(--border-warm);
   border-radius: 12px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .browser-header {
   background: #F5F3EF;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-warm);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -256,7 +331,6 @@ nav {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #D4C5B8;
 }
 
 .dot:nth-child(1) { background: #E8715E; }
@@ -272,159 +346,242 @@ nav {
 }
 
 .dashboard-mockup {
-  background: #0B0D0F;
-  color: #E0E0E0;
-  padding: 24px;
-  min-height: 500px;
+  background: var(--card-warm);
+  color: var(--text-dark);
+  padding: 32px;
+  min-height: 600px;
   display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 20px;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
   position: relative;
 }
 
 .dashboard-sidebar {
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  padding-right: 20px;
+  border-right: 1px solid var(--border-warm);
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .sidebar-item {
   font-size: 13px;
-  padding: 10px 0;
-  color: #8A8A8A;
-  border-left: 2px solid transparent;
-  padding-left: 10px;
+  padding: 12px 12px;
+  color: var(--text-secondary);
+  border-left: 3px solid transparent;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .sidebar-item:hover {
-  color: #E0E0E0;
+  color: var(--text-dark);
+  background: rgba(196, 158, 84, 0.05);
 }
 
 .sidebar-item.active {
-  color: #4ADE80;
-  border-left-color: #4ADE80;
+  color: var(--accent-gold);
+  border-left-color: var(--accent-gold);
+  background: rgba(196, 158, 84, 0.08);
+  font-weight: 600;
+}
+
+.sidebar-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(196, 158, 84, 0.15);
+  color: var(--accent-gold);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .dashboard-main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-warm);
 }
 
 .dashboard-title {
-  font-size: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
   font-weight: 600;
-  color: #E0E0E0;
+  color: var(--text-dark);
 }
 
 .dashboard-date {
   font-size: 12px;
-  color: #6A6A6A;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.kpi-row {
+.kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 4px;
 }
 
 .kpi-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-warm);
+  border: 1px solid var(--border-warm);
   border-radius: 8px;
-  padding: 12px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .kpi-label {
   font-size: 11px;
-  color: #8A8A8A;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .kpi-value {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  color: #E0E0E0;
+  color: var(--accent-gold);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .kpi-change {
   font-size: 11px;
-  color: #4ADE80;
+  color: #888;
 }
 
-.heatmap-section {
-  margin-bottom: 12px;
+.submarket-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.heatmap-label {
+.submarket-label {
   font-size: 12px;
-  color: #6A6A6A;
-  margin-bottom: 8px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   font-weight: 500;
 }
 
-.heatmap-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 4px;
+.submarket-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-warm);
+  padding-bottom: 12px;
 }
 
-.heatmap-cell {
-  aspect-ratio: 1;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.heatmap-cell.hot1 { background: rgba(255, 87, 87, 0.3); }
-.heatmap-cell.hot2 { background: rgba(255, 193, 7, 0.3); }
-.heatmap-cell.hot3 { background: rgba(74, 222, 128, 0.3); }
-.heatmap-cell.hot4 { background: rgba(59, 130, 246, 0.3); }
-
-.agent-feed {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 12px;
-}
-
-.agent-feed-header {
+.submarket-tab {
   font-size: 12px;
-  color: #8A8A8A;
-  margin-bottom: 8px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.submarket-tab.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+.vacancy-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vacancy-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vacancy-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 100px;
+}
+
+.vacancy-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-warm);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.vacancy-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-gold), #E8C968);
+  border-radius: 3px;
+}
+
+.vacancy-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 40px;
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.live-feed {
+  background: var(--bg-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.feed-header {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.agent-item {
-  font-size: 11px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: #A8A8A8;
+.feed-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.agent-item:last-child {
+.feed-item {
+  font-size: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(196, 158, 84, 0.08);
+  color: var(--text-secondary);
+}
+
+.feed-item:last-child {
   border-bottom: none;
 }
 
-.agent-time {
-  color: #6A6A6A;
+.feed-time {
+  color: #999;
   font-size: 10px;
+  margin-top: 3px;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .screenshot-stats {
@@ -442,7 +599,7 @@ nav {
 .stat-number {
   font-size: 24px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-gold);
   font-family: 'JetBrains Mono', monospace;
   margin-bottom: 4px;
 }
@@ -455,14 +612,16 @@ nav {
 
 /* ── FEATURES SECTION ── */
 .features-section {
-  background: var(--bg);
+  background: var(--bg-warm);
 }
 
 .section-title {
   font-size: 48px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text-dark);
   margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
 }
 
 .section-subtitle {
@@ -479,20 +638,21 @@ nav {
 }
 
 .feature-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
+  background: var(--card-warm);
+  border: 1px solid var(--border-warm);
   border-radius: 12px;
   padding: 32px;
   transition: all 0.3s ease;
 }
 
 .feature-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(27, 77, 62, 0.1);
+  border-color: var(--accent-gold);
+  box-shadow: 0 8px 24px rgba(196, 158, 84, 0.15);
+  transform: translateY(-4px);
 }
 
 .feature-icon {
-  font-size: 32px;
+  font-size: 40px;
   margin-bottom: 16px;
   display: block;
 }
@@ -500,7 +660,7 @@ nav {
 .feature-title {
   font-size: 20px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text-dark);
   margin-bottom: 12px;
 }
 
@@ -510,9 +670,59 @@ nav {
   line-height: 1.7;
 }
 
+/* ── DATA SOURCES SECTION ── */
+.data-sources-section {
+  background: var(--bg-warm);
+}
+
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.source-category {
+  background: var(--card-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.source-category-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-warm);
+}
+
+.source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.source-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+}
+
+.source-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-weight: bold;
+}
+
 /* ── HOW IT WORKS SECTION ── */
 .how-it-works {
-  background: var(--bg);
+  background: var(--bg-warm);
 }
 
 .steps-container {
@@ -533,21 +743,21 @@ nav {
   top: 0;
   width: 48px;
   height: 48px;
-  background: var(--accent-light-bg);
-  border: 2px solid var(--accent);
+  background: rgba(196, 158, 84, 0.1);
+  border: 2px solid var(--accent-gold);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-gold);
   font-size: 20px;
 }
 
 .step-title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text-dark);
   margin-bottom: 8px;
 }
 
@@ -559,14 +769,14 @@ nav {
 
 /* ── AGENT FLEET SECTION ── */
 .agent-fleet-section {
-  background: var(--bg);
+  background: var(--bg-warm);
 }
 
 .fleet-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 60px;
 }
 
@@ -578,10 +788,11 @@ nav {
 
 .agent-row {
   padding: 16px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-warm);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 12px;
 }
 
 .agent-row:last-child {
@@ -591,7 +802,7 @@ nav {
 .agent-name {
   font-size: 15px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text-dark);
   min-width: 160px;
 }
 
@@ -599,30 +810,33 @@ nav {
   font-size: 13px;
   color: var(--text-secondary);
   flex: 1;
+  text-align: right;
 }
 
 .fleet-screenshot {
-  background: #0B0D0F;
+  background: var(--card-warm);
+  border: 1px solid var(--border-warm);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 24px rgba(196, 158, 84, 0.1);
   padding: 20px;
   min-height: 400px;
   position: relative;
 }
 
 .fleet-dashboard-mini {
-  color: #E0E0E0;
+  color: var(--text-dark);
 }
 
 .fleet-db-header {
   font-size: 13px;
-  color: #6A6A6A;
+  color: var(--text-secondary);
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-warm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .fleet-db-items {
@@ -632,27 +846,93 @@ nav {
 }
 
 .fleet-db-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-left: 3px solid #4ADE80;
-  padding: 10px;
+  background: var(--bg-warm);
+  border-left: 3px solid var(--accent-gold);
+  padding: 12px;
   border-radius: 4px;
   font-size: 12px;
 }
 
 .fleet-db-item-title {
-  color: #E0E0E0;
-  font-weight: 500;
+  color: var(--text-dark);
+  font-weight: 600;
   margin-bottom: 3px;
 }
 
 .fleet-db-item-meta {
-  color: #6A6A6A;
+  color: var(--text-secondary);
   font-size: 11px;
+}
+
+/* ── USE CASES SECTION ── */
+.use-cases-section {
+  background: var(--bg-warm);
+}
+
+.usecases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 60px;
+}
+
+.usecase-card {
+  background: var(--card-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: 12px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.usecase-card:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 8px 24px rgba(196, 158, 84, 0.15);
+}
+
+.usecase-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.usecase-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.usecase-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.usecase-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.usecase-bullet {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+}
+
+.usecase-bullet::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-weight: bold;
 }
 
 /* ── SOCIAL PROOF / STATS SECTION ── */
 .stats-section {
-  background: var(--bg);
+  background: var(--bg-warm);
   padding: 80px 0;
 }
 
@@ -672,7 +952,8 @@ nav {
 .stat-value {
   font-size: 36px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-gold);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .stat-text {
@@ -683,13 +964,14 @@ nav {
 
 /* ── CTA SECTION ── */
 .cta-section {
-  background: var(--accent);
+  background: linear-gradient(135deg, #2A1F15, #3D2E23);
   color: white;
   padding: 80px 0;
   text-align: center;
 }
 
 .cta-heading {
+  font-family: 'Cormorant Garamond', serif;
   font-size: 44px;
   font-weight: 600;
   margin-bottom: 32px;
@@ -697,8 +979,8 @@ nav {
 }
 
 .cta-button {
-  background: white;
-  color: var(--accent);
+  background: var(--accent-gold);
+  color: white;
   padding: 14px 32px;
   border-radius: 6px;
   font-size: 16px;
@@ -711,7 +993,8 @@ nav {
 }
 
 .cta-button:hover {
-  background: var(--bg);
+  background: #B5914A;
+  transform: translateY(-2px);
 }
 
 .cta-subtext {
@@ -722,10 +1005,10 @@ nav {
 
 /* ── FOOTER ── */
 footer {
-  background: var(--card-bg);
-  border-top: 1px solid var(--border);
+  background: var(--card-warm);
+  border-top: 1px solid var(--border-warm);
   padding: 60px 0 40px;
-  color: var(--text);
+  color: var(--text-dark);
 }
 
 .footer-container {
@@ -750,6 +1033,15 @@ footer {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-logo::before {
+  content: '✦';
+  color: var(--accent-gold);
+  font-size: 16px;
 }
 
 .footer-tagline {
@@ -763,7 +1055,7 @@ footer {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text);
+  color: var(--text-dark);
   margin-bottom: 16px;
   font-family: 'Syne', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
@@ -783,11 +1075,11 @@ footer {
 }
 
 .footer-col a:hover {
-  color: var(--accent);
+  color: var(--accent-gold);
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-warm);
   padding-top: 24px;
   text-align: center;
   font-size: 12px;
@@ -834,26 +1126,23 @@ footer {
     min-height: 300px;
   }
 
-  .kpi-row {
+  .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .heatmap-grid {
-    grid-template-columns: repeat(8, 1fr);
   }
 
   .dashboard-mockup {
     grid-template-columns: 1fr;
     padding: 16px;
+    gap: 20px;
   }
 
   .dashboard-sidebar {
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-warm);
     padding-right: 0;
     padding-bottom: 16px;
-    display: flex;
-    gap: 16px;
+    flex-direction: row;
+    gap: 8px;
     overflow-x: auto;
   }
 
@@ -893,6 +1182,14 @@ footer {
   }
 
   .steps-container {
+    grid-template-columns: 1fr;
+  }
+
+  .sources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .usecases-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -940,17 +1237,32 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .kpi-row {
+  .kpi-grid {
     grid-template-columns: 1fr;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
   }
+
+  .dashboard-mockup {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
 }
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- DATA SOURCE TICKER -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="ticker-bar">
+  <div class="ticker-content">
+    <span>FRED · SEC EDGAR · US Treasury · Census Bureau · Polymarket · CBRE · Cushman & Wakefield · CoStar · CRE Signals · Zillow API · LoopNet · Reonomy · Bureau of Labor Statistics · Zillow Research · Redfin · CoreLogic · Reis · PwC</span>
+    <span>FRED · SEC EDGAR · US Treasury · Census Bureau · Polymarket · CBRE · Cushman & Wakefield · CoStar · CRE Signals · Zillow API · LoopNet · Reonomy · Bureau of Labor Statistics · Zillow Research · Redfin · CoreLogic · Reis · PwC</span>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- NAV -->
@@ -973,10 +1285,10 @@ footer {
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="container text-center">
-    <span class="hero-badge">AI-Powered CRE Intelligence</span>
+    <span class="hero-badge">✦ AI-Powered CRE Intelligence</span>
     <h1>Smarter decisions on every deal.</h1>
     <p class="hero-subtitle">LandMarq connects 25+ live data feeds with AI agents that monitor markets, surface leads, and flag opportunities — before you sit down.</p>
-    <button class="hero-cta" onclick="window.location.href='/dashboard.html'">Start Free Trial →</button>
+    <button class="hero-cta" onclick="window.location.href='/dashboard.html'">View Dashboard →</button>
     <p class="hero-subtext">No credit card required · 14-day free trial</p>
   </div>
 </section>
@@ -1000,80 +1312,109 @@ footer {
           <!-- Sidebar -->
           <div class="dashboard-sidebar">
             <div class="sidebar-item active">Dashboard</div>
-            <div class="sidebar-item">Market Intel</div>
-            <div class="sidebar-item">Agents</div>
-            <div class="sidebar-item">Leads</div>
-            <div class="sidebar-item">Portfolio</div>
+            <div class="sidebar-item">Pipeline <span class="sidebar-badge">14</span></div>
+            <div class="sidebar-item">Market Map</div>
+            <div class="sidebar-item">Agent Fleet <span class="sidebar-badge">6</span></div>
+            <div class="sidebar-item">Underwriting</div>
+            <div class="sidebar-item">Data Sources</div>
+            <div class="sidebar-item">Entity Tracer <span class="sidebar-badge">LLC</span></div>
+            <div class="sidebar-item">AI Assistant <span class="sidebar-badge">AI</span></div>
+            <div class="sidebar-item">Settings</div>
+            <div class="sidebar-item">Sign Out</div>
           </div>
 
           <!-- Main Content -->
           <div class="dashboard-main">
             <div class="dashboard-header">
               <div class="dashboard-title">Morning Brief</div>
-              <div class="dashboard-date">March 2, 2026</div>
+              <div class="dashboard-date">March 3, 2026</div>
             </div>
 
             <!-- KPI Cards -->
-            <div class="kpi-row">
+            <div class="kpi-grid">
               <div class="kpi-card">
-                <div class="kpi-label">Vacancy Rate</div>
-                <div class="kpi-value">12.3%</div>
-                <div class="kpi-change">↓ 0.2%</div>
+                <div class="kpi-label">Pipeline Value</div>
+                <div class="kpi-value">$68M</div>
+                <div class="kpi-change">↑ 12%</div>
               </div>
               <div class="kpi-card">
-                <div class="kpi-label">Avg Rent/SF</div>
-                <div class="kpi-value">$42.50</div>
-                <div class="kpi-change">↑ 2.1%</div>
+                <div class="kpi-label">Active Targets</div>
+                <div class="kpi-value">5</div>
+                <div class="kpi-change">hot prospects</div>
               </div>
               <div class="kpi-card">
-                <div class="kpi-label">New Leads</div>
-                <div class="kpi-value">8</div>
-                <div class="kpi-change">↑ 3</div>
-              </div>
-              <div class="kpi-card">
-                <div class="kpi-label">Alerts</div>
-                <div class="kpi-value">12</div>
-                <div class="kpi-change">3 critical</div>
+                <div class="kpi-label">Avg Vacancy Chicago</div>
+                <div class="kpi-value">24.0%</div>
+                <div class="kpi-change">↓ 0.3%</div>
               </div>
             </div>
 
-            <!-- Heatmap -->
-            <div class="heatmap-section">
-              <div class="heatmap-label">Market Heat Map (12M performance)</div>
-              <div class="heatmap-grid">
-                <div class="heatmap-cell hot4"></div>
-                <div class="heatmap-cell hot3"></div>
-                <div class="heatmap-cell hot4"></div>
-                <div class="heatmap-cell hot2"></div>
-                <div class="heatmap-cell hot1"></div>
-                <div class="heatmap-cell hot3"></div>
-                <div class="heatmap-cell hot4"></div>
-                <div class="heatmap-cell hot2"></div>
-                <div class="heatmap-cell hot3"></div>
-                <div class="heatmap-cell hot1"></div>
-                <div class="heatmap-cell hot2"></div>
-                <div class="heatmap-cell hot3"></div>
+            <!-- Second Row KPI -->
+            <div class="kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-label">Avg Confidence</div>
+                <div class="kpi-value">60%</div>
+                <div class="kpi-change">AI-scored</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Agent-Sourced Leads</div>
+                <div class="kpi-value">0</div>
+                <div class="kpi-change">this week</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Weighted Value</div>
+                <div class="kpi-value">$45M</div>
+                <div class="kpi-change">↑ 8%</div>
               </div>
             </div>
 
-            <!-- Agent Feed -->
-            <div class="agent-feed">
-              <div class="agent-feed-header">Agent Activity Feed</div>
-              <div class="agent-item">
-                <div>🤖 Market Intel: Manhattan office vacancy ↓ 0.5% (new low)</div>
-                <div class="agent-time">2 hours ago</div>
+            <!-- Submarket Pulse -->
+            <div class="submarket-section">
+              <div class="submarket-label">Submarket Pulse</div>
+              <div class="submarket-tabs">
+                <button class="submarket-tab active">Chicago CBD</button>
+                <button class="submarket-tab">River North</button>
+                <button class="submarket-tab">West Loop</button>
               </div>
-              <div class="agent-item">
-                <div>📧 Outreach: 3 new tenant leads flagged for Midtown portfolio</div>
-                <div class="agent-time">45 min ago</div>
+              <div class="vacancy-bars">
+                <div class="vacancy-item">
+                  <div class="vacancy-label">Office Vacancy</div>
+                  <div class="vacancy-bar"><div class="vacancy-fill" style="width: 35%;"></div></div>
+                  <div class="vacancy-value">14.2%</div>
+                </div>
+                <div class="vacancy-item">
+                  <div class="vacancy-label">Retail Vacancy</div>
+                  <div class="vacancy-bar"><div class="vacancy-fill" style="width: 18%;"></div></div>
+                  <div class="vacancy-value">8.7%</div>
+                </div>
+                <div class="vacancy-item">
+                  <div class="vacancy-label">Industrial Vacancy</div>
+                  <div class="vacancy-bar"><div class="vacancy-fill" style="width: 24%;"></div></div>
+                  <div class="vacancy-value">3.2%</div>
+                </div>
               </div>
-              <div class="agent-item">
-                <div>⚡ Zoning: New permit filed for 745 5th Ave (retail conversion)</div>
-                <div class="agent-time">28 min ago</div>
-              </div>
-              <div class="agent-item">
-                <div>📊 Portfolio: Recommend renewal pricing increase 5-8% for Q2</div>
-                <div class="agent-time">12 min ago</div>
+            </div>
+
+            <!-- Live Agent Feed -->
+            <div class="live-feed">
+              <div class="feed-header">Live Agent Feed</div>
+              <div class="feed-items">
+                <div class="feed-item">
+                  <div>🤖 Market Intel: Manhattan office vacancy ↓ 0.5% (new low)</div>
+                  <div class="feed-time">2 hours ago</div>
+                </div>
+                <div class="feed-item">
+                  <div>📧 Tenant Leads: 3 new expansion signals flagged for Midtown</div>
+                  <div class="feed-time">45 min ago</div>
+                </div>
+                <div class="feed-item">
+                  <div>⚡ Zoning: New permit filed for 745 5th Ave (retail conversion)</div>
+                  <div class="feed-time">28 min ago</div>
+                </div>
+                <div class="feed-item">
+                  <div>📊 Portfolio: Recommend renewal pricing increase 5-8% for Q2</div>
+                  <div class="feed-time">12 min ago</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1105,25 +1446,99 @@ footer {
 <section class="features-section section" id="platform">
   <div class="container">
     <h2 class="section-title text-center">One platform. Three superpowers.</h2>
+    <hr class="section-divider">
     <p class="section-subtitle text-center">Everything you need to move faster than the market.</p>
 
     <div class="features-grid">
       <div class="feature-card">
         <span class="feature-icon">📊</span>
         <h3 class="feature-title">Market Intelligence</h3>
-        <p class="feature-desc">Live vacancy data, rent trends, and submarket analytics from 25+ sources including FRED, Treasury, and CBRE. Updated continuously.</p>
+        <p class="feature-desc">Live vacancy data, rent trends, submarket analytics, and economic indicators from 25+ sources including FRED, Treasury, Census Bureau, and CBRE. Updated continuously.</p>
       </div>
 
       <div class="feature-card">
         <span class="feature-icon">🤖</span>
         <h3 class="feature-title">AI Agent Fleet</h3>
-        <p class="feature-desc">10 purpose-built agents that find tenant leads, review LOIs, draft outreach, track permits, and monitor your portfolio — 24/7.</p>
+        <p class="feature-desc">10 purpose-built agents that find tenant leads, review LOIs, draft outreach, track permits, manage renewals, and monitor your portfolio — working 24/7.</p>
       </div>
 
       <div class="feature-card">
         <span class="feature-icon">🔮</span>
         <h3 class="feature-title">Data Intelligence</h3>
-        <p class="feature-desc">Prediction markets, REIT performance, SEC filings, risk intelligence, and CRE news — all in one executive dashboard.</p>
+        <p class="feature-desc">Prediction markets, REIT performance, SEC filings, risk intelligence, CRE news feeds, and proprietary models — all unified in one executive dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- DATA SOURCES SECTION -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="data-sources-section section">
+  <div class="container">
+    <h2 class="section-title text-center">25+ Connected Data Sources</h2>
+    <hr class="section-divider">
+    <p class="section-subtitle text-center">All your intelligence in one place. Always current.</p>
+
+    <div class="sources-grid">
+      <div class="source-category">
+        <div class="source-category-title">Market Data</div>
+        <div class="source-list">
+          <div class="source-item">FRED Economic Data</div>
+          <div class="source-item">US Census Bureau</div>
+          <div class="source-item">US Treasury</div>
+          <div class="source-item">Bureau of Labor Statistics</div>
+        </div>
+      </div>
+
+      <div class="source-category">
+        <div class="source-category-title">Commercial Data</div>
+        <div class="source-list">
+          <div class="source-item">CoStar Suite</div>
+          <div class="source-item">CBRE Market Data</div>
+          <div class="source-item">Cushman & Wakefield</div>
+          <div class="source-item">Reis Market Reports</div>
+        </div>
+      </div>
+
+      <div class="source-category">
+        <div class="source-category-title">Market Intel</div>
+        <div class="source-list">
+          <div class="source-item">LoopNet Listings</div>
+          <div class="source-item">CRE News Feeds</div>
+          <div class="source-item">Zillow Research</div>
+          <div class="source-item">Reonomy</div>
+        </div>
+      </div>
+
+      <div class="source-category">
+        <div class="source-category-title">Alternative Data</div>
+        <div class="source-list">
+          <div class="source-item">Polymarket Predictions</div>
+          <div class="source-item">Zillow API</div>
+          <div class="source-item">Redfin Data</div>
+          <div class="source-item">CoreLogic</div>
+        </div>
+      </div>
+
+      <div class="source-category">
+        <div class="source-category-title">SEC Filings</div>
+        <div class="source-list">
+          <div class="source-item">SEC EDGAR Database</div>
+          <div class="source-item">REIT Filings</div>
+          <div class="source-item">Real Estate Prospectuses</div>
+          <div class="source-item">Company Reports</div>
+        </div>
+      </div>
+
+      <div class="source-category">
+        <div class="source-category-title">Permits & Zoning</div>
+        <div class="source-list">
+          <div class="source-item">Municipal Permit Records</div>
+          <div class="source-item">Zoning Databases</div>
+          <div class="source-item">Planning Board Filings</div>
+          <div class="source-item">Variance Tracking</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1135,24 +1550,25 @@ footer {
 <section class="how-it-works section">
   <div class="container">
     <h2 class="section-title text-center">Up and running in minutes.</h2>
+    <hr class="section-divider">
 
     <div class="steps-container">
       <div class="step">
         <div class="step-number">1</div>
         <h3 class="step-title">Connect your data</h3>
-        <p class="step-desc">Upload deals, select markets, configure agents. 5-minute setup.</p>
+        <p class="step-desc">Upload deals, select markets, configure AI agents. 5-minute setup. Connect your existing CRM or portfolio system.</p>
       </div>
 
       <div class="step">
         <div class="step-number">2</div>
         <h3 class="step-title">Agents go to work</h3>
-        <p class="step-desc">AI agents continuously scan 25+ data sources, surface leads, and flag opportunities.</p>
+        <p class="step-desc">AI agents continuously scan 25+ data sources, surface tenant leads, flag market shifts, and monitor your portfolio.</p>
       </div>
 
       <div class="step">
         <div class="step-number">3</div>
-        <h3 class="step-title">Make smarter decisions</h3>
-        <p class="step-desc">Get a morning brief, real-time alerts, and AI-powered insights before anyone else.</p>
+        <h3 class="step-title">Get smarter insights</h3>
+        <p class="step-desc">Morning brief, real-time alerts, trend analysis, and AI recommendations delivered to your dashboard daily.</p>
       </div>
     </div>
   </div>
@@ -1164,6 +1580,7 @@ footer {
 <section class="agent-fleet-section section">
   <div class="container">
     <h2 class="section-title text-center">10 AI agents, always on.</h2>
+    <hr class="section-divider">
     <p class="section-subtitle text-center">Each agent is purpose-built for a specific CRE function.</p>
 
     <div class="fleet-content">
@@ -1171,72 +1588,117 @@ footer {
       <div class="fleet-list">
         <div class="agent-row">
           <div class="agent-name">Market Intelligence</div>
-          <div class="agent-desc">Vacancy, rents, comps</div>
+          <div class="agent-desc">Vacancy, rents, comps, trends</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">Tenant Lead Engine</div>
-          <div class="agent-desc">Expansion signals</div>
+          <div class="agent-desc">Expansion signals, moving triggers</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">LOI Review</div>
-          <div class="agent-desc">Clause flagging</div>
+          <div class="agent-desc">Clause flagging, risk detection</div>
         </div>
         <div class="agent-row">
-          <div class="agent-name">Outreach</div>
-          <div class="agent-desc">Personalized pitches</div>
+          <div class="agent-name">Outreach Engine</div>
+          <div class="agent-desc">Personalized pitches, targeting</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">Zoning Monitor</div>
-          <div class="agent-desc">Permits & variances</div>
+          <div class="agent-desc">Permits, variances, development</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">Portfolio Analyst</div>
-          <div class="agent-desc">Hold vs. sell</div>
+          <div class="agent-desc">Hold vs. sell, performance</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">Pitch Builder</div>
-          <div class="agent-desc">Deal presentations</div>
+          <div class="agent-desc">Deal presentations, materials</div>
         </div>
         <div class="agent-row">
-          <div class="agent-name">Stacking Plan</div>
-          <div class="agent-desc">Space optimization</div>
+          <div class="agent-name">Stacking Planner</div>
+          <div class="agent-desc">Space optimization, layouts</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">Renewal Tracker</div>
-          <div class="agent-desc">Lease alerts</div>
+          <div class="agent-desc">Lease alerts, timing, renewal prep</div>
         </div>
         <div class="agent-row">
           <div class="agent-name">Market Reporter</div>
-          <div class="agent-desc">Weekly summaries</div>
+          <div class="agent-desc">Weekly summaries, executive briefs</div>
         </div>
       </div>
 
       <!-- Right: Dashboard Screenshot -->
       <div class="fleet-screenshot">
         <div class="fleet-dashboard-mini">
-          <div class="fleet-db-header">Agent Feed (Last 24h)</div>
+          <div class="fleet-db-header">Agent Activity (Last 24h)</div>
           <div class="fleet-db-items">
             <div class="fleet-db-item">
               <div class="fleet-db-item-title">🤖 Market Intelligence</div>
-              <div class="fleet-db-item-meta">Chicago CBD vacancy: 14.2% (monthly update)</div>
+              <div class="fleet-db-item-meta">Chicago CBD vacancy: 14.2% (monthly low)</div>
             </div>
             <div class="fleet-db-item">
               <div class="fleet-db-item-title">📧 Tenant Lead Engine</div>
-              <div class="fleet-db-item-meta">5 new prospects in target verticals</div>
+              <div class="fleet-db-item-meta">5 new prospects in tech & finance sectors</div>
             </div>
             <div class="fleet-db-item">
               <div class="fleet-db-item-title">✅ LOI Review</div>
-              <div class="fleet-db-item-meta">Flagged 2 renewal terms requiring review</div>
+              <div class="fleet-db-item-meta">Flagged 2 renewal terms requiring attention</div>
             </div>
             <div class="fleet-db-item">
               <div class="fleet-db-item-title">⚡ Zoning Monitor</div>
-              <div class="fleet-db-item-meta">New commercial permit filed nearby</div>
+              <div class="fleet-db-item-meta">New commercial permit filed near assets</div>
             </div>
             <div class="fleet-db-item">
               <div class="fleet-db-item-title">📊 Portfolio Analyst</div>
-              <div class="fleet-db-item-meta">Hold-sell analysis updated for Q1</div>
+              <div class="fleet-db-item-meta">Hold-sell analysis updated for Q1 2026</div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- USE CASES SECTION -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="use-cases-section section">
+  <div class="container">
+    <h2 class="section-title text-center">Built for CRE leaders.</h2>
+    <hr class="section-divider">
+
+    <div class="usecases-grid">
+      <div class="usecase-card">
+        <span class="usecase-icon">🏢</span>
+        <h3 class="usecase-title">Brokers & Agents</h3>
+        <p class="usecase-desc">Surface tenant leads before your competitors. Track expansion triggers in real-time. Close deals faster with AI-powered market intelligence.</p>
+        <div class="usecase-bullets">
+          <div class="usecase-bullet">Tenant lead sourcing</div>
+          <div class="usecase-bullet">Market comparables</div>
+          <div class="usecase-bullet">Deal timing insights</div>
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <span class="usecase-icon">💼</span>
+        <h3 class="usecase-title">Investors & Asset Managers</h3>
+        <p class="usecase-desc">Monitor portfolios 24/7. Get early warnings on market shifts. Make data-driven investment decisions with proprietary intelligence.</p>
+        <div class="usecase-bullets">
+          <div class="usecase-bullet">Portfolio monitoring</div>
+          <div class="usecase-bullet">Risk intelligence</div>
+          <div class="usecase-bullet">Opportunity alerts</div>
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <span class="usecase-icon">🎯</span>
+        <h3 class="usecase-title">Corporate Real Estate</h3>
+        <p class="usecase-desc">Optimize your real estate strategy with AI insights. Monitor lease renewals. Negotiate from strength with market data.</p>
+        <div class="usecase-bullets">
+          <div class="usecase-bullet">Lease renewal optimization</div>
+          <div class="usecase-bullet">Market rate tracking</div>
+          <div class="usecase-bullet">Expansion planning</div>
         </div>
       </div>
     </div>
@@ -1276,7 +1738,7 @@ footer {
   <div class="container text-center">
     <h2 class="cta-heading">Ready to move faster than the market?</h2>
     <button class="cta-button" onclick="window.location.href='/dashboard.html'">Start Free Trial →</button>
-    <p class="cta-subtext">No credit card required</p>
+    <p class="cta-subtext">No credit card required · 14-day free trial</p>
   </div>
 </section>
 
@@ -1288,7 +1750,7 @@ footer {
     <div class="footer-grid">
       <div class="footer-col-brand">
         <div class="footer-logo">LandMarq</div>
-        <p class="footer-tagline">AI-powered commercial real estate intelligence platform. Monitor markets. Surface leads. Move faster.</p>
+        <p class="footer-tagline">AI-powered commercial real estate intelligence. Monitor markets. Surface leads. Move faster than the competition.</p>
       </div>
 
       <div class="footer-col">
@@ -1296,7 +1758,7 @@ footer {
         <ul>
           <li><a href="/dashboard.html">Dashboard</a></li>
           <li><a href="agents.html">Agents</a></li>
-          <li><a href="#">Data Sources</a></li>
+          <li><a href="#platform">Data Sources</a></li>
           <li><a href="#">AI Assistant</a></li>
         </ul>
       </div>

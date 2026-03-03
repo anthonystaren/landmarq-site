@@ -22,24 +22,25 @@
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
 :root {
-  --bg: #FAFAF8;
-  --surface: #FFFFFF;
-  --surface-2: #F5F3EF;
+  --bg: #F8F5F0;
+  --surface: #FFFDF8;
+  --surface-2: #F8F5F0;
   --surface-3: #EDE9E3;
-  --border: rgba(0,0,0,0.06);
-  --accent: #1B4D3E;
-  --accent-hover: #245F4D;
-  --accent-light: #E8F0ED;
+  --border: rgba(167,145,113,0.15);
+  --accent: #C49E54;
+  --accent-hover: #B08A42;
+  --accent-light: #F5F0E8;
   --cream: #1A1814;
   --text: #1A1814;
   --text-dim: #6B6560;
   --text-mid: #4A453F;
-  --green: #1B4D3E;
+  --text-secondary: #6B6560;
+  --green: #C49E54;
   --red: #B04030;
   --blue: #2E6C8F;
-  --gold: #1B4D3E;
-  --gold-bright: #245F4D;
-  --gold-dim: rgba(27,77,62,0.08);
+  --gold: #C49E54;
+  --gold-bright: #B08A42;
+  --gold-dim: rgba(196,158,84,0.08);
   --radius: 8px;
   --nav-h: 64px;
 }
@@ -86,6 +87,11 @@ nav {
   letter-spacing: -0.5px;
   color: var(--text);
   cursor: pointer;
+}
+.nav-logo::before {
+  content: '✦ ';
+  color: var(--accent);
+  margin-right: 4px;
 }
 
 .nav-links {
@@ -216,7 +222,7 @@ nav {
   text-decoration: none; border: none; cursor: pointer;
   transition: all 0.2s;
 }
-.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(27,77,62,0.25); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,158,84,0.25); }
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
@@ -375,7 +381,7 @@ nav {
 .backed-logo:hover { color: var(--text); }
 
 .cta-about { padding: 100px 72px; text-align: center; position: relative; overflow: hidden; }
-.cta-about-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,77,62,0.07) 0%, transparent 70%); }
+.cta-about-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(196,158,84,0.07) 0%, transparent 70%); }
 
 @media (max-width: 900px) {
   .about-hero { padding: 100px 24px 60px; }
