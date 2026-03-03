@@ -1,5 +1,6 @@
 // Vercel Serverless Function — Market Data Proxy
-// Fetches from FRED, SEC EDGAR, BLS, and 13 additional data sources to avoid CORS issues
+// Fetches from 25+ data sources: FRED, SEC EDGAR, BLS, Treasury, Polymarket, Kalshi,
+// FEMA, USGS, EPA, FBI, CFPB, Census ACS, Yahoo Finance, VIX, and macro bundle
 module.exports = async function handler(req, res) {
   // Allow CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -343,7 +344,7 @@ module.exports = async function handler(req, res) {
     // ─── FBI Crime Data ───
     if (source === 'crime') {
       try {
-        const apiKey = 'iiHnOKfno2Mgkt5AynpvPpUQTEyxE77jo1RU8PIv';
+        const apiKey = process.env.FBI_CRIME_KEY || 'iiHnOKfno2Mgkt5AynpvPpUQTEyxE77jo1RU8PIv';
         const url = `https://api.usa.gov/crime/fbi/cde/arrest/national/all?from=2020&to=2023&API_KEY=${apiKey}`;
         const resp = await fetch(url);
         if (!resp.ok) throw new Error(`FBI Crime API error: ${resp.status}`);
@@ -664,6 +665,203 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    // ─── CBOE VIX via FRED (Free — no CBOE subscription needed) ───
+    if (source === 'vix') {
+      try {
+        const fredKey = process.env.FRED_API_KEY || 'DEMO_KEY';
+        const url = `https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&api_key=${fredKey}&file_type=json&sort_order=desc&limit=60`;
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(`FRED/VIX API error: ${resp.status}`);
+        const data = await resp.json();
+        const observations = (data.observations || [])
+          .filter(o => o.value !== '.')
+          .map(o => ({ date: o.date, value: parseFloat(o.value) }));
+        const current = observations[0] || {};
+        const prev = observations[1] || {};
+        return res.status(200).json({
+          source: 'CBOE VIX (via FRED)',
+          current: current.value,
+          previous: prev.value,
+          change: current.value && prev.value ? +(current.value - prev.value).toFixed(2) : null,
+          date: current.date,
+          history: observations.slice(0, 30),
+          fetched: new Date().toISOString()
+        });
+      } catch (e) {
+        return res.status(500).json({ error: 'VIX fetch failed', message: e.message });
+      }
+    }
+
+    // ─── Census Bureau ACS (Housing & Demographics — Free, no key needed) ───
+    if (source === 'census') {
+      try {
+        const stFips = state || '17'; // Default: Illinois
+        // ACS 5-Year: median home value, median rent, vacancy rate, total housing units, owner-occupied
+        const vars = 'B25077_001E,B25064_001E,B25002_003E,B25002_001E,B25003_002E,NAME';
+        const url = `https://api.census.gov/data/2022/acs/acs5?get=${vars}&for=state:${stFips}`;
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(`Census API error: ${resp.status}`);
+        const data = await resp.json();
+        if (data.length < 2) throw new Error('No Census data returned');
+        const headers = data[0];
+        const values = data[1];
+        const row = {};
+        headers.forEach((h, i) => { row[h] = values[i]; });
+        const totalUnits = parseInt(row.B25002_001E) || 1;
+        const vacantUnits = parseInt(row.B25002_003E) || 0;
+        return res.status(200).json({
+          source: 'US Census Bureau ACS',
+          state: row.NAME,
+          median_home_value: parseInt(row.B25077_001E) || null,
+          median_gross_rent: parseInt(row.B25064_001E) || null,
+          total_housing_units: totalUnits,
+          vacant_units: vacantUnits,
+          vacancy_rate: +((vacantUnits / totalUnits) * 100).toFixed(1),
+          owner_occupied: parseInt(row.B25003_002E) || null,
+          year: 2022,
+          fetched: new Date().toISOString()
+        });
+      } catch (e) {
+        return res.status(500).json({ error: 'Census fetch failed', message: e.message });
+      }
+    }
+
+    // ─── Census ACS Multi-State (Compare metros for CRE) ───
+    if (source === 'census_compare') {
+      try {
+        const states = (state || '17,06,36,48,12').split(','); // IL,CA,NY,TX,FL
+        const vars = 'B25077_001E,B25064_001E,B25002_003E,B25002_001E,NAME';
+        const results = [];
+        for (const st of states.slice(0, 10)) {
+          try {
+            const url = `https://api.census.gov/data/2022/acs/acs5?get=${vars}&for=state:${st.trim()}`;
+            const resp = await fetch(url);
+            if (!resp.ok) continue;
+            const data = await resp.json();
+            if (data.length < 2) continue;
+            const headers = data[0];
+            const values = data[1];
+            const row = {};
+            headers.forEach((h, i) => { row[h] = values[i]; });
+            const total = parseInt(row.B25002_001E) || 1;
+            const vacant = parseInt(row.B25002_003E) || 0;
+            results.push({
+              state: row.NAME,
+              fips: st.trim(),
+              median_home_value: parseInt(row.B25077_001E) || null,
+              median_rent: parseInt(row.B25064_001E) || null,
+              vacancy_rate: +((vacant / total) * 100).toFixed(1),
+              total_units: total
+            });
+          } catch (e) { continue; }
+        }
+        return res.status(200).json({
+          source: 'US Census Bureau ACS',
+          comparison: results,
+          year: 2022,
+          fetched: new Date().toISOString()
+        });
+      } catch (e) {
+        return res.status(500).json({ error: 'Census compare failed', message: e.message });
+      }
+    }
+
+    // ─── Yahoo Finance REIT Quotes (Free — no API key needed) ───
+    if (source === 'yahoo_quote') {
+      try {
+        const symbols = (symbol || 'PLD,SPG,O,DLR,CBRE,BXP,JLL,VNO').split(',');
+        const quotes = [];
+        for (const sym of symbols.slice(0, 10)) {
+          try {
+            const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym.trim()}?interval=1d&range=5d`;
+            const resp = await fetch(url, {
+              headers: { 'User-Agent': 'LandMarq Intelligence Platform' }
+            });
+            if (!resp.ok) continue;
+            const data = await resp.json();
+            const result = data.chart?.result?.[0];
+            if (!result) continue;
+            const meta = result.meta || {};
+            const closes = result.indicators?.quote?.[0]?.close || [];
+            const lastClose = closes.filter(c => c != null).pop();
+            const prevClose = closes.filter(c => c != null).slice(-2, -1)[0];
+            quotes.push({
+              symbol: sym.trim(),
+              price: +(meta.regularMarketPrice || lastClose || 0).toFixed(2),
+              previous_close: +(meta.chartPreviousClose || prevClose || 0).toFixed(2),
+              change: meta.regularMarketPrice && meta.chartPreviousClose
+                ? +(meta.regularMarketPrice - meta.chartPreviousClose).toFixed(2)
+                : null,
+              change_pct: meta.regularMarketPrice && meta.chartPreviousClose
+                ? +(((meta.regularMarketPrice - meta.chartPreviousClose) / meta.chartPreviousClose) * 100).toFixed(2)
+                : null,
+              currency: meta.currency || 'USD',
+              exchange: meta.exchangeName || ''
+            });
+          } catch (e) { continue; }
+        }
+        return res.status(200).json({
+          source: 'Yahoo Finance',
+          quotes: quotes,
+          fetched: new Date().toISOString()
+        });
+      } catch (e) {
+        return res.status(500).json({ error: 'Yahoo Finance fetch failed', message: e.message });
+      }
+    }
+
+    // ─── FRED Macro Bundle (Bloomberg-style macro dashboard — all free via FRED) ───
+    if (source === 'macro') {
+      try {
+        const fredKey = process.env.FRED_API_KEY || 'DEMO_KEY';
+        const macroSeries = [
+          { id: 'VIXCLS', label: 'CBOE VIX', category: 'volatility' },
+          { id: 'DGS10', label: '10-Year Treasury Yield', category: 'rates' },
+          { id: 'DGS2', label: '2-Year Treasury Yield', category: 'rates' },
+          { id: 'T10Y2Y', label: '10Y-2Y Spread (Inversion)', category: 'rates' },
+          { id: 'BAMLH0A0HYM2', label: 'High Yield Spread', category: 'credit' },
+          { id: 'DCOILWTICO', label: 'Crude Oil (WTI)', category: 'commodities' },
+          { id: 'DEXUSEU', label: 'USD/EUR Exchange Rate', category: 'forex' },
+          { id: 'SP500', label: 'S&P 500', category: 'equities' },
+          { id: 'MORTGAGE30US', label: '30-Yr Mortgage Rate', category: 'housing' },
+          { id: 'CSUSHPINSA', label: 'Case-Shiller Home Price Index', category: 'housing' },
+          { id: 'PERMIT', label: 'Building Permits', category: 'housing' },
+          { id: 'UMCSENT', label: 'Consumer Sentiment', category: 'sentiment' },
+        ];
+        const results = [];
+        for (const s of macroSeries) {
+          try {
+            const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${s.id}&api_key=${fredKey}&file_type=json&sort_order=desc&limit=2`;
+            const resp = await fetch(url);
+            if (!resp.ok) continue;
+            const data = await resp.json();
+            const obs = (data.observations || []).filter(o => o.value !== '.');
+            if (obs.length >= 1) {
+              const cur = parseFloat(obs[0].value);
+              const prev = obs.length >= 2 ? parseFloat(obs[1].value) : null;
+              results.push({
+                id: s.id,
+                label: s.label,
+                category: s.category,
+                value: cur,
+                previous: prev,
+                change: prev != null ? +(cur - prev).toFixed(4) : null,
+                date: obs[0].date
+              });
+            }
+          } catch (e) { continue; }
+        }
+        return res.status(200).json({
+          source: 'FRED Macro Bundle (Bloomberg alternative)',
+          indicators: results,
+          note: 'VIX, Treasury Yields, Credit Spreads, Oil, Forex, Housing — all via FRED',
+          fetched: new Date().toISOString()
+        });
+      } catch (e) {
+        return res.status(500).json({ error: 'Macro bundle failed', message: e.message });
+      }
+    }
+
     return res.status(400).json({
       error: 'Unknown source',
       available_sources: [
@@ -671,7 +869,8 @@ module.exports = async function handler(req, res) {
         'treasury', 'polymarket', 'kalshi', 'fema', 'earthquake',
         'epa', 'crime', 'hmda', 'walkscore', 'news',
         'reit_quote', 'reit_financials', 'geocode', 'hud_fmr',
-        'noaa', 'xbrl'
+        'noaa', 'xbrl', 'vix', 'census', 'census_compare',
+        'yahoo_quote', 'macro'
       ]
     });
 
