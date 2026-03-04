@@ -368,12 +368,13 @@ module.exports = async function handler(req, res) {
     // ─── CFPB HMDA (Mortgage Lending Data) ───
     if (source === 'hmda') {
       try {
-        const url = 'https://ffiec.cfpb.gov/v2/data-browser-api/view/nationwide/aggregations?actions_taken=1&years=2022';
+        const hmdaYear = new Date().getFullYear() - 2; // HMDA data has ~2yr lag
+        const url = `https://ffiec.cfpb.gov/v2/data-browser-api/view/nationwide/aggregations?actions_taken=1&years=${hmdaYear}`;
         const resp = await fetch(url);
         if (!resp.ok) throw new Error(`HMDA API error: ${resp.status}`);
         const data = await resp.json();
         const originations = {
-          year: data.year || 2022,
+          year: data.year || hmdaYear,
           total_applications: data.total_applications,
           total_originations: data.total_originations,
           total_denials: data.total_denials,
@@ -419,32 +420,50 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ─── News API (Commercial Real Estate News) ───
+    // ─── Google News RSS (Commercial Real Estate News — free, no key, no rate limit) ───
     if (source === 'news') {
       try {
-        const key = process.env.NEWS_API_KEY;
-        if (!key) throw new Error('NEWS_API_KEY not configured');
-        const url = `https://newsapi.org/v2/everything?q=commercial+real+estate&sortBy=publishedAt&pageSize=10&apiKey=${key}`;
+        const query = encodeURIComponent(req.query.q || 'commercial real estate');
+        const url = `https://news.google.com/rss/search?q=${query}&hl=en-US&gl=US&ceid=US:en`;
         const resp = await fetch(url);
-        if (!resp.ok) throw new Error(`News API error: ${resp.status}`);
-        const data = await resp.json();
-        const articles = (data.articles || []).map(a => ({
-          title: a.title,
-          description: a.description,
-          url: a.url,
-          image: a.urlToImage,
-          published_at: a.publishedAt,
-          source: a.source.name,
-          author: a.author
-        }));
+        if (!resp.ok) throw new Error(`Google News RSS error: ${resp.status}`);
+        const xml = await resp.text();
+
+        // Parse RSS XML into articles
+        const articles = [];
+        const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+        let match;
+        while ((match = itemRegex.exec(xml)) !== null && articles.length < 15) {
+          const item = match[1];
+          const title = (item.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+          const link = (item.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || '';
+          const pubDate = (item.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || '';
+          const sourceName = (item.match(/<source[^>]*>([\s\S]*?)<\/source>/) || [])[1] || '';
+          const sourceUrl = (item.match(/<source\s+url="([^"]*)"/) || [])[1] || '';
+          const description = (item.match(/<description>([\s\S]*?)<\/description>/) || [])[1] || '';
+
+          // Clean CDATA and HTML tags
+          const clean = (s) => s.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, '').trim();
+
+          articles.push({
+            title: clean(title),
+            description: clean(description).slice(0, 300),
+            url: link.trim(),
+            published_at: pubDate ? new Date(pubDate).toISOString() : null,
+            source: clean(sourceName),
+            source_url: sourceUrl
+          });
+        }
+
         return res.status(200).json({
-          source: 'News API (CRE)',
+          source: 'Google News',
+          query: decodeURIComponent(query),
           articles: articles,
-          total_results: data.totalResults,
+          total_results: articles.length,
           fetched: new Date().toISOString()
         });
       } catch (e) {
-        return res.status(500).json({ error: 'News API fetch failed', message: e.message });
+        return res.status(500).json({ error: 'News fetch failed', message: e.message });
       }
     }
 
@@ -593,7 +612,10 @@ module.exports = async function handler(req, res) {
         const token = process.env.NOAA_API_TOKEN;
         if (!token) throw new Error('NOAA_API_TOKEN not configured');
         const stationId = station || 'USW00023183'; // Phoenix default
-        const url = `https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=${stationId}&startDate=2025-01-01&endDate=2025-12-31&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json`;
+        const now = new Date();
+        const endDate = now.toISOString().split('T')[0];
+        const startDate = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate()).toISOString().split('T')[0];
+        const url = `https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=${stationId}&startDate=${startDate}&endDate=${endDate}&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json`;
 
         const resp = await fetch(url, {
           headers: { 'token': token }
