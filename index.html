@@ -284,17 +284,14 @@ nav {
 
 /* ── HERO SECTION ── */
 .hero {
-  padding: 60px 0 0;
+  padding: 60px 0 40px;
   text-align: center;
   overflow: visible;
-  background: linear-gradient(180deg, #0B0D0F 0%, #111418 100%);
-  color: white;
-  position: relative;
 }
 
 .hero-badge {
   display: inline-block;
-  background: rgba(196, 158, 84, 0.15);
+  background: rgba(196, 158, 84, 0.1);
   color: var(--accent-gold);
   padding: 8px 16px;
   border-radius: 20px;
@@ -303,14 +300,14 @@ nav {
   letter-spacing: 0.5px;
   margin-bottom: 18px;
   text-transform: uppercase;
-  border: 1px solid rgba(196, 158, 84, 0.3);
+  border: 1px solid var(--border-warm);
 }
 
 .hero h1 {
   font-size: 64px;
   font-weight: 600;
   line-height: 1.1;
-  color: white;
+  color: var(--text-dark);
   margin-bottom: 20px;
   max-width: 900px;
   margin-left: auto;
@@ -319,7 +316,7 @@ nav {
 
 .hero-subtitle {
   font-size: 17px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   line-height: 1.6;
   max-width: 650px;
   margin: 0 auto 30px;
@@ -348,15 +345,30 @@ nav {
 
 .hero-subtext {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   margin-top: 8px;
 }
 
-/* ── ANIMATED HERO DASHBOARD ── */
+.hero-image-wrapper {
+  max-width: 1100px;
+  margin: 40px auto 0;
+  padding: 0 20px;
+  animation: heroFadeIn 1s ease-out 0.3s both;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(26, 24, 20, 0.12), 0 8px 20px rgba(26, 24, 20, 0.06);
+  border: 1px solid var(--border-warm);
+}
+
+/* ── DEMO DASHBOARD IFRAME ── */
 .demo-dashboard-frame {
   max-width: 1200px;
-  margin: 60px auto 0;
-  padding: 0 20px 40px;
+  margin: 40px auto 0;
+  padding: 0 20px;
   animation: heroFadeIn 1s ease-out 0.3s both;
   position: relative;
 }
@@ -365,171 +377,25 @@ nav {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  padding: 40px;
-  min-height: 500px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: center;
+  border: 1px solid var(--border-warm);
+  box-shadow: 0 25px 60px rgba(26, 24, 20, 0.12), 0 8px 20px rgba(26, 24, 20, 0.06);
+  background: #F0EDE7;
+  height: 700px;
 }
 
-.kpi-cards-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+.demo-dashboard-frame iframe {
   width: 100%;
-}
-
-.kpi-card-hero {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  backdrop-filter: blur(20px);
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  animation: cardFadeIn 0.6s ease-out forwards;
-  opacity: 0;
-}
-
-.kpi-card-hero:nth-child(1) { animation-delay: 0.1s; }
-.kpi-card-hero:nth-child(2) { animation-delay: 0.2s; }
-.kpi-card-hero:nth-child(3) { animation-delay: 0.3s; }
-.kpi-card-hero:nth-child(4) { animation-delay: 0.4s; }
-
-.kpi-label-hero {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 500;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.kpi-value-hero {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--accent-gold);
-  font-family: 'JetBrains Mono', monospace;
-  line-height: 1.1;
-}
-
-/* Sparkline chart */
-.sparkline-container {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.sparkline-title {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 16px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.sparkline-svg {
-  width: 100%;
-  height: 80px;
-}
-
-.sparkline-path {
-  stroke: var(--accent-gold);
-  stroke-width: 2;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px rgba(196, 158, 84, 0.4));
-  animation: drawLine 1.2s ease-out 0.6s forwards;
-  stroke-dasharray: 600;
-  stroke-dashoffset: 600;
-}
-
-/* Ticker tape */
-.ticker-wrapper {
-  width: 100%;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  margin-top: 24px;
-  padding: 12px 0;
-}
-
-.ticker-content-hero {
-  display: flex;
-  gap: 32px;
-  padding: 0 20px;
-  white-space: nowrap;
-  animation: scrollTicker 20s linear infinite;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.ticker-content-hero span {
-  min-width: max-content;
-}
-
-/* Floating activity dots */
-.activity-dots-container {
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 180px;
-}
-
-.activity-dot {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  animation: dotPulse 2s ease-in-out infinite;
-}
-
-.activity-dot:nth-child(1) { animation-delay: 0s; }
-.activity-dot:nth-child(2) { animation-delay: 0.4s; }
-.activity-dot:nth-child(3) { animation-delay: 0.8s; }
-
-.dot-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.dot-indicator.gold {
-  background: var(--accent-gold);
-  box-shadow: 0 0 12px rgba(196, 158, 84, 0.6);
-}
-
-.dot-indicator.green {
-  background: #6CB15A;
-  box-shadow: 0 0 12px rgba(108, 177, 90, 0.6);
-}
-
-.dot-indicator.blue {
-  background: #4A9EFF;
-  box-shadow: 0 0 12px rgba(74, 158, 255, 0.6);
+  height: 100%;
+  border: none;
+  display: block;
 }
 
 .demo-stats-bar {
   display: flex;
   justify-content: center;
   gap: 40px;
-  padding: 32px 20px;
-  border-top: 1px solid rgba(196, 158, 84, 0.3);
-  background: linear-gradient(180deg, transparent 0%, rgba(11, 13, 15, 0.5) 100%);
+  margin-top: 20px;
+  padding: 0 20px;
 }
 
 .demo-stat {
@@ -540,63 +406,22 @@ nav {
   font-family: 'Cormorant Garamond', serif;
   font-size: 28px;
   font-weight: 700;
-  color: white;
+  color: var(--text-dark);
   line-height: 1.1;
 }
 
 .demo-stat-label {
   font-family: 'Syne', sans-serif;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-top: 4px;
 }
 
-/* Animations */
 @keyframes heroFadeIn {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes cardFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes drawLine {
-  from {
-    stroke-dashoffset: 600;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes scrollTicker {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes dotPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.2);
-  }
 }
 
 /* ── PRODUCT SCREENSHOT SECTION ── */
@@ -1462,42 +1287,26 @@ footer {
   }
 
   .demo-iframe-wrapper {
-    grid-template-columns: 1fr;
-    padding: 24px;
-    min-height: auto;
+    height: 450px;
   }
 
-  .kpi-cards-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+  .demo-dashboard-frame iframe {
+    width: 166.67%;
+    height: 750px;
+    transform: scale(0.6);
+    transform-origin: top left;
   }
 
-  .kpi-card-hero {
-    padding: 20px;
+  .hero-image-wrapper {
+    margin-top: 40px;
   }
 
-  .kpi-value-hero {
-    font-size: 28px;
-  }
-
-  .activity-dots-container {
-    position: static;
-    transform: none;
-    width: auto;
-    display: none;
-    margin-top: 24px;
-    flex-direction: row;
-    gap: 12px;
-  }
-
-  .activity-dot {
-    font-size: 10px;
+  .demo-dashboard-frame iframe {
+    height: 500px;
   }
 
   .demo-stats-bar {
     gap: 24px;
-    flex-wrap: wrap;
-    padding: 24px 20px;
   }
 
   .demo-stat-number {
@@ -1604,42 +1413,19 @@ footer {
   }
 
   .demo-iframe-wrapper {
-    grid-template-columns: 1fr;
-    padding: 16px;
-    min-height: auto;
+    height: 380px;
   }
 
-  .kpi-cards-container {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .kpi-card-hero {
-    padding: 16px;
-  }
-
-  .kpi-value-hero {
-    font-size: 24px;
-  }
-
-  .sparkline-svg {
-    height: 60px;
-  }
-
-  .ticker-content-hero {
-    font-size: 11px;
-    gap: 16px;
-    padding: 0 12px;
-  }
-
-  .activity-dots-container {
-    display: none;
+  .demo-dashboard-frame iframe {
+    width: 200%;
+    height: 760px;
+    transform: scale(0.5);
+    transform-origin: top left;
   }
 
   .demo-stats-bar {
     flex-wrap: wrap;
     gap: 16px;
-    padding: 16px 12px;
   }
 
   .section-title {
@@ -1724,54 +1510,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-
-  // Animated number counting for KPI cards
-  function countUp(element, target, duration = 1800) {
-    const start = 0;
-    const increment = target / (duration / 16);
-    let current = start;
-
-    const prefix = element.dataset.prefix || '';
-    const suffix = (element.dataset.suffix || '').replace('.', '.');
-
-    function update() {
-      current += increment;
-      if (current >= target) {
-        element.textContent = prefix + target.toLocaleString() + suffix;
-      } else {
-        element.textContent = prefix + Math.floor(current).toLocaleString() + suffix;
-        requestAnimationFrame(update);
-      }
-    }
-
-    update();
-  }
-
-  // Intersection Observer to trigger counting when hero is in view
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target.dataset.animated) {
-        entry.target.dataset.animated = 'true';
-
-        // Start counting for each KPI card
-        const kpiValues = entry.target.querySelectorAll('[data-target]');
-        kpiValues.forEach((element, index) => {
-          const target = parseInt(element.dataset.target);
-          setTimeout(() => {
-            countUp(element, target, 1500);
-          }, index * 150);
-        });
-
-        // Stop observing after animation starts
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  const heroDashboard = document.getElementById('hero-dashboard');
-  if (heroDashboard) {
-    observer.observe(heroDashboard);
-  }
 });
 </script>
 
@@ -1779,73 +1517,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- HERO -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="hero">
-  <div class="container text-center" style="position: relative; z-index: 10; padding: 0 20px;">
+  <div class="container text-center">
     <span class="hero-badge">✦ AI-Powered CRE Intelligence</span>
     <h1>Smarter decisions on every deal.</h1>
     <p class="hero-subtitle">LandMarq connects 25+ live data feeds with AI agents that monitor markets, surface leads, and flag opportunities — before you sit down.</p>
-    <div style="display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap;">
-      <button class="hero-cta" onclick="window.location.href='/dashboard'">Start Free Trial →</button>
-      <a href="/demo-dashboard" class="hero-cta" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;">View Live Demo</a>
-    </div>
+    <button class="hero-cta" onclick="window.location.href='/dashboard'">View Dashboard →</button>
     <p class="hero-subtext">No credit card required · 14-day free trial</p>
   </div>
-
   <div class="demo-dashboard-frame">
-    <div class="demo-iframe-wrapper" id="hero-dashboard">
-      <!-- KPI Cards -->
-      <div class="kpi-cards-container">
-        <div class="kpi-card-hero">
-          <div class="kpi-label-hero">Pipeline Value</div>
-          <div class="kpi-value-hero" data-target="2" data-prefix="$" data-suffix=".8B" style="color: #C49E54;">$0</div>
-        </div>
-        <div class="kpi-card-hero">
-          <div class="kpi-label-hero">Deals in Progress</div>
-          <div class="kpi-value-hero" data-target="42">0</div>
-        </div>
-        <div class="kpi-card-hero">
-          <div class="kpi-label-hero">Market Intel Alerts</div>
-          <div class="kpi-value-hero" data-target="18">0</div>
-        </div>
-        <div class="kpi-card-hero">
-          <div class="kpi-label-hero">AI Agents Active</div>
-          <div class="kpi-value-hero" data-target="9">0</div>
-        </div>
-      </div>
-
-      <!-- Sparkline Chart -->
-      <div class="sparkline-container">
-        <div class="sparkline-title">CRE Market Trends</div>
-        <svg class="sparkline-svg" viewBox="0 0 600 80" preserveAspectRatio="xMidYMid meet">
-          <polyline class="sparkline-path" points="10,65 50,55 90,45 130,50 170,35 210,25 250,30 290,20 330,15 370,18 410,22 450,28 490,25 530,35 570,30" />
-        </svg>
-      </div>
-
-      <!-- Ticker Tape -->
-      <div class="ticker-wrapper">
-        <div class="ticker-content-hero">
-          <span>VIX 18.4 ▲2.1%  ·  30-Yr Mortgage 6.82%  ·  S&P 500 5,234 ▲0.8%  ·  10Y Treasury 4.28%  ·  Case-Shiller +4.2% YoY</span>
-          <span>VIX 18.4 ▲2.1%  ·  30-Yr Mortgage 6.82%  ·  S&P 500 5,234 ▲0.8%  ·  10Y Treasury 4.28%  ·  Case-Shiller +4.2% YoY</span>
-        </div>
-      </div>
-
-      <!-- Activity Dots (on desktop) -->
-      <div class="activity-dots-container">
-        <div class="activity-dot">
-          <div class="dot-indicator gold"></div>
-          <div style="font-size: 11px;">Scout scanning Dallas...</div>
-        </div>
-        <div class="activity-dot">
-          <div class="dot-indicator green"></div>
-          <div style="font-size: 11px;">Underwriter modeling...</div>
-        </div>
-        <div class="activity-dot">
-          <div class="dot-indicator blue"></div>
-          <div style="font-size: 11px;">Lead finder active...</div>
-        </div>
-      </div>
+    <div class="demo-iframe-wrapper">
+      <iframe src="/demo-dashboard" title="LandMarq Interactive Dashboard Demo" loading="lazy" allow=""></iframe>
     </div>
-
-    <!-- Stats Bar Below -->
     <div class="demo-stats-bar">
       <div class="demo-stat">
         <div class="demo-stat-number">25+</div>
