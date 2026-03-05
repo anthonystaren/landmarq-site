@@ -328,6 +328,67 @@ body {
   background: var(--gold);
 }
 
+/* Submarket Pulse + Priority Alerts row */
+.pulse-alerts-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-bottom: 24px;
+}
+
+/* Submarket Pulse Heat Map */
+.pulse-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.pulse-title { font-size: 14px; font-weight: 700; color: var(--cream); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.pulse-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.pulse-cell {
+  height: 36px; border-radius: 4px; display: flex; align-items: center;
+  justify-content: center; font-size: 9px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; cursor: pointer;
+  transition: transform 0.15s; position: relative;
+}
+.pulse-cell:hover { transform: scale(1.08); z-index: 2; }
+.pulse-cell .pulse-tip {
+  display: none; position: absolute; bottom: 110%; left: 50%;
+  transform: translateX(-50%); background: var(--surface-3);
+  border: 1px solid var(--border-gold); border-radius: 6px;
+  padding: 4px 8px; font-size: 9px; color: var(--cream);
+  white-space: nowrap; z-index: 10;
+}
+.pulse-cell:hover .pulse-tip { display: block; }
+.pulse-labels { display: flex; gap: 4px; margin-bottom: 4px; }
+.pulse-label { flex: 1; text-align: center; font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+.pulse-row-label { font-size: 9px; color: var(--text-dim); padding-right: 8px; min-width: 60px; display: flex; align-items: center; }
+.pulse-row { display: flex; gap: 4px; margin-bottom: 4px; }
+.pulse-legend {
+  display: flex; align-items: center; gap: 12px; margin-top: 10px;
+  font-size: 9px; color: var(--text-dim);
+}
+.pulse-legend-bar {
+  width: 80px; height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, #2A4A6B, #3B6B8F, #C49E54, #D4883A, #C0533A);
+}
+
+/* Priority Alerts */
+.alerts-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.alerts-title { font-size: 14px; font-weight: 700; color: var(--cream); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.alert-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-radius: 8px; margin-bottom: 6px;
+  border-left: 3px solid transparent; transition: background 0.15s;
+}
+.alert-item:hover { background: rgba(255,255,255,0.02); }
+.alert-item.critical { border-left-color: var(--red); }
+.alert-item.warning { border-left-color: var(--amber); }
+.alert-item.info { border-left-color: var(--blue); }
+.alert-severity {
+  font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 3px;
+  letter-spacing: 0.05em; flex-shrink: 0; margin-top: 2px;
+}
+.alert-severity.critical { background: var(--red-dim); color: var(--red); }
+.alert-severity.warning { background: rgba(212,136,58,0.15); color: var(--amber); }
+.alert-severity.info { background: var(--blue-dim); color: var(--blue); }
+.alert-text { font-size: 12px; color: var(--text); line-height: 1.4; }
+.alert-text strong { color: var(--cream); }
+.alert-time { font-size: 10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+
 /* Dashboard 3-Column Layout */
 .dash-grid {
   display: grid;
@@ -649,6 +710,45 @@ body {
 .td-prob.medium { color: var(--amber); }
 .td-prob.low { color: var(--red); }
 
+/* Inline probability progress bar */
+.prob-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.prob-bar-track {
+  width: 60px; height: 5px; background: var(--surface-3);
+  border-radius: 3px; overflow: hidden; flex-shrink: 0;
+}
+.prob-bar-fill {
+  height: 100%; border-radius: 3px; transition: width 0.3s;
+}
+.prob-bar-fill.high { background: var(--green); }
+.prob-bar-fill.medium { background: var(--amber); }
+.prob-bar-fill.low { background: var(--red); }
+
+/* Deal priority badges */
+.deal-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 3px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+  margin-left: 6px; vertical-align: middle;
+}
+.deal-badge.high-prob { background: var(--green-dim); color: var(--green); }
+.deal-badge.needs-attention { background: var(--red-dim); color: var(--red); }
+
+/* Agent avatar in pipeline row */
+.td-agent-avatar {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0; vertical-align: middle; margin-right: 4px;
+}
+.td-agent-avatar.gold { background: var(--gold-dim); color: var(--gold); }
+.td-agent-avatar.green { background: var(--green-dim); color: var(--green); }
+.td-agent-avatar.blue { background: var(--blue-dim); color: var(--blue); }
+.td-agent-avatar.red { background: var(--red-dim); color: var(--red); }
+
+/* Gold left-border hover on pipeline rows */
+.pipeline-table tr { position: relative; transition: all 0.15s; }
+.pipeline-table tbody tr:hover td:first-child {
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+
 .status-pill {
   display: inline-block; padding: 3px 10px; border-radius: 4px;
   font-size: 10px; font-weight: 700; text-transform: uppercase;
@@ -737,6 +837,14 @@ body {
   border: 1px solid var(--border);
   border-radius: 12px; overflow: hidden;
   transition: border-color 0.3s;
+  position: relative;
+}
+
+/* Gold accent top-border strip */
+.agent-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright));
 }
 
 .agent-card:hover { border-color: var(--border-gold); }
@@ -782,6 +890,32 @@ body {
 .agent-active-badge::before {
   content: ''; width: 5px; height: 5px; border-radius: 50%;
   background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,155,111,0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(74,155,111,0); }
+}
+
+/* SCANNING badge — blue */
+.agent-active-badge.scanning {
+  color: var(--blue); background: var(--blue-dim);
+}
+.agent-active-badge.scanning::before {
+  background: var(--blue); animation: pulse-dot-blue 2s ease-in-out infinite;
+}
+@keyframes pulse-dot-blue {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,127,165,0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(74,127,165,0); }
+}
+
+/* STANDBY badge — amber */
+.agent-active-badge.standby {
+  color: var(--amber); background: rgba(212,136,58,0.15);
+}
+.agent-active-badge.standby::before {
+  background: var(--amber); animation: none;
 }
 
 .agent-card-body { padding: 16px 20px; }
@@ -824,22 +958,93 @@ body {
 
 .agent-card-footer {
   padding: 0 20px 16px;
+  display: flex; gap: 8px;
 }
 
 .btn-configure {
-  width: 100%; padding: 10px; border-radius: 8px;
+  flex: 1; padding: 8px 6px; border-radius: 8px;
   background: linear-gradient(135deg, rgba(196,158,84,0.15), rgba(196,158,84,0.05));
   border: 1px solid var(--border-gold);
   color: var(--cream); font-family: 'Syne', sans-serif;
-  font-size: 12px; font-weight: 700; cursor: pointer;
+  font-size: 11px; font-weight: 700; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  gap: 6px; transition: all 0.2s; letter-spacing: 0.05em;
+  gap: 4px; transition: all 0.2s; letter-spacing: 0.03em;
 }
 
 .btn-configure:hover {
   background: linear-gradient(135deg, rgba(196,158,84,0.25), rgba(196,158,84,0.1));
   border-color: var(--gold);
 }
+
+.btn-agent-secondary {
+  padding: 8px 10px; border-radius: 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text-mid); font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-agent-secondary:hover {
+  border-color: var(--border-gold); color: var(--cream);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* MARKET INTELLIGENCE VIEW                                        */
+/* ═══════════════════════════════════════════════════════════════ */
+.mi-header h2 {
+  font-family: 'Cormorant Garamond', serif; font-size: 32px;
+  font-weight: 600; color: var(--cream); font-style: italic;
+}
+.mi-header p { font-size: 14px; color: var(--text-mid); margin-top: 4px; margin-bottom: 24px; }
+
+.mi-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+
+/* SEC Filing Cards */
+.filing-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; transition: border-color 0.2s;
+}
+.filing-card:hover { border-color: var(--border-gold); }
+.filing-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.filing-badge {
+  padding: 3px 8px; border-radius: 4px; font-size: 9px;
+  font-weight: 700; font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+.filing-badge.k8 { background: var(--red-dim); color: var(--red); }
+.filing-badge.q10 { background: var(--blue-dim); color: var(--blue); }
+.filing-badge.k10 { background: var(--gold-dim); color: var(--gold); }
+.filing-company { font-size: 14px; font-weight: 700; color: var(--cream); }
+.filing-ticker { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.filing-meta { font-size: 11px; color: var(--text-mid); line-height: 1.5; margin-bottom: 8px; }
+.filing-stats { display: flex; gap: 16px; }
+.filing-stat-val {
+  font-family: 'JetBrains Mono', monospace; font-size: 16px;
+  font-weight: 700; color: var(--cream); line-height: 1;
+}
+.filing-stat-label { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+
+/* Predictor Markets */
+.predictor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.predictor-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; text-align: center;
+  transition: border-color 0.2s;
+}
+.predictor-card:hover { border-color: var(--border-gold); }
+.predictor-question { font-size: 12px; color: var(--cream); font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
+.predictor-gauge {
+  width: 80px; height: 80px; margin: 0 auto 8px;
+  position: relative;
+}
+.predictor-gauge svg { width: 100%; height: 100%; }
+.predictor-pct {
+  font-family: 'JetBrains Mono', monospace; font-size: 20px;
+  font-weight: 700; color: var(--cream);
+}
+.predictor-label { font-size: 10px; color: var(--text-dim); }
+.predictor-source { font-size: 9px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 6px; }
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* RESPONSIVE                                                      */
@@ -860,6 +1065,9 @@ body {
   .topbar-title { font-size: 24px; }
   .content-area { padding: 16px 20px; }
   .pipeline-table { font-size: 12px; }
+  .pulse-alerts-row { grid-template-columns: 1fr; }
+  .mi-grid { grid-template-columns: 1fr; }
+  .predictor-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -891,6 +1099,13 @@ body {
   .agent-grid { grid-template-columns: 1fr; }
   .chevron-shape { padding: 10px 8px; }
   .chevron-label { font-size: 9px; }
+  .pulse-alerts-row { grid-template-columns: 1fr; }
+  .mi-grid { grid-template-columns: 1fr; }
+  .predictor-grid { grid-template-columns: 1fr 1fr; }
+  .entity-layout { grid-template-columns: 1fr; }
+  .map-layout { grid-template-columns: 1fr; }
+  .prob-bar-track { display: none; }
+  .deal-badge { display: none; }
 }
 
 @media (max-width: 400px) {
@@ -1223,6 +1438,10 @@ body {
       <span class="nav-icon">◎</span> Entity Tracer
       <span class="nav-badge llc">LLC</span>
     </div>
+    <div class="nav-item" onclick="switchView('market-intel')">
+      <span class="nav-icon">◈</span> Market Intel
+      <span class="nav-badge red">5</span>
+    </div>
   </div>
 
   <div class="sidebar-bottom">
@@ -1332,6 +1551,101 @@ body {
               <rect x="52" y="4" width="8" height="36" rx="2" fill="rgba(74,127,165,0.7)"/>
               <rect x="64" y="2" width="8" height="38" rx="2" fill="#4A7FA5"/>
             </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submarket Pulse + Priority Alerts -->
+      <div class="pulse-alerts-row">
+        <div class="pulse-card">
+          <div class="pulse-title">📊 Submarket Pulse</div>
+          <div class="pulse-labels" style="padding-left:68px;">
+            <div class="pulse-label">Office</div>
+            <div class="pulse-label">Retail</div>
+            <div class="pulse-label">Industrial</div>
+            <div class="pulse-label">Multi</div>
+            <div class="pulse-label">Life Sci</div>
+            <div class="pulse-label">Data Ctr</div>
+          </div>
+          <div class="pulse-row">
+            <div class="pulse-row-label">Midtown</div>
+            <div class="pulse-cell" style="background:#3B6B8F;flex:1"><span class="pulse-tip">Office: 4.2%</span></div>
+            <div class="pulse-cell" style="background:#C49E54;flex:1"><span class="pulse-tip">Retail: 6.1%</span></div>
+            <div class="pulse-cell" style="background:#2A4A6B;flex:1"><span class="pulse-tip">Industrial: 2.8%</span></div>
+            <div class="pulse-cell" style="background:#3B6B8F;flex:1"><span class="pulse-tip">Multi: 4.5%</span></div>
+            <div class="pulse-cell" style="background:#D4883A;flex:1"><span class="pulse-tip">Life Sci: 7.2%</span></div>
+            <div class="pulse-cell" style="background:#2A4A6B;flex:1"><span class="pulse-tip">Data Ctr: 3.1%</span></div>
+          </div>
+          <div class="pulse-row">
+            <div class="pulse-row-label">Downtown</div>
+            <div class="pulse-cell" style="background:#C0533A;flex:1"><span class="pulse-tip">Office: 8.5%</span></div>
+            <div class="pulse-cell" style="background:#D4883A;flex:1"><span class="pulse-tip">Retail: 7.0%</span></div>
+            <div class="pulse-cell" style="background:#C49E54;flex:1"><span class="pulse-tip">Industrial: 5.8%</span></div>
+            <div class="pulse-cell" style="background:#C0533A;flex:1"><span class="pulse-tip">Multi: 9.1%</span></div>
+            <div class="pulse-cell" style="background:#3B6B8F;flex:1"><span class="pulse-tip">Life Sci: 4.0%</span></div>
+            <div class="pulse-cell" style="background:#C49E54;flex:1"><span class="pulse-tip">Data Ctr: 5.5%</span></div>
+          </div>
+          <div class="pulse-row">
+            <div class="pulse-row-label">Jersey City</div>
+            <div class="pulse-cell" style="background:#D4883A;flex:1"><span class="pulse-tip">Office: 6.8%</span></div>
+            <div class="pulse-cell" style="background:#2A4A6B;flex:1"><span class="pulse-tip">Retail: 2.5%</span></div>
+            <div class="pulse-cell" style="background:#C0533A;flex:1"><span class="pulse-tip">Industrial: 8.2%</span></div>
+            <div class="pulse-cell" style="background:#3B6B8F;flex:1"><span class="pulse-tip">Multi: 4.1%</span></div>
+            <div class="pulse-cell" style="background:#C49E54;flex:1"><span class="pulse-tip">Life Sci: 5.9%</span></div>
+            <div class="pulse-cell" style="background:#D4883A;flex:1"><span class="pulse-tip">Data Ctr: 7.3%</span></div>
+          </div>
+          <div class="pulse-row">
+            <div class="pulse-row-label">Brooklyn</div>
+            <div class="pulse-cell" style="background:#3B6B8F;flex:1"><span class="pulse-tip">Office: 3.9%</span></div>
+            <div class="pulse-cell" style="background:#C49E54;flex:1"><span class="pulse-tip">Retail: 5.5%</span></div>
+            <div class="pulse-cell" style="background:#D4883A;flex:1"><span class="pulse-tip">Industrial: 7.1%</span></div>
+            <div class="pulse-cell" style="background:#C49E54;flex:1"><span class="pulse-tip">Multi: 6.2%</span></div>
+            <div class="pulse-cell" style="background:#2A4A6B;flex:1"><span class="pulse-tip">Life Sci: 2.4%</span></div>
+            <div class="pulse-cell" style="background:#3B6B8F;flex:1"><span class="pulse-tip">Data Ctr: 4.0%</span></div>
+          </div>
+          <div class="pulse-legend">
+            <span>Low vacancy</span>
+            <div class="pulse-legend-bar"></div>
+            <span>High vacancy</span>
+          </div>
+        </div>
+
+        <div class="alerts-card">
+          <div class="alerts-title">🔔 Priority Alerts <span style="margin-left:auto;font-size:10px;color:var(--text-dim);font-weight:500;">6 New</span></div>
+          <div class="alert-item critical">
+            <span class="alert-severity critical">CRITICAL</span>
+            <div>
+              <div class="alert-text"><strong>Apex Tower NYC</strong> — Environmental Phase II report flagged contamination risk. Immediate review needed.</div>
+              <div class="alert-time">12 min ago</div>
+            </div>
+          </div>
+          <div class="alert-item critical">
+            <span class="alert-severity critical">CRITICAL</span>
+            <div>
+              <div class="alert-text"><strong>Global Finance LOI</strong> — Counterparty requesting 48-hour decision deadline. $45M deal at stake.</div>
+              <div class="alert-time">28 min ago</div>
+            </div>
+          </div>
+          <div class="alert-item warning">
+            <span class="alert-severity warning">WARNING</span>
+            <div>
+              <div class="alert-text"><strong>Boston Life Sci</strong> — Submarket vacancy spiked 2.1% in last 30 days. Portfolio exposure: $180M.</div>
+              <div class="alert-time">1 hr ago</div>
+            </div>
+          </div>
+          <div class="alert-item info">
+            <span class="alert-severity info">INFO</span>
+            <div>
+              <div class="alert-text"><strong>Competitor Alert</strong> — Brookfield acquired 500K SF industrial portfolio in Dallas-Fort Worth.</div>
+              <div class="alert-time">2 hrs ago</div>
+            </div>
+          </div>
+          <div class="alert-item info">
+            <span class="alert-severity info">INFO</span>
+            <div>
+              <div class="alert-text"><strong>Fed Watch</strong> — Market pricing 72% probability of rate hold at next meeting.</div>
+              <div class="alert-time">3 hrs ago</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1604,9 +1918,9 @@ body {
           <thead>
             <tr>
               <th>CLIENT/COMPANY <span class="sort-icon">⇅</span></th>
+              <th>AGENT <span class="sort-icon">⇅</span></th>
               <th>SUBMARKET <span class="sort-icon">⇅</span></th>
               <th>SF <span class="sort-icon">⇅</span></th>
-              <th>LEASE TERM <span class="sort-icon">⇅</span></th>
               <th>VALUE <span class="sort-icon">⇅</span></th>
               <th>PROBABILITY <span class="sort-icon">⇅</span></th>
               <th>STATUS <span class="sort-icon">⇅</span></th>
@@ -1615,72 +1929,72 @@ body {
           </thead>
           <tbody>
             <tr>
-              <td style="color:var(--cream);font-weight:600">Acme Corp</td>
+              <td style="color:var(--cream);font-weight:600">Acme Corp <span class="deal-badge high-prob">HIGH PROB</span></td>
+              <td><span class="td-agent-avatar gold">🔍</span></td>
               <td>Midtown South</td>
               <td>12,500 SF</td>
-              <td>10 Years</td>
               <td class="td-value">$12.5M</td>
-              <td class="td-prob high">85% (High)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob high">85%</span><div class="prob-bar-track"><div class="prob-bar-fill high" style="width:85%"></div></div></div></td>
               <td><span class="status-pill due-diligence">Due Diligence</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
             <tr>
               <td style="color:var(--cream);font-weight:600">Innovatech</td>
+              <td><span class="td-agent-avatar blue">🎯</span></td>
               <td>Silicon Alley</td>
               <td>5,000 SF</td>
-              <td>5 Years</td>
               <td class="td-value">$3.2M</td>
-              <td class="td-prob medium">60% (Medium)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob medium">60%</span><div class="prob-bar-track"><div class="prob-bar-fill medium" style="width:60%"></div></div></div></td>
               <td><span class="status-pill proposal">Proposal</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
             <tr>
-              <td style="color:var(--cream);font-weight:600">Global Finance</td>
+              <td style="color:var(--cream);font-weight:600">Global Finance <span class="deal-badge high-prob">HIGH PROB</span></td>
+              <td><span class="td-agent-avatar gold">🔍</span></td>
               <td>Financial District</td>
               <td>25,000 SF</td>
-              <td>15 Years</td>
               <td class="td-value">$45.0M</td>
-              <td class="td-prob high">95% (High)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob high">95%</span><div class="prob-bar-track"><div class="prob-bar-fill high" style="width:95%"></div></div></div></td>
               <td><span class="status-pill loi">LOI</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
             <tr>
-              <td style="color:var(--cream);font-weight:600">Apex Logistics</td>
+              <td style="color:var(--cream);font-weight:600">Apex Logistics <span class="deal-badge needs-attention">NEEDS ATTN</span></td>
+              <td><span class="td-agent-avatar red">⚠</span></td>
               <td>Jersey City</td>
               <td>50,000 SF</td>
-              <td>7 Years</td>
               <td class="td-value">$18.0M</td>
-              <td class="td-prob low">40% (Low)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob low">40%</span><div class="prob-bar-track"><div class="prob-bar-fill low" style="width:40%"></div></div></div></td>
               <td><span class="status-pill qualified">Qualified</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
             <tr>
-              <td style="color:var(--cream);font-weight:600">Sunrise Health</td>
+              <td style="color:var(--cream);font-weight:600">Sunrise Health <span class="deal-badge needs-attention">NEEDS ATTN</span></td>
+              <td><span class="td-agent-avatar green">🎯</span></td>
               <td>Brooklyn Navy Yard</td>
               <td>8,000 SF</td>
-              <td>12 Years</td>
               <td class="td-value">$6.8M</td>
-              <td class="td-prob low">25% (Low)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob low">25%</span><div class="prob-bar-track"><div class="prob-bar-fill low" style="width:25%"></div></div></div></td>
               <td><span class="status-pill prospect">Prospect</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
             <tr>
               <td style="color:var(--cream);font-weight:600">TechHub</td>
+              <td><span class="td-agent-avatar blue">👥</span></td>
               <td>Long Island City</td>
               <td>15,000 SF</td>
-              <td>10 Years</td>
               <td class="td-value">$15.0M</td>
-              <td class="td-prob medium">75% (Medium)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob medium">75%</span><div class="prob-bar-track"><div class="prob-bar-fill medium" style="width:75%"></div></div></div></td>
               <td><span class="status-pill proposal">Proposal</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
             <tr>
-              <td style="color:var(--cream);font-weight:600">Greenfield Investments</td>
+              <td style="color:var(--cream);font-weight:600">Greenfield Investments <span class="deal-badge high-prob">WON</span></td>
+              <td><span class="td-agent-avatar gold">🔍</span></td>
               <td>Hudson Yards</td>
               <td>30,000 SF</td>
-              <td>20 Years</td>
               <td class="td-value">$75.0M</td>
-              <td class="td-prob high">100% (Won)</td>
+              <td><div class="prob-bar-wrap"><span class="td-prob high">100%</span><div class="prob-bar-track"><div class="prob-bar-fill high" style="width:100%"></div></div></div></td>
               <td><span class="status-pill closed">Closed</span></td>
               <td class="td-actions"><span>👁</span><span>✏</span><span>🗑</span></td>
             </tr>
@@ -1732,7 +2046,11 @@ body {
               </div>
             </div>
           </div>
-          <div class="agent-card-footer"><button class="btn-configure">⚙ CONFIGURE</button></div>
+          <div class="agent-card-footer">
+            <button class="btn-configure">⚙ Configure</button>
+            <button class="btn-agent-secondary">⏸ Pause</button>
+            <button class="btn-agent-secondary">📋 Log</button>
+          </div>
         </div>
 
         <!-- Lead Agent -->
@@ -1741,7 +2059,7 @@ body {
             <div class="agent-card-icon lead">🎯</div>
             <div>
               <div class="agent-card-name lead">LEAD AGENT</div>
-              <div class="agent-active-badge">ACTIVE NOW</div>
+              <div class="agent-active-badge scanning">SCANNING</div>
             </div>
           </div>
           <div class="agent-card-body">
@@ -1755,11 +2073,15 @@ body {
               </div>
               <div class="agent-stat">
                 <div class="agent-stat-val">14</div>
-                <div class="agent-stat-label">New Opportunities Today</div>
+                <div class="agent-stat-label">New Today</div>
               </div>
             </div>
           </div>
-          <div class="agent-card-footer"><button class="btn-configure">⚙ CONFIGURE</button></div>
+          <div class="agent-card-footer">
+            <button class="btn-configure">⚙ Configure</button>
+            <button class="btn-agent-secondary">⏸ Pause</button>
+            <button class="btn-agent-secondary">📋 Log</button>
+          </div>
         </div>
 
         <!-- Risk Agent -->
@@ -1782,11 +2104,15 @@ body {
               </div>
               <div class="agent-stat">
                 <div class="agent-stat-val">92%</div>
-                <div class="agent-stat-label">Market Stability Score</div>
+                <div class="agent-stat-label">Stability Score</div>
               </div>
             </div>
           </div>
-          <div class="agent-card-footer"><button class="btn-configure">⚙ CONFIGURE</button></div>
+          <div class="agent-card-footer">
+            <button class="btn-configure">⚙ Configure</button>
+            <button class="btn-agent-secondary">⏸ Pause</button>
+            <button class="btn-agent-secondary">📋 Log</button>
+          </div>
         </div>
 
         <!-- Tenant Agent -->
@@ -1795,7 +2121,7 @@ body {
             <div class="agent-card-icon tenant">👥</div>
             <div>
               <div class="agent-card-name tenant">TENANT AGENT</div>
-              <div class="agent-active-badge">ACTIVE NOW</div>
+              <div class="agent-active-badge scanning">SCANNING</div>
             </div>
           </div>
           <div class="agent-card-body">
@@ -1809,11 +2135,15 @@ body {
               </div>
               <div class="agent-stat">
                 <div class="agent-stat-val">18</div>
-                <div class="agent-stat-label">Expiring Leases in 6 Months</div>
+                <div class="agent-stat-label">Expiring in 6mo</div>
               </div>
             </div>
           </div>
-          <div class="agent-card-footer"><button class="btn-configure">⚙ CONFIGURE</button></div>
+          <div class="agent-card-footer">
+            <button class="btn-configure">⚙ Configure</button>
+            <button class="btn-agent-secondary">⏸ Pause</button>
+            <button class="btn-agent-secondary">📋 Log</button>
+          </div>
         </div>
 
         <!-- Competitor Agent -->
@@ -1822,7 +2152,7 @@ body {
             <div class="agent-card-icon competitor">♟</div>
             <div>
               <div class="agent-card-name competitor">COMPETITOR AGENT</div>
-              <div class="agent-active-badge">ACTIVE NOW</div>
+              <div class="agent-active-badge standby">STANDBY</div>
             </div>
           </div>
           <div class="agent-card-body">
@@ -1832,15 +2162,19 @@ body {
             <div class="agent-stats">
               <div class="agent-stat">
                 <div class="agent-stat-val">4</div>
-                <div class="agent-stat-label">Competitors Monitored</div>
+                <div class="agent-stat-label">Competitors</div>
               </div>
               <div class="agent-stat">
                 <div class="agent-stat-val">2</div>
-                <div class="agent-stat-label">Major Transactions Today</div>
+                <div class="agent-stat-label">Transactions Today</div>
               </div>
             </div>
           </div>
-          <div class="agent-card-footer"><button class="btn-configure">⚙ CONFIGURE</button></div>
+          <div class="agent-card-footer">
+            <button class="btn-configure">⚙ Configure</button>
+            <button class="btn-agent-secondary">▶ Resume</button>
+            <button class="btn-agent-secondary">📋 Log</button>
+          </div>
         </div>
 
         <!-- ESG Agent -->
@@ -1867,12 +2201,15 @@ body {
               </div>
             </div>
           </div>
-          <div class="agent-card-footer"><button class="btn-configure">⚙ CONFIGURE</button></div>
+          <div class="agent-card-footer">
+            <button class="btn-configure">⚙ Configure</button>
+            <button class="btn-agent-secondary">⏸ Pause</button>
+            <button class="btn-agent-secondary">📋 Log</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ PLACEHOLDER VIEWS ═══ -->
     <!-- ═══ MARKET MAP VIEW ═══ -->
     <div class="view" id="view-market-map">
       <div class="map-header">
@@ -2039,68 +2376,87 @@ body {
         <!-- Network Graph -->
         <div class="entity-graph-card">
           <svg class="entity-graph" viewBox="0 0 700 500" preserveAspectRatio="xMidYMid meet">
-            <!-- Connection lines -->
-            <line x1="180" y1="280" x2="380" y2="160" stroke="#C49E54" stroke-width="1.5" opacity="0.6"/>
-            <line x1="180" y1="280" x2="380" y2="280" stroke="#C49E54" stroke-width="1.5" opacity="0.6"/>
-            <line x1="180" y1="280" x2="380" y2="400" stroke="#C49E54" stroke-width="1.5" opacity="0.6"/>
-            <!-- Property connections -->
-            <line x1="480" y1="140" x2="560" y2="100" stroke="rgba(196,158,84,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-            <line x1="480" y1="170" x2="560" y2="180" stroke="rgba(196,158,84,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-            <line x1="480" y1="270" x2="560" y2="240" stroke="rgba(196,158,84,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-            <line x1="480" y1="290" x2="560" y2="320" stroke="rgba(196,158,84,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-            <line x1="480" y1="390" x2="560" y2="380" stroke="rgba(196,158,84,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-            <line x1="480" y1="410" x2="560" y2="450" stroke="rgba(196,158,84,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+            <defs>
+              <radialGradient id="nodeGlow"><stop offset="0%" stop-color="rgba(196,158,84,0.15)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+              <radialGradient id="amberGlow"><stop offset="0%" stop-color="rgba(212,136,58,0.15)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+            </defs>
+            <!-- Glow circles behind central node -->
+            <circle cx="160" cy="260" r="80" fill="url(#nodeGlow)"/>
 
-            <!-- Central node -->
-            <circle cx="180" cy="280" r="55" fill="none" stroke="#C49E54" stroke-width="2.5"/>
-            <circle cx="180" cy="280" r="50" fill="rgba(196,158,84,0.08)"/>
-            <circle cx="180" cy="280" r="45" fill="none" stroke="rgba(196,158,84,0.3)" stroke-width="1"/>
-            <text x="180" y="270" text-anchor="middle" font-family="Syne" font-size="11" font-weight="700" fill="#F0EAD6">Pacific Ventures</text>
-            <text x="180" y="286" text-anchor="middle" font-family="Syne" font-size="11" font-weight="700" fill="#F0EAD6">Group LLC</text>
+            <!-- Connection lines with gradient feel -->
+            <line x1="210" y1="260" x2="330" y2="145" stroke="#C49E54" stroke-width="2" opacity="0.5"/>
+            <line x1="210" y1="260" x2="330" y2="265" stroke="#D4883A" stroke-width="2" opacity="0.5"/>
+            <line x1="210" y1="260" x2="330" y2="385" stroke="#C49E54" stroke-width="2" opacity="0.5"/>
+            <!-- Property connections (dashed) -->
+            <line x1="500" y1="130" x2="570" y2="90" stroke="rgba(240,234,214,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="500" y1="155" x2="570" y2="175" stroke="rgba(240,234,214,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="500" y1="250" x2="570" y2="230" stroke="rgba(240,234,214,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="500" y1="280" x2="570" y2="305" stroke="rgba(240,234,214,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="500" y1="375" x2="570" y2="365" stroke="rgba(240,234,214,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="500" y1="400" x2="570" y2="435" stroke="rgba(240,234,214,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
 
-            <!-- Entity nodes -->
-            <rect x="310" y="120" width="170" height="75" rx="8" fill="var(--surface-2)" stroke="var(--border-gold)" stroke-width="1"/>
-            <text x="325" y="142" font-family="Syne" font-size="11" font-weight="700" fill="#E8C97A">Desert Holdings LLC</text>
-            <text x="325" y="158" font-family="JetBrains Mono" font-size="9" fill="#9B9080">State: DE</text>
-            <text x="325" y="172" font-family="JetBrains Mono" font-size="9" fill="#9B9080">Properties: 14</text>
-            <text x="325" y="186" font-family="JetBrains Mono" font-size="9" fill="#9B9080">Est. Value: $120M</text>
+            <!-- CENTRAL NODE — Holding Company (amber ring) -->
+            <circle cx="160" cy="260" r="58" fill="none" stroke="#D4883A" stroke-width="2.5"/>
+            <circle cx="160" cy="260" r="52" fill="rgba(212,136,58,0.06)"/>
+            <circle cx="160" cy="260" r="46" fill="none" stroke="rgba(212,136,58,0.2)" stroke-width="1"/>
+            <text x="160" y="250" text-anchor="middle" font-family="Syne" font-size="11" font-weight="700" fill="#F0EAD6">Pacific Ventures</text>
+            <text x="160" y="266" text-anchor="middle" font-family="Syne" font-size="11" font-weight="700" fill="#F0EAD6">Group LLC</text>
+            <text x="160" y="282" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#D4883A">HOLDING CO</text>
 
-            <rect x="310" y="245" width="170" height="75" rx="8" fill="var(--surface-2)" stroke="var(--border)" stroke-width="1"/>
-            <text x="325" y="267" font-family="Syne" font-size="11" font-weight="700" fill="#E8C97A">PVG Real Estate Fund III</text>
-            <text x="325" y="283" font-family="JetBrains Mono" font-size="9" fill="#9B9080">State: NV</text>
-            <text x="325" y="297" font-family="JetBrains Mono" font-size="9" fill="#9B9080">Properties: 8</text>
-            <text x="325" y="311" font-family="JetBrains Mono" font-size="9" fill="#9B9080">Est. Value: $85M</text>
+            <!-- NODE LEGEND -->
+            <circle cx="28" cy="475" r="6" fill="none" stroke="#D4883A" stroke-width="1.5"/><text x="40" y="478" font-size="8" fill="#9B9080" font-family="JetBrains Mono">Holding Company</text>
+            <circle cx="145" cy="475" r="6" fill="none" stroke="#C49E54" stroke-width="1.5"/><text x="157" y="478" font-size="8" fill="#9B9080" font-family="JetBrains Mono">Operating LLC</text>
+            <circle cx="255" cy="475" r="5" fill="#F0EAD6"/><text x="265" y="478" font-size="8" fill="#9B9080" font-family="JetBrains Mono">Property</text>
 
-            <rect x="310" y="370" width="170" height="75" rx="8" fill="var(--surface-2)" stroke="var(--border)" stroke-width="1"/>
-            <text x="325" y="392" font-family="Syne" font-size="11" font-weight="700" fill="#E8C97A">Cascade Property Partners</text>
-            <text x="325" y="408" font-family="JetBrains Mono" font-size="9" fill="#9B9080">State: CA</text>
-            <text x="325" y="422" font-family="JetBrains Mono" font-size="9" fill="#9B9080">Properties: 22</text>
-            <text x="325" y="436" font-family="JetBrains Mono" font-size="9" fill="#9B9080">Est. Value: $210M</text>
+            <!-- OPERATING LLC NODES (gold border) -->
+            <!-- Desert Holdings -->
+            <rect x="330" y="105" width="170" height="80" rx="10" fill="#181C22" stroke="#C49E54" stroke-width="1.5"/>
+            <rect x="330" y="105" width="170" height="3" rx="10" fill="#C49E54"/>
+            <text x="345" y="128" font-family="Syne" font-size="11" font-weight="700" fill="#E8C97A">Desert Holdings LLC</text>
+            <text x="345" y="145" font-family="JetBrains Mono" font-size="9" fill="#C49E54">Operating LLC · DE</text>
+            <text x="345" y="160" font-family="JetBrains Mono" font-size="9" fill="#9B9080">14 Properties · $120M</text>
+            <text x="345" y="175" font-family="JetBrains Mono" font-size="9" fill="#4A9B6F">▲ +8% YoY</text>
 
-            <!-- Property nodes -->
-            <text x="570" y="105" font-family="JetBrains Mono" font-size="8" fill="#9B9080">123 Palms Blvd, Palm</text>
-            <text x="570" y="116" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Springs, CA - $12M</text>
-            <circle cx="558" cy="100" r="3" fill="#C49E54"/>
+            <!-- PVG Fund — Amber (sub-holding) -->
+            <rect x="330" y="230" width="170" height="80" rx="10" fill="#181C22" stroke="#D4883A" stroke-width="1.5"/>
+            <rect x="330" y="230" width="170" height="3" rx="10" fill="#D4883A"/>
+            <text x="345" y="253" font-family="Syne" font-size="11" font-weight="700" fill="#D4883A">PVG RE Fund III</text>
+            <text x="345" y="270" font-family="JetBrains Mono" font-size="9" fill="#D4883A">Sub-Holding · NV</text>
+            <text x="345" y="285" font-family="JetBrains Mono" font-size="9" fill="#9B9080">8 Properties · $85M</text>
+            <text x="345" y="300" font-family="JetBrains Mono" font-size="9" fill="#4A9B6F">▲ +5% YoY</text>
 
-            <text x="570" y="185" font-family="JetBrains Mono" font-size="8" fill="#9B9080">123 Palms Blvd, Palm</text>
-            <text x="570" y="196" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Springs, CA - $12M</text>
-            <circle cx="558" cy="180" r="3" fill="#C49E54"/>
+            <!-- Cascade Partners -->
+            <rect x="330" y="355" width="170" height="80" rx="10" fill="#181C22" stroke="#C49E54" stroke-width="1.5"/>
+            <rect x="330" y="355" width="170" height="3" rx="10" fill="#C49E54"/>
+            <text x="345" y="378" font-family="Syne" font-size="11" font-weight="700" fill="#E8C97A">Cascade Prop Partners</text>
+            <text x="345" y="395" font-family="JetBrains Mono" font-size="9" fill="#C49E54">Operating LLC · CA</text>
+            <text x="345" y="410" font-family="JetBrains Mono" font-size="9" fill="#9B9080">22 Properties · $210M</text>
+            <text x="345" y="425" font-family="JetBrains Mono" font-size="9" fill="#4A9B6F">▲ +12% YoY</text>
 
-            <text x="570" y="245" font-family="JetBrains Mono" font-size="8" fill="#9B9080">555 Commerce St,</text>
-            <text x="570" y="256" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Las Vegas, NV - $25M</text>
-            <circle cx="558" cy="240" r="3" fill="#C49E54"/>
+            <!-- PROPERTY NODES (cream dots) -->
+            <circle cx="575" cy="88" r="5" fill="#F0EAD6"/>
+            <text x="586" y="85" font-family="JetBrains Mono" font-size="8" fill="#F0EAD6">123 Palms Blvd</text>
+            <text x="586" y="96" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Palm Springs · $12M</text>
 
-            <text x="570" y="325" font-family="JetBrains Mono" font-size="8" fill="#9B9080">555 Commerce St,</text>
-            <text x="570" y="336" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Las Vegas, NV - $25M</text>
-            <circle cx="558" cy="320" r="3" fill="#C49E54"/>
+            <circle cx="575" cy="173" r="5" fill="#F0EAD6"/>
+            <text x="586" y="170" font-family="JetBrains Mono" font-size="8" fill="#F0EAD6">456 Desert Ridge Dr</text>
+            <text x="586" y="181" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Scottsdale · $18M</text>
 
-            <text x="570" y="385" font-family="JetBrains Mono" font-size="8" fill="#9B9080">777 Office Park,</text>
-            <text x="570" y="396" font-family="JetBrains Mono" font-size="8" fill="#9B9080">San Diego, CA - $30M</text>
-            <circle cx="558" cy="380" r="3" fill="#C49E54"/>
+            <circle cx="575" cy="228" r="5" fill="#F0EAD6"/>
+            <text x="586" y="225" font-family="JetBrains Mono" font-size="8" fill="#F0EAD6">555 Commerce St</text>
+            <text x="586" y="236" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Las Vegas · $25M</text>
 
-            <text x="570" y="455" font-family="JetBrains Mono" font-size="8" fill="#9B9080">777 Office Park,</text>
-            <text x="570" y="466" font-family="JetBrains Mono" font-size="8" fill="#9B9080">San Diego, CA - $30M</text>
-            <circle cx="558" cy="450" r="3" fill="#C49E54"/>
+            <circle cx="575" cy="303" r="5" fill="#F0EAD6"/>
+            <text x="586" y="300" font-family="JetBrains Mono" font-size="8" fill="#F0EAD6">888 Strip Plaza</text>
+            <text x="586" y="311" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Las Vegas · $32M</text>
+
+            <circle cx="575" cy="363" r="5" fill="#F0EAD6"/>
+            <text x="586" y="360" font-family="JetBrains Mono" font-size="8" fill="#F0EAD6">777 Office Park</text>
+            <text x="586" y="371" font-family="JetBrains Mono" font-size="8" fill="#9B9080">San Diego · $30M</text>
+
+            <circle cx="575" cy="433" r="5" fill="#F0EAD6"/>
+            <text x="586" y="430" font-family="JetBrains Mono" font-size="8" fill="#F0EAD6">920 Harbor View</text>
+            <text x="586" y="441" font-family="JetBrains Mono" font-size="8" fill="#9B9080">Long Beach · $45M</text>
           </svg>
         </div>
 
@@ -2136,6 +2492,150 @@ body {
               <div class="entity-property-item">456 Desert Ridge, AZ - $8M</div>
               <div class="entity-property-item">789 Oasis Dr, NV - $15M</div>
               <div class="entity-property-item">321 Canyon Rd, UT - $6M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MARKET INTELLIGENCE VIEW ═══ -->
+    <div class="view" id="view-market-intel">
+      <div class="mi-header">
+        <h2>Market Intelligence</h2>
+        <p>Real-time SEC filings, prediction markets, and macro signals from 25+ data sources.</p>
+      </div>
+
+      <div class="mi-grid">
+        <!-- SEC Filings Column -->
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream);margin-bottom:12px;">📋 Recent REIT SEC Filings</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="filing-card">
+              <div class="filing-header">
+                <span class="filing-badge k8">8-K</span>
+                <div>
+                  <div class="filing-company">Prologis Inc</div>
+                  <div class="filing-ticker">PLD · Filed 2 hrs ago</div>
+                </div>
+              </div>
+              <div class="filing-meta">Material acquisition: $2.1B industrial portfolio in DFW metro. 42 buildings, 96% occupancy.</div>
+              <div class="filing-stats">
+                <div><div class="filing-stat-val">$2.1B</div><div class="filing-stat-label">Deal Size</div></div>
+                <div><div class="filing-stat-val">5.2%</div><div class="filing-stat-label">Cap Rate</div></div>
+                <div><div class="filing-stat-val">96%</div><div class="filing-stat-label">Occupancy</div></div>
+              </div>
+            </div>
+
+            <div class="filing-card">
+              <div class="filing-header">
+                <span class="filing-badge q10">10-Q</span>
+                <div>
+                  <div class="filing-company">Simon Property Group</div>
+                  <div class="filing-ticker">SPG · Filed 6 hrs ago</div>
+                </div>
+              </div>
+              <div class="filing-meta">Q1 FFO beats estimates. Occupancy rose to 95.8%. Raised full-year guidance.</div>
+              <div class="filing-stats">
+                <div><div class="filing-stat-val">$3.12</div><div class="filing-stat-label">FFO/Share</div></div>
+                <div><div class="filing-stat-val">95.8%</div><div class="filing-stat-label">Occupancy</div></div>
+                <div><div class="filing-stat-val" style="color:var(--green)">+4.2%</div><div class="filing-stat-label">NOI Growth</div></div>
+              </div>
+            </div>
+
+            <div class="filing-card">
+              <div class="filing-header">
+                <span class="filing-badge k10">10-K</span>
+                <div>
+                  <div class="filing-company">Boston Properties</div>
+                  <div class="filing-ticker">BXP · Filed 1 day ago</div>
+                </div>
+              </div>
+              <div class="filing-meta">Annual report: Life sciences portfolio expansion. 1.2M SF under development in Waltham.</div>
+              <div class="filing-stats">
+                <div><div class="filing-stat-val">$7.8B</div><div class="filing-stat-label">Total Assets</div></div>
+                <div><div class="filing-stat-val">88.1%</div><div class="filing-stat-label">Occupancy</div></div>
+                <div><div class="filing-stat-val" style="color:var(--red)">-1.2%</div><div class="filing-stat-label">Same-Store NOI</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Predictor Markets Column -->
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream);margin-bottom:12px;">🔮 Predictor Markets</div>
+          <div class="predictor-grid">
+            <div class="predictor-card">
+              <div class="predictor-question">Fed holds rates at June meeting?</div>
+              <div class="predictor-gauge">
+                <svg viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--surface-3)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--green)" stroke-width="6" stroke-dasharray="154 60" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                  <text x="40" y="38" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="var(--cream)">72%</text>
+                  <text x="40" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--text-dim)">YES</text>
+                </svg>
+              </div>
+              <div class="predictor-source">via Polymarket</div>
+            </div>
+
+            <div class="predictor-card">
+              <div class="predictor-question">US recession by Q4 2025?</div>
+              <div class="predictor-gauge">
+                <svg viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--surface-3)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--red)" stroke-width="6" stroke-dasharray="64 150" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                  <text x="40" y="38" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="var(--cream)">30%</text>
+                  <text x="40" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--text-dim)">YES</text>
+                </svg>
+              </div>
+              <div class="predictor-source">via Polymarket</div>
+            </div>
+
+            <div class="predictor-card">
+              <div class="predictor-question">Office vacancy peaks in 2025?</div>
+              <div class="predictor-gauge">
+                <svg viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--surface-3)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--amber)" stroke-width="6" stroke-dasharray="120 94" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                  <text x="40" y="38" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="var(--cream)">56%</text>
+                  <text x="40" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--text-dim)">YES</text>
+                </svg>
+              </div>
+              <div class="predictor-source">via Kalshi</div>
+            </div>
+
+            <div class="predictor-card">
+              <div class="predictor-question">10Y Treasury below 4% by Dec?</div>
+              <div class="predictor-gauge">
+                <svg viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--surface-3)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--blue)" stroke-width="6" stroke-dasharray="86 128" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                  <text x="40" y="38" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="var(--cream)">40%</text>
+                  <text x="40" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--text-dim)">YES</text>
+                </svg>
+              </div>
+              <div class="predictor-source">via Polymarket</div>
+            </div>
+          </div>
+
+          <!-- Key Macro Indicators -->
+          <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;">
+            <div style="font-size:13px;font-weight:700;color:var(--cream);margin-bottom:12px;">📊 Key Macro Indicators</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--cream);">4.28%</div>
+                <div style="font-size:9px;color:var(--text-dim);">10Y Treasury</div>
+                <div style="font-size:9px;color:var(--red);font-family:'JetBrains Mono',monospace;">▼ -3bps</div>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--cream);">5.33%</div>
+                <div style="font-size:9px;color:var(--text-dim);">Fed Funds Rate</div>
+                <div style="font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">— Unchanged</div>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--cream);">3.2%</div>
+                <div style="font-size:9px;color:var(--text-dim);">CPI YoY</div>
+                <div style="font-size:9px;color:var(--green);font-family:'JetBrains Mono',monospace;">▼ -0.1%</div>
+              </div>
             </div>
           </div>
         </div>
@@ -2186,6 +2686,7 @@ const viewTitles = {
   'pipeline': 'Deal Pipeline',
   'agent-fleet': 'Agent Fleet',
   'market-map': 'Market Map',
+  'market-intel': 'Market Intelligence',
   'underwriting': 'Underwriting Engine',
   'data-sources': 'Data Sources',
   'entity-tracer': 'Entity Tracer',
@@ -2224,7 +2725,7 @@ setDate();
 // Auto-cycle views for demo (when embedded)
 let cycleTimer;
 let currentViewIndex = 0;
-const demoViews = ['dashboard', 'pipeline', 'agent-fleet', 'entity-tracer', 'market-map'];
+const demoViews = ['dashboard', 'pipeline', 'agent-fleet', 'entity-tracer', 'market-map', 'market-intel'];
 
 function autoCycle() {
   if (window.self !== window.top) { // only in iframe

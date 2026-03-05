@@ -27,7 +27,7 @@
 <style>
 /* ── DESIGN SYSTEM - OBSIDIAN & CHAMPAGNE ── */
 :root {
-  --bg-dark: #0B0D0F;
+  --bg-dark: #080B10;
   --surface: #111418;
   --surface-2: #181C22;
   --accent-gold: #C49E54;
@@ -436,10 +436,25 @@ nav {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(196,158,84,0.2);
+  box-shadow:
+    0 0 80px rgba(196,158,84,0.12),
+    0 0 160px rgba(196,158,84,0.06),
+    0 25px 60px rgba(0, 0, 0, 0.5),
+    0 8px 20px rgba(0, 0, 0, 0.3);
   background: #0B0D0F;
   height: 700px;
+}
+
+/* Golden glow halo behind iframe */
+.demo-iframe-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(196,158,84,0.15), transparent 40%, transparent 60%, rgba(196,158,84,0.1));
+  z-index: -1;
+  filter: blur(1px);
 }
 
 .demo-dashboard-frame iframe {
