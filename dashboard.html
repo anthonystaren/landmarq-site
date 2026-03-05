@@ -114,7 +114,10 @@ html.light-mode .breadcrumb a { color: var(--text-mid); }
   position: relative;
   overflow: hidden;
 }
-.signal-card:hover { border-color: var(--border-gold); }
+.signal-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: 0 2px 12px rgba(196,158,84,0.08);
+}
 .signal-card::after {
   content: '';
   position: absolute;
@@ -249,6 +252,7 @@ html.light-mode .breadcrumb a { color: var(--text-mid); }
   border-color: var(--gold);
   background: var(--gold-dim);
   color: var(--gold);
+  box-shadow: 0 0 8px rgba(196,158,84,0.3);
 }
 .llc-arrow {
   color: var(--text-dim);
@@ -832,7 +836,13 @@ body {
 }
 
 .nav-item:hover { color: var(--cream); background: rgba(255,255,255,0.04); }
-.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); font-weight: 600; }
+.nav-item.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  background: var(--gold-dim);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--gold), 0 0 12px rgba(196,158,84,0.06);
+}
 .nav-icon { width: 18px; text-align: center; font-size: 14px; }
 
 .nav-badge {
@@ -889,7 +899,11 @@ body {
   font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
-.add-intel-btn:hover { background: var(--gold-bright); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,158,84,0.25); }
+.add-intel-btn:hover {
+  background: var(--gold-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(196,158,84,0.4);
+}
 
 .add-deal-btn {
   background: var(--surface-2); color: var(--gold); border: 1px solid var(--border-gold);
@@ -926,7 +940,10 @@ body {
   border-radius: 6px; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-.card:hover { border-color: var(--border-gold); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+.card:hover {
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
 
 .card-header {
   padding: 14px 16px;
@@ -987,7 +1004,11 @@ body {
   background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
 }
 .kpi-card:hover::after { transform: scaleX(1); }
-.kpi-card:hover { border-color: var(--border-gold); box-shadow: 0 4px 14px rgba(196,158,84,0.15); }
+.kpi-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: 0 4px 24px rgba(196,158,84,0.12), 0 0 0 1px rgba(196,158,84,0.08);
+  transform: translateY(-1px);
+}
 
 .kpi-label { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-mid); margin-bottom: 8px; text-transform: uppercase; }
 .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 400; color: var(--cream); line-height: 1; letter-spacing: -0.01em; }
@@ -1106,6 +1127,9 @@ body {
 .pipeline-table td { padding: 10px 8px 10px 0; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
 .pipeline-table tr:last-child td { border-bottom: none; }
 .pipeline-table tr:hover td { color: var(--cream); background: rgba(255,255,255,0.015); }
+.pipeline-table tr:hover td:first-child {
+  border-left: 2px solid var(--gold);
+}
 .tenant-name { font-weight: 600; color: var(--cream); font-size: 11.5px; }
 .tenant-sub { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; color: var(--text-dim); margin-top: 2px; }
 .size-val { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
@@ -1358,9 +1382,17 @@ body {
 .kpi-card:nth-child(5) { animation-delay: 0.25s; }
 .kpi-card:nth-child(6) { animation-delay: 0.30s; }
 
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 2px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: rgba(196,158,84,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(196,158,84,0.35); }
+
+/* ─── INPUT FOCUS STATES ─── */
+input:focus, textarea:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(196,158,84,0.15);
+  outline: none;
+}
 
 /* ── HAMBURGER MENU ── */
 .sidebar-toggle {
