@@ -14,21 +14,21 @@
 <meta name="robots" content="noindex">
 <style>
 :root {
-  --bg: #F8F5F0;
-  --surface: #FFFDF8;
-  --surface-2: #F5F0E8;
-  --surface-3: #EDE8DE;
-  --border: rgba(167, 145, 113, 0.15);
-  --border-gold: rgba(196,158,84,0.25);
-  --gold: #C49E54;
-  --gold-dim: rgba(196,158,84,0.12);
-  --gold-bright: #E8C97A;
-  --cream: #1A1814;
-  --text: #4A4540;
-  --text-dim: #8A8070;
-  --text-mid: #6B6560;
-  --green: #4A9B6F;
-  --red: #C0533A;
+  --bg: #080B10;
+  --surface: #0E1420;
+  --surface-2: #16202E;
+  --surface-3: #1C2A3A;
+  --border: rgba(139,167,199,0.10);
+  --border-gold: rgba(201,168,76,0.28);
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.12);
+  --gold-bright: #E8D08A;
+  --cream: #F2F6FA;
+  --text: #B8CEDF;
+  --text-dim: #6B7E93;
+  --text-mid: #8BA7C7;
+  --green: #4B8C6E;
+  --red: #B85450;
   --radius: 6px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,8 +54,8 @@ body::before {
     45deg,
     transparent,
     transparent 2px,
-    rgba(167, 145, 113, 0.03) 2px,
-    rgba(167, 145, 113, 0.03) 4px
+    rgba(139, 167, 199, 0.03) 2px,
+    rgba(139, 167, 199, 0.03) 4px
   );
   pointer-events: none;
   z-index: 0;
@@ -153,7 +153,7 @@ body::before {
 .form-input {
   width: 100%;
   padding: 12px 16px;
-  background: #FFFFFF;
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--cream);
@@ -170,7 +170,7 @@ body::before {
 }
 .form-input.error {
   border-color: var(--red);
-  background: rgba(192,83,58,0.05);
+  background: rgba(184,84,80,0.08);
 }
 .form-input.error:focus {
   border-color: var(--red);
@@ -210,8 +210,8 @@ body::before {
 .btn-primary {
   width: 100%;
   padding: 14px 24px;
-  background: linear-gradient(135deg, var(--gold), #B08A3E);
-  color: #0A0C0E;
+  background: linear-gradient(135deg, var(--gold), #A8893E);
+  color: #080B10;
   font-weight: 700;
   font-size: 14px;
   font-family: inherit;
@@ -235,10 +235,10 @@ body::before {
 .btn-google {
   width: 100%;
   padding: 12px 24px;
-  background: #FFFFFF;
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  color: var(--text);
+  color: var(--cream);
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
@@ -251,7 +251,7 @@ body::before {
 }
 .btn-google:hover {
   border-color: var(--border-gold);
-  background: var(--surface-2);
+  background: var(--surface-3);
 }
 .btn-google svg { width: 18px; height: 18px; }
 
@@ -366,7 +366,7 @@ body::before {
 </style>
 </head>
 <body>
-<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:12px 24px;background:var(--gold);color:#080B10;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.width='1px';this.style.height='1px';">Skip to content</a>
 
 <div class="login-container" id="main-content">
   <div class="login-logo">

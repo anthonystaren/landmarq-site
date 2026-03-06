@@ -16,27 +16,27 @@
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
 :root {
-  --bg: #F8F5F0;
-  --surface: #FFFDF8;
-  --surface-2: #F5F0E8;
-  --surface-3: #EDE8DE;
-  --border: rgba(167, 145, 113, 0.15);
-  --border-gold: rgba(196,158,84,0.25);
-  --gold: #C49E54;
-  --gold-dim: rgba(196,158,84,0.12);
-  --gold-bright: #E8C97A;
-  --gold-pale: rgba(196,158,84,0.06);
-  --cream: #1A1814;
-  --text: #4A4540;
-  --text-dim: #8A8070;
-  --text-mid: #6B6560;
-  --green: #4A9B6F;
-  --green-dim: rgba(74,155,111,0.15);
-  --red: #C0533A;
-  --red-dim: rgba(192,83,58,0.15);
-  --blue: #4A7FA5;
-  --blue-dim: rgba(74,127,165,0.15);
-  --amber: #D4883A;
+  --bg: #080B10;
+  --surface: #0E1420;
+  --surface-2: #16202E;
+  --surface-3: #1C2A3A;
+  --border: rgba(139,167,199,0.10);
+  --border-gold: rgba(201,168,76,0.28);
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.12);
+  --gold-bright: #E8D08A;
+  --gold-pale: rgba(201,168,76,0.06);
+  --cream: #F2F6FA;
+  --text: #B8CEDF;
+  --text-dim: #6B7E93;
+  --text-mid: #8BA7C7;
+  --green: #4B8C6E;
+  --green-dim: rgba(75,140,110,0.15);
+  --red: #B85450;
+  --red-dim: rgba(184,84,80,0.15);
+  --blue: #8BA7C7;
+  --blue-dim: rgba(139,167,199,0.15);
+  --amber: #D4864A;
   --radius: 6px;
   --nav-h: 64px;
 }
@@ -57,7 +57,7 @@ body {
 body::after {
   content: '';
   position: fixed; inset: 0;
-  background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(196, 158, 84, 0.02) 2px, rgba(196, 158, 84, 0.02) 4px);
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 167, 199, 0.02) 2px, rgba(139, 167, 199, 0.02) 4px);
   pointer-events: none;
   z-index: -1;
 }
@@ -68,7 +68,7 @@ body::after {
   height: var(--nav-h);
   display: flex; align-items: center; padding: 0 48px;
   justify-content: space-between;
-  background: rgba(255,253,248,0.92);
+  background: rgba(8,11,16,0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   transition: border-color 0.3s;
@@ -77,7 +77,7 @@ body::after {
 .nav-logo {
   font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
   font-size: 22px; font-weight: 600;
-  color: #1A1814; letter-spacing: 0.04em;
+  color: #F2F6FA; letter-spacing: 0.04em;
   text-decoration: none;
 }
 .nav-logo .lm-marq { color: var(--gold); }
@@ -88,7 +88,7 @@ body::after {
 
 .nav-links a {
   font-size: 13px; font-weight: 500;
-  color: #6B6560; text-decoration: none;
+  color: #6B7E93; text-decoration: none;
   letter-spacing: 0.02em;
   transition: color 0.2s;
 }
@@ -109,7 +109,7 @@ body::after {
 
 /* ── FOOTER ── */
 .footer {
-  background: #1A1814;
+  background: var(--bg);
   border-top: 1px solid var(--border);
   padding: 64px 72px 32px;
 }
@@ -124,7 +124,7 @@ body::after {
 .footer-brand {}
 .footer-logo {
   font-family: 'Cormorant Garamond', 'Playfair Display', 'Georgia', serif;
-  font-size: 24px; font-weight: 600; color: #F0EAD6;
+  font-size: 24px; font-weight: 600; color: #F2F6FA;
   margin-bottom: 12px;
   display: block;
   text-decoration: none;
@@ -204,9 +204,9 @@ body::after {
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: #1A1814;
+  background: transparent; color: #B8CEDF;
   padding: 13px 32px; border-radius: 4px;
-  border: 1px solid rgba(167, 145, 113, 0.3);
+  border: 1px solid rgba(139,167,199,0.15);
   font-family: 'Syne', 'DM Sans', ui-sans-serif, sans-serif;
   font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
   text-decoration: none; cursor: pointer;
@@ -334,7 +334,7 @@ body::after {
 .nav-hamburger span {
   width: 24px;
   height: 2px;
-  background: #1A1814;
+  background: #F2F6FA;
   border-radius: 1px;
   transition: all 0.3s ease;
 }
@@ -360,7 +360,7 @@ body::after {
     top: var(--nav-h);
     left: 0;
     right: 0;
-    background: rgba(255,253,248,0.98);
+    background: rgba(8,11,16,0.98);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     gap: 0;
@@ -710,9 +710,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   </section>
 
-  <section style="padding:80px 72px;background:linear-gradient(135deg, #1A1814 0%, #2A2520 100%);text-align:center;">
-    <h2 class="section-title" style="color:white;">Ready to deploy your fleet?</h2>
-    <p class="section-sub" style="margin:0 auto 32px;color:rgba(255,255,255,0.8);">Get all 6 agents running in under 10 minutes.</p>
+  <section style="padding:80px 72px;background:linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);text-align:center;">
+    <h2 class="section-title" style="color:#F2F6FA;">Ready to deploy your fleet?</h2>
+    <p class="section-sub" style="margin:0 auto 32px;color:rgba(242,246,250,0.8);">Get all 6 agents running in under 10 minutes.</p>
     <div style="display:flex;gap:14px;justify-content:center;">
       <a href="/dashboard" class="btn-primary">Launch Dashboard →</a>
       <a href="/pricing" class="btn-outline">See Pricing</a>

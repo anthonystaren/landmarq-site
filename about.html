@@ -24,25 +24,25 @@
 /* Fonts loaded via <link> in each page head — fallbacks below */
 
 :root {
-  --bg: #F8F5F0;
-  --surface: #FFFDF8;
-  --surface-2: #F8F5F0;
-  --surface-3: #EDE9E3;
-  --border: rgba(167,145,113,0.15);
-  --accent: #C49E54;
-  --accent-hover: #B08A42;
-  --accent-light: #F5F0E8;
-  --cream: #1A1814;
-  --text: #1A1814;
-  --text-dim: #6B6560;
-  --text-mid: #4A453F;
-  --text-secondary: #6B6560;
-  --green: #C49E54;
-  --red: #B04030;
-  --blue: #2E6C8F;
-  --gold: #C49E54;
-  --gold-bright: #B08A42;
-  --gold-dim: rgba(196,158,84,0.08);
+  --bg: #080B10;
+  --surface: #0E1420;
+  --surface-2: #16202E;
+  --surface-3: #1C2A3A;
+  --border: rgba(139,167,199,0.10);
+  --accent: #C9A84C;
+  --accent-hover: #E8D08A;
+  --accent-light: rgba(201,168,76,0.08);
+  --cream: #F2F6FA;
+  --text: #F2F6FA;
+  --text-dim: #6B7E93;
+  --text-mid: #8BA7C7;
+  --text-secondary: #6B7E93;
+  --green: #4B8C6E;
+  --red: #B85450;
+  --blue: #8BA7C7;
+  --gold: #C9A84C;
+  --gold-bright: #E8D08A;
+  --gold-dim: rgba(201,168,76,0.12);
   --radius: 8px;
   --nav-h: 64px;
 }
@@ -65,7 +65,8 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #FFFFFF;
+  background: rgba(8,11,16,0.92);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   height: var(--nav-h);
   display: flex;
@@ -87,7 +88,7 @@ nav {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.5px;
-  color: var(--text);
+  color: #F2F6FA;
   cursor: pointer;
 }
 .nav-logo::before {
@@ -106,7 +107,7 @@ nav {
 .nav-links a {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text);
+  color: #6B7E93;
   transition: color 0.3s ease;
 }
 
@@ -116,7 +117,7 @@ nav {
 
 .nav-cta {
   background: var(--accent);
-  color: white;
+  color: #080B10;
   padding: 10px 20px;
   border-radius: 6px;
   font-size: 13px;
@@ -133,7 +134,7 @@ nav {
 
 /* ── FOOTER ── */
 .footer {
-  background: var(--surface);
+  background: var(--bg);
   border-top: 1px solid var(--border);
   padding: 64px 72px 32px;
 }
@@ -148,7 +149,7 @@ nav {
 .footer-brand {}
 .footer-logo {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 24px; font-weight: 600; color: var(--text);
+  font-size: 24px; font-weight: 600; color: #F2F6FA;
   margin-bottom: 12px;
   display: block;
   text-decoration: none;
@@ -217,7 +218,7 @@ nav {
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--accent); color: white;
+  background: var(--accent); color: #080B10;
   padding: 14px 32px; border-radius: 6px;
   font-family: 'Syne', ui-sans-serif, sans-serif;
   font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
@@ -228,7 +229,7 @@ nav {
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
-  background: white; color: var(--accent);
+  background: transparent; color: #B8CEDF;
   padding: 13px 32px; border-radius: 6px;
   border: 1px solid var(--border);
   font-family: 'Syne', ui-sans-serif, sans-serif;
@@ -372,7 +373,7 @@ nav {
 .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
 .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 28px 24px; text-align: center; transition: all 0.2s; }
 .team-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-.team-avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: white; background: var(--accent); margin: 0 auto 16px; }
+.team-avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: #080B10; background: var(--accent); margin: 0 auto 16px; }
 .team-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
 .team-role { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
 .team-bio { font-size: 12.5px; color: var(--text-mid); line-height: 1.6; }
@@ -383,7 +384,7 @@ nav {
 .backed-logo:hover { color: var(--text); }
 
 .cta-about { padding: 100px 72px; text-align: center; position: relative; overflow: hidden; }
-.cta-about-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(196,158,84,0.07) 0%, transparent 70%); }
+.cta-about-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%); }
 
 @media (max-width: 900px) {
   .about-hero { padding: 100px 24px 60px; }
