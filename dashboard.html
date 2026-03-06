@@ -14,26 +14,26 @@
 <meta name="robots" content="noindex">
 <style>
 :root {
-  --bg: #0B0D0F;
-  --surface: #111418;
-  --surface-2: #181C22;
-  --surface-3: #1E232B;
-  --border: rgba(255,255,255,0.07);
-  --border-gold: rgba(196,158,84,0.25);
-  --gold: #C49E54;
-  --gold-dim: rgba(196,158,84,0.12);
-  --gold-bright: #E8C97A;
-  --cream: #F0EAD6;
-  --text: #D4CCBA;
-  --text-dim: #6B6558;
-  --text-mid: #9B9080;
-  --green: #4A9B6F;
-  --green-dim: rgba(74,155,111,0.15);
-  --red: #C0533A;
-  --red-dim: rgba(192,83,58,0.15);
-  --blue: #4A7FA5;
-  --blue-dim: rgba(74,127,165,0.15);
-  --amber: #D4883A;
+  --bg: #080B10;
+  --surface: #0E1420;
+  --surface-2: #16202E;
+  --surface-3: #1C2A3A;
+  --border: rgba(139,167,199,0.10);
+  --border-gold: rgba(201,168,76,0.28);
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.12);
+  --gold-bright: #E8D08A;
+  --cream: #F2F6FA;
+  --text: #B8CEDF;
+  --text-dim: #6B7E93;
+  --text-mid: #8BA7C7;
+  --green: #4B8C6E;
+  --green-dim: rgba(75,140,110,0.15);
+  --red: #B85450;
+  --red-dim: rgba(184,84,80,0.15);
+  --blue: #8BA7C7;
+  --blue-dim: rgba(139,167,199,0.15);
+  --amber: #D4864A;
 }
 
 /* ─── LIGHT MODE ─── */
@@ -276,12 +276,12 @@ html.light-mode .breadcrumb a { color: var(--text-mid); }
 .agent-terminal .term-agent { font-weight: 600; flex-shrink: 0; }
 .agent-terminal .term-msg { color: #8B8578; }
 .agent-terminal .term-msg.highlight { color: var(--green); font-weight: 600; }
-.agent-terminal .agent-scout { color: #E8C97A; }
+.agent-terminal .agent-scout { color: #E8D08A; }
 .agent-terminal .agent-network { color: #D4883A; }
-.agent-terminal .agent-valuation { color: #4A9B6F; }
+.agent-terminal .agent-valuation { color: #4B8C6E; }
 .agent-terminal .agent-system { color: #555; }
-.agent-terminal .agent-permit { color: #4A7FA5; }
-.agent-terminal .agent-intel { color: #C49E54; }
+.agent-terminal .agent-permit { color: #8BA7C7; }
+.agent-terminal .agent-intel { color: #C9A84C; }
 
 /* ─── BREADCRUMB ─── */
 .breadcrumb {
@@ -2152,9 +2152,9 @@ body {
             <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);">~/landmarq/agent-logs (tty1)</span>
           </div>
           <div style="display:flex;gap:4px;">
-            <div style="width:8px;height:8px;border-radius:50%;background:#C0533A;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#B85450;"></div>
             <div style="width:8px;height:8px;border-radius:50%;background:#D4883A;"></div>
-            <div style="width:8px;height:8px;border-radius:50%;background:#4A9B6F;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#4B8C6E;"></div>
           </div>
         </div>
         <div class="agent-terminal" id="agent-terminal" style="min-height:120px;max-height:200px;">
@@ -5048,7 +5048,7 @@ function showDealActions(index) {
   showModal('Deal Actions', d.tenant || 'Deal',
     `<div style="display:flex;flex-direction:column;gap:8px;">
       <button onclick="editPipelineDeal(${index})" style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">📝 Edit Deal</button>
-      <button onclick="removePipelineDeal(${index})" style="padding:12px;background:rgba(192,83,58,0.1);border:1px solid rgba(192,83,58,0.2);border-radius:6px;color:#C0533A;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">🗑 Remove Deal</button>
+      <button onclick="removePipelineDeal(${index})" style="padding:12px;background:rgba(184,84,80,0.1);border:1px solid rgba(184,84,80,0.2);border-radius:6px;color:#B85450;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;text-align:left;">🗑 Remove Deal</button>
     </div>`
   );
 }
@@ -6014,7 +6014,7 @@ function generateMarketReport() {
       const vacStr = sub.val || (sub.vacancy != null ? sub.vacancy.toFixed(1) + '%' : '—');
       const vacNum = parseFloat(vacStr) || 0;
       const src = sub.source || '';
-      const color = vacNum > 20 ? '#C0533A' : vacNum > 15 ? '#C49E54' : vacNum > 10 ? '#4A7FA5' : '#4A9B6F';
+      const color = vacNum > 20 ? '#B85450' : vacNum > 15 ? '#C9A84C' : vacNum > 10 ? '#8BA7C7' : '#4B8C6E';
       return `<tr><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:13px;color:#1A1610;">${name}</td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;text-align:center;"><span style="display:inline-block;padding:3px 10px;border-radius:4px;background:${color}22;color:${color};font-weight:600;font-size:12px;font-family:'JetBrains Mono',monospace;">${vacStr}</span></td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:11px;color:#5C5347;">${vacNum < 10 ? 'Tight' : vacNum < 15 ? 'Moderate' : vacNum < 20 ? 'Elevated' : 'High Vacancy'}</td><td style="padding:10px 14px;border-bottom:1px solid #E8E4DD;font-size:9px;color:#8A8278;font-family:'JetBrains Mono',monospace;">${src}</td></tr>`;
     }).join('');
   }
@@ -6034,7 +6034,7 @@ function generateMarketReport() {
 
     pipelineSection = `
       <div style="margin-top:32px;">
-        <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C49E54;padding-bottom:8px;margin-bottom:16px;">Pipeline Overview</h2>
+        <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C9A84C;padding-bottom:8px;margin-bottom:16px;">Pipeline Overview</h2>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
           <div style="background:#F7F5F1;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:4px;">TOTAL VALUE</div><div style="font-size:22px;font-weight:700;color:#7A5C14;">${formatDollar(totalVal)}</div></div>
           <div style="background:#F7F5F1;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:10px;color:#5C5347;letter-spacing:0.1em;margin-bottom:4px;">ACTIVE DEALS</div><div style="font-size:22px;font-weight:700;color:#1A1610;">${deals.length}</div></div>
@@ -6050,7 +6050,7 @@ function generateMarketReport() {
   if (includeTrends) {
     trendsSection = `
       <div style="margin-top:32px;">
-        <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C49E54;padding-bottom:8px;margin-bottom:16px;">Market Trends & Insights</h2>
+        <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C9A84C;padding-bottom:8px;margin-bottom:16px;">Market Trends & Insights</h2>
         <div style="display:flex;flex-direction:column;gap:12px;">
           <div style="background:#F7F5F1;border-radius:8px;padding:16px;">
             <div style="font-weight:600;color:#1A1610;margin-bottom:4px;">Vacancy Trend</div>
@@ -6090,7 +6090,7 @@ function generateMarketReport() {
 <body>
 <div class="report-wrap">
   <!-- Header -->
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:3px solid #C49E54;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:3px solid #C9A84C;">
     <div>
       <div style="font-size:10px;letter-spacing:0.2em;color:#7A5C14;font-weight:600;margin-bottom:4px;">MARKET INTELLIGENCE REPORT</div>
       <div style="font-size:24px;font-weight:700;color:#1A1610;">${firmName}</div>
@@ -6108,7 +6108,7 @@ function generateMarketReport() {
   <!-- Vacancy Table -->
   ${includeVacancy && marketRows ? `
   <div>
-    <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C49E54;padding-bottom:8px;margin-bottom:16px;">Submarket Vacancy Overview</h2>
+    <h2 style="font-size:16px;color:#1A1610;border-bottom:2px solid #C9A84C;padding-bottom:8px;margin-bottom:16px;">Submarket Vacancy Overview</h2>
     <table style="width:100%;border-collapse:collapse;">
       <thead><tr>
         <th style="padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.1em;color:#5C5347;border-bottom:2px solid #E8E4DD;">SUBMARKET</th>
@@ -6119,10 +6119,10 @@ function generateMarketReport() {
       <tbody>${marketRows}</tbody>
     </table>
     <div style="margin-top:12px;display:flex;gap:16px;font-size:10px;color:#5C5347;">
-      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4A9B6F33;margin-right:4px;"></span>Tight (&lt;10%)</span>
-      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4A7FA533;margin-right:4px;"></span>Moderate (10-15%)</span>
-      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C49E5433;margin-right:4px;"></span>Elevated (15-20%)</span>
-      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C0533A33;margin-right:4px;"></span>High (&gt;20%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4B8C6E33;margin-right:4px;"></span>Tight (&lt;10%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#8BA7C733;margin-right:4px;"></span>Moderate (10-15%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C9A84C33;margin-right:4px;"></span>Elevated (15-20%)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#B8545033;margin-right:4px;"></span>High (&gt;20%)</span>
     </div>
   </div>` : ''}
 
