@@ -1001,6 +1001,15 @@ body {
 .kpi-sub-val { font-family: 'Cormorant Garamond',serif; font-size: 28px; font-weight: 700; color: var(--cream); line-height: 1; }
 .kpi-sub-label { font-family: 'JetBrains Mono',monospace; font-size: 9px; color: var(--text-dim); }
 .kpi-mini-chart { position: absolute; bottom: 12px; right: 16px; opacity: 0.6; }
+.kpi-mini-chart polyline, .kpi-mini-chart path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawLine 2s ease-out forwards;
+  animation-delay: 0.5s;
+}
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
 
 /* ─── ACTIVITY & ALERTS ─── */
 .activity-card { grid-column: 1 / 3; min-height: 360px; }
@@ -1016,6 +1025,27 @@ body {
 .activity-time { font-family: 'JetBrains Mono',monospace; font-size: 9px; color: var(--text-dim); }
 .activity-btn { padding: 5px 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; font-family: 'Syne',sans-serif; font-size: 10px; font-weight: 600; color: var(--text-mid); cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; align-self: center; }
 .activity-btn:hover { border-color: var(--gold); color: var(--gold); }
+.activity-icon {
+  animation: iconPulse 3s ease-in-out infinite;
+}
+.activity-icon.detect { animation-delay: 0s; }
+.activity-icon.alert { animation-delay: 1s; }
+.activity-icon.underwrite { animation-delay: 2s; }
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  50% { transform: scale(1.05); box-shadow: 0 0 8px 2px rgba(201,168,76,0.15); }
+}
+.ai-activity-new {
+  animation: newItemSlideIn 0.6s ease-out, newItemGlow 2s ease-out;
+}
+@keyframes newItemSlideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes newItemGlow {
+  0% { background: rgba(201,168,76,0.08); }
+  100% { background: transparent; }
+}
 
 /* ─── FEATURED PROPERTY ─── */
 .featured-card { grid-column: 3 / -1; }
@@ -2140,96 +2170,40 @@ body {
       </div>
     </div>
 
-    <!-- CRE MARKET TRENDS -->
-    <div class="card" style="grid-column: 1 / 3; min-height: 280px;">
-      <div class="card-header"><div class="card-title">CRE Market Trends Overview</div></div>
-      <div style="padding: 16px; position: relative; height: 240px;">
-        <svg viewBox="0 0 400 200" style="width: 100%; height: 100%;">
-          <!-- Grid lines -->
-          <line x1="40" y1="20" x2="40" y2="180" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-          <line x1="40" y1="180" x2="390" y2="180" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-
-          <!-- Y-axis labels -->
-          <text x="25" y="25" font-size="10" fill="var(--text-dim)" text-anchor="end">100%</text>
-          <text x="25" y="105" font-size="10" fill="var(--text-dim)" text-anchor="end">50%</text>
-          <text x="25" y="185" font-size="10" fill="var(--text-dim)" text-anchor="end">0%</text>
-
-          <!-- Office line (gold) -->
-          <polyline points="50,60 120,55 190,75 260,90 330,110" stroke="rgba(201,168,76,0.8)" stroke-width="2.5" fill="none"/>
-          <circle cx="50" cy="60" r="3" fill="rgba(201,168,76,0.8)"/>
-          <circle cx="120" cy="55" r="3" fill="rgba(201,168,76,0.8)"/>
-          <circle cx="190" cy="75" r="3" fill="rgba(201,168,76,0.8)"/>
-          <circle cx="260" cy="90" r="3" fill="rgba(201,168,76,0.8)"/>
-          <circle cx="330" cy="110" r="3" fill="rgba(201,168,76,0.8)"/>
-
-          <!-- Retail line (blue) -->
-          <polyline points="50,80 120,85 190,70 260,65 330,80" stroke="rgba(74,127,165,0.7)" stroke-width="2.5" fill="none"/>
-          <circle cx="50" cy="80" r="3" fill="rgba(74,127,165,0.7)"/>
-          <circle cx="120" cy="85" r="3" fill="rgba(74,127,165,0.7)"/>
-          <circle cx="190" cy="70" r="3" fill="rgba(74,127,165,0.7)"/>
-          <circle cx="260" cy="65" r="3" fill="rgba(74,127,165,0.7)"/>
-          <circle cx="330" cy="80" r="3" fill="rgba(74,127,165,0.7)"/>
-
-          <!-- Industrial line (green) -->
-          <polyline points="50,100 120,75 190,50 260,45 330,55" stroke="rgba(74,155,111,0.7)" stroke-width="2.5" fill="none"/>
-          <circle cx="50" cy="100" r="3" fill="rgba(74,155,111,0.7)"/>
-          <circle cx="120" cy="75" r="3" fill="rgba(74,155,111,0.7)"/>
-          <circle cx="190" cy="50" r="3" fill="rgba(74,155,111,0.7)"/>
-          <circle cx="260" cy="45" r="3" fill="rgba(74,155,111,0.7)"/>
-          <circle cx="330" cy="55" r="3" fill="rgba(74,155,111,0.7)"/>
-
-          <!-- Multifamily line (red) -->
-          <polyline points="50,40 120,50 190,60 260,100 330,120" stroke="rgba(192,83,58,0.7)" stroke-width="2.5" fill="none"/>
-          <circle cx="50" cy="40" r="3" fill="rgba(192,83,58,0.7)"/>
-          <circle cx="120" cy="50" r="3" fill="rgba(192,83,58,0.7)"/>
-          <circle cx="190" cy="60" r="3" fill="rgba(192,83,58,0.7)"/>
-          <circle cx="260" cy="100" r="3" fill="rgba(192,83,58,0.7)"/>
-          <circle cx="330" cy="120" r="3" fill="rgba(192,83,58,0.7)"/>
-
-          <!-- X-axis labels -->
-          <text x="50" y="200" font-size="9" fill="var(--text-dim)" text-anchor="middle">Q1</text>
-          <text x="120" y="200" font-size="9" fill="var(--text-dim)" text-anchor="middle">Q2</text>
-          <text x="190" y="200" font-size="9" fill="var(--text-dim)" text-anchor="middle">Q3</text>
-          <text x="260" y="200" font-size="9" fill="var(--text-dim)" text-anchor="middle">Q4</text>
-          <text x="330" y="200" font-size="9" fill="var(--text-dim)" text-anchor="middle">Q1 2026</text>
-        </svg>
-        <!-- Legend -->
-        <div style="display: flex; gap: 16px; margin-top: 8px; font-size: 10px; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 2px; background: rgba(201,168,76,0.8);"></span><span style="color: var(--text-dim);">Office</span></div>
-          <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 2px; background: rgba(74,127,165,0.7);"></span><span style="color: var(--text-dim);">Retail</span></div>
-          <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 2px; background: rgba(74,155,111,0.7);"></span><span style="color: var(--text-dim);">Industrial</span></div>
-          <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 2px; background: rgba(192,83,58,0.7);"></span><span style="color: var(--text-dim);">Multifamily</span></div>
+    <!-- CRE MARKET TRENDS - Interactive -->
+    <div class="card" style="grid-column: 1 / 3; min-height: 320px;" id="trends-card">
+      <div class="card-header">
+        <div class="card-title">CRE Market Trends Overview</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="trends-timeframe" style="background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:9px;padding:4px 8px;cursor:pointer;" onchange="renderTrendsChart()">
+            <option value="1y">1 Year</option>
+            <option value="2y" selected>2 Years</option>
+            <option value="5y">5 Years</option>
+          </select>
+          <select id="trends-region" style="background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:9px;padding:4px 8px;cursor:pointer;" onchange="renderTrendsChart()">
+            <option value="national" selected>National</option>
+            <option value="west">West Coast</option>
+            <option value="east">East Coast</option>
+            <option value="southwest">Southwest</option>
+          </select>
         </div>
+      </div>
+      <div style="padding: 12px 16px; position: relative;">
+        <canvas id="trends-canvas" width="600" height="220" style="width:100%;height:220px;cursor:crosshair;"></canvas>
+        <div id="trends-tooltip" style="display:none;position:absolute;background:var(--surface-2);border:1px solid var(--border-gold);border-radius:6px;padding:8px 12px;pointer-events:none;z-index:10;font-size:10px;box-shadow:0 4px 12px rgba(0,0,0,0.3);"></div>
+        <!-- Legend -->
+        <div id="trends-legend" style="display:flex;gap:14px;margin-top:10px;font-size:10px;flex-wrap:wrap;"></div>
       </div>
     </div>
 
-    <!-- DEAL SPOTLIGHT -->
-    <div class="card" style="grid-column: 3 / -1; min-height: 280px;">
-      <div class="card-header"><div class="card-title">Deal Spotlight: Top Opportunities</div></div>
-      <div style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
-        <div style="padding: 12px; background: var(--surface-2); border-radius: 6px; border-left: 3px solid rgba(201,168,76,0.6);">
-          <div style="font-weight: 600; color: var(--cream); margin-bottom: 4px;">Apex Tower - Midtown</div>
-          <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 6px;">$185M Office Asset • Class A</div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 10px; color: rgba(74,155,111,0.9); background: rgba(74,155,111,0.15); padding: 3px 8px; border-radius: 3px;">Due Diligence</span>
-            <button style="padding: 5px 12px; background: var(--gold-dim); border: 1px solid var(--border-gold); border-radius: 4px; color: var(--gold); font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s;">View Deal</button>
-          </div>
-        </div>
-        <div style="padding: 12px; background: var(--surface-2); border-radius: 6px; border-left: 3px solid rgba(196,158,84,0.6);">
-          <div style="font-weight: 600; color: var(--cream); margin-bottom: 4px;">Harbor Point - West Coast</div>
-          <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 6px;">$92M Mixed-Use • Multifamily</div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 10px; color: rgba(192,83,58,0.9); background: rgba(192,83,58,0.15); padding: 3px 8px; border-radius: 3px;">Negotiation</span>
-            <button style="padding: 5px 12px; background: var(--gold-dim); border: 1px solid var(--border-gold); border-radius: 4px; color: var(--gold); font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s;">View Deal</button>
-          </div>
-        </div>
-        <div style="padding: 12px; background: var(--surface-2); border-radius: 6px; border-left: 3px solid rgba(74,127,165,0.6);">
-          <div style="font-weight: 600; color: var(--cream); margin-bottom: 4px;">Prairie Ridge - Industrial</div>
-          <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 6px;">$65M Logistics Hub • Industrial</div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 10px; color: rgba(74,155,111,0.9); background: rgba(74,155,111,0.15); padding: 3px 8px; border-radius: 3px;">Pipeline</span>
-            <button style="padding: 5px 12px; background: var(--gold-dim); border: 1px solid var(--border-gold); border-radius: 4px; color: var(--gold); font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s;">View Deal</button>
-          </div>
+    <!-- PIPELINE VELOCITY FUNNEL -->
+    <div class="card" style="grid-column: 3 / -1; min-height: 320px;" id="funnel-card">
+      <div class="card-header"><div class="card-title">Pipeline Velocity & Forecast</div></div>
+      <div style="padding: 16px;">
+        <div id="pipeline-funnel" style="display:flex;flex-direction:column;gap:4px;"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid var(--border);">
+          <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);" id="funnel-total">$0</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);margin-top:2px;">TOTAL PIPELINE</div></div>
+          <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--green);" id="funnel-weighted">$0</div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);margin-top:2px;">WEIGHTED VALUE</div></div>
         </div>
       </div>
     </div>
@@ -2238,7 +2212,7 @@ body {
     <div class="card" style="grid-column: 1 / -1; min-height: 200px;">
       <div class="card-header"><div class="card-title">Recent AI Activity & Insights</div></div>
       <div style="padding: 0; display: flex; flex-direction: column;">
-        <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start;">
+        <div class="ai-activity-new" style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start;">
           <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">🔍</div>
           <div style="flex: 1;">
             <div style="font-size: 11px; color: var(--cream); margin-bottom: 3px;">Agent <strong>'Scout'</strong> identified a new off-market industrial lead in Dallas</div>
@@ -2255,6 +2229,16 @@ body {
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-dim);">15 minutes ago</span>
               <a href="#" style="font-size: 10px; color: var(--gold); text-decoration: none; cursor: pointer;">View Report →</a>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">🏢</div>
+          <div style="flex: 1;">
+            <div style="font-size: 11px; color: var(--cream); margin-bottom: 3px;"><strong>Deal Spotlight:</strong> Apex Tower ($185M) moved to Due Diligence — AI confidence <strong>92%</strong></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-dim);">32 minutes ago</span>
+              <a href="#" onclick="event.preventDefault();switchView('pipeline')" style="font-size: 10px; color: var(--gold); text-decoration: none; cursor: pointer;">View Deal →</a>
             </div>
           </div>
         </div>
@@ -6894,6 +6878,7 @@ function switchView(viewName) {
     content.style.gridTemplateColumns = '';
     if (topTitle) topTitle.textContent = 'Morning Brief';
     rebindDashboardEvents();
+    setTimeout(initDashboardAnimations, 200);
     return;
   }
 
@@ -9091,6 +9076,326 @@ if (streamEl) {
   });
   observer.observe(streamEl, { childList: true });
 }
+
+// ─── ANIMATED KPI COUNT-UP ───
+function animateKPIValues() {
+  const kpiValues = document.querySelectorAll('.kpi-main-value');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = 'true';
+        const el = entry.target;
+        const text = el.textContent.trim();
+        // Parse the number and format
+        const match = text.match(/^(\$?)([\d,.]+)([BMK%]?)\s*(.*)/);
+        if (!match) return;
+        const prefix = match[1];
+        const targetNum = parseFloat(match[2].replace(/,/g, ''));
+        const suffix = match[3];
+        const rest = match[4]; // like "Faster" or arrow
+        const duration = 1500;
+        const startTime = performance.now();
+
+        function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easedProgress = easeOutExpo(progress);
+          const currentVal = targetNum * easedProgress;
+
+          let formatted;
+          if (targetNum >= 1000) formatted = currentVal.toLocaleString('en-US', {maximumFractionDigits: targetNum % 1 === 0 ? 0 : 1});
+          else if (targetNum >= 100) formatted = Math.round(currentVal).toString();
+          else if (targetNum >= 10) formatted = currentVal.toFixed(targetNum % 1 === 0 ? 0 : 1);
+          else formatted = currentVal.toFixed(1);
+
+          el.innerHTML = prefix + formatted + suffix + (rest ? ' ' + rest : '');
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  kpiValues.forEach(el => observer.observe(el));
+}
+
+// ─── INTERACTIVE CRE MARKET TRENDS CHART ───
+const trendsData = {
+  national: {
+    labels: ['Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25'],
+    series: {
+      'Office':      { color: 'rgba(201,168,76,0.9)',  values: [18.2, 18.8, 19.4, 19.1, 18.6, 18.0, 17.5, 17.2] },
+      'Retail':      { color: 'rgba(74,127,165,0.85)',  values: [6.8, 6.5, 6.2, 5.9, 5.7, 5.5, 5.4, 5.2] },
+      'Industrial':  { color: 'rgba(74,155,111,0.85)',  values: [4.2, 4.8, 5.4, 5.8, 6.1, 6.5, 6.4, 6.2] },
+      'Multifamily': { color: 'rgba(192,83,58,0.8)',    values: [5.6, 5.9, 6.4, 7.0, 7.4, 7.8, 8.1, 7.9] }
+    }
+  },
+  west: {
+    labels: ['Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25'],
+    series: {
+      'Office':      { color: 'rgba(201,168,76,0.9)',  values: [22.4, 23.1, 23.8, 23.5, 22.8, 22.0, 21.5, 21.0] },
+      'Retail':      { color: 'rgba(74,127,165,0.85)',  values: [5.2, 5.0, 4.8, 4.6, 4.5, 4.3, 4.2, 4.1] },
+      'Industrial':  { color: 'rgba(74,155,111,0.85)',  values: [3.8, 4.2, 4.8, 5.2, 5.6, 6.0, 5.8, 5.5] },
+      'Multifamily': { color: 'rgba(192,83,58,0.8)',    values: [4.8, 5.2, 5.8, 6.4, 6.8, 7.2, 7.5, 7.3] }
+    }
+  },
+  east: {
+    labels: ['Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25'],
+    series: {
+      'Office':      { color: 'rgba(201,168,76,0.9)',  values: [16.8, 17.2, 17.6, 17.4, 17.0, 16.5, 16.0, 15.6] },
+      'Retail':      { color: 'rgba(74,127,165,0.85)',  values: [7.2, 7.0, 6.8, 6.5, 6.3, 6.1, 5.9, 5.7] },
+      'Industrial':  { color: 'rgba(74,155,111,0.85)',  values: [4.6, 5.0, 5.4, 5.8, 6.2, 6.6, 6.5, 6.3] },
+      'Multifamily': { color: 'rgba(192,83,58,0.8)',    values: [3.2, 3.5, 3.9, 4.2, 4.5, 4.8, 5.0, 4.8] }
+    }
+  },
+  southwest: {
+    labels: ['Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25'],
+    series: {
+      'Office':      { color: 'rgba(201,168,76,0.9)',  values: [20.5, 21.2, 22.0, 22.8, 23.2, 23.0, 22.5, 22.0] },
+      'Retail':      { color: 'rgba(74,127,165,0.85)',  values: [8.1, 7.8, 7.5, 7.2, 6.9, 6.6, 6.4, 6.2] },
+      'Industrial':  { color: 'rgba(74,155,111,0.85)',  values: [5.5, 5.2, 4.8, 4.5, 4.2, 4.0, 3.8, 3.6] },
+      'Multifamily': { color: 'rgba(192,83,58,0.8)',    values: [6.2, 6.5, 6.8, 7.1, 7.4, 7.7, 7.9, 7.6] }
+    }
+  }
+};
+
+let trendsVisible = { 'Office': true, 'Retail': true, 'Industrial': true, 'Multifamily': true };
+let trendsAnimProgress = 0;
+
+function renderTrendsChart() {
+  const canvas = document.getElementById('trends-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const region = document.getElementById('trends-region')?.value || 'national';
+  const data = trendsData[region];
+  if (!data) return;
+
+  // Set canvas resolution for retina
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  const pad = { top: 20, right: 20, bottom: 30, left: 45 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+
+  // Find min/max across all visible series
+  let allVals = [];
+  Object.entries(data.series).forEach(([name, s]) => { if (trendsVisible[name]) allVals.push(...s.values); });
+  if (allVals.length === 0) allVals = [0, 30];
+  const minV = Math.floor(Math.min(...allVals) - 1);
+  const maxV = Math.ceil(Math.max(...allVals) + 1);
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(139,167,199,0.08)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (chartH / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+    const val = maxV - ((maxV - minV) / 4) * i;
+    ctx.fillStyle = 'rgba(139,167,199,0.4)';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(val.toFixed(1) + '%', pad.left - 6, y + 3);
+  }
+
+  // X labels
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(139,167,199,0.4)';
+  data.labels.forEach((label, i) => {
+    const x = pad.left + (chartW / (data.labels.length - 1)) * i;
+    ctx.fillText(label, x, H - 8);
+  });
+
+  // Draw lines with animation
+  const animPts = Math.max(1, Math.floor(data.labels.length * trendsAnimProgress));
+
+  Object.entries(data.series).forEach(([name, s]) => {
+    if (!trendsVisible[name]) return;
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+
+    const pts = s.values.slice(0, animPts);
+    pts.forEach((val, i) => {
+      const x = pad.left + (chartW / (data.labels.length - 1)) * i;
+      const y = pad.top + chartH - ((val - minV) / (maxV - minV)) * chartH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Area fill
+    if (pts.length > 1) {
+      ctx.save();
+      ctx.globalAlpha = 0.06;
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      pts.forEach((val, i) => {
+        const x = pad.left + (chartW / (data.labels.length - 1)) * i;
+        const y = pad.top + chartH - ((val - minV) / (maxV - minV)) * chartH;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      const lastX = pad.left + (chartW / (data.labels.length - 1)) * (pts.length - 1);
+      ctx.lineTo(lastX, pad.top + chartH);
+      ctx.lineTo(pad.left, pad.top + chartH);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Data points
+    pts.forEach((val, i) => {
+      const x = pad.left + (chartW / (data.labels.length - 1)) * i;
+      const y = pad.top + chartH - ((val - minV) / (maxV - minV)) * chartH;
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.fill();
+    });
+  });
+
+  // Legend
+  const legendEl = document.getElementById('trends-legend');
+  if (legendEl && legendEl.children.length === 0) {
+    Object.entries(data.series).forEach(([name, s]) => {
+      const item = document.createElement('div');
+      item.style.cssText = 'display:flex;align-items:center;gap:6px;cursor:pointer;padding:3px 8px;border-radius:4px;transition:all 0.2s;' + (trendsVisible[name] ? '' : 'opacity:0.3;');
+      item.innerHTML = `<span style="width:12px;height:3px;background:${s.color};border-radius:2px;"></span><span style="color:var(--text-dim);">${name}</span>`;
+      item.onclick = () => {
+        trendsVisible[name] = !trendsVisible[name];
+        item.style.opacity = trendsVisible[name] ? '1' : '0.3';
+        renderTrendsChart();
+      };
+      legendEl.appendChild(item);
+    });
+  }
+}
+
+// Animate the chart drawing in
+function animateTrendsChart() {
+  trendsAnimProgress = 0;
+  const duration = 1200;
+  const start = performance.now();
+  function step(now) {
+    trendsAnimProgress = Math.min((now - start) / duration, 1);
+    renderTrendsChart();
+    if (trendsAnimProgress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Hover tooltip for trends chart
+function initTrendsHover() {
+  const canvas = document.getElementById('trends-canvas');
+  if (!canvas) return;
+  const tooltip = document.getElementById('trends-tooltip');
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const region = document.getElementById('trends-region')?.value || 'national';
+    const data = trendsData[region];
+    if (!data) return;
+
+    const pad = { left: 45, right: 20 };
+    const chartW = rect.width - pad.left - pad.right;
+    const numPts = data.labels.length;
+    const idx = Math.round((mx - pad.left) / chartW * (numPts - 1));
+
+    if (idx >= 0 && idx < numPts && mx > pad.left - 10 && mx < rect.width - pad.right + 10) {
+      let html = `<div style="font-weight:600;color:var(--cream);margin-bottom:4px;">${data.labels[idx]}</div>`;
+      Object.entries(data.series).forEach(([name, s]) => {
+        if (!trendsVisible[name]) return;
+        html += `<div style="display:flex;justify-content:space-between;gap:16px;"><span style="color:${s.color}">${name}</span><span style="font-family:'JetBrains Mono',monospace;color:var(--cream);">${s.values[idx]}%</span></div>`;
+      });
+      tooltip.innerHTML = html;
+      tooltip.style.display = 'block';
+      tooltip.style.left = (mx + 15) + 'px';
+      tooltip.style.top = (e.clientY - rect.top - 30) + 'px';
+    } else {
+      tooltip.style.display = 'none';
+    }
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    tooltip.style.display = 'none';
+  });
+}
+
+// ─── ANIMATED PIPELINE FUNNEL ───
+function renderPipelineFunnel() {
+  const container = document.getElementById('pipeline-funnel');
+  if (!container) return;
+
+  const stages = [
+    { name: 'Prospecting', count: 150, value: 450, color: 'rgba(139,167,199,0.7)', width: 100 },
+    { name: 'Qualified', count: 85, value: 280, color: 'rgba(74,127,165,0.7)', width: 85 },
+    { name: 'Due Diligence', count: 42, value: 185, color: 'rgba(201,168,76,0.8)', width: 68 },
+    { name: 'Underwriting', count: 12, value: 92, color: 'rgba(74,155,111,0.8)', width: 50 },
+    { name: 'Closing', count: 5, value: 45, color: 'rgba(75,140,110,0.9)', width: 35 }
+  ];
+
+  container.innerHTML = stages.map((s, i) => `
+    <div class="funnel-stage" data-index="${i}" style="display:flex;align-items:center;gap:12px;padding:8px 0;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform=''">
+      <div style="width:90px;text-align:right;flex-shrink:0;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:600;color:var(--cream);">${s.name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text-dim);">(${s.count})</div>
+      </div>
+      <div style="flex:1;position:relative;height:28px;">
+        <div class="funnel-bar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:${s.color};border-radius:4px;transition:width 1.2s cubic-bezier(0.22,1,0.36,1);transition-delay:${i*0.15}s;" data-target="${s.width}"></div>
+        <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cream);font-weight:500;z-index:1;">$${s.value}M</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Animate bars after brief delay
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      container.querySelectorAll('.funnel-bar').forEach(bar => {
+        bar.style.width = bar.dataset.target + '%';
+      });
+    }, 200);
+  });
+
+  // Animate totals
+  animateNumber(document.getElementById('funnel-total'), 0, 450, '$', 'M', 1200);
+  animateNumber(document.getElementById('funnel-weighted'), 0, 185, '$', 'M', 1200);
+}
+
+function animateNumber(el, from, to, prefix, suffix, duration) {
+  if (!el) return;
+  const start = performance.now();
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const val = from + (to - from) * easeOut(p);
+    el.textContent = prefix + Math.round(val) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ─── INITIALIZE DASHBOARD ANIMATIONS ───
+function initDashboardAnimations() {
+  animateKPIValues();
+  animateTrendsChart();
+  initTrendsHover();
+  renderPipelineFunnel();
+}
+
+// Call after a brief delay to ensure DOM is ready
+setTimeout(initDashboardAnimations, 400);
 </script>
 
 <!-- ─── AUTH GATE ─── -->
