@@ -2181,5 +2181,14 @@ window.addEventListener('scroll', () => {
 
 </script>
 
+<!-- OAuth callback safety net: if Supabase redirects here with auth tokens, forward to dashboard -->
+<script>
+(function() {
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    window.location.href = '/login' + window.location.hash;
+  }
+})();
+</script>
+
 </body>
 </html>

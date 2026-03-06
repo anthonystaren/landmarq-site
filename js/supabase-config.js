@@ -49,7 +49,7 @@ const LandMarqAuth = {
     const { data, error } = await _supabaseClient.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: window.location.origin + '/dashboard',
+        emailRedirectTo: window.location.origin + '/login?returnTo=/dashboard',
       }
     });
     return { data, error };
@@ -73,7 +73,7 @@ const LandMarqAuth = {
       password,
       options: {
         data: metadata,
-        emailRedirectTo: window.location.origin + '/dashboard',
+        emailRedirectTo: window.location.origin + '/login?returnTo=/dashboard',
       }
     });
     return { data, error };
@@ -82,10 +82,13 @@ const LandMarqAuth = {
   /** Sign in with Google OAuth */
   async signInWithGoogle() {
     if (!_supabaseClient) return { data: null, error: { message: 'Auth not initialized' } };
+    // Redirect back to /login after OAuth — the login page's auth listener
+    // will detect the session and forward to /dashboard (or returnTo param)
+    const returnTo = new URLSearchParams(window.location.search).get('returnTo') || '/dashboard';
     const { data, error } = await _supabaseClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin + '/dashboard',
+        redirectTo: window.location.origin + '/login?returnTo=' + encodeURIComponent(returnTo),
       }
     });
     return { data, error };
