@@ -306,109 +306,97 @@ nav {
 .trust-pill:hover { border-color: var(--border-gold); color: var(--gold-light); }
 .trust-pill span { color: var(--gold-light); font-weight: 500; }
 
-/* ── RIGHT — MAP WIDGET ── */
+/* ── RIGHT — DEMO DASHBOARD IFRAME ── */
 .hero-right { position: relative; }
 
-.map-widget {
+.demo-frame-wrapper {
   position: relative;
-  background: var(--surface);
-  border: 1px solid var(--border-gold);
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
+  border: 1px solid var(--border-gold);
   box-shadow:
     0 0 0 1px rgba(201,168,76,.08),
     0 32px 80px rgba(0,0,0,.65),
     0 0 60px rgba(201,168,76,.05);
+  background: var(--surface);
+  transition: transform .3s ease-out, box-shadow .3s ease-out;
+}
+.demo-frame-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,.12),
+    0 40px 100px rgba(0,0,0,.7),
+    0 0 80px rgba(201,168,76,.08);
 }
 
-/* Widget header */
-.map-header {
+/* Chrome bar at top of iframe */
+.demo-chrome {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px;
+  padding: 10px 16px;
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
 }
-.map-header-left { display: flex; align-items: center; gap: 10px; }
-.map-wdot { width: 10px; height: 10px; border-radius: 50%; }
-.map-wdot-r { background:#ff5f57; }
-.map-wdot-y { background:#ffbd2e; }
-.map-wdot-g { background:#28c840; }
-.map-title {
+.demo-chrome-left { display: flex; align-items: center; gap: 10px; }
+.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-dot-r { background:#ff5f57; }
+.demo-dot-y { background:#ffbd2e; }
+.demo-dot-g { background:#28c840; }
+.demo-chrome-title {
   font-family: var(--mono); font-size: 11px; color: var(--muted);
   letter-spacing: .08em; margin-left: 6px;
 }
-.map-live-badge {
+.demo-chrome-badge {
   display: flex; align-items: center; gap: 6px;
   font-family: var(--mono); font-size: 9px; color: var(--sage);
   background: rgba(75,140,110,.1); padding: 4px 10px;
   border-radius: 100px; letter-spacing: .1em; border: 1px solid rgba(75,140,110,.2);
 }
-.live-pulse {
+.demo-chrome-pulse {
   width: 6px; height: 6px; border-radius: 50%; background: var(--sage);
   animation: tickDot 1.8s ease-in-out infinite;
 }
 
-/* SVG Map container */
-.map-svg-wrap {
-  position: relative;
-  padding: 16px 20px 8px;
+/* The iframe itself */
+.demo-iframe {
+  display: block;
+  width: 100%;
+  height: 520px;
+  border: none;
   background: var(--bg);
 }
 
-/* Legend */
-.map-legend {
-  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-  padding: 10px 20px;
-  background: var(--surface-2);
-  border-top: 1px solid var(--border);
-}
-.legend-title { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; flex-shrink: 0; }
-.legend-scale { display: flex; align-items: center; gap: 6px; }
-.legend-bar {
-  width: 120px; height: 6px; border-radius: 3px;
-  background: linear-gradient(90deg, #4B8C6E 0%, #C9A84C 50%, #B85450 100%);
-}
-.legend-lab { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: .06em; }
-.legend-counts { margin-left: auto; display: flex; gap: 16px; }
-.legend-count { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: .06em; }
-.legend-count span { font-weight: 600; }
-.legend-count .gc { color: var(--gold); }
-.legend-count .bc { color: var(--blue-light); }
-
-/* Map stats footer row */
-.map-stats-row {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  border-top: 1px solid var(--border);
-}
-.map-stat {
-  padding: 12px 16px; border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; gap: 2px;
-}
-.map-stat:last-child { border-right: none; }
-.map-stat-key { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
-.map-stat-val { font-family: var(--mono); font-size: 16px; font-weight: 500; color: var(--gold-light); }
-.map-stat-chg { font-family: var(--mono); font-size: 9px; }
-.up  { color: var(--sage); }
-.dn  { color: var(--red); }
-.neu { color: var(--muted); }
-
-/* Tooltip */
-#mapTooltip {
-  position: fixed; z-index: 9999;
-  background: var(--surface-2);
+/* CTA overlay floating in bottom-right of frame */
+.demo-cta-overlay {
+  position: absolute; bottom: 20px; right: 20px; z-index: 30;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(8,11,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-gold);
-  border-radius: 10px; padding: 12px 16px;
-  pointer-events: none; opacity: 0;
-  transition: opacity .15s;
-  min-width: 160px;
-  box-shadow: 0 12px 36px rgba(0,0,0,.6);
+  border-radius: 10px; padding: 10px 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  animation: ctaPulse 4s ease-in-out infinite;
 }
-#mapTooltip.show { opacity: 1; }
-.tt-city { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-.tt-row  { display: flex; justify-content: space-between; gap: 20px; font-family: var(--mono); font-size: 10px; color: var(--muted); padding: 2px 0; letter-spacing: .04em; }
-.tt-row span { color: var(--gold-light); font-weight: 500; }
+@keyframes ctaPulse {
+  0%,100%{ box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 0 0 rgba(201,168,76,0); }
+  50%    { box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 16px 2px rgba(201,168,76,.18); }
+}
+.demo-cta-text {
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.demo-cta-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, var(--gold) 0%, #A8843A 100%);
+  color: #080B10; font-family: var(--sans); font-size: 11px; font-weight: 700;
+  padding: 8px 18px; border-radius: 6px; border: none;
+  text-decoration: none; letter-spacing: .06em; text-transform: uppercase;
+  cursor: pointer; transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 4px 14px rgba(201,168,76,.28);
+}
+.demo-cta-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,.44); }
 
-/* Floating stat cards that orbit the map */
+/* Floating stat cards */
 .float-card {
   position: absolute; z-index: 20;
   background: var(--surface-2);
@@ -419,7 +407,6 @@ nav {
   animation: floatBob 4s ease-in-out infinite;
 }
 .float-card-2 { animation-delay: -2s; }
-.float-card-3 { animation-delay: -1s; }
 @keyframes floatBob {
   0%,100%{ transform: translateY(0); }
   50%    { transform: translateY(-6px); }
@@ -427,6 +414,9 @@ nav {
 .fc-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
 .fc-value { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--gold); line-height: 1; }
 .fc-delta { font-family: var(--mono); font-size: 9px; margin-top: 2px; }
+.up  { color: var(--sage); }
+.dn  { color: var(--red); }
+.neu { color: var(--muted); }
 
 /* Bottom scroll-down hint */
 .hero-scroll {
@@ -447,15 +437,19 @@ nav {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
   .hero-grid { grid-template-columns: 1fr; padding: 40px 20px 24px; }
-  .hero-right { display: none; }
+  .hero-right { margin-top: 12px; }
+  .demo-iframe { height: 400px; }
+  .float-card { display: none; }
+  .demo-cta-overlay { bottom: 12px; right: 12px; padding: 8px 14px; }
 }
 
 @media (max-width: 640px) {
   .hero-grid { padding: 30px 16px 20px; }
-  .hero-copy h1 { font-size: 32px; }
-  .map-widget { height: 280px; }
+  .demo-iframe { height: 320px; }
   .hero-cta-group { flex-direction: column; }
   .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+  .demo-chrome-title { display: none; }
+  .demo-cta-text { display: none; }
 }
 
 /* ─────────────────────────────────────────
@@ -1060,33 +1054,6 @@ footer {
   }
 }
 
-/* ─────────────────────────────────────────
-   HERO MAP WIDGET & CLOCK
-───────────────────────────────────────── */
-#map-svg {
-  width: 100%; height: 100%;
-}
-
-.map-city-label {
-  font-size: 10px; font-weight: 600; color: var(--white);
-  pointer-events: none; user-select: none;
-}
-
-.map-tooltip {
-  position: absolute; background: rgba(14,20,32,.95);
-  border: 1px solid var(--border-gold); border-radius: 8px;
-  padding: 12px; font-size: 11px; z-index: 50;
-  display: none; max-width: 140px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.3);
-}
-.map-tooltip.show { display: block; }
-.map-tooltip .title { color: var(--gold-light); font-weight: 600; margin-bottom: 4px; }
-.map-tooltip .stat { color: var(--muted); margin: 2px 0; }
-
-.map-live-clock {
-  position: absolute; bottom: 16px; right: 16px; z-index: 10;
-  font-family: var(--mono); font-size: 11px; color: var(--muted);
-}
 
 </style>
 </head>
@@ -1158,7 +1125,7 @@ footer {
             <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a href="#platform" class="btn-secondary">
+        <a href="/demo-dashboard" class="btn-secondary" target="_blank">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.4"/>
             <path d="M5.5 5l3.5 2-3.5 2V5z" fill="currentColor"/>
@@ -1180,177 +1147,56 @@ footer {
 
     </div><!-- /hero-left -->
 
-    <!-- ── RIGHT: Interactive Map Widget ── -->
+    <!-- ── RIGHT: Interactive Demo Dashboard ── -->
     <div class="hero-right">
 
-      <!-- Floating stat cards anchored near map -->
+      <!-- Floating stat cards anchored near iframe -->
       <div class="float-card" style="top:-18px; right:8px;">
-        <div class="fc-label">Natl. Avg Vacancy</div>
-        <div class="fc-value" id="fcVacancy">22.4%</div>
-        <div class="fc-delta dn">▼ −0.3% vs last mo</div>
+        <div class="fc-label">Pipeline Value</div>
+        <div class="fc-value">$68M</div>
+        <div class="fc-delta up">▲ +$12M this wk</div>
       </div>
 
       <div class="float-card float-card-2" style="bottom:80px; left:-24px;">
-        <div class="fc-label">Pipeline Tracked</div>
-        <div class="fc-value" id="fcPipeline">$2.8B</div>
-        <div class="fc-delta up">▲ +$120M this wk</div>
+        <div class="fc-label">Agents Active</div>
+        <div class="fc-value">10</div>
+        <div class="fc-delta up">▲ All systems nominal</div>
       </div>
 
-      <div class="map-widget" id="mapWidget">
+      <div class="demo-frame-wrapper" id="demoFrame">
 
         <!-- Chrome bar -->
-        <div class="map-header">
-          <div class="map-header-left">
-            <div class="map-wdot map-wdot-r"></div>
-            <div class="map-wdot map-wdot-y"></div>
-            <div class="map-wdot map-wdot-g"></div>
-            <span class="map-title">LandMarq · Market Map  ·  US CRE Vacancy Intelligence</span>
+        <div class="demo-chrome">
+          <div class="demo-chrome-left">
+            <div class="demo-dot demo-dot-r"></div>
+            <div class="demo-dot demo-dot-y"></div>
+            <div class="demo-dot demo-dot-g"></div>
+            <span class="demo-chrome-title">LandMarq · Executive Intelligence Dashboard</span>
           </div>
-          <div class="map-live-badge">
-            <div class="live-pulse"></div>
-            LIVE · Updated 0s ago
-          </div>
-        </div>
-
-        <!-- SVG Map -->
-        <div class="map-svg-wrap">
-          <svg id="usMap"
-               viewBox="0 0 960 600"
-               style="width:100%;display:block;"
-               preserveAspectRatio="xMidYMid meet">
-
-            <defs>
-              <filter id="cityGlow" x="-60%" y="-60%" width="220%" height="220%">
-                <feGaussianBlur stdDeviation="4" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
-                <feGaussianBlur stdDeviation="8" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <radialGradient id="mapBg" cx="50%" cy="50%" r="70%">
-                <stop offset="0%"   stop-color="#16202E" stop-opacity=".8"/>
-                <stop offset="100%" stop-color="#080B10" stop-opacity=".6"/>
-              </radialGradient>
-              <radialGradient id="cg-sage"  cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#4B8C6E" stop-opacity=".7"/>
-                <stop offset="100%" stop-color="#4B8C6E" stop-opacity="0"/>
-              </radialGradient>
-              <radialGradient id="cg-gold"  cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#C9A84C" stop-opacity=".7"/>
-                <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
-              </radialGradient>
-              <radialGradient id="cg-red"   cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#B85450" stop-opacity=".7"/>
-                <stop offset="100%" stop-color="#B85450" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-
-            <rect width="960" height="600" rx="0" fill="url(#mapBg)"/>
-
-            <!-- US OUTLINE (simplified continental path) -->
-            <g id="usOutline" opacity="1">
-              <path d="
-                M 175,98
-                L 198,86  L 240,75  L 285,68  L 320,70
-                L 360,62  L 400,60  L 440,58  L 490,60
-                L 530,58  L 570,62  L 610,60  L 650,64
-                L 685,62  L 720,66  L 755,70  L 790,75
-                L 820,80  L 845,90  L 860,102
-                L 872,120 L 875,140 L 870,162 L 858,178
-                L 845,190 L 835,205 L 840,222 L 848,238
-                L 855,252 L 858,268 L 852,285 L 840,298
-                L 825,308 L 810,315 L 800,328 L 798,345
-                L 790,360 L 775,372 L 758,380 L 742,390
-                L 730,405 L 718,422 L 710,438 L 705,455
-                L 698,470 L 688,480 L 672,488 L 655,492
-                L 638,495 L 620,492 L 604,485 L 588,478
-                L 570,475 L 552,478 L 538,488 L 525,498
-                L 510,505 L 494,508 L 478,506
-                L 460,500 L 445,490 L 432,480
-                L 418,475 L 400,478 L 382,482
-                L 365,480 L 348,472 L 335,460
-                L 325,448 L 318,435 L 315,420
-                L 312,405 L 305,392 L 295,382
-                L 282,375 L 268,372 L 252,370
-                L 238,365 L 225,355 L 215,342
-                L 208,328 L 202,312 L 198,296
-                L 195,280 L 192,264 L 188,248
-                L 182,232 L 175,216 L 168,200
-                L 162,184 L 158,168 L 156,152
-                L 156,136 L 160,120 Z
-              "
-              fill="rgba(22,32,46,0.6)"
-              stroke="rgba(139,167,199,0.18)"
-              stroke-width="1.2"
-              stroke-linejoin="round"/>
-
-              <!-- Florida peninsula -->
-              <path d="
-                M 638,495 L 650,508 L 655,525 L 648,545
-                L 638,558 L 625,568 L 612,572
-                L 600,568 L 592,556 L 590,542
-                L 594,528 L 598,515 L 604,505
-                L 610,498 L 620,492 Z
-              "
-              fill="rgba(22,32,46,0.6)"
-              stroke="rgba(139,167,199,0.18)"
-              stroke-width="1.2"/>
-
-              <!-- State grid lines -->
-              <line x1="295" y1="68" x2="285" y2="370" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="390" y1="62" x2="378" y2="475" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="490" y1="60" x2="480" y2="505" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="590" y1="62" x2="580" y2="492" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="690" y1="64" x2="700" y2="455" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="158" y1="200" x2="858" y2="200" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="165" y1="310" x2="830" y2="310" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-              <line x1="175" y1="400" x2="760" y2="400" stroke="rgba(139,167,199,0.05)" stroke-width="0.6"/>
-            </g>
-
-            <!-- CITY NODES (animated by JS) -->
-            <g id="cityLayer"></g>
-
-            <!-- DEAL FLOW ARCS (animated lines between markets) -->
-            <g id="arcLayer" opacity="0.5"></g>
-
-          </svg>
-        </div><!-- /map-svg-wrap -->
-
-        <!-- Legend -->
-        <div class="map-legend">
-          <span class="legend-title">Vacancy</span>
-          <div class="legend-scale">
-            <span class="legend-lab">TIGHT &lt;10%</span>
-            <div class="legend-bar"></div>
-            <span class="legend-lab">HIGH &gt;30%</span>
-          </div>
-          <div class="legend-counts">
-            <div class="legend-count"><span class="gc" id="lcActive">12</span> Markets</div>
-            <div class="legend-count"><span class="bc" id="lcDeals">24</span> Active Deals</div>
+          <div class="demo-chrome-badge">
+            <div class="demo-chrome-pulse"></div>
+            LIVE DEMO
           </div>
         </div>
 
-        <!-- Stats row -->
-        <div class="map-stats-row">
-          <div class="map-stat">
-            <span class="map-stat-key">Hottest Market</span>
-            <span class="map-stat-val" id="statHot">Miami</span>
-            <span class="map-stat-chg up">↓ 14.2% vacancy</span>
-          </div>
-          <div class="map-stat">
-            <span class="map-stat-key">Coldest Market</span>
-            <span class="map-stat-val" id="statCold">SF SOMA</span>
-            <span class="map-stat-chg dn">↑ 33.5% vacancy</span>
-          </div>
-          <div class="map-stat">
-            <span class="map-stat-key">Avg Absorption</span>
-            <span class="map-stat-val" id="statAbs">−42K SF</span>
-            <span class="map-stat-chg neu">▶ Flat vs prior mo</span>
-          </div>
+        <!-- Interactive Demo Dashboard -->
+        <iframe
+          src="/demo-dashboard"
+          class="demo-iframe"
+          title="LandMarq Dashboard Demo"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+
+        <!-- CTA overlay -->
+        <div class="demo-cta-overlay">
+          <span class="demo-cta-text">See it live</span>
+          <a href="/dashboard" class="demo-cta-btn">
+            Start Free Trial →
+          </a>
         </div>
 
-      </div><!-- /map-widget -->
+      </div><!-- /demo-frame-wrapper -->
     </div><!-- /hero-right -->
 
   </div><!-- /hero-grid -->
@@ -1364,15 +1210,6 @@ footer {
   </div>
 
 </section>
-
-<!-- Tooltip (global, positioned by JS) -->
-<div id="mapTooltip">
-  <div class="tt-city" id="ttCity">San Francisco</div>
-  <div class="tt-row">Vacancy<span id="ttVac">—</span></div>
-  <div class="tt-row">Absorption<span id="ttAbs">—</span></div>
-  <div class="tt-row">Rent Growth<span id="ttRent">—</span></div>
-  <div class="tt-row">Active Deals<span id="ttDeals">—</span></div>
-</div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- FEATURES SECTION -->
@@ -1938,238 +1775,31 @@ footer {
 
 
 /* ════════════════════════════════════════
-   3. INTERACTIVE US MAP
+   3. DEMO IFRAME PARALLAX
 ════════════════════════════════════════ */
-(function initMap() {
-
-  const MARKETS = [
-    { id:'nyc',  name:'New York City',   x:788, y:185, vac:18.4, abs:'-62K', rent:'+1.2%', deals:6  },
-    { id:'la',   name:'Los Angeles',     x:200, y:340, vac:19.8, abs:'-38K', rent:'+0.8%', deals:4  },
-    { id:'chi',  name:'Chicago',         x:620, y:195, vac:24.1, abs:'-45K', rent:'+0.2%', deals:3  },
-    { id:'sf',   name:'San Francisco',   x:155, y:282, vac:33.5, abs:'-88K', rent:'-1.4%', deals:2  },
-    { id:'mia',  name:'Miami',           x:670, y:510, vac:14.2, abs:'+18K', rent:'+3.2%', deals:5  },
-    { id:'dal',  name:'Dallas',          x:502, y:408, vac:22.0, abs:'-22K', rent:'+1.5%', deals:3  },
-    { id:'sea',  name:'Seattle',         x:178, y:110, vac:20.5, abs:'-30K', rent:'+1.1%', deals:2  },
-    { id:'bos',  name:'Boston',          x:822, y:158, vac:16.8, abs:'+12K', rent:'+2.1%', deals:3  },
-    { id:'dc',   name:'Washington DC',   x:758, y:240, vac:21.5, abs:'-18K', rent:'+0.9%', deals:2  },
-    { id:'atl',  name:'Atlanta',         x:648, y:378, vac:22.8, abs:'-28K', rent:'+1.4%', deals:2  },
-    { id:'den',  name:'Denver',          x:400, y:248, vac:18.9, abs:'+8K',  rent:'+1.8%', deals:1  },
-    { id:'phx',  name:'Phoenix',         x:310, y:355, vac:17.2, abs:'+22K', rent:'+2.4%', deals:2  },
-  ];
-
-  function vacancyColor(v) {
-    if (v < 16)       return { core:'#4B8C6E', glow:'75,140,110',  grad:'cg-sage' };
-    if (v < 22)       return { core:'#C9A84C', glow:'201,168,76',  grad:'cg-gold' };
-    if (v < 28)       return { core:'#D4864A', glow:'212,134,74',  grad:'cg-gold' };
-    return              { core:'#B85450', glow:'184,84,80',   grad:'cg-red'  };
-  }
-
-  function dealRadius(d) { return 6 + d * 1.4; }
-
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const cityLayer = document.getElementById('cityLayer');
-  const arcLayer  = document.getElementById('arcLayer');
-  const tooltip   = document.getElementById('mapTooltip');
-  if (!cityLayer || !arcLayer) return;
-
-  /* ── Build city groups ── */
-  MARKETS.forEach(m => {
-    const col = vacancyColor(m.vac);
-    const r   = dealRadius(m.deals);
-    const g   = document.createElementNS(svgNS, 'g');
-    g.setAttribute('class', 'city-node');
-    g.setAttribute('data-id', m.id);
-    g.style.cursor = 'pointer';
-
-    const ring = document.createElementNS(svgNS, 'circle');
-    ring.setAttribute('cx', m.x); ring.setAttribute('cy', m.y);
-    ring.setAttribute('r', r + 8);
-    ring.setAttribute('fill', `rgba(${col.glow},0)`);
-    ring.setAttribute('stroke', `rgba(${col.glow},0.35)`);
-    ring.setAttribute('stroke-width', '1');
-    ring.style.animation = `cityRing ${2.2 + Math.random()}s ease-in-out infinite`;
-    ring.style.transformOrigin = `${m.x}px ${m.y}px`;
-
-    const mglow = document.createElementNS(svgNS, 'circle');
-    mglow.setAttribute('cx', m.x); mglow.setAttribute('cy', m.y);
-    mglow.setAttribute('r', r + 4);
-    mglow.setAttribute('fill', `rgba(${col.glow},0.12)`);
-
-    const dot = document.createElementNS(svgNS, 'circle');
-    dot.setAttribute('cx', m.x); dot.setAttribute('cy', m.y);
-    dot.setAttribute('r', r);
-    dot.setAttribute('fill', col.core);
-    dot.setAttribute('opacity', '0.9');
-
-    const label = document.createElementNS(svgNS, 'text');
-    label.setAttribute('x', m.x);
-    label.setAttribute('y', m.y + r + 13);
-    label.setAttribute('text-anchor', 'middle');
-    label.setAttribute('font-family', 'JetBrains Mono, monospace');
-    label.setAttribute('font-size', '9');
-    label.setAttribute('fill', 'rgba(184,206,223,0.7)');
-    label.setAttribute('letter-spacing', '0.06em');
-    label.textContent = `${m.vac}%`;
-
-    g.appendChild(ring); g.appendChild(mglow);
-    g.appendChild(dot);  g.appendChild(label);
-    cityLayer.appendChild(g);
-
-    g.addEventListener('mouseenter', e => showTooltip(e, m));
-    g.addEventListener('mousemove',  e => moveTooltip(e));
-    g.addEventListener('mouseleave', ()=> hideTooltip());
-
-    m._dotEl   = dot;
-    m._labelEl = label;
-    m._ringEl  = ring;
-  });
-
-  /* ── Inject @keyframes for city ring ── */
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes cityRing {
-      0%   { transform: scale(1);   opacity: 0.8; }
-      50%  { transform: scale(1.6); opacity: 0.15; }
-      100% { transform: scale(1);   opacity: 0.8; }
-    }
-  `;
-  document.head.appendChild(style);
-
-  /* ── Build deal-flow arcs ── */
-  const ARC_PAIRS = [
-    ['nyc','bos'],['nyc','dc'],['sf','la'],['la','phx'],
-    ['dal','atl'],['chi','nyc'],['mia','atl'],['den','dal'],
-    ['sea','sf'],['phx','dal'],
-  ];
-
-  ARC_PAIRS.forEach(([aId, bId], i) => {
-    const a = MARKETS.find(m => m.id === aId);
-    const b = MARKETS.find(m => m.id === bId);
-    if (!a || !b) return;
-
-    const mx = (a.x + b.x) / 2;
-    const my = (a.y + b.y) / 2 - 40 - Math.random() * 30;
-
-    const path = document.createElementNS(svgNS, 'path');
-    path.setAttribute('d', `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`);
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke', 'rgba(201,168,76,0.18)');
-    path.setAttribute('stroke-width', '0.8');
-    path.setAttribute('stroke-dasharray', '4 6');
-
-    const arcDot = document.createElementNS(svgNS, 'circle');
-    arcDot.setAttribute('r', '2.5');
-    arcDot.setAttribute('fill', '#C9A84C');
-    arcDot.setAttribute('opacity', '0.6');
-
-    const anim = document.createElementNS(svgNS, 'animateMotion');
-    anim.setAttribute('dur', `${3 + i * 0.7}s`);
-    anim.setAttribute('repeatCount', 'indefinite');
-    anim.setAttribute('calcMode', 'linear');
-
-    const mpath = document.createElementNS(svgNS, 'mpath');
-    const pid = `arc-path-${i}`;
-    path.setAttribute('id', pid);
-    mpath.setAttributeNS('http://www.w3.org/1999/xlink','href', `#${pid}`);
-    anim.appendChild(mpath);
-    arcDot.appendChild(anim);
-
-    arcLayer.appendChild(path);
-    arcLayer.appendChild(arcDot);
-  });
-
-  /* ── Tooltip logic ── */
-  function showTooltip(e, m) {
-    document.getElementById('ttCity').textContent  = m.name;
-    document.getElementById('ttVac').textContent   = m.vac + '%';
-    document.getElementById('ttAbs').textContent   = m.abs + ' SF/mo';
-    document.getElementById('ttRent').textContent  = m.rent + ' YoY';
-    document.getElementById('ttDeals').textContent = m.deals + ' active';
-    moveTooltip(e);
-    tooltip.classList.add('show');
-  }
-  function moveTooltip(e) {
-    const x = e.clientX + 14, y = e.clientY - 10;
-    const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
-    tooltip.style.left = (x + tw > window.innerWidth  ? x - tw - 28 : x) + 'px';
-    tooltip.style.top  = (y + th > window.innerHeight ? y - th      : y) + 'px';
-  }
-  function hideTooltip() { tooltip.classList.remove('show'); }
-
-  /* ── Live vacancy flicker ── */
-  setInterval(() => {
-    const m   = MARKETS[Math.floor(Math.random() * MARKETS.length)];
-    const delta = (Math.random() - 0.5) * 0.4;
-    m.vac = Math.max(8, Math.min(40, m.vac + delta));
-    if (m._labelEl) m._labelEl.textContent = m.vac.toFixed(1) + '%';
-    const col = vacancyColor(m.vac);
-    if (m._dotEl) m._dotEl.setAttribute('fill', col.core);
-    if (m._ringEl) m._ringEl.setAttribute('stroke', `rgba(${col.glow},0.35)`);
-
-    const natAvg = (MARKETS.reduce((s, x) => s + x.vac, 0) / MARKETS.length).toFixed(1);
-    const fcVEl = document.getElementById('fcVacancy');
-    if (fcVEl) fcVEl.textContent = natAvg + '%';
-
-    const sorted = [...MARKETS].sort((a,b) => a.vac - b.vac);
-    const hotEl  = document.getElementById('statHot');
-    const coldEl = document.getElementById('statCold');
-    if (hotEl)  hotEl.textContent  = sorted[0].name.split(' ')[0];
-    if (coldEl) coldEl.textContent = sorted[sorted.length-1].name.split(' ')[0];
-
-  }, 2800);
-
-})();
-
-
-/* ════════════════════════════════════════
-   4. MOUSE PARALLAX on map widget
-════════════════════════════════════════ */
-(function initParallax() {
-  const widget = document.getElementById('mapWidget');
-  if (!widget) return;
+(function initDemoParallax() {
+  const frame = document.getElementById('demoFrame');
+  if (!frame) return;
 
   document.addEventListener('mousemove', e => {
-    const rect = widget.getBoundingClientRect();
-    const cx   = rect.left + rect.width / 2;
-    const cy   = rect.top  + rect.height / 2;
-    const dx   = (e.clientX - cx) / (window.innerWidth  / 2);
-    const dy   = (e.clientY - cy) / (window.innerHeight / 2);
-    widget.style.transform  = `perspective(1400px) rotateX(${-dy * 3.5}deg) rotateY(${dx * 5}deg)`;
-    widget.style.transition = 'transform .12s ease-out';
-    widget.style.boxShadow  =
-      `${-dx*12}px ${-dy*12}px 60px rgba(201,168,76,0.08),
-       0 32px 80px rgba(0,0,0,0.65),
-       0 0 60px rgba(201,168,76,0.05)`;
+    const rect = frame.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (window.innerWidth / 2);
+    const dy = (e.clientY - cy) / (window.innerHeight / 2);
+    frame.style.transform = `perspective(1400px) rotateX(${-dy * 2.5}deg) rotateY(${dx * 3.5}deg)`;
+    frame.style.transition = 'transform .12s ease-out';
   }, { passive: true });
 
   document.addEventListener('mouseleave', () => {
-    widget.style.transform  = 'perspective(1400px) rotateX(0) rotateY(0)';
-    widget.style.transition = 'transform .5s ease-out';
-    widget.style.boxShadow  = '';
+    frame.style.transform = 'perspective(1400px) rotateX(0) rotateY(0)';
+    frame.style.transition = 'transform .5s ease-out';
   }, { passive: true });
 })();
 
 
 /* ════════════════════════════════════════
-   5. LIVE MAP CLOCK — "Updated Xs ago"
-════════════════════════════════════════ */
-(function initClock() {
-  const badge = document.querySelector('.map-live-badge');
-  if (!badge) return;
-  let secs = 0;
-  setInterval(() => {
-    secs++;
-    const txt = secs < 60
-      ? `LIVE · Updated ${secs}s ago`
-      : `LIVE · Updated ${Math.floor(secs/60)}m ago`;
-    badge.lastChild.textContent = ' ' + txt;
-    if (secs > 120) secs = 0;
-  }, 1000);
-})();
-
-
-/* ════════════════════════════════════════
-   6. NAV SCROLL EFFECT
+   4. NAV SCROLL EFFECT
 ════════════════════════════════════════ */
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
